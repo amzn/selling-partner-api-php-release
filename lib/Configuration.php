@@ -30,6 +30,7 @@
 
 namespace SpApi;
 
+use Composer\InstalledVersions;
 use Dallgoot\Yaml\Yaml;
 use GuzzleHttp\Psr7\Request;
 use SpApi\AuthAndAuth\LWAAccessTokenCache;
@@ -69,9 +70,9 @@ class Configuration
     protected string $host = 'https://sellingpartnerapi-na.amazon.com';
 
     /**
-     * User agent of the HTTP request, set to "selling-partner-api-sdk/{version}/PHP" by default.
+     * User agent of the HTTP request, set to "amazon-selling-partner-api-sdk/{version}/PHP" in the constructor.
      */
-    protected string $userAgent = 'amazon-selling-partner-api-sdk/1.0.0/PHP';
+    protected string $userAgent;
 
     /**
      * Debug switch (default set to false).
@@ -103,6 +104,8 @@ class Configuration
         bool $disableAccessTokenCache = false,
         ?LWAAccessTokenCache $lwaTokenCache = null
     ) {
+        $version = InstalledVersions::getPrettyVersion('amzn-spapi/sdk') ?? 'undefined';
+        $this->userAgent = sprintf('amazon-selling-partner-api-sdk/%s/PHP', $version);
         $this->tempFolderPath = sys_get_temp_dir();
         if ($lwaAuthorizationCredentials) {
             if ($disableAccessTokenCache) {
@@ -363,7 +366,7 @@ class Configuration
         $report = 'PHP SDK (SpApi) Debug Report:'.PHP_EOL;
         $report .= '    OS: '.php_uname().PHP_EOL;
         $report .= '    PHP Version: '.PHP_VERSION.PHP_EOL;
-        $report .= '    The version of the OpenAPI document: 2024-11-01'.PHP_EOL;
+        $report .= '    The version of the OpenAPI document: 2024-03-01'.PHP_EOL;
         $report .= '    Temp Folder Path: '.self::getDefaultConfiguration()->getTempFolderPath().PHP_EOL;
 
         return $report;
