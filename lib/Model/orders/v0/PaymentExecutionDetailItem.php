@@ -62,7 +62,10 @@ class PaymentExecutionDetailItem implements ModelInterface, \ArrayAccess, \JsonS
      */
     protected static array $openAPITypes = [
         'payment' => '\SpApi\Model\orders\v0\Money',
-        'payment_method' => 'string'];
+        'payment_method' => 'string',
+        'acquirer_id' => 'string',
+        'card_brand' => 'string',
+        'authorization_code' => 'string'];
 
     /**
      * Array of property to format mappings. Used for (de)serialization.
@@ -75,7 +78,10 @@ class PaymentExecutionDetailItem implements ModelInterface, \ArrayAccess, \JsonS
      */
     protected static array $openAPIFormats = [
         'payment' => null,
-        'payment_method' => null];
+        'payment_method' => null,
+        'acquirer_id' => null,
+        'card_brand' => null,
+        'authorization_code' => null];
 
     /**
      * Array of nullable properties. Used for (de)serialization.
@@ -85,6 +91,9 @@ class PaymentExecutionDetailItem implements ModelInterface, \ArrayAccess, \JsonS
     protected static array $openAPINullables = [
         'payment' => false,
         'payment_method' => false,
+        'acquirer_id' => true,
+        'card_brand' => true,
+        'authorization_code' => true,
     ];
 
     /**
@@ -103,6 +112,9 @@ class PaymentExecutionDetailItem implements ModelInterface, \ArrayAccess, \JsonS
     protected static array $attributeMap = [
         'payment' => 'Payment',
         'payment_method' => 'PaymentMethod',
+        'acquirer_id' => 'AcquirerId',
+        'card_brand' => 'CardBrand',
+        'authorization_code' => 'AuthorizationCode',
     ];
 
     /**
@@ -113,6 +125,9 @@ class PaymentExecutionDetailItem implements ModelInterface, \ArrayAccess, \JsonS
     protected static array $setters = [
         'payment' => 'setPayment',
         'payment_method' => 'setPaymentMethod',
+        'acquirer_id' => 'setAcquirerId',
+        'card_brand' => 'setCardBrand',
+        'authorization_code' => 'setAuthorizationCode',
     ];
 
     /**
@@ -123,6 +138,9 @@ class PaymentExecutionDetailItem implements ModelInterface, \ArrayAccess, \JsonS
     protected static array $getters = [
         'payment' => 'getPayment',
         'payment_method' => 'getPaymentMethod',
+        'acquirer_id' => 'getAcquirerId',
+        'card_brand' => 'getCardBrand',
+        'authorization_code' => 'getAuthorizationCode',
     ];
 
     /**
@@ -140,6 +158,9 @@ class PaymentExecutionDetailItem implements ModelInterface, \ArrayAccess, \JsonS
     {
         $this->setIfExists('payment', $data ?? [], null);
         $this->setIfExists('payment_method', $data ?? [], null);
+        $this->setIfExists('acquirer_id', $data ?? [], null);
+        $this->setIfExists('card_brand', $data ?? [], null);
+        $this->setIfExists('authorization_code', $data ?? [], null);
     }
 
     /**
@@ -284,7 +305,7 @@ class PaymentExecutionDetailItem implements ModelInterface, \ArrayAccess, \JsonS
     /**
      * Sets payment_method.
      *
-     * @param string $payment_method A sub-payment method for a COD order.  **Possible values**: * `COD`: Cash on delivery  * `GC`: Gift card  * `PointsAccount`: Amazon Points * `Invoice`: Invoice
+     * @param string $payment_method The sub-payment method for an order.   **Possible values**: * `COD`: Cash on delivery  * `GC`: Gift card  * `PointsAccount`: Amazon Points  * `Invoice`: Invoice  * `CreditCard`: Credit card  * `Pix`: Pix  * `Other`: Other.
      */
     public function setPaymentMethod(string $payment_method): self
     {
@@ -292,6 +313,96 @@ class PaymentExecutionDetailItem implements ModelInterface, \ArrayAccess, \JsonS
             throw new \InvalidArgumentException('non-nullable payment_method cannot be null');
         }
         $this->container['payment_method'] = $payment_method;
+
+        return $this;
+    }
+
+    /**
+     * Gets acquirer_id.
+     */
+    public function getAcquirerId(): ?string
+    {
+        return $this->container['acquirer_id'];
+    }
+
+    /**
+     * Sets acquirer_id.
+     *
+     * @param null|string $acquirer_id The Brazilian Taxpayer Identifier (CNPJ) of the payment processor or acquiring bank that authorizes the payment.   **Note**: This attribute is only available for orders in the Brazil (BR) marketplace when the `PaymentMethod` is `CreditCard` or `Pix`.
+     */
+    public function setAcquirerId(?string $acquirer_id): self
+    {
+        if (is_null($acquirer_id)) {
+            array_push($this->openAPINullablesSetToNull, 'acquirer_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('acquirer_id', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['acquirer_id'] = $acquirer_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets card_brand.
+     */
+    public function getCardBrand(): ?string
+    {
+        return $this->container['card_brand'];
+    }
+
+    /**
+     * Sets card_brand.
+     *
+     * @param null|string $card_brand The card network or brand used in the payment transaction (for example, Visa or Mastercard).   **Note**: This attribute is only available for orders in the Brazil (BR) marketplace when the `PaymentMethod` is `CreditCard`.
+     */
+    public function setCardBrand(?string $card_brand): self
+    {
+        if (is_null($card_brand)) {
+            array_push($this->openAPINullablesSetToNull, 'card_brand');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('card_brand', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['card_brand'] = $card_brand;
+
+        return $this;
+    }
+
+    /**
+     * Gets authorization_code.
+     */
+    public function getAuthorizationCode(): ?string
+    {
+        return $this->container['authorization_code'];
+    }
+
+    /**
+     * Sets authorization_code.
+     *
+     * @param null|string $authorization_code The unique code that confirms the payment authorization.   **Note**: This attribute is only available for orders in the Brazil (BR) marketplace when the `PaymentMethod` is `CreditCard` or `Pix`.
+     */
+    public function setAuthorizationCode(?string $authorization_code): self
+    {
+        if (is_null($authorization_code)) {
+            array_push($this->openAPINullablesSetToNull, 'authorization_code');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('authorization_code', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['authorization_code'] = $authorization_code;
 
         return $this;
     }
