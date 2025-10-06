@@ -88,8 +88,8 @@ class ItemSearchResults implements ModelInterface, \ArrayAccess, \JsonSerializab
      */
     protected static array $openAPINullables = [
         'number_of_results' => false,
-        'pagination' => false,
-        'refinements' => false,
+        'pagination' => true,
+        'refinements' => true,
         'items' => false,
     ];
 
@@ -246,12 +246,6 @@ class ItemSearchResults implements ModelInterface, \ArrayAccess, \JsonSerializab
         if (null === $this->container['number_of_results']) {
             $invalidProperties[] = "'number_of_results' can't be null";
         }
-        if (null === $this->container['pagination']) {
-            $invalidProperties[] = "'pagination' can't be null";
-        }
-        if (null === $this->container['refinements']) {
-            $invalidProperties[] = "'refinements' can't be null";
-        }
         if (null === $this->container['items']) {
             $invalidProperties[] = "'items' can't be null";
         }
@@ -296,7 +290,7 @@ class ItemSearchResults implements ModelInterface, \ArrayAccess, \JsonSerializab
     /**
      * Gets pagination.
      */
-    public function getPagination(): Pagination
+    public function getPagination(): ?Pagination
     {
         return $this->container['pagination'];
     }
@@ -304,12 +298,19 @@ class ItemSearchResults implements ModelInterface, \ArrayAccess, \JsonSerializab
     /**
      * Sets pagination.
      *
-     * @param Pagination $pagination pagination
+     * @param null|Pagination $pagination pagination
      */
-    public function setPagination(Pagination $pagination): self
+    public function setPagination(?Pagination $pagination): self
     {
         if (is_null($pagination)) {
-            throw new \InvalidArgumentException('non-nullable pagination cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'pagination');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pagination', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['pagination'] = $pagination;
 
@@ -319,7 +320,7 @@ class ItemSearchResults implements ModelInterface, \ArrayAccess, \JsonSerializab
     /**
      * Gets refinements.
      */
-    public function getRefinements(): Refinements
+    public function getRefinements(): ?Refinements
     {
         return $this->container['refinements'];
     }
@@ -327,12 +328,19 @@ class ItemSearchResults implements ModelInterface, \ArrayAccess, \JsonSerializab
     /**
      * Sets refinements.
      *
-     * @param Refinements $refinements refinements
+     * @param null|Refinements $refinements refinements
      */
-    public function setRefinements(Refinements $refinements): self
+    public function setRefinements(?Refinements $refinements): self
     {
         if (is_null($refinements)) {
-            throw new \InvalidArgumentException('non-nullable refinements cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'refinements');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('refinements', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['refinements'] = $refinements;
 

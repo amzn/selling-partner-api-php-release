@@ -638,6 +638,8 @@ class TestHelper
         // SandBox request timestamp format (2004-12-13T21:39:45.618-08:00) doesn't match with PHP.
         // It will require dedicated customization to make 3 digit millisecond and doesn't match with auto Generation
         'testCreateWarranty201',
+        'testCreateDigitalAccessKey201', // returns 403
+        'testCreateDigitalAccessKey400', // returns 403
         // Replenishment Api sellingPartners
         'testGetSellingPartnerMetrics200', // Sandbox changes
         'testGetSellingPartnerMetrics400', // Request timestamp millisecond is 2 digits and requires string mutation
@@ -693,6 +695,16 @@ class TestHelper
         'testGetVehicles0200', // returns 403
         'testGetVehicles0400', // returns 403
         'testGetVehicles200', // returns 403
-        'testGetVehicles400' // returns 403
+        'testGetVehicles400', // returns 403
+        // External Fulfillment APIs
+        'testListReturns503', // returns 500
+        'testCreatePackages204', // required body missing in model
+        'testCreatePackages400', // required body missing in model
+        'testGenerateShipLabels400', // required body missing in model
+        'testProcessShipment204', // required body missing in model
+        'testProcessShipment400', // required body missing in model
+        'testUpdatePackage204', // required body missing in model
+        'testUpdatePackage400', // required body missing in model
+        'testGetShipments200', // invalid enum in request
     ];
 }
