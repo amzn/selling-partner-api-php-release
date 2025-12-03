@@ -1,19 +1,17 @@
 <?php
-
 /**
- * GetMessagingActionsForOrderResponseLinks.
+ * GetMessagingActionsForOrderResponseLinks
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Messaging.
+ * Selling Partner API for Messaging
  *
  * With the Messaging API you can build applications that send messages to buyers. You can get a list of message types that are available for an order that you specify, then call an operation that sends a message to the buyer for that order. The Messaging API returns responses that are formed according to the <a href=https://tools.ietf.org/html/draft-kelly-json-hal-08>JSON Hypertext Application Language</a> (HAL) standard.
  *
@@ -30,133 +28,73 @@
 
 namespace SpApi\Model\messaging\v1;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * GetMessagingActionsForOrderResponseLinks Class Doc Comment.
+ * GetMessagingActionsForOrderResponseLinks Class Doc Comment
  *
  * @category Class
- *
  * @description The links response that is associated with the specified &#x60;amazonOrderId&#x60;.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \ArrayAccess, \JsonSerializable
+class GetMessagingActionsForOrderResponseLinks implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'GetMessagingActionsForOrderResponse__links';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'self' => '\SpApi\Model\messaging\v1\LinkObject',
-        'actions' => '\SpApi\Model\messaging\v1\LinkObject[]'];
+             'self' => '\SpApi\Model\messaging\v1\LinkObject',
+             'actions' => '\SpApi\Model\messaging\v1\LinkObject[]'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'self' => null,
-        'actions' => null];
+            'self' => null,
+            'actions' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'self' => false,
-        'actions' => false,
+        'actions' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * Array of property to type mappings. Used for (de)serialization
      *
-     * @var string[]
-     */
-    protected static array $attributeMap = [
-        'self' => 'self',
-        'actions' => 'actions',
-    ];
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     *
-     * @var string[]
-     */
-    protected static array $setters = [
-        'self' => 'setSelf',
-        'actions' => 'setActions',
-    ];
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     *
-     * @var string[]
-     */
-    protected static array $getters = [
-        'self' => 'getSelf',
-        'actions' => 'getActions',
-    ];
-
-    /**
-     * Associative array for storing property values.
-     */
-    protected array $container = [];
-
-    /**
-     * Constructor.
-     *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
-     */
-    public function __construct(?array $data = null)
-    {
-        $this->setIfExists('self', $data ?? [], null);
-        $this->setIfExists('actions', $data ?? [], null);
-    }
-
-    /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
+     * @return array
      */
     public static function openAPITypes(): array
     {
@@ -164,7 +102,9 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
      */
     public static function openAPIFormats(): array
     {
@@ -172,7 +112,40 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
     }
 
     /**
-     * Checks if a property is nullable.
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
      */
     public static function isNullable(string $property): bool
     {
@@ -181,6 +154,9 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
 
     /**
      * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -189,7 +165,41 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
 
     /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
+     *
+     * @var string[]
+     */
+    protected static array $attributeMap = [
+        'self' => 'self',
+                'actions' => 'actions'
+        
+    ];
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @var string[]
+     */
+    protected static array $setters = [
+        'self' => 'setSelf',
+        'actions' => 'setActions'
+    ];
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @var string[]
+     */
+    protected static array $getters = [
+        'self' => 'getSelf',
+        'actions' => 'getActions'
+    ];
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
      */
     public static function attributeMap(): array
     {
@@ -197,7 +207,9 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
      */
     public static function setters(): array
     {
@@ -205,7 +217,9 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
      */
     public static function getters(): array
     {
@@ -214,10 +228,50 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
 
     /**
      * The original name of the model.
+     *
+     * @return string
      */
     public function getModelName(): string
     {
         return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
+     */
+    protected array $container = [];
+
+    /**
+     * Constructor
+     *
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->setIfExists('self', $data ?? [], null);
+        $this->setIfExists('actions', $data ?? [], null);
+    }
+
+    /**
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -229,41 +283,45 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
     {
         $invalidProperties = [];
 
-        if (null === $this->container['self']) {
+        if ($this->container['self'] === null) {
             $invalidProperties[] = "'self' can't be null";
         }
-        if (null === $this->container['actions']) {
+        if ($this->container['actions'] === null) {
             $invalidProperties[] = "'actions' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets self.
+     * Gets self
+     *
+     * @return \SpApi\Model\messaging\v1\LinkObject
      */
-    public function getSelf(): LinkObject
+    public function getSelf(): \SpApi\Model\messaging\v1\LinkObject
     {
         return $this->container['self'];
     }
 
     /**
-     * Sets self.
+     * Sets self
      *
-     * @param LinkObject $self self
+     * @param \SpApi\Model\messaging\v1\LinkObject $self self
+     *
+     * @return self
      */
-    public function setSelf(LinkObject $self): self
+    public function setSelf(\SpApi\Model\messaging\v1\LinkObject $self): self
     {
         if (is_null($self)) {
             throw new \InvalidArgumentException('non-nullable self cannot be null');
@@ -274,7 +332,9 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
     }
 
     /**
-     * Gets actions.
+     * Gets actions
+     *
+     * @return array
      */
     public function getActions(): array
     {
@@ -282,9 +342,11 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
     }
 
     /**
-     * Sets actions.
+     * Sets actions
      *
-     * @param array $actions eligible actions for the specified amazonOrderId
+     * @param array $actions Eligible actions for the specified amazonOrderId.
+     *
+     * @return self
      */
     public function setActions(array $actions): self
     {
@@ -296,10 +358,13 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -309,9 +374,9 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -322,8 +387,10 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -337,7 +404,9 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -346,67 +415,39 @@ class GetMessagingActionsForOrderResponseLinks implements ModelInterface, \Array
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

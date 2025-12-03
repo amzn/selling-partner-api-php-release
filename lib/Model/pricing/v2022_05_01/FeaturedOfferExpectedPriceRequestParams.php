@@ -1,19 +1,17 @@
 <?php
-
 /**
- * FeaturedOfferExpectedPriceRequestParams.
+ * FeaturedOfferExpectedPriceRequestParams
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Pricing.
+ * Selling Partner API for Pricing
  *
  * The Selling Partner API for Pricing helps you programmatically retrieve product pricing and offer pricing information for Amazon Marketplace products.  For more information, refer to the [Product Pricing v2022-05-01 Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v2022-05-01-use-case-guide).
  *
@@ -30,117 +28,233 @@
 
 namespace SpApi\Model\pricing\v2022_05_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * FeaturedOfferExpectedPriceRequestParams Class Doc Comment.
+ * FeaturedOfferExpectedPriceRequestParams Class Doc Comment
  *
  * @category Class
- *
  * @description The parameters for an individual request.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayAccess, \JsonSerializable
+class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'FeaturedOfferExpectedPriceRequestParams';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'marketplace_id' => 'string',
-        'sku' => 'string',
-        'segment' => '\SpApi\Model\pricing\v2022_05_01\Segment'];
+             'marketplace_id' => 'string',
+             'sku' => 'string',
+             'segment' => '\SpApi\Model\pricing\v2022_05_01\Segment'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'marketplace_id' => null,
-        'sku' => null,
-        'segment' => null];
+            'marketplace_id' => null,
+            'sku' => null,
+            'segment' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'marketplace_id' => false,
         'sku' => false,
-        'segment' => true,
+        'segment' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'marketplace_id' => 'marketplaceId',
-        'sku' => 'sku',
-        'segment' => 'segment',
+                'sku' => 'sku',
+                'segment' => 'segment'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
     protected static array $setters = [
         'marketplace_id' => 'setMarketplaceId',
         'sku' => 'setSku',
-        'segment' => 'setSegment',
+        'segment' => 'setSegment'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
     protected static array $getters = [
         'marketplace_id' => 'getMarketplaceId',
         'sku' => 'getSku',
-        'segment' => 'getSegment',
+        'segment' => 'getSegment'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -150,81 +264,21 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -236,29 +290,31 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
     {
         $invalidProperties = [];
 
-        if (null === $this->container['marketplace_id']) {
+        if ($this->container['marketplace_id'] === null) {
             $invalidProperties[] = "'marketplace_id' can't be null";
         }
-        if (null === $this->container['sku']) {
+        if ($this->container['sku'] === null) {
             $invalidProperties[] = "'sku' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets marketplace_id.
+     * Gets marketplace_id
+     *
+     * @return string
      */
     public function getMarketplaceId(): string
     {
@@ -266,9 +322,11 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
     }
 
     /**
-     * Sets marketplace_id.
+     * Sets marketplace_id
      *
-     * @param string $marketplace_id The marketplace ID is the globally unique identifier of a marketplace. To find the ID for your marketplace, refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids).
+     * @param string $marketplace_id A marketplace identifier. Specifies the marketplace for which data is returned.
+     *
+     * @return self
      */
     public function setMarketplaceId(string $marketplace_id): self
     {
@@ -281,7 +339,9 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
     }
 
     /**
-     * Gets sku.
+     * Gets sku
+     *
+     * @return string
      */
     public function getSku(): string
     {
@@ -289,9 +349,11 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
     }
 
     /**
-     * Sets sku.
+     * Sets sku
      *
-     * @param string $sku the seller SKU of the item
+     * @param string $sku The seller SKU of the item.
+     *
+     * @return self
      */
     public function setSku(string $sku): self
     {
@@ -304,26 +366,30 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
     }
 
     /**
-     * Gets segment.
+     * Gets segment
+     *
+     * @return \SpApi\Model\pricing\v2022_05_01\Segment|null
      */
-    public function getSegment(): ?Segment
+    public function getSegment(): ?\SpApi\Model\pricing\v2022_05_01\Segment
     {
         return $this->container['segment'];
     }
 
     /**
-     * Sets segment.
+     * Sets segment
      *
-     * @param null|Segment $segment segment
+     * @param \SpApi\Model\pricing\v2022_05_01\Segment|null $segment segment
+     *
+     * @return self
      */
-    public function setSegment(?Segment $segment): self
+    public function setSegment(?\SpApi\Model\pricing\v2022_05_01\Segment $segment): self
     {
         if (is_null($segment)) {
             array_push($this->openAPINullablesSetToNull, 'segment');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('segment', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -333,10 +399,13 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -346,9 +415,9 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -359,8 +428,10 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -374,7 +445,9 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -383,67 +456,39 @@ class FeaturedOfferExpectedPriceRequestParams implements ModelInterface, \ArrayA
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

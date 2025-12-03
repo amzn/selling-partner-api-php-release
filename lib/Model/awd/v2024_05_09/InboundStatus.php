@@ -1,19 +1,17 @@
 <?php
-
 /**
- * InboundStatus.
+ * InboundStatus
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * The Selling Partner API for Amazon Warehousing and Distribution.
+ * The Selling Partner API for Amazon Warehousing and Distribution
  *
  * The Selling Partner API for Amazon Warehousing and Distribution (AWD) provides programmatic access to information about AWD shipments and inventory.
  *
@@ -29,22 +27,22 @@
  */
 
 namespace SpApi\Model\awd\v2024_05_09;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * InboundStatus Class Doc Comment.
+ * InboundStatus Class Doc Comment
  *
  * @category Class
- *
  * @description The supported statuses for an inbound order.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class InboundStatus
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const DRAFT = 'DRAFT';
 
@@ -59,8 +57,7 @@ class InboundStatus
     public const CANCELLED = 'CANCELLED';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
@@ -71,7 +68,9 @@ class InboundStatus
             self::CONFIRMED,
             self::CLOSED,
             self::EXPIRED,
-            self::CANCELLED,
+            self::CANCELLED
         ];
     }
 }
+
+

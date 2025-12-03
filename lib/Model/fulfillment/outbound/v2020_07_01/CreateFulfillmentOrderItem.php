@@ -1,19 +1,17 @@
 <?php
-
 /**
- * CreateFulfillmentOrderItem.
+ * CreateFulfillmentOrderItem
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner APIs for Fulfillment Outbound.
+ * Selling Partner APIs for Fulfillment Outbound
  *
  * The Selling Partner API for Fulfillment Outbound lets you create applications that help a seller fulfill Multi-Channel Fulfillment orders using their inventory in Amazon's fulfillment network. You can get information on both potential and existing fulfillment orders.
  *
@@ -30,72 +28,71 @@
 
 namespace SpApi\Model\fulfillment\outbound\v2020_07_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * CreateFulfillmentOrderItem Class Doc Comment.
+ * CreateFulfillmentOrderItem Class Doc Comment
  *
  * @category Class
- *
  * @description Item information for creating a fulfillment order.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSerializable
+class CreateFulfillmentOrderItem implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'CreateFulfillmentOrderItem';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'seller_sku' => 'string',
-        'seller_fulfillment_order_item_id' => 'string',
-        'quantity' => 'int',
-        'gift_message' => 'string',
-        'displayable_comment' => 'string',
-        'fulfillment_network_sku' => 'string',
-        'per_unit_declared_value' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money',
-        'per_unit_price' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money',
-        'per_unit_tax' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money'];
+             'seller_sku' => 'string',
+             'seller_fulfillment_order_item_id' => 'string',
+             'quantity' => 'int',
+             'gift_message' => 'string',
+             'displayable_comment' => 'string',
+             'fulfillment_network_sku' => 'string',
+             'per_unit_declared_value' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money',
+             'per_unit_price' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money',
+             'per_unit_tax' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'seller_sku' => null,
-        'seller_fulfillment_order_item_id' => null,
-        'quantity' => 'int32',
-        'gift_message' => null,
-        'displayable_comment' => null,
-        'fulfillment_network_sku' => null,
-        'per_unit_declared_value' => null,
-        'per_unit_price' => null,
-        'per_unit_tax' => null];
+            'seller_sku' => null,
+            'seller_fulfillment_order_item_id' => null,
+            'quantity' => 'int32',
+            'gift_message' => null,
+            'displayable_comment' => null,
+            'fulfillment_network_sku' => null,
+            'per_unit_declared_value' => null,
+            'per_unit_price' => null,
+            'per_unit_tax' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'seller_sku' => false,
         'seller_fulfillment_order_item_id' => false,
@@ -105,36 +102,109 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
         'fulfillment_network_sku' => true,
         'per_unit_declared_value' => true,
         'per_unit_price' => true,
-        'per_unit_tax' => true,
+        'per_unit_tax' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'seller_sku' => 'sellerSku',
-        'seller_fulfillment_order_item_id' => 'sellerFulfillmentOrderItemId',
-        'quantity' => 'quantity',
-        'gift_message' => 'giftMessage',
-        'displayable_comment' => 'displayableComment',
-        'fulfillment_network_sku' => 'fulfillmentNetworkSku',
-        'per_unit_declared_value' => 'perUnitDeclaredValue',
-        'per_unit_price' => 'perUnitPrice',
-        'per_unit_tax' => 'perUnitTax',
+                'seller_fulfillment_order_item_id' => 'sellerFulfillmentOrderItemId',
+                'quantity' => 'quantity',
+                'gift_message' => 'giftMessage',
+                'displayable_comment' => 'displayableComment',
+                'fulfillment_network_sku' => 'fulfillmentNetworkSku',
+                'per_unit_declared_value' => 'perUnitDeclaredValue',
+                'per_unit_price' => 'perUnitPrice',
+                'per_unit_tax' => 'perUnitTax'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -147,11 +217,11 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
         'fulfillment_network_sku' => 'setFulfillmentNetworkSku',
         'per_unit_declared_value' => 'setPerUnitDeclaredValue',
         'per_unit_price' => 'setPerUnitPrice',
-        'per_unit_tax' => 'setPerUnitTax',
+        'per_unit_tax' => 'setPerUnitTax'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -164,19 +234,63 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
         'fulfillment_network_sku' => 'getFulfillmentNetworkSku',
         'per_unit_declared_value' => 'getPerUnitDeclaredValue',
         'per_unit_price' => 'getPerUnitPrice',
-        'per_unit_tax' => 'getPerUnitTax',
+        'per_unit_tax' => 'getPerUnitTax'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -192,81 +306,21 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -278,21 +332,21 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     {
         $invalidProperties = [];
 
-        if (null === $this->container['seller_sku']) {
+        if ($this->container['seller_sku'] === null) {
             $invalidProperties[] = "'seller_sku' can't be null";
         }
-        if (mb_strlen($this->container['seller_sku']) > 50) {
+        if ((mb_strlen($this->container['seller_sku']) > 50)) {
             $invalidProperties[] = "invalid value for 'seller_sku', the character length must be smaller than or equal to 50.";
         }
 
-        if (null === $this->container['seller_fulfillment_order_item_id']) {
+        if ($this->container['seller_fulfillment_order_item_id'] === null) {
             $invalidProperties[] = "'seller_fulfillment_order_item_id' can't be null";
         }
-        if (mb_strlen($this->container['seller_fulfillment_order_item_id']) > 50) {
+        if ((mb_strlen($this->container['seller_fulfillment_order_item_id']) > 50)) {
             $invalidProperties[] = "invalid value for 'seller_fulfillment_order_item_id', the character length must be smaller than or equal to 50.";
         }
 
-        if (null === $this->container['quantity']) {
+        if ($this->container['quantity'] === null) {
             $invalidProperties[] = "'quantity' can't be null";
         }
         if (!is_null($this->container['gift_message']) && (mb_strlen($this->container['gift_message']) > 512)) {
@@ -308,17 +362,20 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets seller_sku.
+     * Gets seller_sku
+     *
+     * @return string
      */
     public function getSellerSku(): string
     {
@@ -326,16 +383,18 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Sets seller_sku.
+     * Sets seller_sku
      *
-     * @param string $seller_sku the seller SKU of the item
+     * @param string $seller_sku The seller SKU of the item.
+     *
+     * @return self
      */
     public function setSellerSku(string $seller_sku): self
     {
         if (is_null($seller_sku)) {
             throw new \InvalidArgumentException('non-nullable seller_sku cannot be null');
         }
-        if (mb_strlen($seller_sku) > 50) {
+        if ((mb_strlen($seller_sku) > 50)) {
             throw new \InvalidArgumentException('invalid length for $seller_sku when calling CreateFulfillmentOrderItem., must be smaller than or equal to 50.');
         }
 
@@ -345,7 +404,9 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Gets seller_fulfillment_order_item_id.
+     * Gets seller_fulfillment_order_item_id
+     *
+     * @return string
      */
     public function getSellerFulfillmentOrderItemId(): string
     {
@@ -353,16 +414,18 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Sets seller_fulfillment_order_item_id.
+     * Sets seller_fulfillment_order_item_id
      *
-     * @param string $seller_fulfillment_order_item_id A fulfillment order item identifier that the seller creates to track fulfillment order items. Used to disambiguate multiple fulfillment items that have the same `sellerSku` value. For example, the seller might assign different `sellerFulfillmentOrderItemId` values to two items in a fulfillment order that share the same `sellerSku` value but have different `giftMessage` values.
+     * @param string $seller_fulfillment_order_item_id A fulfillment order item identifier that the seller creates to track fulfillment order items. Used to disambiguate multiple fulfillment items that have the same `SellerSKU`. For example, the seller might assign different `SellerFulfillmentOrderItemId` values to two items in a fulfillment order that share the same `SellerSKU` but have different `GiftMessage` values.
+     *
+     * @return self
      */
     public function setSellerFulfillmentOrderItemId(string $seller_fulfillment_order_item_id): self
     {
         if (is_null($seller_fulfillment_order_item_id)) {
             throw new \InvalidArgumentException('non-nullable seller_fulfillment_order_item_id cannot be null');
         }
-        if (mb_strlen($seller_fulfillment_order_item_id) > 50) {
+        if ((mb_strlen($seller_fulfillment_order_item_id) > 50)) {
             throw new \InvalidArgumentException('invalid length for $seller_fulfillment_order_item_id when calling CreateFulfillmentOrderItem., must be smaller than or equal to 50.');
         }
 
@@ -372,7 +435,9 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Gets quantity.
+     * Gets quantity
+     *
+     * @return int
      */
     public function getQuantity(): int
     {
@@ -380,9 +445,11 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Sets quantity.
+     * Sets quantity
      *
-     * @param int $quantity the item quantity
+     * @param int $quantity The item quantity.
+     *
+     * @return self
      */
     public function setQuantity(int $quantity): self
     {
@@ -395,7 +462,9 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Gets gift_message.
+     * Gets gift_message
+     *
+     * @return string|null
      */
     public function getGiftMessage(): ?string
     {
@@ -403,9 +472,11 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Sets gift_message.
+     * Sets gift_message
      *
-     * @param null|string $gift_message a message to the gift recipient, if applicable
+     * @param string|null $gift_message A message to the gift recipient, if applicable.
+     *
+     * @return self
      */
     public function setGiftMessage(?string $gift_message): self
     {
@@ -414,7 +485,7 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('gift_message', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -429,7 +500,9 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Gets displayable_comment.
+     * Gets displayable_comment
+     *
+     * @return string|null
      */
     public function getDisplayableComment(): ?string
     {
@@ -437,9 +510,11 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Sets displayable_comment.
+     * Sets displayable_comment
      *
-     * @param null|string $displayable_comment item-specific text that displays in recipient-facing materials such as the outbound shipment packing slip
+     * @param string|null $displayable_comment Item-specific text that displays in recipient-facing materials such as the outbound shipment packing slip.
+     *
+     * @return self
      */
     public function setDisplayableComment(?string $displayable_comment): self
     {
@@ -448,7 +523,7 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('displayable_comment', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -463,7 +538,9 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Gets fulfillment_network_sku.
+     * Gets fulfillment_network_sku
+     *
+     * @return string|null
      */
     public function getFulfillmentNetworkSku(): ?string
     {
@@ -471,9 +548,11 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Sets fulfillment_network_sku.
+     * Sets fulfillment_network_sku
      *
-     * @param null|string $fulfillment_network_sku amazon's fulfillment network SKU of the item
+     * @param string|null $fulfillment_network_sku Amazon's fulfillment network SKU of the item.
+     *
+     * @return self
      */
     public function setFulfillmentNetworkSku(?string $fulfillment_network_sku): self
     {
@@ -482,7 +561,7 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('fulfillment_network_sku', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -493,26 +572,30 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Gets per_unit_declared_value.
+     * Gets per_unit_declared_value
+     *
+     * @return \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null
      */
-    public function getPerUnitDeclaredValue(): ?Money
+    public function getPerUnitDeclaredValue(): ?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money
     {
         return $this->container['per_unit_declared_value'];
     }
 
     /**
-     * Sets per_unit_declared_value.
+     * Sets per_unit_declared_value
      *
-     * @param null|Money $per_unit_declared_value per_unit_declared_value
+     * @param \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null $per_unit_declared_value per_unit_declared_value
+     *
+     * @return self
      */
-    public function setPerUnitDeclaredValue(?Money $per_unit_declared_value): self
+    public function setPerUnitDeclaredValue(?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money $per_unit_declared_value): self
     {
         if (is_null($per_unit_declared_value)) {
             array_push($this->openAPINullablesSetToNull, 'per_unit_declared_value');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('per_unit_declared_value', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -523,26 +606,30 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Gets per_unit_price.
+     * Gets per_unit_price
+     *
+     * @return \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null
      */
-    public function getPerUnitPrice(): ?Money
+    public function getPerUnitPrice(): ?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money
     {
         return $this->container['per_unit_price'];
     }
 
     /**
-     * Sets per_unit_price.
+     * Sets per_unit_price
      *
-     * @param null|Money $per_unit_price per_unit_price
+     * @param \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null $per_unit_price per_unit_price
+     *
+     * @return self
      */
-    public function setPerUnitPrice(?Money $per_unit_price): self
+    public function setPerUnitPrice(?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money $per_unit_price): self
     {
         if (is_null($per_unit_price)) {
             array_push($this->openAPINullablesSetToNull, 'per_unit_price');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('per_unit_price', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -553,26 +640,30 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     }
 
     /**
-     * Gets per_unit_tax.
+     * Gets per_unit_tax
+     *
+     * @return \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null
      */
-    public function getPerUnitTax(): ?Money
+    public function getPerUnitTax(): ?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money
     {
         return $this->container['per_unit_tax'];
     }
 
     /**
-     * Sets per_unit_tax.
+     * Sets per_unit_tax
      *
-     * @param null|Money $per_unit_tax per_unit_tax
+     * @param \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null $per_unit_tax per_unit_tax
+     *
+     * @return self
      */
-    public function setPerUnitTax(?Money $per_unit_tax): self
+    public function setPerUnitTax(?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money $per_unit_tax): self
     {
         if (is_null($per_unit_tax)) {
             array_push($this->openAPINullablesSetToNull, 'per_unit_tax');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('per_unit_tax', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -582,10 +673,13 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -595,9 +689,9 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -608,8 +702,10 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -623,7 +719,9 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -632,67 +730,39 @@ class CreateFulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonS
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

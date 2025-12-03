@@ -1,19 +1,17 @@
 <?php
-
 /**
- * OrderRegulatedInfo.
+ * OrderRegulatedInfo
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Orders.
+ * Selling Partner API for Orders
  *
  * Use the Orders Selling Partner API to programmatically retrieve order information. With this API, you can develop fast, flexible, and custom applications to manage order synchronization, perform order research, and create demand-based decision support tools.   _Note:_ For the JP, AU, and SG marketplaces, the Orders API supports orders from 2016 onward. For all other marketplaces, the Orders API supports orders for the last two years (orders older than this don't show up in the response).
  *
@@ -30,91 +28,163 @@
 
 namespace SpApi\Model\orders\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * OrderRegulatedInfo Class Doc Comment.
+ * OrderRegulatedInfo Class Doc Comment
  *
  * @category Class
- *
  * @description The order&#39;s regulated information along with its verification status.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializable
+class OrderRegulatedInfo implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'OrderRegulatedInfo';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'amazon_order_id' => 'string',
-        'regulated_information' => '\SpApi\Model\orders\v0\RegulatedInformation',
-        'requires_dosage_label' => 'bool',
-        'regulated_order_verification_status' => '\SpApi\Model\orders\v0\RegulatedOrderVerificationStatus'];
+             'amazon_order_id' => 'string',
+             'regulated_information' => '\SpApi\Model\orders\v0\RegulatedInformation',
+             'requires_dosage_label' => 'bool',
+             'regulated_order_verification_status' => '\SpApi\Model\orders\v0\RegulatedOrderVerificationStatus'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'amazon_order_id' => null,
-        'regulated_information' => null,
-        'requires_dosage_label' => null,
-        'regulated_order_verification_status' => null];
+            'amazon_order_id' => null,
+            'regulated_information' => null,
+            'requires_dosage_label' => null,
+            'regulated_order_verification_status' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'amazon_order_id' => false,
         'regulated_information' => false,
         'requires_dosage_label' => false,
-        'regulated_order_verification_status' => false,
+        'regulated_order_verification_status' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'amazon_order_id' => 'AmazonOrderId',
-        'regulated_information' => 'RegulatedInformation',
-        'requires_dosage_label' => 'RequiresDosageLabel',
-        'regulated_order_verification_status' => 'RegulatedOrderVerificationStatus',
+                'regulated_information' => 'RegulatedInformation',
+                'requires_dosage_label' => 'RequiresDosageLabel',
+                'regulated_order_verification_status' => 'RegulatedOrderVerificationStatus'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -122,11 +192,11 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
         'amazon_order_id' => 'setAmazonOrderId',
         'regulated_information' => 'setRegulatedInformation',
         'requires_dosage_label' => 'setRequiresDosageLabel',
-        'regulated_order_verification_status' => 'setRegulatedOrderVerificationStatus',
+        'regulated_order_verification_status' => 'setRegulatedOrderVerificationStatus'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -134,19 +204,63 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
         'amazon_order_id' => 'getAmazonOrderId',
         'regulated_information' => 'getRegulatedInformation',
         'requires_dosage_label' => 'getRequiresDosageLabel',
-        'regulated_order_verification_status' => 'getRegulatedOrderVerificationStatus',
+        'regulated_order_verification_status' => 'getRegulatedOrderVerificationStatus'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -157,81 +271,21 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -243,35 +297,37 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
     {
         $invalidProperties = [];
 
-        if (null === $this->container['amazon_order_id']) {
+        if ($this->container['amazon_order_id'] === null) {
             $invalidProperties[] = "'amazon_order_id' can't be null";
         }
-        if (null === $this->container['regulated_information']) {
+        if ($this->container['regulated_information'] === null) {
             $invalidProperties[] = "'regulated_information' can't be null";
         }
-        if (null === $this->container['requires_dosage_label']) {
+        if ($this->container['requires_dosage_label'] === null) {
             $invalidProperties[] = "'requires_dosage_label' can't be null";
         }
-        if (null === $this->container['regulated_order_verification_status']) {
+        if ($this->container['regulated_order_verification_status'] === null) {
             $invalidProperties[] = "'regulated_order_verification_status' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets amazon_order_id.
+     * Gets amazon_order_id
+     *
+     * @return string
      */
     public function getAmazonOrderId(): string
     {
@@ -279,9 +335,11 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Sets amazon_order_id.
+     * Sets amazon_order_id
      *
-     * @param string $amazon_order_id an Amazon-defined order identifier, in 3-7-7 format
+     * @param string $amazon_order_id An Amazon-defined order identifier, in 3-7-7 format.
+     *
+     * @return self
      */
     public function setAmazonOrderId(string $amazon_order_id): self
     {
@@ -294,19 +352,23 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets regulated_information.
+     * Gets regulated_information
+     *
+     * @return \SpApi\Model\orders\v0\RegulatedInformation
      */
-    public function getRegulatedInformation(): RegulatedInformation
+    public function getRegulatedInformation(): \SpApi\Model\orders\v0\RegulatedInformation
     {
         return $this->container['regulated_information'];
     }
 
     /**
-     * Sets regulated_information.
+     * Sets regulated_information
      *
-     * @param RegulatedInformation $regulated_information regulated_information
+     * @param \SpApi\Model\orders\v0\RegulatedInformation $regulated_information regulated_information
+     *
+     * @return self
      */
-    public function setRegulatedInformation(RegulatedInformation $regulated_information): self
+    public function setRegulatedInformation(\SpApi\Model\orders\v0\RegulatedInformation $regulated_information): self
     {
         if (is_null($regulated_information)) {
             throw new \InvalidArgumentException('non-nullable regulated_information cannot be null');
@@ -317,7 +379,9 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets requires_dosage_label.
+     * Gets requires_dosage_label
+     *
+     * @return bool
      */
     public function getRequiresDosageLabel(): bool
     {
@@ -325,9 +389,11 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Sets requires_dosage_label.
+     * Sets requires_dosage_label
      *
-     * @param bool $requires_dosage_label when true, the order requires attaching a dosage information label when shipped
+     * @param bool $requires_dosage_label When true, the order requires attaching a dosage information label when shipped.
+     *
+     * @return self
      */
     public function setRequiresDosageLabel(bool $requires_dosage_label): self
     {
@@ -340,19 +406,23 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets regulated_order_verification_status.
+     * Gets regulated_order_verification_status
+     *
+     * @return \SpApi\Model\orders\v0\RegulatedOrderVerificationStatus
      */
-    public function getRegulatedOrderVerificationStatus(): RegulatedOrderVerificationStatus
+    public function getRegulatedOrderVerificationStatus(): \SpApi\Model\orders\v0\RegulatedOrderVerificationStatus
     {
         return $this->container['regulated_order_verification_status'];
     }
 
     /**
-     * Sets regulated_order_verification_status.
+     * Sets regulated_order_verification_status
      *
-     * @param RegulatedOrderVerificationStatus $regulated_order_verification_status regulated_order_verification_status
+     * @param \SpApi\Model\orders\v0\RegulatedOrderVerificationStatus $regulated_order_verification_status regulated_order_verification_status
+     *
+     * @return self
      */
-    public function setRegulatedOrderVerificationStatus(RegulatedOrderVerificationStatus $regulated_order_verification_status): self
+    public function setRegulatedOrderVerificationStatus(\SpApi\Model\orders\v0\RegulatedOrderVerificationStatus $regulated_order_verification_status): self
     {
         if (is_null($regulated_order_verification_status)) {
             throw new \InvalidArgumentException('non-nullable regulated_order_verification_status cannot be null');
@@ -362,10 +432,13 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -375,9 +448,9 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -388,8 +461,10 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -403,7 +478,9 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -412,67 +489,39 @@ class OrderRegulatedInfo implements ModelInterface, \ArrayAccess, \JsonSerializa
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

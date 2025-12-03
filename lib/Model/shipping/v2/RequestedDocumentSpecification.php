@@ -1,19 +1,17 @@
 <?php
-
 /**
- * RequestedDocumentSpecification.
+ * RequestedDocumentSpecification
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Amazon Shipping API.
+ * Amazon Shipping API
  *
  * The Amazon Shipping API is designed to support outbound shipping use cases both for orders originating on Amazon-owned marketplaces as well as external channels/marketplaces. With these APIs, you can request shipping rates, create shipments, cancel shipments, and track shipments.
  *
@@ -31,68 +29,67 @@
 
 namespace SpApi\Model\shipping\v2;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * RequestedDocumentSpecification Class Doc Comment.
+ * RequestedDocumentSpecification Class Doc Comment
  *
  * @category Class
- *
  * @description The document specifications requested. For calls to the purchaseShipment operation, the shipment purchase fails if the specified document specifications are not among those returned in the response to the getRates operation.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \JsonSerializable
+class RequestedDocumentSpecification implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'RequestedDocumentSpecification';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'format' => '\SpApi\Model\shipping\v2\DocumentFormat',
-        'size' => '\SpApi\Model\shipping\v2\DocumentSize',
-        'dpi' => 'int',
-        'page_layout' => 'string',
-        'need_file_joining' => 'bool',
-        'requested_document_types' => '\SpApi\Model\shipping\v2\DocumentType[]',
-        'requested_label_customization' => '\SpApi\Model\shipping\v2\RequestedLabelCustomization'];
+             'format' => '\SpApi\Model\shipping\v2\DocumentFormat',
+             'size' => '\SpApi\Model\shipping\v2\DocumentSize',
+             'dpi' => 'int',
+             'page_layout' => 'string',
+             'need_file_joining' => 'bool',
+             'requested_document_types' => '\SpApi\Model\shipping\v2\DocumentType[]',
+             'requested_label_customization' => '\SpApi\Model\shipping\v2\RequestedLabelCustomization'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'format' => null,
-        'size' => null,
-        'dpi' => null,
-        'page_layout' => null,
-        'need_file_joining' => null,
-        'requested_document_types' => null,
-        'requested_label_customization' => null];
+            'format' => null,
+            'size' => null,
+            'dpi' => null,
+            'page_layout' => null,
+            'need_file_joining' => null,
+            'requested_document_types' => null,
+            'requested_label_customization' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'format' => false,
         'size' => false,
@@ -100,34 +97,107 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
         'page_layout' => true,
         'need_file_joining' => false,
         'requested_document_types' => false,
-        'requested_label_customization' => true,
+        'requested_label_customization' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'format' => 'format',
-        'size' => 'size',
-        'dpi' => 'dpi',
-        'page_layout' => 'pageLayout',
-        'need_file_joining' => 'needFileJoining',
-        'requested_document_types' => 'requestedDocumentTypes',
-        'requested_label_customization' => 'requestedLabelCustomization',
+                'size' => 'size',
+                'dpi' => 'dpi',
+                'page_layout' => 'pageLayout',
+                'need_file_joining' => 'needFileJoining',
+                'requested_document_types' => 'requestedDocumentTypes',
+                'requested_label_customization' => 'requestedLabelCustomization'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -138,11 +208,11 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
         'page_layout' => 'setPageLayout',
         'need_file_joining' => 'setNeedFileJoining',
         'requested_document_types' => 'setRequestedDocumentTypes',
-        'requested_label_customization' => 'setRequestedLabelCustomization',
+        'requested_label_customization' => 'setRequestedLabelCustomization'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -153,19 +223,63 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
         'page_layout' => 'getPageLayout',
         'need_file_joining' => 'getNeedFileJoining',
         'requested_document_types' => 'getRequestedDocumentTypes',
-        'requested_label_customization' => 'getRequestedLabelCustomization',
+        'requested_label_customization' => 'getRequestedLabelCustomization'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -179,81 +293,21 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -265,35 +319,37 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     {
         $invalidProperties = [];
 
-        if (null === $this->container['format']) {
+        if ($this->container['format'] === null) {
             $invalidProperties[] = "'format' can't be null";
         }
-        if (null === $this->container['size']) {
+        if ($this->container['size'] === null) {
             $invalidProperties[] = "'size' can't be null";
         }
-        if (null === $this->container['need_file_joining']) {
+        if ($this->container['need_file_joining'] === null) {
             $invalidProperties[] = "'need_file_joining' can't be null";
         }
-        if (null === $this->container['requested_document_types']) {
+        if ($this->container['requested_document_types'] === null) {
             $invalidProperties[] = "'requested_document_types' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets format.
+     * Gets format
+     *
+     * @return string
      */
     public function getFormat(): string
     {
@@ -301,9 +357,11 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Sets format.
+     * Sets format
      *
      * @param string $format format
+     *
+     * @return self
      */
     public function setFormat(string $format): self
     {
@@ -316,19 +374,23 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Gets size.
+     * Gets size
+     *
+     * @return \SpApi\Model\shipping\v2\DocumentSize
      */
-    public function getSize(): DocumentSize
+    public function getSize(): \SpApi\Model\shipping\v2\DocumentSize
     {
         return $this->container['size'];
     }
 
     /**
-     * Sets size.
+     * Sets size
      *
-     * @param DocumentSize $size size
+     * @param \SpApi\Model\shipping\v2\DocumentSize $size size
+     *
+     * @return self
      */
-    public function setSize(DocumentSize $size): self
+    public function setSize(\SpApi\Model\shipping\v2\DocumentSize $size): self
     {
         if (is_null($size)) {
             throw new \InvalidArgumentException('non-nullable size cannot be null');
@@ -339,7 +401,9 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Gets dpi.
+     * Gets dpi
+     *
+     * @return int|null
      */
     public function getDpi(): ?int
     {
@@ -347,9 +411,11 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Sets dpi.
+     * Sets dpi
      *
-     * @param null|int $dpi The dots per inch (DPI) value used in printing. This value represents a measure of the resolution of the document.
+     * @param int|null $dpi The dots per inch (DPI) value used in printing. This value represents a measure of the resolution of the document.
+     *
+     * @return self
      */
     public function setDpi(?int $dpi): self
     {
@@ -358,7 +424,7 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('dpi', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -369,7 +435,9 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Gets page_layout.
+     * Gets page_layout
+     *
+     * @return string|null
      */
     public function getPageLayout(): ?string
     {
@@ -377,9 +445,11 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Sets page_layout.
+     * Sets page_layout
      *
-     * @param null|string $page_layout Indicates the position of the label on the paper. Should be the same value as returned in getRates response.
+     * @param string|null $page_layout Indicates the position of the label on the paper. Should be the same value as returned in getRates response.
+     *
+     * @return self
      */
     public function setPageLayout(?string $page_layout): self
     {
@@ -388,7 +458,7 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('page_layout', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -399,7 +469,9 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Gets need_file_joining.
+     * Gets need_file_joining
+     *
+     * @return bool
      */
     public function getNeedFileJoining(): bool
     {
@@ -407,9 +479,11 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Sets need_file_joining.
+     * Sets need_file_joining
      *
      * @param bool $need_file_joining When true, files should be stitched together. Otherwise, files should be returned separately. Defaults to false.
+     *
+     * @return self
      */
     public function setNeedFileJoining(bool $need_file_joining): self
     {
@@ -422,7 +496,9 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Gets requested_document_types.
+     * Gets requested_document_types
+     *
+     * @return array
      */
     public function getRequestedDocumentTypes(): array
     {
@@ -430,9 +506,11 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Sets requested_document_types.
+     * Sets requested_document_types
      *
-     * @param array $requested_document_types a list of the document types requested
+     * @param array $requested_document_types A list of the document types requested.
+     *
+     * @return self
      */
     public function setRequestedDocumentTypes(array $requested_document_types): self
     {
@@ -445,26 +523,30 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     }
 
     /**
-     * Gets requested_label_customization.
+     * Gets requested_label_customization
+     *
+     * @return \SpApi\Model\shipping\v2\RequestedLabelCustomization|null
      */
-    public function getRequestedLabelCustomization(): ?RequestedLabelCustomization
+    public function getRequestedLabelCustomization(): ?\SpApi\Model\shipping\v2\RequestedLabelCustomization
     {
         return $this->container['requested_label_customization'];
     }
 
     /**
-     * Sets requested_label_customization.
+     * Sets requested_label_customization
      *
-     * @param null|RequestedLabelCustomization $requested_label_customization requested_label_customization
+     * @param \SpApi\Model\shipping\v2\RequestedLabelCustomization|null $requested_label_customization requested_label_customization
+     *
+     * @return self
      */
-    public function setRequestedLabelCustomization(?RequestedLabelCustomization $requested_label_customization): self
+    public function setRequestedLabelCustomization(?\SpApi\Model\shipping\v2\RequestedLabelCustomization $requested_label_customization): self
     {
         if (is_null($requested_label_customization)) {
             array_push($this->openAPINullablesSetToNull, 'requested_label_customization');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('requested_label_customization', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -474,10 +556,13 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -487,9 +572,9 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -500,8 +585,10 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -515,7 +602,9 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -524,67 +613,39 @@ class RequestedDocumentSpecification implements ModelInterface, \ArrayAccess, \J
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

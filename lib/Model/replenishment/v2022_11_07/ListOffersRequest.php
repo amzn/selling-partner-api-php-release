@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ListOffersRequest.
+ * ListOffersRequest
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Replenishment.
+ * Selling Partner API for Replenishment
  *
  * The Selling Partner API for Replenishment (Replenishment API) provides programmatic access to replenishment program metrics and offers. These programs provide recurring delivery of any replenishable item at a frequency chosen by the customer.  The Replenishment API is available worldwide wherever Amazon Subscribe & Save is available or is supported. The API is available to vendors and FBA selling partners.
  *
@@ -30,117 +28,233 @@
 
 namespace SpApi\Model\replenishment\v2022_11_07;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ListOffersRequest Class Doc Comment.
+ * ListOffersRequest Class Doc Comment
  *
  * @category Class
- *
  * @description The request body for the &#x60;listOffers&#x60; operation.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ListOffersRequest implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ListOffersRequest implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ListOffersRequest';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'pagination' => '\SpApi\Model\replenishment\v2022_11_07\ListOffersRequestPagination',
-        'filters' => '\SpApi\Model\replenishment\v2022_11_07\ListOffersRequestFilters',
-        'sort' => '\SpApi\Model\replenishment\v2022_11_07\ListOffersRequestSort'];
+             'pagination' => '\SpApi\Model\replenishment\v2022_11_07\ListOffersRequestPagination',
+             'filters' => '\SpApi\Model\replenishment\v2022_11_07\ListOffersRequestFilters',
+             'sort' => '\SpApi\Model\replenishment\v2022_11_07\ListOffersRequestSort'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'pagination' => null,
-        'filters' => null,
-        'sort' => null];
+            'pagination' => null,
+            'filters' => null,
+            'sort' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'pagination' => false,
         'filters' => false,
-        'sort' => true,
+        'sort' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'pagination' => 'pagination',
-        'filters' => 'filters',
-        'sort' => 'sort',
+                'filters' => 'filters',
+                'sort' => 'sort'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
     protected static array $setters = [
         'pagination' => 'setPagination',
         'filters' => 'setFilters',
-        'sort' => 'setSort',
+        'sort' => 'setSort'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
     protected static array $getters = [
         'pagination' => 'getPagination',
         'filters' => 'getFilters',
-        'sort' => 'getSort',
+        'sort' => 'getSort'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -150,81 +264,21 @@ class ListOffersRequest implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -236,41 +290,45 @@ class ListOffersRequest implements ModelInterface, \ArrayAccess, \JsonSerializab
     {
         $invalidProperties = [];
 
-        if (null === $this->container['pagination']) {
+        if ($this->container['pagination'] === null) {
             $invalidProperties[] = "'pagination' can't be null";
         }
-        if (null === $this->container['filters']) {
+        if ($this->container['filters'] === null) {
             $invalidProperties[] = "'filters' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets pagination.
+     * Gets pagination
+     *
+     * @return \SpApi\Model\replenishment\v2022_11_07\ListOffersRequestPagination
      */
-    public function getPagination(): ListOffersRequestPagination
+    public function getPagination(): \SpApi\Model\replenishment\v2022_11_07\ListOffersRequestPagination
     {
         return $this->container['pagination'];
     }
 
     /**
-     * Sets pagination.
+     * Sets pagination
      *
-     * @param ListOffersRequestPagination $pagination pagination
+     * @param \SpApi\Model\replenishment\v2022_11_07\ListOffersRequestPagination $pagination pagination
+     *
+     * @return self
      */
-    public function setPagination(ListOffersRequestPagination $pagination): self
+    public function setPagination(\SpApi\Model\replenishment\v2022_11_07\ListOffersRequestPagination $pagination): self
     {
         if (is_null($pagination)) {
             throw new \InvalidArgumentException('non-nullable pagination cannot be null');
@@ -281,19 +339,23 @@ class ListOffersRequest implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets filters.
+     * Gets filters
+     *
+     * @return \SpApi\Model\replenishment\v2022_11_07\ListOffersRequestFilters
      */
-    public function getFilters(): ListOffersRequestFilters
+    public function getFilters(): \SpApi\Model\replenishment\v2022_11_07\ListOffersRequestFilters
     {
         return $this->container['filters'];
     }
 
     /**
-     * Sets filters.
+     * Sets filters
      *
-     * @param ListOffersRequestFilters $filters filters
+     * @param \SpApi\Model\replenishment\v2022_11_07\ListOffersRequestFilters $filters filters
+     *
+     * @return self
      */
-    public function setFilters(ListOffersRequestFilters $filters): self
+    public function setFilters(\SpApi\Model\replenishment\v2022_11_07\ListOffersRequestFilters $filters): self
     {
         if (is_null($filters)) {
             throw new \InvalidArgumentException('non-nullable filters cannot be null');
@@ -304,26 +366,30 @@ class ListOffersRequest implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets sort.
+     * Gets sort
+     *
+     * @return \SpApi\Model\replenishment\v2022_11_07\ListOffersRequestSort|null
      */
-    public function getSort(): ?ListOffersRequestSort
+    public function getSort(): ?\SpApi\Model\replenishment\v2022_11_07\ListOffersRequestSort
     {
         return $this->container['sort'];
     }
 
     /**
-     * Sets sort.
+     * Sets sort
      *
-     * @param null|ListOffersRequestSort $sort sort
+     * @param \SpApi\Model\replenishment\v2022_11_07\ListOffersRequestSort|null $sort sort
+     *
+     * @return self
      */
-    public function setSort(?ListOffersRequestSort $sort): self
+    public function setSort(?\SpApi\Model\replenishment\v2022_11_07\ListOffersRequestSort $sort): self
     {
         if (is_null($sort)) {
             array_push($this->openAPINullablesSetToNull, 'sort');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('sort', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -333,10 +399,13 @@ class ListOffersRequest implements ModelInterface, \ArrayAccess, \JsonSerializab
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -346,9 +415,9 @@ class ListOffersRequest implements ModelInterface, \ArrayAccess, \JsonSerializab
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -359,8 +428,10 @@ class ListOffersRequest implements ModelInterface, \ArrayAccess, \JsonSerializab
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -374,7 +445,9 @@ class ListOffersRequest implements ModelInterface, \ArrayAccess, \JsonSerializab
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -383,67 +456,39 @@ class ListOffersRequest implements ModelInterface, \ArrayAccess, \JsonSerializab
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

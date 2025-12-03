@@ -1,19 +1,17 @@
 <?php
-
 /**
- * RestrictedResource.
+ * RestrictedResource
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Tokens.
+ * Selling Partner API for Tokens
  *
  * The Selling Partner API for Tokens provides a secure way to access a customer's PII (Personally Identifiable Information). You can call the Tokens API to get a Restricted Data Token (RDT) for one or more restricted resources that you specify. The RDT authorizes subsequent calls to restricted operations that correspond to the restricted resources that you specified.  For more information, see the [Tokens API Use Case Guide](doc:tokens-api-use-case-guide).
  *
@@ -30,145 +28,76 @@
 
 namespace SpApi\Model\tokens\v2021_03_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * RestrictedResource Class Doc Comment.
+ * RestrictedResource Class Doc Comment
  *
  * @category Class
- *
  * @description Model of a restricted resource.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializable
+class RestrictedResource implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
-    public const METHOD_GET = 'GET';
-    public const METHOD_PUT = 'PUT';
-    public const METHOD_POST = 'POST';
-    public const METHOD_DELETE = 'DELETE';
-
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'RestrictedResource';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'method' => 'string',
-        'path' => 'string',
-        'data_elements' => 'string[]'];
+             'method' => 'string',
+             'path' => 'string',
+             'data_elements' => 'string[]'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'method' => null,
-        'path' => null,
-        'data_elements' => null];
+            'method' => null,
+            'path' => null,
+            'data_elements' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'method' => false,
         'path' => false,
-        'data_elements' => true,
+        'data_elements' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * Array of property to type mappings. Used for (de)serialization
      *
-     * @var string[]
-     */
-    protected static array $attributeMap = [
-        'method' => 'method',
-        'path' => 'path',
-        'data_elements' => 'dataElements',
-    ];
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     *
-     * @var string[]
-     */
-    protected static array $setters = [
-        'method' => 'setMethod',
-        'path' => 'setPath',
-        'data_elements' => 'setDataElements',
-    ];
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     *
-     * @var string[]
-     */
-    protected static array $getters = [
-        'method' => 'getMethod',
-        'path' => 'getPath',
-        'data_elements' => 'getDataElements',
-    ];
-
-    /**
-     * Associative array for storing property values.
-     */
-    protected array $container = [];
-
-    /**
-     * Constructor.
-     *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
-     */
-    public function __construct(?array $data = null)
-    {
-        $this->setIfExists('method', $data ?? [], null);
-        $this->setIfExists('path', $data ?? [], null);
-        $this->setIfExists('data_elements', $data ?? [], null);
-    }
-
-    /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
+     * @return array
      */
     public static function openAPITypes(): array
     {
@@ -176,7 +105,9 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
      */
     public static function openAPIFormats(): array
     {
@@ -184,7 +115,40 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Checks if a property is nullable.
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
      */
     public static function isNullable(string $property): bool
     {
@@ -193,6 +157,9 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
 
     /**
      * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -201,7 +168,44 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
 
     /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
+     *
+     * @var string[]
+     */
+    protected static array $attributeMap = [
+        'method' => 'method',
+                'path' => 'path',
+                'data_elements' => 'dataElements'
+        
+    ];
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @var string[]
+     */
+    protected static array $setters = [
+        'method' => 'setMethod',
+        'path' => 'setPath',
+        'data_elements' => 'setDataElements'
+    ];
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @var string[]
+     */
+    protected static array $getters = [
+        'method' => 'getMethod',
+        'path' => 'getPath',
+        'data_elements' => 'getDataElements'
+    ];
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
      */
     public static function attributeMap(): array
     {
@@ -209,7 +213,9 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
      */
     public static function setters(): array
     {
@@ -217,7 +223,9 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
      */
     public static function getters(): array
     {
@@ -226,14 +234,21 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
 
     /**
      * The original name of the model.
+     *
+     * @return string
      */
     public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
 
+    public const METHOD_GET = 'GET';
+    public const METHOD_PUT = 'PUT';
+    public const METHOD_POST = 'POST';
+    public const METHOD_DELETE = 'DELETE';
+
     /**
-     * Gets allowable values of the enum.
+     * Gets allowable values of the enum
      *
      * @return string[]
      */
@@ -248,6 +263,44 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
+     * Associative array for storing property values
+     *
+     * @var array
+     */
+    protected array $container = [];
+
+    /**
+     * Constructor
+     *
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->setIfExists('method', $data ?? [], null);
+        $this->setIfExists('path', $data ?? [], null);
+        $this->setIfExists('data_elements', $data ?? [], null);
+    }
+
+    /**
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
+    }
+
+    /**
      * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
@@ -256,7 +309,7 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     {
         $invalidProperties = [];
 
-        if (null === $this->container['method']) {
+        if ($this->container['method'] === null) {
             $invalidProperties[] = "'method' can't be null";
         }
         $allowedValues = $this->getMethodAllowableValues();
@@ -268,26 +321,28 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
             );
         }
 
-        if (null === $this->container['path']) {
+        if ($this->container['path'] === null) {
             $invalidProperties[] = "'path' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets method.
+     * Gets method
+     *
+     * @return string
      */
     public function getMethod(): string
     {
@@ -295,9 +350,11 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Sets method.
+     * Sets method
      *
-     * @param string $method the HTTP method in the restricted resource
+     * @param string $method The HTTP method in the restricted resource.
+     *
+     * @return self
      */
     public function setMethod(string $method): self
     {
@@ -320,7 +377,9 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets path.
+     * Gets path
+     *
+     * @return string
      */
     public function getPath(): string
     {
@@ -328,9 +387,11 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Sets path.
+     * Sets path
      *
      * @param string $path The path in the restricted resource. Here are some path examples: - ```/orders/v0/orders```. For getting an RDT for the getOrders operation of the Orders API. For bulk orders. - ```/orders/v0/orders/123-1234567-1234567```. For getting an RDT for the getOrder operation of the Orders API. For a specific order. - ```/orders/v0/orders/123-1234567-1234567/orderItems```. For getting an RDT for the getOrderItems operation of the Orders API. For the order items in a specific order. - ```/mfn/v0/shipments/FBA1234ABC5D```. For getting an RDT for the getShipment operation of the Shipping API. For a specific shipment. - ```/mfn/v0/shipments/{shipmentId}```. For getting an RDT for the getShipment operation of the Shipping API. For any of a selling partner's shipments that you specify when you call the getShipment operation.
+     *
+     * @return self
      */
     public function setPath(string $path): self
     {
@@ -343,7 +404,9 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets data_elements.
+     * Gets data_elements
+     *
+     * @return array|null
      */
     public function getDataElements(): ?array
     {
@@ -351,9 +414,11 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Sets data_elements.
+     * Sets data_elements
      *
-     * @param null|array $data_elements Indicates the type of Personally Identifiable Information requested. This parameter is required only when getting an RDT for use with the getOrder, getOrders, or getOrderItems operation of the Orders API. For more information, see the [Tokens API Use Case Guide](doc:tokens-api-use-case-guide). Possible values include: - **buyerInfo**. On the order level this includes general identifying information about the buyer and tax-related information. On the order item level this includes gift wrap information and custom order information, if available. - **shippingAddress**. This includes information for fulfilling orders. - **buyerTaxInformation**. This includes information for issuing tax invoices.
+     * @param array|null $data_elements Indicates the type of Personally Identifiable Information requested. This parameter is required only when getting an RDT for use with the getOrder, getOrders, or getOrderItems operation of the Orders API. For more information, see the [Tokens API Use Case Guide](doc:tokens-api-use-case-guide). Possible values include: - **buyerInfo**. On the order level this includes general identifying information about the buyer and tax-related information. On the order item level this includes gift wrap information and custom order information, if available. - **shippingAddress**. This includes information for fulfilling orders. - **buyerTaxInformation**. This includes information for issuing tax invoices.
+     *
+     * @return self
      */
     public function setDataElements(?array $data_elements): self
     {
@@ -362,7 +427,7 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('data_elements', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -372,10 +437,13 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -385,9 +453,9 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -398,8 +466,10 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -413,7 +483,9 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -422,67 +494,39 @@ class RestrictedResource implements ModelInterface, \ArrayAccess, \JsonSerializa
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

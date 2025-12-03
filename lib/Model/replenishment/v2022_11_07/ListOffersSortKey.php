@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ListOffersSortKey.
+ * ListOffersSortKey
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Replenishment.
+ * Selling Partner API for Replenishment
  *
  * The Selling Partner API for Replenishment (Replenishment API) provides programmatic access to replenishment program metrics and offers. These programs provide recurring delivery of any replenishable item at a frequency chosen by the customer.  The Replenishment API is available worldwide wherever Amazon Subscribe & Save is available or is supported. The API is available to vendors and FBA selling partners.
  *
@@ -29,22 +27,22 @@
  */
 
 namespace SpApi\Model\replenishment\v2022_11_07;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ListOffersSortKey Class Doc Comment.
+ * ListOffersSortKey Class Doc Comment
  *
  * @category Class
- *
  * @description The attribute to use to sort the results.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class ListOffersSortKey
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const ASIN = 'ASIN';
 
@@ -57,8 +55,7 @@ class ListOffersSortKey
     public const AMAZON_FUNDED_TIERED_DISCOUNT_PERCENTAGE = 'AMAZON_FUNDED_TIERED_DISCOUNT_PERCENTAGE';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
@@ -68,7 +65,9 @@ class ListOffersSortKey
             self::SELLING_PARTNER_FUNDED_BASE_DISCOUNT_PERCENTAGE,
             self::SELLING_PARTNER_FUNDED_TIERED_DISCOUNT_PERCENTAGE,
             self::AMAZON_FUNDED_BASE_DISCOUNT_PERCENTAGE,
-            self::AMAZON_FUNDED_TIERED_DISCOUNT_PERCENTAGE,
+            self::AMAZON_FUNDED_TIERED_DISCOUNT_PERCENTAGE
         ];
     }
 }
+
+

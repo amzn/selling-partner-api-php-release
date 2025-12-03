@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ReservedQuantity.
+ * ReservedQuantity
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for FBA Inventory.
+ * Selling Partner API for FBA Inventory
  *
  * The Selling Partner API for FBA Inventory lets you programmatically retrieve information about inventory in Amazon's fulfillment network.
  *
@@ -30,91 +28,163 @@
 
 namespace SpApi\Model\fba\inventory\v1;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ReservedQuantity Class Doc Comment.
+ * ReservedQuantity Class Doc Comment
  *
  * @category Class
- *
  * @description The quantity of reserved inventory.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ReservedQuantity implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ReservedQuantity';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'total_reserved_quantity' => 'int',
-        'pending_customer_order_quantity' => 'int',
-        'pending_transshipment_quantity' => 'int',
-        'fc_processing_quantity' => 'int'];
+             'total_reserved_quantity' => 'int',
+             'pending_customer_order_quantity' => 'int',
+             'pending_transshipment_quantity' => 'int',
+             'fc_processing_quantity' => 'int'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'total_reserved_quantity' => null,
-        'pending_customer_order_quantity' => null,
-        'pending_transshipment_quantity' => null,
-        'fc_processing_quantity' => null];
+            'total_reserved_quantity' => null,
+            'pending_customer_order_quantity' => null,
+            'pending_transshipment_quantity' => null,
+            'fc_processing_quantity' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'total_reserved_quantity' => true,
         'pending_customer_order_quantity' => true,
         'pending_transshipment_quantity' => true,
-        'fc_processing_quantity' => true,
+        'fc_processing_quantity' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'total_reserved_quantity' => 'totalReservedQuantity',
-        'pending_customer_order_quantity' => 'pendingCustomerOrderQuantity',
-        'pending_transshipment_quantity' => 'pendingTransshipmentQuantity',
-        'fc_processing_quantity' => 'fcProcessingQuantity',
+                'pending_customer_order_quantity' => 'pendingCustomerOrderQuantity',
+                'pending_transshipment_quantity' => 'pendingTransshipmentQuantity',
+                'fc_processing_quantity' => 'fcProcessingQuantity'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -122,11 +192,11 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
         'total_reserved_quantity' => 'setTotalReservedQuantity',
         'pending_customer_order_quantity' => 'setPendingCustomerOrderQuantity',
         'pending_transshipment_quantity' => 'setPendingTransshipmentQuantity',
-        'fc_processing_quantity' => 'setFcProcessingQuantity',
+        'fc_processing_quantity' => 'setFcProcessingQuantity'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -134,19 +204,63 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
         'total_reserved_quantity' => 'getTotalReservedQuantity',
         'pending_customer_order_quantity' => 'getPendingCustomerOrderQuantity',
         'pending_transshipment_quantity' => 'getPendingTransshipmentQuantity',
-        'fc_processing_quantity' => 'getFcProcessingQuantity',
+        'fc_processing_quantity' => 'getFcProcessingQuantity'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -157,81 +271,21 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -241,22 +295,27 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets total_reserved_quantity.
+     * Gets total_reserved_quantity
+     *
+     * @return int|null
      */
     public function getTotalReservedQuantity(): ?int
     {
@@ -264,9 +323,11 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets total_reserved_quantity.
+     * Sets total_reserved_quantity
      *
-     * @param null|int $total_reserved_quantity the total number of units in Amazon's fulfillment network that are currently being picked, packed, and shipped; or are sidelined for measurement, sampling, or other internal processes
+     * @param int|null $total_reserved_quantity The total number of units in Amazon's fulfillment network that are currently being picked, packed, and shipped; or are sidelined for measurement, sampling, or other internal processes.
+     *
+     * @return self
      */
     public function setTotalReservedQuantity(?int $total_reserved_quantity): self
     {
@@ -275,7 +336,7 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('total_reserved_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -286,7 +347,9 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets pending_customer_order_quantity.
+     * Gets pending_customer_order_quantity
+     *
+     * @return int|null
      */
     public function getPendingCustomerOrderQuantity(): ?int
     {
@@ -294,9 +357,11 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets pending_customer_order_quantity.
+     * Sets pending_customer_order_quantity
      *
-     * @param null|int $pending_customer_order_quantity the number of units reserved for customer orders
+     * @param int|null $pending_customer_order_quantity The number of units reserved for customer orders.
+     *
+     * @return self
      */
     public function setPendingCustomerOrderQuantity(?int $pending_customer_order_quantity): self
     {
@@ -305,7 +370,7 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('pending_customer_order_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -316,7 +381,9 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets pending_transshipment_quantity.
+     * Gets pending_transshipment_quantity
+     *
+     * @return int|null
      */
     public function getPendingTransshipmentQuantity(): ?int
     {
@@ -324,9 +391,11 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets pending_transshipment_quantity.
+     * Sets pending_transshipment_quantity
      *
-     * @param null|int $pending_transshipment_quantity the number of units being transferred from one fulfillment center to another
+     * @param int|null $pending_transshipment_quantity The number of units being transferred from one fulfillment center to another.
+     *
+     * @return self
      */
     public function setPendingTransshipmentQuantity(?int $pending_transshipment_quantity): self
     {
@@ -335,7 +404,7 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('pending_transshipment_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -346,7 +415,9 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets fc_processing_quantity.
+     * Gets fc_processing_quantity
+     *
+     * @return int|null
      */
     public function getFcProcessingQuantity(): ?int
     {
@@ -354,9 +425,11 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets fc_processing_quantity.
+     * Sets fc_processing_quantity
      *
-     * @param null|int $fc_processing_quantity the number of units that have been sidelined at the fulfillment center for additional processing
+     * @param int|null $fc_processing_quantity The number of units that have been sidelined at the fulfillment center for additional processing.
+     *
+     * @return self
      */
     public function setFcProcessingQuantity(?int $fc_processing_quantity): self
     {
@@ -365,7 +438,7 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('fc_processing_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -375,10 +448,13 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -388,9 +464,9 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -401,8 +477,10 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -416,7 +494,9 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -425,67 +505,39 @@ class ReservedQuantity implements ModelInterface, \ArrayAccess, \JsonSerializabl
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

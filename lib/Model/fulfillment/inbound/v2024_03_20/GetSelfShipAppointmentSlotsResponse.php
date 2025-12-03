@@ -1,15 +1,13 @@
 <?php
-
 /**
- * GetSelfShipAppointmentSlotsResponse.
+ * GetSelfShipAppointmentSlotsResponse
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
@@ -30,133 +28,73 @@
 
 namespace SpApi\Model\fulfillment\inbound\v2024_03_20;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * GetSelfShipAppointmentSlotsResponse Class Doc Comment.
+ * GetSelfShipAppointmentSlotsResponse Class Doc Comment
  *
  * @category Class
- *
  * @description The &#x60;getSelfShipAppointmentSlots&#x60; response.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAccess, \JsonSerializable
+class GetSelfShipAppointmentSlotsResponse implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'GetSelfShipAppointmentSlotsResponse';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'pagination' => '\SpApi\Model\fulfillment\inbound\v2024_03_20\Pagination',
-        'self_ship_appointment_slots_availability' => '\SpApi\Model\fulfillment\inbound\v2024_03_20\SelfShipAppointmentSlotsAvailability'];
+             'pagination' => '\SpApi\Model\fulfillment\inbound\v2024_03_20\Pagination',
+             'self_ship_appointment_slots_availability' => '\SpApi\Model\fulfillment\inbound\v2024_03_20\SelfShipAppointmentSlotsAvailability'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'pagination' => null,
-        'self_ship_appointment_slots_availability' => null];
+            'pagination' => null,
+            'self_ship_appointment_slots_availability' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'pagination' => true,
-        'self_ship_appointment_slots_availability' => false,
+        'self_ship_appointment_slots_availability' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * Array of property to type mappings. Used for (de)serialization
      *
-     * @var string[]
-     */
-    protected static array $attributeMap = [
-        'pagination' => 'pagination',
-        'self_ship_appointment_slots_availability' => 'selfShipAppointmentSlotsAvailability',
-    ];
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     *
-     * @var string[]
-     */
-    protected static array $setters = [
-        'pagination' => 'setPagination',
-        'self_ship_appointment_slots_availability' => 'setSelfShipAppointmentSlotsAvailability',
-    ];
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     *
-     * @var string[]
-     */
-    protected static array $getters = [
-        'pagination' => 'getPagination',
-        'self_ship_appointment_slots_availability' => 'getSelfShipAppointmentSlotsAvailability',
-    ];
-
-    /**
-     * Associative array for storing property values.
-     */
-    protected array $container = [];
-
-    /**
-     * Constructor.
-     *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
-     */
-    public function __construct(?array $data = null)
-    {
-        $this->setIfExists('pagination', $data ?? [], null);
-        $this->setIfExists('self_ship_appointment_slots_availability', $data ?? [], null);
-    }
-
-    /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
+     * @return array
      */
     public static function openAPITypes(): array
     {
@@ -164,7 +102,9 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
      */
     public static function openAPIFormats(): array
     {
@@ -172,7 +112,40 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
     }
 
     /**
-     * Checks if a property is nullable.
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
      */
     public static function isNullable(string $property): bool
     {
@@ -181,6 +154,9 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
 
     /**
      * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -189,7 +165,41 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
 
     /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
+     *
+     * @var string[]
+     */
+    protected static array $attributeMap = [
+        'pagination' => 'pagination',
+                'self_ship_appointment_slots_availability' => 'selfShipAppointmentSlotsAvailability'
+        
+    ];
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @var string[]
+     */
+    protected static array $setters = [
+        'pagination' => 'setPagination',
+        'self_ship_appointment_slots_availability' => 'setSelfShipAppointmentSlotsAvailability'
+    ];
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @var string[]
+     */
+    protected static array $getters = [
+        'pagination' => 'getPagination',
+        'self_ship_appointment_slots_availability' => 'getSelfShipAppointmentSlotsAvailability'
+    ];
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
      */
     public static function attributeMap(): array
     {
@@ -197,7 +207,9 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
      */
     public static function setters(): array
     {
@@ -205,7 +217,9 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
      */
     public static function getters(): array
     {
@@ -214,10 +228,50 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
 
     /**
      * The original name of the model.
+     *
+     * @return string
      */
     public function getModelName(): string
     {
         return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
+     */
+    protected array $container = [];
+
+    /**
+     * Constructor
+     *
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->setIfExists('pagination', $data ?? [], null);
+        $this->setIfExists('self_ship_appointment_slots_availability', $data ?? [], null);
+    }
+
+    /**
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -229,45 +283,49 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
     {
         $invalidProperties = [];
 
-        if (null === $this->container['self_ship_appointment_slots_availability']) {
+        if ($this->container['self_ship_appointment_slots_availability'] === null) {
             $invalidProperties[] = "'self_ship_appointment_slots_availability' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets pagination.
+     * Gets pagination
+     *
+     * @return \SpApi\Model\fulfillment\inbound\v2024_03_20\Pagination|null
      */
-    public function getPagination(): ?Pagination
+    public function getPagination(): ?\SpApi\Model\fulfillment\inbound\v2024_03_20\Pagination
     {
         return $this->container['pagination'];
     }
 
     /**
-     * Sets pagination.
+     * Sets pagination
      *
-     * @param null|Pagination $pagination pagination
+     * @param \SpApi\Model\fulfillment\inbound\v2024_03_20\Pagination|null $pagination pagination
+     *
+     * @return self
      */
-    public function setPagination(?Pagination $pagination): self
+    public function setPagination(?\SpApi\Model\fulfillment\inbound\v2024_03_20\Pagination $pagination): self
     {
         if (is_null($pagination)) {
             array_push($this->openAPINullablesSetToNull, 'pagination');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('pagination', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -278,19 +336,23 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
     }
 
     /**
-     * Gets self_ship_appointment_slots_availability.
+     * Gets self_ship_appointment_slots_availability
+     *
+     * @return \SpApi\Model\fulfillment\inbound\v2024_03_20\SelfShipAppointmentSlotsAvailability
      */
-    public function getSelfShipAppointmentSlotsAvailability(): SelfShipAppointmentSlotsAvailability
+    public function getSelfShipAppointmentSlotsAvailability(): \SpApi\Model\fulfillment\inbound\v2024_03_20\SelfShipAppointmentSlotsAvailability
     {
         return $this->container['self_ship_appointment_slots_availability'];
     }
 
     /**
-     * Sets self_ship_appointment_slots_availability.
+     * Sets self_ship_appointment_slots_availability
      *
-     * @param SelfShipAppointmentSlotsAvailability $self_ship_appointment_slots_availability self_ship_appointment_slots_availability
+     * @param \SpApi\Model\fulfillment\inbound\v2024_03_20\SelfShipAppointmentSlotsAvailability $self_ship_appointment_slots_availability self_ship_appointment_slots_availability
+     *
+     * @return self
      */
-    public function setSelfShipAppointmentSlotsAvailability(SelfShipAppointmentSlotsAvailability $self_ship_appointment_slots_availability): self
+    public function setSelfShipAppointmentSlotsAvailability(\SpApi\Model\fulfillment\inbound\v2024_03_20\SelfShipAppointmentSlotsAvailability $self_ship_appointment_slots_availability): self
     {
         if (is_null($self_ship_appointment_slots_availability)) {
             throw new \InvalidArgumentException('non-nullable self_ship_appointment_slots_availability cannot be null');
@@ -300,10 +362,13 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -313,9 +378,9 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -326,8 +391,10 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -341,7 +408,9 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -350,67 +419,39 @@ class GetSelfShipAppointmentSlotsResponse implements ModelInterface, \ArrayAcces
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

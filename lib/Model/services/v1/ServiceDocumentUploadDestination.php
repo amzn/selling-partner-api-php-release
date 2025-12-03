@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ServiceDocumentUploadDestination.
+ * ServiceDocumentUploadDestination
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Services.
+ * Selling Partner API for Services
  *
  * With the Services API, you can build applications that help service providers get and modify their service orders and manage their resources.
  *
@@ -30,91 +28,163 @@
 
 namespace SpApi\Model\services\v1;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ServiceDocumentUploadDestination Class Doc Comment.
+ * ServiceDocumentUploadDestination Class Doc Comment
  *
  * @category Class
- *
  * @description Information about an upload destination.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ServiceDocumentUploadDestination implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ServiceDocumentUploadDestination';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'upload_destination_id' => 'string',
-        'url' => 'string',
-        'encryption_details' => '\SpApi\Model\services\v1\EncryptionDetails',
-        'headers' => 'object'];
+             'upload_destination_id' => 'string',
+             'url' => 'string',
+             'encryption_details' => '\SpApi\Model\services\v1\EncryptionDetails',
+             'headers' => 'object'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'upload_destination_id' => null,
-        'url' => null,
-        'encryption_details' => null,
-        'headers' => null];
+            'upload_destination_id' => null,
+            'url' => null,
+            'encryption_details' => null,
+            'headers' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'upload_destination_id' => false,
         'url' => false,
         'encryption_details' => false,
-        'headers' => true,
+        'headers' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'upload_destination_id' => 'uploadDestinationId',
-        'url' => 'url',
-        'encryption_details' => 'encryptionDetails',
-        'headers' => 'headers',
+                'url' => 'url',
+                'encryption_details' => 'encryptionDetails',
+                'headers' => 'headers'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -122,11 +192,11 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
         'upload_destination_id' => 'setUploadDestinationId',
         'url' => 'setUrl',
         'encryption_details' => 'setEncryptionDetails',
-        'headers' => 'setHeaders',
+        'headers' => 'setHeaders'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -134,19 +204,63 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
         'upload_destination_id' => 'getUploadDestinationId',
         'url' => 'getUrl',
         'encryption_details' => 'getEncryptionDetails',
-        'headers' => 'getHeaders',
+        'headers' => 'getHeaders'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -157,81 +271,21 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -243,32 +297,34 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     {
         $invalidProperties = [];
 
-        if (null === $this->container['upload_destination_id']) {
+        if ($this->container['upload_destination_id'] === null) {
             $invalidProperties[] = "'upload_destination_id' can't be null";
         }
-        if (null === $this->container['url']) {
+        if ($this->container['url'] === null) {
             $invalidProperties[] = "'url' can't be null";
         }
-        if (null === $this->container['encryption_details']) {
+        if ($this->container['encryption_details'] === null) {
             $invalidProperties[] = "'encryption_details' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets upload_destination_id.
+     * Gets upload_destination_id
+     *
+     * @return string
      */
     public function getUploadDestinationId(): string
     {
@@ -276,9 +332,11 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Sets upload_destination_id.
+     * Sets upload_destination_id
      *
-     * @param string $upload_destination_id the unique identifier to be used by APIs that reference the upload destination
+     * @param string $upload_destination_id The unique identifier to be used by APIs that reference the upload destination.
+     *
+     * @return self
      */
     public function setUploadDestinationId(string $upload_destination_id): self
     {
@@ -291,7 +349,9 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets url.
+     * Gets url
+     *
+     * @return string
      */
     public function getUrl(): string
     {
@@ -299,9 +359,11 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Sets url.
+     * Sets url
      *
-     * @param string $url the URL to which to upload the file
+     * @param string $url The URL to which to upload the file.
+     *
+     * @return self
      */
     public function setUrl(string $url): self
     {
@@ -314,19 +376,23 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets encryption_details.
+     * Gets encryption_details
+     *
+     * @return \SpApi\Model\services\v1\EncryptionDetails
      */
-    public function getEncryptionDetails(): EncryptionDetails
+    public function getEncryptionDetails(): \SpApi\Model\services\v1\EncryptionDetails
     {
         return $this->container['encryption_details'];
     }
 
     /**
-     * Sets encryption_details.
+     * Sets encryption_details
      *
-     * @param EncryptionDetails $encryption_details encryption_details
+     * @param \SpApi\Model\services\v1\EncryptionDetails $encryption_details encryption_details
+     *
+     * @return self
      */
-    public function setEncryptionDetails(EncryptionDetails $encryption_details): self
+    public function setEncryptionDetails(\SpApi\Model\services\v1\EncryptionDetails $encryption_details): self
     {
         if (is_null($encryption_details)) {
             throw new \InvalidArgumentException('non-nullable encryption_details cannot be null');
@@ -337,7 +403,9 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets headers.
+     * Gets headers
+     *
+     * @return object|null
      */
     public function getHeaders(): ?object
     {
@@ -345,9 +413,11 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Sets headers.
+     * Sets headers
      *
-     * @param null|object $headers the headers to include in the upload request
+     * @param object|null $headers The headers to include in the upload request.
+     *
+     * @return self
      */
     public function setHeaders(?object $headers): self
     {
@@ -356,7 +426,7 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('headers', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -366,10 +436,13 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -379,9 +452,9 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -392,8 +465,10 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -407,7 +482,9 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -416,67 +493,39 @@ class ServiceDocumentUploadDestination implements ModelInterface, \ArrayAccess, 
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

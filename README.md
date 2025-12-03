@@ -1,16 +1,6 @@
 ## PHP SDK for Selling Partner API
-[![Packagist](https://img.shields.io/packagist/v/amzn-spapi/sdk?label=Packagist)](https://packagist.org/packages/amzn-spapi/sdk)
-
-[![Video Thumbnail](https://raw.githubusercontent.com/amzn/selling-partner-api-sdk/refs/heads/main/php/docs/video-thumbnail.png)](https://www.youtube.com/watch?v=ZxG7wvmelj0)
-
-*Click on the image to watch the video.*
 
 The Selling Partner API SDK for PHP enables you to easily connect your PHP application to Amazon's REST-based SP-API.
-
-This SDK helps developers:
-- Authenticate with Amazon's Selling Partner API (SP-API)
-- Send and receive data using RESTful endpoints
-- Manage Amazon marketplace operations programmatically
 
 * [Learn more about SP-API](https://developer.amazonservices.com/)
 * [API Documentation](https://developer-docs.amazon.com/sp-api/)
@@ -27,15 +17,11 @@ If you are already registered successfully, you can find instructions on how to 
 
 ### Minimum Requirements
 
-To run the SDK you need PHP 8.3 or higher.
+To run the SDK you need PHP 7.4 or higher.
 
 
-### Installation
-Install the SDK via Composer:
-```command
-composer require amzn-spapi/sdk
-```
 ### Manual Installation
+
 By using the download files, composer dependencies are already installed. You only need to include `autoload.php`:
 
 ```php
@@ -55,8 +41,9 @@ In order to call one of the APIs included in the Selling Partner API, you need t
 require_once(__DIR__ . '/vendor/autoload.php');
 
 use SpApi\AuthAndAuth\LWAAuthorizationCredentials;
+use SpApi\AuthAndAuth\LWAAuthorizationSigner;
+use SpApi\Api\OrdersApi;
 use SpApi\Configuration;
-use SpApi\Api\orders\v0\OrdersV0Api;
 
 
 // Set up LWA credentials
@@ -67,7 +54,8 @@ $lwaAuthorizationCredentials = new LWAAuthorizationCredentials([
 "endpoint" => "https://api.amazon.com/auth/o2/token"
 ]);
 
-//Initialize config
+// Initialize LWAAuthorizationSigner instance
+$lwaAuthorizationSigner = new LWAAuthorizationSigner($lwaAuthorizationCredentials);
 $config = new Configuration([], $lwaAuthorizationCredentials);
 
 // Setting SP-API endpoint region
@@ -77,93 +65,32 @@ $config->setHost('https://sellingpartnerapi-na.amazon.com');
 $client = new GuzzleHttp\Client();
 
 // Create an instance of the Orders Api
-$api = new OrdersV0Api($config, $client);
+$api = new OrdersApi($config, null, $client);
 
 try {
-    // Call getOrders
-    $result = $api->getOrders(
-        $marketplace_ids = ['ATVPDKIKX0DER'],
-        $created_after = '2025-01-01'
-    );
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling OrderApi->getOrders: ', $e->getMessage(), PHP_EOL;
-}
-```
-
-### Built-in rate limiter
-
-The SDK comes with a built-in rate limiter. In case you hit a certain rate limit, calling an operation will throw `RateLimitExceededException`. Catch this exception and handle it appropriately.
-By default, a standard rate limit configuration is applied. You can find the current rate limit configuration for each API on a dedicated page in the documention (e.g. for [Listings Items API](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-rate-limits)).
-
-It is possible to disable the built-in rate limiter by setting `rateLimiterEnabled` to `false` when instantiating a API instance:
-```php
-$api = new OrdersV0Api($config, $client, false);
-```
-
-It is also possible to override the default rate limit configuration. This has to be done after the API instance has been created and for each operation separately:
-```php
-$rateLimitConfiguration = [
-    'id' => 'spApi',
-    'policy' => 'token_bucket',
-    'limit' => 5, // capacity of bucket
-    'rate' => [ // refill rate
-        'interval' => '1 second',
-        'amount' => 50
-    ],
-];
-
-$factory = new RateLimiterFactory($rateLimitConfiguration, new InMemoryStorage());
-$api->getOrderRateLimiter = $factory->create("<insert-unique-id>"); // Use unique id in create-method
-```
-### Restricted Data Token (RDT) Support
-
-The SDK provides built-in support for working with Restricted Data Tokens (RDTs), which are required to access personally identifiable information (PII) in [certain API operations](https://developer-docs.amazon.com/sp-api/docs/tokens-api-use-case-guide#restricted-operations).
-
-To use Restricted Data Token with the SDK:
-
-1. **Request an RDT token** using the Tokens API.
-
-```php
-// Create a restricted resource
-$resource = new RestrictedResource();
-$resource->setMethod('GET');
-$resource->setPath('/orders/v0/orders');
-$resource->setDataElements([
-    'buyerInfo',
-    'shippingAddress'
-]);
-
-// Get a Restricted Data Token
-$tokensApi = new TokensApi($config);
-$request = new CreateRestrictedDataTokenRequest();
-$request->setRestrictedResources([$resource]);
-$response = $tokensApi->createRestrictedDataToken($request);
-$rdtToken = $response->getRestrictedDataToken();
-```
-2. Use the token when calling restricted operations:
-
-```php
-// Pass the RDT token to the API call
-$response = $ordersApi->getOrders(
-    ['ATVPDKIKX0DER'],  // marketplace_ids
-    '2023-01-01T00:00:00Z',  // createdAfter
-    null,  // createdBefore
-    null,  // lastUpdatedAfter
-    null,  // lastUpdatedBefore
-    ['Shipped'],  // orderStatuses
-    restrictedDataToken: $rdtToken  // Pass RDT token
+// Call getOrders
+$result = $api->getOrders(
+$marketplace_ids = ['ATVPDKIKX0DER'],
+$created_after = '2024-01-01'
 );
+print_r($result);
+} catch (Exception $e) {
+echo 'Exception when calling OrderApi->getOrders: ', $e->getMessage(), PHP_EOL;
+}
+
+
+
 ```
-Check the full implementation [example](https://github.com/amzn/selling-partner-api-sdk/tree/main/php/examples/getOrdersWithRestrictedDataToken.php). If you pass the Restricted Data Token to operations which does not require it, the SDK will return an exception error. `Operation does not require a Restricted Data Token (RDT). Remove the RDT parameter for non-restricted operations.`
 
 ### Giving Feedback
 
-### Feedback and Contributions
+We need your help in making this SDK great. Please participate in the community and contribute to this effort by submitting issues, participating in discussion forums and submitting pull requests through the following channels:
 
-Your feedback is invaluable in improving this SDK! You can contribute by:
+Submit [issues][sdk-issues] - this is the preferred channel to interact with our team
+Articulate your feature request or upvote existing ones on our [Issues][sdk-issues] page
 
-- Reporting issues: [Submit an issue](https://github.com/amzn/selling-partner-api-sdk/issues/new/choose)
+[sdk-issues]: https://github.com/amzn/selling-partner-api-sdk/issues
+
 
 
 ## Disclaimer

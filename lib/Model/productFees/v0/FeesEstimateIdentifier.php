@@ -1,19 +1,17 @@
 <?php
-
 /**
- * FeesEstimateIdentifier.
+ * FeesEstimateIdentifier
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Product Fees.
+ * Selling Partner API for Product Fees
  *
  * The Selling Partner API for Product Fees lets you programmatically retrieve estimated fees for a product. You can then account for those fees in your pricing.
  *
@@ -30,70 +28,69 @@
 
 namespace SpApi\Model\productFees\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * FeesEstimateIdentifier Class Doc Comment.
+ * FeesEstimateIdentifier Class Doc Comment
  *
  * @category Class
- *
  * @description An item identifier, marketplace, time of request, and other details that identify an estimate.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSerializable
+class FeesEstimateIdentifier implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'FeesEstimateIdentifier';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'marketplace_id' => 'string',
-        'seller_id' => 'string',
-        'id_type' => '\SpApi\Model\productFees\v0\IdType',
-        'id_value' => 'string',
-        'is_amazon_fulfilled' => 'bool',
-        'price_to_estimate_fees' => '\SpApi\Model\productFees\v0\PriceToEstimateFees',
-        'seller_input_identifier' => 'string',
-        'optional_fulfillment_program' => '\SpApi\Model\productFees\v0\OptionalFulfillmentProgram'];
+             'marketplace_id' => 'string',
+             'seller_id' => 'string',
+             'id_type' => '\SpApi\Model\productFees\v0\IdType',
+             'id_value' => 'string',
+             'is_amazon_fulfilled' => 'bool',
+             'price_to_estimate_fees' => '\SpApi\Model\productFees\v0\PriceToEstimateFees',
+             'seller_input_identifier' => 'string',
+             'optional_fulfillment_program' => '\SpApi\Model\productFees\v0\OptionalFulfillmentProgram'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'marketplace_id' => null,
-        'seller_id' => null,
-        'id_type' => null,
-        'id_value' => null,
-        'is_amazon_fulfilled' => null,
-        'price_to_estimate_fees' => null,
-        'seller_input_identifier' => null,
-        'optional_fulfillment_program' => null];
+            'marketplace_id' => null,
+            'seller_id' => null,
+            'id_type' => null,
+            'id_value' => null,
+            'is_amazon_fulfilled' => null,
+            'price_to_estimate_fees' => null,
+            'seller_input_identifier' => null,
+            'optional_fulfillment_program' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'marketplace_id' => true,
         'seller_id' => true,
@@ -102,35 +99,108 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         'is_amazon_fulfilled' => true,
         'price_to_estimate_fees' => true,
         'seller_input_identifier' => true,
-        'optional_fulfillment_program' => true,
+        'optional_fulfillment_program' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'marketplace_id' => 'MarketplaceId',
-        'seller_id' => 'SellerId',
-        'id_type' => 'IdType',
-        'id_value' => 'IdValue',
-        'is_amazon_fulfilled' => 'IsAmazonFulfilled',
-        'price_to_estimate_fees' => 'PriceToEstimateFees',
-        'seller_input_identifier' => 'SellerInputIdentifier',
-        'optional_fulfillment_program' => 'OptionalFulfillmentProgram',
+                'seller_id' => 'SellerId',
+                'id_type' => 'IdType',
+                'id_value' => 'IdValue',
+                'is_amazon_fulfilled' => 'IsAmazonFulfilled',
+                'price_to_estimate_fees' => 'PriceToEstimateFees',
+                'seller_input_identifier' => 'SellerInputIdentifier',
+                'optional_fulfillment_program' => 'OptionalFulfillmentProgram'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -142,11 +212,11 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         'is_amazon_fulfilled' => 'setIsAmazonFulfilled',
         'price_to_estimate_fees' => 'setPriceToEstimateFees',
         'seller_input_identifier' => 'setSellerInputIdentifier',
-        'optional_fulfillment_program' => 'setOptionalFulfillmentProgram',
+        'optional_fulfillment_program' => 'setOptionalFulfillmentProgram'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -158,19 +228,63 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         'is_amazon_fulfilled' => 'getIsAmazonFulfilled',
         'price_to_estimate_fees' => 'getPriceToEstimateFees',
         'seller_input_identifier' => 'getSellerInputIdentifier',
-        'optional_fulfillment_program' => 'getOptionalFulfillmentProgram',
+        'optional_fulfillment_program' => 'getOptionalFulfillmentProgram'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -185,81 +299,21 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -269,22 +323,27 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets marketplace_id.
+     * Gets marketplace_id
+     *
+     * @return string|null
      */
     public function getMarketplaceId(): ?string
     {
@@ -292,9 +351,11 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets marketplace_id.
+     * Sets marketplace_id
      *
-     * @param null|string $marketplace_id a marketplace identifier
+     * @param string|null $marketplace_id A marketplace identifier.
+     *
+     * @return self
      */
     public function setMarketplaceId(?string $marketplace_id): self
     {
@@ -303,7 +364,7 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('marketplace_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -314,7 +375,9 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets seller_id.
+     * Gets seller_id
+     *
+     * @return string|null
      */
     public function getSellerId(): ?string
     {
@@ -322,9 +385,11 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets seller_id.
+     * Sets seller_id
      *
-     * @param null|string $seller_id the seller identifier
+     * @param string|null $seller_id The seller identifier.
+     *
+     * @return self
      */
     public function setSellerId(?string $seller_id): self
     {
@@ -333,7 +398,7 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('seller_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -344,7 +409,9 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets id_type.
+     * Gets id_type
+     *
+     * @return string|null
      */
     public function getIdType(): ?string
     {
@@ -352,9 +419,11 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets id_type.
+     * Sets id_type
      *
-     * @param null|string $id_type id_type
+     * @param string|null $id_type id_type
+     *
+     * @return self
      */
     public function setIdType(?string $id_type): self
     {
@@ -363,7 +432,7 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('id_type', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -374,7 +443,9 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets id_value.
+     * Gets id_value
+     *
+     * @return string|null
      */
     public function getIdValue(): ?string
     {
@@ -382,9 +453,11 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets id_value.
+     * Sets id_value
      *
-     * @param null|string $id_value the item identifier
+     * @param string|null $id_value The item identifier.
+     *
+     * @return self
      */
     public function setIdValue(?string $id_value): self
     {
@@ -393,7 +466,7 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('id_value', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -404,7 +477,9 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets is_amazon_fulfilled.
+     * Gets is_amazon_fulfilled
+     *
+     * @return bool|null
      */
     public function getIsAmazonFulfilled(): ?bool
     {
@@ -412,9 +487,11 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets is_amazon_fulfilled.
+     * Sets is_amazon_fulfilled
      *
-     * @param null|bool $is_amazon_fulfilled when true, the offer is fulfilled by Amazon
+     * @param bool|null $is_amazon_fulfilled When true, the offer is fulfilled by Amazon.
+     *
+     * @return self
      */
     public function setIsAmazonFulfilled(?bool $is_amazon_fulfilled): self
     {
@@ -423,7 +500,7 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('is_amazon_fulfilled', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -434,26 +511,30 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets price_to_estimate_fees.
+     * Gets price_to_estimate_fees
+     *
+     * @return \SpApi\Model\productFees\v0\PriceToEstimateFees|null
      */
-    public function getPriceToEstimateFees(): ?PriceToEstimateFees
+    public function getPriceToEstimateFees(): ?\SpApi\Model\productFees\v0\PriceToEstimateFees
     {
         return $this->container['price_to_estimate_fees'];
     }
 
     /**
-     * Sets price_to_estimate_fees.
+     * Sets price_to_estimate_fees
      *
-     * @param null|PriceToEstimateFees $price_to_estimate_fees price_to_estimate_fees
+     * @param \SpApi\Model\productFees\v0\PriceToEstimateFees|null $price_to_estimate_fees price_to_estimate_fees
+     *
+     * @return self
      */
-    public function setPriceToEstimateFees(?PriceToEstimateFees $price_to_estimate_fees): self
+    public function setPriceToEstimateFees(?\SpApi\Model\productFees\v0\PriceToEstimateFees $price_to_estimate_fees): self
     {
         if (is_null($price_to_estimate_fees)) {
             array_push($this->openAPINullablesSetToNull, 'price_to_estimate_fees');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('price_to_estimate_fees', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -464,7 +545,9 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets seller_input_identifier.
+     * Gets seller_input_identifier
+     *
+     * @return string|null
      */
     public function getSellerInputIdentifier(): ?string
     {
@@ -472,9 +555,11 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets seller_input_identifier.
+     * Sets seller_input_identifier
      *
-     * @param null|string $seller_input_identifier a unique identifier provided by the caller to track this request
+     * @param string|null $seller_input_identifier A unique identifier provided by the caller to track this request.
+     *
+     * @return self
      */
     public function setSellerInputIdentifier(?string $seller_input_identifier): self
     {
@@ -483,7 +568,7 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('seller_input_identifier', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -494,7 +579,9 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets optional_fulfillment_program.
+     * Gets optional_fulfillment_program
+     *
+     * @return string|null
      */
     public function getOptionalFulfillmentProgram(): ?string
     {
@@ -502,9 +589,11 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets optional_fulfillment_program.
+     * Sets optional_fulfillment_program
      *
-     * @param null|string $optional_fulfillment_program optional_fulfillment_program
+     * @param string|null $optional_fulfillment_program optional_fulfillment_program
+     *
+     * @return self
      */
     public function setOptionalFulfillmentProgram(?string $optional_fulfillment_program): self
     {
@@ -513,7 +602,7 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('optional_fulfillment_program', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -523,10 +612,13 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -536,9 +628,9 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -549,8 +641,10 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -564,7 +658,9 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -573,67 +669,39 @@ class FeesEstimateIdentifier implements ModelInterface, \ArrayAccess, \JsonSeria
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

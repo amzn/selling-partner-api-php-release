@@ -1,19 +1,18 @@
 <?php
 
 /**
- * ModelInterface.
+ * ModelInterface
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi\Model\vehicles\v2024_11_01
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API.
+ * Selling Partner API
  *
  * The Selling Partner API enables developers to programmatically retrieve information from various domains.
  * These APIs provide tools for building fast, flexible, and custom applications,
@@ -34,58 +33,81 @@ namespace SpApi\Model;
 /**
  * Interface abstracting model access.
  *
+ * @package SpApi\Model\vehicles\v2024_11_01
  * @author  OpenAPI Generator team
  */
 interface ModelInterface
 {
     /**
      * The original name of the model.
+     *
+     * @return string
      */
     public function getModelName(): string;
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
      */
     public static function openAPITypes(): array;
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
      */
     public static function openAPIFormats(): array;
 
     /**
-     * Array of attributes where the key is the local name, and the value is the original name.
+     * Array of attributes where the key is the local name, and the value is the original name
+     *
+     * @return array
      */
     public static function attributeMap(): array;
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
      */
     public static function setters(): array;
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
      */
     public static function getters(): array;
 
     /**
      * Show all the invalid properties with reasons.
+     *
+     * @return array
      */
     public function listInvalidProperties(): array;
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
+     *
+     * @return bool
      */
     public function valid(): bool;
 
     /**
-     * Checks if a property is nullable.
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
      */
     public static function isNullable(string $property): bool;
 
     /**
      * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
      */
     public function isNullableSetToNull(string $property): bool;
 }

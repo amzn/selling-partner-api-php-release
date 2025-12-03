@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ContentMetadata.
+ * ContentMetadata
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for A+ Content Management.
+ * Selling Partner API for A+ Content Management
  *
  * Use the A+ Content API to build applications that help selling partners add rich marketing content to their Amazon product detail pages. Selling partners can use A+ content to share their brand and product story, which helps buyers make informed purchasing decisions. Selling partners use content modules to add images and text.
  *
@@ -30,95 +28,167 @@
 
 namespace SpApi\Model\aplusContent\v2020_11_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ContentMetadata Class Doc Comment.
+ * ContentMetadata Class Doc Comment
  *
  * @category Class
- *
  * @description The A+ Content document&#39;s metadata.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ContentMetadata implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ContentMetadata';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'name' => 'string',
-        'marketplace_id' => 'string',
-        'status' => '\SpApi\Model\aplusContent\v2020_11_01\ContentStatus',
-        'badge_set' => '\SpApi\Model\aplusContent\v2020_11_01\ContentBadge[]',
-        'update_time' => '\DateTime'];
+             'name' => 'string',
+             'marketplace_id' => 'string',
+             'status' => '\SpApi\Model\aplusContent\v2020_11_01\ContentStatus',
+             'badge_set' => '\SpApi\Model\aplusContent\v2020_11_01\ContentBadge[]',
+             'update_time' => '\DateTime'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'name' => null,
-        'marketplace_id' => null,
-        'status' => null,
-        'badge_set' => null,
-        'update_time' => 'date-time'];
+            'name' => null,
+            'marketplace_id' => null,
+            'status' => null,
+            'badge_set' => null,
+            'update_time' => 'date-time'    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'name' => false,
         'marketplace_id' => false,
         'status' => false,
         'badge_set' => false,
-        'update_time' => false,
+        'update_time' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'name' => 'name',
-        'marketplace_id' => 'marketplaceId',
-        'status' => 'status',
-        'badge_set' => 'badgeSet',
-        'update_time' => 'updateTime',
+                'marketplace_id' => 'marketplaceId',
+                'status' => 'status',
+                'badge_set' => 'badgeSet',
+                'update_time' => 'updateTime'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -127,11 +197,11 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
         'marketplace_id' => 'setMarketplaceId',
         'status' => 'setStatus',
         'badge_set' => 'setBadgeSet',
-        'update_time' => 'setUpdateTime',
+        'update_time' => 'setUpdateTime'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -140,19 +210,63 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
         'marketplace_id' => 'getMarketplaceId',
         'status' => 'getStatus',
         'badge_set' => 'getBadgeSet',
-        'update_time' => 'getUpdateTime',
+        'update_time' => 'getUpdateTime'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -164,81 +278,21 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -250,50 +304,52 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
-        if (null === $this->container['name']) {
+        if ($this->container['name'] === null) {
             $invalidProperties[] = "'name' can't be null";
         }
-        if (mb_strlen($this->container['name']) > 100) {
+        if ((mb_strlen($this->container['name']) > 100)) {
             $invalidProperties[] = "invalid value for 'name', the character length must be smaller than or equal to 100.";
         }
 
-        if (mb_strlen($this->container['name']) < 1) {
+        if ((mb_strlen($this->container['name']) < 1)) {
             $invalidProperties[] = "invalid value for 'name', the character length must be bigger than or equal to 1.";
         }
 
-        if (null === $this->container['marketplace_id']) {
+        if ($this->container['marketplace_id'] === null) {
             $invalidProperties[] = "'marketplace_id' can't be null";
         }
-        if (mb_strlen($this->container['marketplace_id']) < 1) {
+        if ((mb_strlen($this->container['marketplace_id']) < 1)) {
             $invalidProperties[] = "invalid value for 'marketplace_id', the character length must be bigger than or equal to 1.";
         }
 
-        if (null === $this->container['status']) {
+        if ($this->container['status'] === null) {
             $invalidProperties[] = "'status' can't be null";
         }
-        if (null === $this->container['badge_set']) {
+        if ($this->container['badge_set'] === null) {
             $invalidProperties[] = "'badge_set' can't be null";
         }
-        if (null === $this->container['update_time']) {
+        if ($this->container['update_time'] === null) {
             $invalidProperties[] = "'update_time' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets name.
+     * Gets name
+     *
+     * @return string
      */
     public function getName(): string
     {
@@ -301,19 +357,21 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets name.
+     * Sets name
      *
-     * @param string $name the A+ Content document's name
+     * @param string $name The A+ Content document's name.
+     *
+     * @return self
      */
     public function setName(string $name): self
     {
         if (is_null($name)) {
             throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
-        if (mb_strlen($name) > 100) {
+        if ((mb_strlen($name) > 100)) {
             throw new \InvalidArgumentException('invalid length for $name when calling ContentMetadata., must be smaller than or equal to 100.');
         }
-        if (mb_strlen($name) < 1) {
+        if ((mb_strlen($name) < 1)) {
             throw new \InvalidArgumentException('invalid length for $name when calling ContentMetadata., must be bigger than or equal to 1.');
         }
 
@@ -323,7 +381,9 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets marketplace_id.
+     * Gets marketplace_id
+     *
+     * @return string
      */
     public function getMarketplaceId(): string
     {
@@ -331,9 +391,11 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets marketplace_id.
+     * Sets marketplace_id
      *
      * @param string $marketplace_id The marketplace ID is the globally unique identifier of a marketplace. To find the ID for your marketplace, refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids).
+     *
+     * @return self
      */
     public function setMarketplaceId(string $marketplace_id): self
     {
@@ -341,7 +403,7 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable marketplace_id cannot be null');
         }
 
-        if (mb_strlen($marketplace_id) < 1) {
+        if ((mb_strlen($marketplace_id) < 1)) {
             throw new \InvalidArgumentException('invalid length for $marketplace_id when calling ContentMetadata., must be bigger than or equal to 1.');
         }
 
@@ -351,7 +413,9 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets status.
+     * Gets status
+     *
+     * @return string
      */
     public function getStatus(): string
     {
@@ -359,9 +423,11 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets status.
+     * Sets status
      *
      * @param string $status status
+     *
+     * @return self
      */
     public function setStatus(string $status): self
     {
@@ -374,7 +440,9 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets badge_set.
+     * Gets badge_set
+     *
+     * @return array
      */
     public function getBadgeSet(): array
     {
@@ -382,9 +450,11 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets badge_set.
+     * Sets badge_set
      *
-     * @param array $badge_set the set of content badges
+     * @param array $badge_set The set of content badges.
+     *
+     * @return self
      */
     public function setBadgeSet(array $badge_set): self
     {
@@ -392,13 +462,16 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable badge_set cannot be null');
         }
 
+
         $this->container['badge_set'] = $badge_set;
 
         return $this;
     }
 
     /**
-     * Gets update_time.
+     * Gets update_time
+     *
+     * @return \DateTime
      */
     public function getUpdateTime(): \DateTime
     {
@@ -406,9 +479,11 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets update_time.
+     * Sets update_time
      *
-     * @param \DateTime $update_time the approximate age of the A+ Content document and metadata
+     * @param \DateTime $update_time The approximate age of the A+ Content document and metadata.
+     *
+     * @return self
      */
     public function setUpdateTime(\DateTime $update_time): self
     {
@@ -420,10 +495,13 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -433,9 +511,9 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -446,8 +524,10 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -461,7 +541,9 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -470,67 +552,39 @@ class ContentMetadata implements ModelInterface, \ArrayAccess, \JsonSerializable
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

@@ -1,19 +1,17 @@
 <?php
-
 /**
- * CreateSubscriptionRequest.
+ * CreateSubscriptionRequest
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Notifications.
+ * Selling Partner API for Notifications
  *
  * The Selling Partner API for Notifications lets you subscribe to notifications that are relevant to a selling partner's business. Using this API you can create a destination to receive notifications, subscribe to notifications, delete notification subscriptions, and more.  For more information, refer to the [Notifications Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide).
  *
@@ -30,117 +28,233 @@
 
 namespace SpApi\Model\notifications\v1;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * CreateSubscriptionRequest Class Doc Comment.
+ * CreateSubscriptionRequest Class Doc Comment
  *
  * @category Class
- *
  * @description The request schema for the &#x60;createSubscription&#x60; operation.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSerializable
+class CreateSubscriptionRequest implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'CreateSubscriptionRequest';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'payload_version' => 'string',
-        'destination_id' => 'string',
-        'processing_directive' => '\SpApi\Model\notifications\v1\ProcessingDirective'];
+             'payload_version' => 'string',
+             'destination_id' => 'string',
+             'processing_directive' => '\SpApi\Model\notifications\v1\ProcessingDirective'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'payload_version' => null,
-        'destination_id' => null,
-        'processing_directive' => null];
+            'payload_version' => null,
+            'destination_id' => null,
+            'processing_directive' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'payload_version' => false,
         'destination_id' => false,
-        'processing_directive' => true,
+        'processing_directive' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'payload_version' => 'payloadVersion',
-        'destination_id' => 'destinationId',
-        'processing_directive' => 'processingDirective',
+                'destination_id' => 'destinationId',
+                'processing_directive' => 'processingDirective'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
     protected static array $setters = [
         'payload_version' => 'setPayloadVersion',
         'destination_id' => 'setDestinationId',
-        'processing_directive' => 'setProcessingDirective',
+        'processing_directive' => 'setProcessingDirective'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
     protected static array $getters = [
         'payload_version' => 'getPayloadVersion',
         'destination_id' => 'getDestinationId',
-        'processing_directive' => 'getProcessingDirective',
+        'processing_directive' => 'getProcessingDirective'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -150,81 +264,21 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -236,29 +290,31 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
     {
         $invalidProperties = [];
 
-        if (null === $this->container['payload_version']) {
+        if ($this->container['payload_version'] === null) {
             $invalidProperties[] = "'payload_version' can't be null";
         }
-        if (null === $this->container['destination_id']) {
+        if ($this->container['destination_id'] === null) {
             $invalidProperties[] = "'destination_id' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets payload_version.
+     * Gets payload_version
+     *
+     * @return string
      */
     public function getPayloadVersion(): string
     {
@@ -266,9 +322,11 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Sets payload_version.
+     * Sets payload_version
      *
-     * @param string $payload_version the version of the payload object to be used in the notification
+     * @param string $payload_version The version of the payload object to be used in the notification.
+     *
+     * @return self
      */
     public function setPayloadVersion(string $payload_version): self
     {
@@ -281,7 +339,9 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Gets destination_id.
+     * Gets destination_id
+     *
+     * @return string
      */
     public function getDestinationId(): string
     {
@@ -289,9 +349,11 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Sets destination_id.
+     * Sets destination_id
      *
-     * @param string $destination_id the identifier for the destination where notifications will be delivered
+     * @param string $destination_id The identifier for the destination where notifications will be delivered.
+     *
+     * @return self
      */
     public function setDestinationId(string $destination_id): self
     {
@@ -304,26 +366,30 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Gets processing_directive.
+     * Gets processing_directive
+     *
+     * @return \SpApi\Model\notifications\v1\ProcessingDirective|null
      */
-    public function getProcessingDirective(): ?ProcessingDirective
+    public function getProcessingDirective(): ?\SpApi\Model\notifications\v1\ProcessingDirective
     {
         return $this->container['processing_directive'];
     }
 
     /**
-     * Sets processing_directive.
+     * Sets processing_directive
      *
-     * @param null|ProcessingDirective $processing_directive processing_directive
+     * @param \SpApi\Model\notifications\v1\ProcessingDirective|null $processing_directive processing_directive
+     *
+     * @return self
      */
-    public function setProcessingDirective(?ProcessingDirective $processing_directive): self
+    public function setProcessingDirective(?\SpApi\Model\notifications\v1\ProcessingDirective $processing_directive): self
     {
         if (is_null($processing_directive)) {
             array_push($this->openAPINullablesSetToNull, 'processing_directive');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('processing_directive', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -333,10 +399,13 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -346,9 +415,9 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -359,8 +428,10 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -374,7 +445,9 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -383,67 +456,39 @@ class CreateSubscriptionRequest implements ModelInterface, \ArrayAccess, \JsonSe
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

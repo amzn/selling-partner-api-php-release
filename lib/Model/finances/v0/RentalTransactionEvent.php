@@ -1,19 +1,17 @@
 <?php
-
 /**
- * RentalTransactionEvent.
+ * RentalTransactionEvent
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Finances.
+ * Selling Partner API for Finances
  *
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller's business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range.
  *
@@ -30,74 +28,73 @@
 
 namespace SpApi\Model\finances\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * RentalTransactionEvent Class Doc Comment.
+ * RentalTransactionEvent Class Doc Comment
  *
  * @category Class
- *
  * @description An event related to a rental transaction.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSerializable
+class RentalTransactionEvent implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'RentalTransactionEvent';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'amazon_order_id' => 'string',
-        'rental_event_type' => 'string',
-        'extension_length' => 'int',
-        'posted_date' => '\DateTime',
-        'rental_charge_list' => '\SpApi\Model\finances\v0\ChargeComponent[]',
-        'rental_fee_list' => '\SpApi\Model\finances\v0\FeeComponent[]',
-        'marketplace_name' => 'string',
-        'rental_initial_value' => '\SpApi\Model\finances\v0\Currency',
-        'rental_reimbursement' => '\SpApi\Model\finances\v0\Currency',
-        'rental_tax_withheld_list' => '\SpApi\Model\finances\v0\TaxWithheldComponent[]'];
+             'amazon_order_id' => 'string',
+             'rental_event_type' => 'string',
+             'extension_length' => 'int',
+             'posted_date' => '\DateTime',
+             'rental_charge_list' => '\SpApi\Model\finances\v0\ChargeComponent[]',
+             'rental_fee_list' => '\SpApi\Model\finances\v0\FeeComponent[]',
+             'marketplace_name' => 'string',
+             'rental_initial_value' => '\SpApi\Model\finances\v0\Currency',
+             'rental_reimbursement' => '\SpApi\Model\finances\v0\Currency',
+             'rental_tax_withheld_list' => '\SpApi\Model\finances\v0\TaxWithheldComponent[]'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'amazon_order_id' => null,
-        'rental_event_type' => null,
-        'extension_length' => 'int32',
-        'posted_date' => 'date-time',
-        'rental_charge_list' => null,
-        'rental_fee_list' => null,
-        'marketplace_name' => null,
-        'rental_initial_value' => null,
-        'rental_reimbursement' => null,
-        'rental_tax_withheld_list' => null];
+            'amazon_order_id' => null,
+            'rental_event_type' => null,
+            'extension_length' => 'int32',
+            'posted_date' => 'date-time',
+            'rental_charge_list' => null,
+            'rental_fee_list' => null,
+            'marketplace_name' => null,
+            'rental_initial_value' => null,
+            'rental_reimbursement' => null,
+            'rental_tax_withheld_list' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'amazon_order_id' => true,
         'rental_event_type' => true,
@@ -108,37 +105,110 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         'marketplace_name' => true,
         'rental_initial_value' => true,
         'rental_reimbursement' => true,
-        'rental_tax_withheld_list' => true,
+        'rental_tax_withheld_list' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'amazon_order_id' => 'AmazonOrderId',
-        'rental_event_type' => 'RentalEventType',
-        'extension_length' => 'ExtensionLength',
-        'posted_date' => 'PostedDate',
-        'rental_charge_list' => 'RentalChargeList',
-        'rental_fee_list' => 'RentalFeeList',
-        'marketplace_name' => 'MarketplaceName',
-        'rental_initial_value' => 'RentalInitialValue',
-        'rental_reimbursement' => 'RentalReimbursement',
-        'rental_tax_withheld_list' => 'RentalTaxWithheldList',
+                'rental_event_type' => 'RentalEventType',
+                'extension_length' => 'ExtensionLength',
+                'posted_date' => 'PostedDate',
+                'rental_charge_list' => 'RentalChargeList',
+                'rental_fee_list' => 'RentalFeeList',
+                'marketplace_name' => 'MarketplaceName',
+                'rental_initial_value' => 'RentalInitialValue',
+                'rental_reimbursement' => 'RentalReimbursement',
+                'rental_tax_withheld_list' => 'RentalTaxWithheldList'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -152,11 +222,11 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         'marketplace_name' => 'setMarketplaceName',
         'rental_initial_value' => 'setRentalInitialValue',
         'rental_reimbursement' => 'setRentalReimbursement',
-        'rental_tax_withheld_list' => 'setRentalTaxWithheldList',
+        'rental_tax_withheld_list' => 'setRentalTaxWithheldList'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -170,19 +240,63 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         'marketplace_name' => 'getMarketplaceName',
         'rental_initial_value' => 'getRentalInitialValue',
         'rental_reimbursement' => 'getRentalReimbursement',
-        'rental_tax_withheld_list' => 'getRentalTaxWithheldList',
+        'rental_tax_withheld_list' => 'getRentalTaxWithheldList'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -199,81 +313,21 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -283,22 +337,27 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets amazon_order_id.
+     * Gets amazon_order_id
+     *
+     * @return string|null
      */
     public function getAmazonOrderId(): ?string
     {
@@ -306,9 +365,11 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets amazon_order_id.
+     * Sets amazon_order_id
      *
-     * @param null|string $amazon_order_id an Amazon-defined identifier for an order
+     * @param string|null $amazon_order_id An Amazon-defined identifier for an order.
+     *
+     * @return self
      */
     public function setAmazonOrderId(?string $amazon_order_id): self
     {
@@ -317,7 +378,7 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('amazon_order_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -328,7 +389,9 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets rental_event_type.
+     * Gets rental_event_type
+     *
+     * @return string|null
      */
     public function getRentalEventType(): ?string
     {
@@ -336,9 +399,11 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets rental_event_type.
+     * Sets rental_event_type
      *
-     * @param null|string $rental_event_type The type of rental event.  Possible values:  * RentalCustomerPayment-Buyout - Transaction type that represents when the customer wants to buy out a rented item.  * RentalCustomerPayment-Extension - Transaction type that represents when the customer wants to extend the rental period.  * RentalCustomerRefund-Buyout - Transaction type that represents when the customer requests a refund for the buyout of the rented item.  * RentalCustomerRefund-Extension - Transaction type that represents when the customer requests a refund over the extension on the rented item.  * RentalHandlingFee - Transaction type that represents the fee that Amazon charges sellers who rent through Amazon.  * RentalChargeFailureReimbursement - Transaction type that represents when Amazon sends money to the seller to compensate for a failed charge.  * RentalLostItemReimbursement - Transaction type that represents when Amazon sends money to the seller to compensate for a lost item.
+     * @param string|null $rental_event_type The type of rental event.  Possible values:  * RentalCustomerPayment-Buyout - Transaction type that represents when the customer wants to buy out a rented item.  * RentalCustomerPayment-Extension - Transaction type that represents when the customer wants to extend the rental period.  * RentalCustomerRefund-Buyout - Transaction type that represents when the customer requests a refund for the buyout of the rented item.  * RentalCustomerRefund-Extension - Transaction type that represents when the customer requests a refund over the extension on the rented item.  * RentalHandlingFee - Transaction type that represents the fee that Amazon charges sellers who rent through Amazon.  * RentalChargeFailureReimbursement - Transaction type that represents when Amazon sends money to the seller to compensate for a failed charge.  * RentalLostItemReimbursement - Transaction type that represents when Amazon sends money to the seller to compensate for a lost item.
+     *
+     * @return self
      */
     public function setRentalEventType(?string $rental_event_type): self
     {
@@ -347,7 +412,7 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('rental_event_type', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -358,7 +423,9 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets extension_length.
+     * Gets extension_length
+     *
+     * @return int|null
      */
     public function getExtensionLength(): ?int
     {
@@ -366,9 +433,11 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets extension_length.
+     * Sets extension_length
      *
-     * @param null|int $extension_length The number of days that the buyer extended an already rented item. This value is only returned for RentalCustomerPayment-Extension and RentalCustomerRefund-Extension events.
+     * @param int|null $extension_length The number of days that the buyer extended an already rented item. This value is only returned for RentalCustomerPayment-Extension and RentalCustomerRefund-Extension events.
+     *
+     * @return self
      */
     public function setExtensionLength(?int $extension_length): self
     {
@@ -377,7 +446,7 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('extension_length', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -388,7 +457,9 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets posted_date.
+     * Gets posted_date
+     *
+     * @return \DateTime|null
      */
     public function getPostedDate(): ?\DateTime
     {
@@ -396,9 +467,11 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets posted_date.
+     * Sets posted_date
      *
-     * @param null|\DateTime $posted_date fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate)
+     * @param \DateTime|null $posted_date Fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate).
+     *
+     * @return self
      */
     public function setPostedDate(?\DateTime $posted_date): self
     {
@@ -407,7 +480,7 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('posted_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -418,7 +491,9 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets rental_charge_list.
+     * Gets rental_charge_list
+     *
+     * @return array|null
      */
     public function getRentalChargeList(): ?array
     {
@@ -426,9 +501,11 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets rental_charge_list.
+     * Sets rental_charge_list
      *
-     * @param null|array $rental_charge_list a list of charge information on the seller's account
+     * @param array|null $rental_charge_list A list of charge information on the seller's account.
+     *
+     * @return self
      */
     public function setRentalChargeList(?array $rental_charge_list): self
     {
@@ -437,7 +514,7 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('rental_charge_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -448,7 +525,9 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets rental_fee_list.
+     * Gets rental_fee_list
+     *
+     * @return array|null
      */
     public function getRentalFeeList(): ?array
     {
@@ -456,9 +535,11 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets rental_fee_list.
+     * Sets rental_fee_list
      *
-     * @param null|array $rental_fee_list a list of fee component information
+     * @param array|null $rental_fee_list A list of fee component information.
+     *
+     * @return self
      */
     public function setRentalFeeList(?array $rental_fee_list): self
     {
@@ -467,7 +548,7 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('rental_fee_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -478,7 +559,9 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets marketplace_name.
+     * Gets marketplace_name
+     *
+     * @return string|null
      */
     public function getMarketplaceName(): ?string
     {
@@ -486,9 +569,11 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets marketplace_name.
+     * Sets marketplace_name
      *
-     * @param null|string $marketplace_name the name of the marketplace
+     * @param string|null $marketplace_name The name of the marketplace.
+     *
+     * @return self
      */
     public function setMarketplaceName(?string $marketplace_name): self
     {
@@ -497,7 +582,7 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('marketplace_name', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -508,26 +593,30 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets rental_initial_value.
+     * Gets rental_initial_value
+     *
+     * @return \SpApi\Model\finances\v0\Currency|null
      */
-    public function getRentalInitialValue(): ?Currency
+    public function getRentalInitialValue(): ?\SpApi\Model\finances\v0\Currency
     {
         return $this->container['rental_initial_value'];
     }
 
     /**
-     * Sets rental_initial_value.
+     * Sets rental_initial_value
      *
-     * @param null|Currency $rental_initial_value rental_initial_value
+     * @param \SpApi\Model\finances\v0\Currency|null $rental_initial_value rental_initial_value
+     *
+     * @return self
      */
-    public function setRentalInitialValue(?Currency $rental_initial_value): self
+    public function setRentalInitialValue(?\SpApi\Model\finances\v0\Currency $rental_initial_value): self
     {
         if (is_null($rental_initial_value)) {
             array_push($this->openAPINullablesSetToNull, 'rental_initial_value');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('rental_initial_value', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -538,26 +627,30 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets rental_reimbursement.
+     * Gets rental_reimbursement
+     *
+     * @return \SpApi\Model\finances\v0\Currency|null
      */
-    public function getRentalReimbursement(): ?Currency
+    public function getRentalReimbursement(): ?\SpApi\Model\finances\v0\Currency
     {
         return $this->container['rental_reimbursement'];
     }
 
     /**
-     * Sets rental_reimbursement.
+     * Sets rental_reimbursement
      *
-     * @param null|Currency $rental_reimbursement rental_reimbursement
+     * @param \SpApi\Model\finances\v0\Currency|null $rental_reimbursement rental_reimbursement
+     *
+     * @return self
      */
-    public function setRentalReimbursement(?Currency $rental_reimbursement): self
+    public function setRentalReimbursement(?\SpApi\Model\finances\v0\Currency $rental_reimbursement): self
     {
         if (is_null($rental_reimbursement)) {
             array_push($this->openAPINullablesSetToNull, 'rental_reimbursement');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('rental_reimbursement', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -568,7 +661,9 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets rental_tax_withheld_list.
+     * Gets rental_tax_withheld_list
+     *
+     * @return array|null
      */
     public function getRentalTaxWithheldList(): ?array
     {
@@ -576,9 +671,11 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets rental_tax_withheld_list.
+     * Sets rental_tax_withheld_list
      *
-     * @param null|array $rental_tax_withheld_list a list of information about taxes withheld
+     * @param array|null $rental_tax_withheld_list A list of information about taxes withheld.
+     *
+     * @return self
      */
     public function setRentalTaxWithheldList(?array $rental_tax_withheld_list): self
     {
@@ -587,7 +684,7 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('rental_tax_withheld_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -597,10 +694,13 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -610,9 +710,9 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -623,8 +723,10 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -638,7 +740,9 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -647,67 +751,39 @@ class RentalTransactionEvent implements ModelInterface, \ArrayAccess, \JsonSeria
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

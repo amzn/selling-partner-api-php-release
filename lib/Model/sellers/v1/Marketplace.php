@@ -1,19 +1,17 @@
 <?php
-
 /**
- * Marketplace.
+ * Marketplace
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * The Selling Partner API for Sellers.
+ * The Selling Partner API for Sellers
  *
  * The [Selling Partner API for Sellers](https://developer-docs.amazon.com/sp-api/docs/sellers-api-v1-reference) (Sellers API) provides essential information about seller accounts, such as:  - The marketplaces a seller can list in - The default language and currency of a marketplace - Whether the seller has suspended listings  Refer to the [Sellers API reference](https://developer-docs.amazon.com/sp-api/docs/sellers-api-v1-reference) for details about this API's operations, data types, and schemas.
  *
@@ -30,99 +28,171 @@
 
 namespace SpApi\Model\sellers\v1;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * Marketplace Class Doc Comment.
+ * Marketplace Class Doc Comment
  *
  * @category Class
- *
  * @description Information about an Amazon marketplace where a seller can list items and customers can view and purchase items.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
+class Marketplace implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'Marketplace';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'id' => 'string',
-        'name' => 'string',
-        'country_code' => 'string',
-        'default_currency_code' => 'string',
-        'default_language_code' => 'string',
-        'domain_name' => 'string'];
+             'id' => 'string',
+             'name' => 'string',
+             'country_code' => 'string',
+             'default_currency_code' => 'string',
+             'default_language_code' => 'string',
+             'domain_name' => 'string'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'id' => null,
-        'name' => null,
-        'country_code' => null,
-        'default_currency_code' => null,
-        'default_language_code' => null,
-        'domain_name' => null];
+            'id' => null,
+            'name' => null,
+            'country_code' => null,
+            'default_currency_code' => null,
+            'default_language_code' => null,
+            'domain_name' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'id' => false,
         'name' => false,
         'country_code' => false,
         'default_currency_code' => false,
         'default_language_code' => false,
-        'domain_name' => false,
+        'domain_name' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'id' => 'id',
-        'name' => 'name',
-        'country_code' => 'countryCode',
-        'default_currency_code' => 'defaultCurrencyCode',
-        'default_language_code' => 'defaultLanguageCode',
-        'domain_name' => 'domainName',
+                'name' => 'name',
+                'country_code' => 'countryCode',
+                'default_currency_code' => 'defaultCurrencyCode',
+                'default_language_code' => 'defaultLanguageCode',
+                'domain_name' => 'domainName'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -132,11 +202,11 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
         'country_code' => 'setCountryCode',
         'default_currency_code' => 'setDefaultCurrencyCode',
         'default_language_code' => 'setDefaultLanguageCode',
-        'domain_name' => 'setDomainName',
+        'domain_name' => 'setDomainName'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -146,19 +216,63 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
         'country_code' => 'getCountryCode',
         'default_currency_code' => 'getDefaultCurrencyCode',
         'default_language_code' => 'getDefaultLanguageCode',
-        'domain_name' => 'getDomainName',
+        'domain_name' => 'getDomainName'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -171,81 +285,21 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -257,45 +311,47 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
-        if (null === $this->container['id']) {
+        if ($this->container['id'] === null) {
             $invalidProperties[] = "'id' can't be null";
         }
-        if (null === $this->container['name']) {
+        if ($this->container['name'] === null) {
             $invalidProperties[] = "'name' can't be null";
         }
-        if (null === $this->container['country_code']) {
+        if ($this->container['country_code'] === null) {
             $invalidProperties[] = "'country_code' can't be null";
         }
-        if (!preg_match('/^([A-Z]{2})$/', $this->container['country_code'])) {
+        if (!preg_match("/^([A-Z]{2})$/", $this->container['country_code'])) {
             $invalidProperties[] = "invalid value for 'country_code', must be conform to the pattern /^([A-Z]{2})$/.";
         }
 
-        if (null === $this->container['default_currency_code']) {
+        if ($this->container['default_currency_code'] === null) {
             $invalidProperties[] = "'default_currency_code' can't be null";
         }
-        if (null === $this->container['default_language_code']) {
+        if ($this->container['default_language_code'] === null) {
             $invalidProperties[] = "'default_language_code' can't be null";
         }
-        if (null === $this->container['domain_name']) {
+        if ($this->container['domain_name'] === null) {
             $invalidProperties[] = "'domain_name' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets id.
+     * Gets id
+     *
+     * @return string
      */
     public function getId(): string
     {
@@ -303,9 +359,11 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets id.
+     * Sets id
      *
-     * @param string $id the encrypted marketplace value
+     * @param string $id The encrypted marketplace value.
+     *
+     * @return self
      */
     public function setId(string $id): self
     {
@@ -318,7 +376,9 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets name.
+     * Gets name
+     *
+     * @return string
      */
     public function getName(): string
     {
@@ -326,9 +386,11 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets name.
+     * Sets name
      *
-     * @param string $name the marketplace name
+     * @param string $name The marketplace name.
+     *
+     * @return self
      */
     public function setName(string $name): self
     {
@@ -341,7 +403,9 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets country_code.
+     * Gets country_code
+     *
+     * @return string
      */
     public function getCountryCode(): string
     {
@@ -349,9 +413,11 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets country_code.
+     * Sets country_code
      *
-     * @param string $country_code the ISO 3166-1 alpha-2 format country code of the marketplace
+     * @param string $country_code The ISO 3166-1 alpha-2 format country code of the marketplace.
+     *
+     * @return self
      */
     public function setCountryCode(string $country_code): self
     {
@@ -359,8 +425,8 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable country_code cannot be null');
         }
 
-        if (!preg_match('/^([A-Z]{2})$/', ObjectSerializer::toString($country_code))) {
-            throw new \InvalidArgumentException('invalid value for $country_code when calling Marketplace., must conform to the pattern /^([A-Z]{2})$/.');
+        if ((!preg_match("/^([A-Z]{2})$/", ObjectSerializer::toString($country_code)))) {
+            throw new \InvalidArgumentException("invalid value for \$country_code when calling Marketplace., must conform to the pattern /^([A-Z]{2})$/.");
         }
 
         $this->container['country_code'] = $country_code;
@@ -369,7 +435,9 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets default_currency_code.
+     * Gets default_currency_code
+     *
+     * @return string
      */
     public function getDefaultCurrencyCode(): string
     {
@@ -377,9 +445,11 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets default_currency_code.
+     * Sets default_currency_code
      *
-     * @param string $default_currency_code the ISO 4217 format currency code of the marketplace
+     * @param string $default_currency_code The ISO 4217 format currency code of the marketplace.
+     *
+     * @return self
      */
     public function setDefaultCurrencyCode(string $default_currency_code): self
     {
@@ -392,7 +462,9 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets default_language_code.
+     * Gets default_language_code
+     *
+     * @return string
      */
     public function getDefaultLanguageCode(): string
     {
@@ -400,9 +472,11 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets default_language_code.
+     * Sets default_language_code
      *
-     * @param string $default_language_code the ISO 639-1 format language code of the marketplace
+     * @param string $default_language_code The ISO 639-1 format language code of the marketplace.
+     *
+     * @return self
      */
     public function setDefaultLanguageCode(string $default_language_code): self
     {
@@ -415,7 +489,9 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets domain_name.
+     * Gets domain_name
+     *
+     * @return string
      */
     public function getDomainName(): string
     {
@@ -423,9 +499,11 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets domain_name.
+     * Sets domain_name
      *
-     * @param string $domain_name the domain name of the marketplace
+     * @param string $domain_name The domain name of the marketplace.
+     *
+     * @return self
      */
     public function setDomainName(string $domain_name): self
     {
@@ -437,10 +515,13 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -450,9 +531,9 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -463,8 +544,10 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -478,7 +561,9 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -487,67 +572,39 @@ class Marketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

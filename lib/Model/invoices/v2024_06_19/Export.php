@@ -1,15 +1,13 @@
 <?php
-
 /**
- * Export.
+ * Export
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
@@ -30,99 +28,171 @@
 
 namespace SpApi\Model\invoices\v2024_06_19;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * Export Class Doc Comment.
+ * Export Class Doc Comment
  *
  * @category Class
- *
  * @description Detailed information about the export.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
+class Export implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'Export';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'error_message' => 'string',
-        'export_id' => 'string',
-        'generate_export_finished_at' => '\DateTime',
-        'generate_export_started_at' => '\DateTime',
-        'invoices_document_ids' => 'string[]',
-        'status' => '\SpApi\Model\invoices\v2024_06_19\ExportStatus'];
+             'error_message' => 'string',
+             'export_id' => 'string',
+             'generate_export_finished_at' => '\DateTime',
+             'generate_export_started_at' => '\DateTime',
+             'invoices_document_ids' => 'string[]',
+             'status' => '\SpApi\Model\invoices\v2024_06_19\ExportStatus'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'error_message' => null,
-        'export_id' => null,
-        'generate_export_finished_at' => 'date-time',
-        'generate_export_started_at' => 'date-time',
-        'invoices_document_ids' => null,
-        'status' => null];
+            'error_message' => null,
+            'export_id' => null,
+            'generate_export_finished_at' => 'date-time',
+            'generate_export_started_at' => 'date-time',
+            'invoices_document_ids' => null,
+            'status' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'error_message' => true,
         'export_id' => true,
         'generate_export_finished_at' => true,
         'generate_export_started_at' => true,
         'invoices_document_ids' => true,
-        'status' => true,
+        'status' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'error_message' => 'errorMessage',
-        'export_id' => 'exportId',
-        'generate_export_finished_at' => 'generateExportFinishedAt',
-        'generate_export_started_at' => 'generateExportStartedAt',
-        'invoices_document_ids' => 'invoicesDocumentIds',
-        'status' => 'status',
+                'export_id' => 'exportId',
+                'generate_export_finished_at' => 'generateExportFinishedAt',
+                'generate_export_started_at' => 'generateExportStartedAt',
+                'invoices_document_ids' => 'invoicesDocumentIds',
+                'status' => 'status'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -132,11 +202,11 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
         'generate_export_finished_at' => 'setGenerateExportFinishedAt',
         'generate_export_started_at' => 'setGenerateExportStartedAt',
         'invoices_document_ids' => 'setInvoicesDocumentIds',
-        'status' => 'setStatus',
+        'status' => 'setStatus'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -146,19 +216,63 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
         'generate_export_finished_at' => 'getGenerateExportFinishedAt',
         'generate_export_started_at' => 'getGenerateExportStartedAt',
         'invoices_document_ids' => 'getInvoicesDocumentIds',
-        'status' => 'getStatus',
+        'status' => 'getStatus'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -171,81 +285,21 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -255,22 +309,27 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets error_message.
+     * Gets error_message
+     *
+     * @return string|null
      */
     public function getErrorMessage(): ?string
     {
@@ -278,9 +337,11 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets error_message.
+     * Sets error_message
      *
-     * @param null|string $error_message when the export generation fails, this attribute contains a description of the error
+     * @param string|null $error_message When the export generation fails, this attribute contains a description of the error.
+     *
+     * @return self
      */
     public function setErrorMessage(?string $error_message): self
     {
@@ -289,7 +350,7 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('error_message', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -300,7 +361,9 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets export_id.
+     * Gets export_id
+     *
+     * @return string|null
      */
     public function getExportId(): ?string
     {
@@ -308,9 +371,11 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets export_id.
+     * Sets export_id
      *
-     * @param null|string $export_id the export identifier
+     * @param string|null $export_id The export identifier.
+     *
+     * @return self
      */
     public function setExportId(?string $export_id): self
     {
@@ -319,7 +384,7 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('export_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -330,7 +395,9 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets generate_export_finished_at.
+     * Gets generate_export_finished_at
+     *
+     * @return \DateTime|null
      */
     public function getGenerateExportFinishedAt(): ?\DateTime
     {
@@ -338,9 +405,11 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets generate_export_finished_at.
+     * Sets generate_export_finished_at
      *
-     * @param null|\DateTime $generate_export_finished_at The date and time when the export generation finished. Vales are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+     * @param \DateTime|null $generate_export_finished_at The date and time when the export generation finished. Vales are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+     *
+     * @return self
      */
     public function setGenerateExportFinishedAt(?\DateTime $generate_export_finished_at): self
     {
@@ -349,7 +418,7 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('generate_export_finished_at', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -360,7 +429,9 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets generate_export_started_at.
+     * Gets generate_export_started_at
+     *
+     * @return \DateTime|null
      */
     public function getGenerateExportStartedAt(): ?\DateTime
     {
@@ -368,9 +439,11 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets generate_export_started_at.
+     * Sets generate_export_started_at
      *
-     * @param null|\DateTime $generate_export_started_at The date and time when the export generation started. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+     * @param \DateTime|null $generate_export_started_at The date and time when the export generation started. Values are in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format.
+     *
+     * @return self
      */
     public function setGenerateExportStartedAt(?\DateTime $generate_export_started_at): self
     {
@@ -379,7 +452,7 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('generate_export_started_at', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -390,7 +463,9 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets invoices_document_ids.
+     * Gets invoices_document_ids
+     *
+     * @return array|null
      */
     public function getInvoicesDocumentIds(): ?array
     {
@@ -398,9 +473,11 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets invoices_document_ids.
+     * Sets invoices_document_ids
      *
-     * @param null|array $invoices_document_ids The identifier for the export documents. To get the information required to retrieve the export document's contents, pass each ID in the `getInvoicesDocument` operation.  This list is empty until the status is `DONE`.
+     * @param array|null $invoices_document_ids The identifier for the export documents. To get the information required to retrieve the export document's contents, pass each ID in the `getInvoicesDocument` operation.  This list is empty until the status is `DONE`.
+     *
+     * @return self
      */
     public function setInvoicesDocumentIds(?array $invoices_document_ids): self
     {
@@ -409,7 +486,7 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('invoices_document_ids', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -420,7 +497,9 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets status.
+     * Gets status
+     *
+     * @return string|null
      */
     public function getStatus(): ?string
     {
@@ -428,9 +507,11 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets status.
+     * Sets status
      *
-     * @param null|string $status status
+     * @param string|null $status status
+     *
+     * @return self
      */
     public function setStatus(?string $status): self
     {
@@ -439,7 +520,7 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('status', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -449,10 +530,13 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -462,9 +546,9 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -475,8 +559,10 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -490,7 +576,9 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -499,67 +587,39 @@ class Export implements ModelInterface, \ArrayAccess, \JsonSerializable
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

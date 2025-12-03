@@ -1,19 +1,17 @@
 <?php
-
 /**
- * CouponPaymentEvent.
+ * CouponPaymentEvent
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Finances.
+ * Selling Partner API for Finances
  *
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller's business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range.
  *
@@ -30,70 +28,69 @@
 
 namespace SpApi\Model\finances\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * CouponPaymentEvent Class Doc Comment.
+ * CouponPaymentEvent Class Doc Comment
  *
  * @category Class
- *
  * @description An event related to coupon payments.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializable
+class CouponPaymentEvent implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'CouponPaymentEvent';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'posted_date' => '\DateTime',
-        'coupon_id' => 'string',
-        'seller_coupon_description' => 'string',
-        'clip_or_redemption_count' => 'int',
-        'payment_event_id' => 'string',
-        'fee_component' => '\SpApi\Model\finances\v0\FeeComponent',
-        'charge_component' => '\SpApi\Model\finances\v0\ChargeComponent',
-        'total_amount' => '\SpApi\Model\finances\v0\Currency'];
+             'posted_date' => '\DateTime',
+             'coupon_id' => 'string',
+             'seller_coupon_description' => 'string',
+             'clip_or_redemption_count' => 'int',
+             'payment_event_id' => 'string',
+             'fee_component' => '\SpApi\Model\finances\v0\FeeComponent',
+             'charge_component' => '\SpApi\Model\finances\v0\ChargeComponent',
+             'total_amount' => '\SpApi\Model\finances\v0\Currency'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'posted_date' => 'date-time',
-        'coupon_id' => null,
-        'seller_coupon_description' => null,
-        'clip_or_redemption_count' => 'int64',
-        'payment_event_id' => null,
-        'fee_component' => null,
-        'charge_component' => null,
-        'total_amount' => null];
+            'posted_date' => 'date-time',
+            'coupon_id' => null,
+            'seller_coupon_description' => null,
+            'clip_or_redemption_count' => 'int64',
+            'payment_event_id' => null,
+            'fee_component' => null,
+            'charge_component' => null,
+            'total_amount' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'posted_date' => true,
         'coupon_id' => true,
@@ -102,35 +99,108 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
         'payment_event_id' => true,
         'fee_component' => true,
         'charge_component' => true,
-        'total_amount' => true,
+        'total_amount' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'posted_date' => 'PostedDate',
-        'coupon_id' => 'CouponId',
-        'seller_coupon_description' => 'SellerCouponDescription',
-        'clip_or_redemption_count' => 'ClipOrRedemptionCount',
-        'payment_event_id' => 'PaymentEventId',
-        'fee_component' => 'FeeComponent',
-        'charge_component' => 'ChargeComponent',
-        'total_amount' => 'TotalAmount',
+                'coupon_id' => 'CouponId',
+                'seller_coupon_description' => 'SellerCouponDescription',
+                'clip_or_redemption_count' => 'ClipOrRedemptionCount',
+                'payment_event_id' => 'PaymentEventId',
+                'fee_component' => 'FeeComponent',
+                'charge_component' => 'ChargeComponent',
+                'total_amount' => 'TotalAmount'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -142,11 +212,11 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
         'payment_event_id' => 'setPaymentEventId',
         'fee_component' => 'setFeeComponent',
         'charge_component' => 'setChargeComponent',
-        'total_amount' => 'setTotalAmount',
+        'total_amount' => 'setTotalAmount'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -158,19 +228,63 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
         'payment_event_id' => 'getPaymentEventId',
         'fee_component' => 'getFeeComponent',
         'charge_component' => 'getChargeComponent',
-        'total_amount' => 'getTotalAmount',
+        'total_amount' => 'getTotalAmount'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -185,81 +299,21 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -269,22 +323,27 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets posted_date.
+     * Gets posted_date
+     *
+     * @return \DateTime|null
      */
     public function getPostedDate(): ?\DateTime
     {
@@ -292,9 +351,11 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Sets posted_date.
+     * Sets posted_date
      *
-     * @param null|\DateTime $posted_date fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate)
+     * @param \DateTime|null $posted_date Fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate).
+     *
+     * @return self
      */
     public function setPostedDate(?\DateTime $posted_date): self
     {
@@ -303,7 +364,7 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('posted_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -314,7 +375,9 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets coupon_id.
+     * Gets coupon_id
+     *
+     * @return string|null
      */
     public function getCouponId(): ?string
     {
@@ -322,9 +385,11 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Sets coupon_id.
+     * Sets coupon_id
      *
-     * @param null|string $coupon_id a coupon identifier
+     * @param string|null $coupon_id A coupon identifier.
+     *
+     * @return self
      */
     public function setCouponId(?string $coupon_id): self
     {
@@ -333,7 +398,7 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('coupon_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -344,7 +409,9 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets seller_coupon_description.
+     * Gets seller_coupon_description
+     *
+     * @return string|null
      */
     public function getSellerCouponDescription(): ?string
     {
@@ -352,9 +419,11 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Sets seller_coupon_description.
+     * Sets seller_coupon_description
      *
-     * @param null|string $seller_coupon_description the description provided by the seller when they created the coupon
+     * @param string|null $seller_coupon_description The description provided by the seller when they created the coupon.
+     *
+     * @return self
      */
     public function setSellerCouponDescription(?string $seller_coupon_description): self
     {
@@ -363,7 +432,7 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('seller_coupon_description', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -374,7 +443,9 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets clip_or_redemption_count.
+     * Gets clip_or_redemption_count
+     *
+     * @return int|null
      */
     public function getClipOrRedemptionCount(): ?int
     {
@@ -382,9 +453,11 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Sets clip_or_redemption_count.
+     * Sets clip_or_redemption_count
      *
-     * @param null|int $clip_or_redemption_count the number of coupon clips or redemptions
+     * @param int|null $clip_or_redemption_count The number of coupon clips or redemptions.
+     *
+     * @return self
      */
     public function setClipOrRedemptionCount(?int $clip_or_redemption_count): self
     {
@@ -393,7 +466,7 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('clip_or_redemption_count', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -404,7 +477,9 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets payment_event_id.
+     * Gets payment_event_id
+     *
+     * @return string|null
      */
     public function getPaymentEventId(): ?string
     {
@@ -412,9 +487,11 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Sets payment_event_id.
+     * Sets payment_event_id
      *
-     * @param null|string $payment_event_id a payment event identifier
+     * @param string|null $payment_event_id A payment event identifier.
+     *
+     * @return self
      */
     public function setPaymentEventId(?string $payment_event_id): self
     {
@@ -423,7 +500,7 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('payment_event_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -434,26 +511,30 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets fee_component.
+     * Gets fee_component
+     *
+     * @return \SpApi\Model\finances\v0\FeeComponent|null
      */
-    public function getFeeComponent(): ?FeeComponent
+    public function getFeeComponent(): ?\SpApi\Model\finances\v0\FeeComponent
     {
         return $this->container['fee_component'];
     }
 
     /**
-     * Sets fee_component.
+     * Sets fee_component
      *
-     * @param null|FeeComponent $fee_component fee_component
+     * @param \SpApi\Model\finances\v0\FeeComponent|null $fee_component fee_component
+     *
+     * @return self
      */
-    public function setFeeComponent(?FeeComponent $fee_component): self
+    public function setFeeComponent(?\SpApi\Model\finances\v0\FeeComponent $fee_component): self
     {
         if (is_null($fee_component)) {
             array_push($this->openAPINullablesSetToNull, 'fee_component');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('fee_component', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -464,26 +545,30 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets charge_component.
+     * Gets charge_component
+     *
+     * @return \SpApi\Model\finances\v0\ChargeComponent|null
      */
-    public function getChargeComponent(): ?ChargeComponent
+    public function getChargeComponent(): ?\SpApi\Model\finances\v0\ChargeComponent
     {
         return $this->container['charge_component'];
     }
 
     /**
-     * Sets charge_component.
+     * Sets charge_component
      *
-     * @param null|ChargeComponent $charge_component charge_component
+     * @param \SpApi\Model\finances\v0\ChargeComponent|null $charge_component charge_component
+     *
+     * @return self
      */
-    public function setChargeComponent(?ChargeComponent $charge_component): self
+    public function setChargeComponent(?\SpApi\Model\finances\v0\ChargeComponent $charge_component): self
     {
         if (is_null($charge_component)) {
             array_push($this->openAPINullablesSetToNull, 'charge_component');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('charge_component', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -494,26 +579,30 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets total_amount.
+     * Gets total_amount
+     *
+     * @return \SpApi\Model\finances\v0\Currency|null
      */
-    public function getTotalAmount(): ?Currency
+    public function getTotalAmount(): ?\SpApi\Model\finances\v0\Currency
     {
         return $this->container['total_amount'];
     }
 
     /**
-     * Sets total_amount.
+     * Sets total_amount
      *
-     * @param null|Currency $total_amount total_amount
+     * @param \SpApi\Model\finances\v0\Currency|null $total_amount total_amount
+     *
+     * @return self
      */
-    public function setTotalAmount(?Currency $total_amount): self
+    public function setTotalAmount(?\SpApi\Model\finances\v0\Currency $total_amount): self
     {
         if (is_null($total_amount)) {
             array_push($this->openAPINullablesSetToNull, 'total_amount');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('total_amount', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -523,10 +612,13 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -536,9 +628,9 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -549,8 +641,10 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -564,7 +658,9 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -573,67 +669,39 @@ class CouponPaymentEvent implements ModelInterface, \ArrayAccess, \JsonSerializa
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

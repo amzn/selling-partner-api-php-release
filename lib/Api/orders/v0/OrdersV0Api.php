@@ -1,18 +1,16 @@
 <?php
-
 /**
  * OrdersV0Api
- * PHP version 8.3.
+ * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Orders.
+ * Selling Partner API for Orders
  *
  * Use the Orders Selling Partner API to programmatically retrieve order information. With this API, you can develop fast, flexible, and custom applications to manage order synchronization, perform order research, and create demand-based decision support tools.   _Note:_ For the JP, AU, and SG marketplaces, the Orders API supports orders from 2016 onward. For all other marketplaces, the Orders API supports orders for the last two years (orders older than this don't show up in the response).
  *
@@ -37,48 +35,38 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use SpApi\AuthAndAuth\RateLimitConfiguration;
+use Symfony\Component\RateLimiter\LimiterInterface;
+use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use SpApi\ApiException;
-use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
-use SpApi\Model\orders\v0\ConfirmShipmentRequest;
-use SpApi\Model\orders\v0\GetOrderAddressResponse;
-use SpApi\Model\orders\v0\GetOrderBuyerInfoResponse;
-use SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse;
-use SpApi\Model\orders\v0\GetOrderItemsResponse;
-use SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse;
-use SpApi\Model\orders\v0\GetOrderResponse;
-use SpApi\Model\orders\v0\GetOrdersResponse;
-use SpApi\Model\orders\v0\UpdateVerificationStatusRequest;
 use SpApi\ObjectSerializer;
-use Symfony\Component\RateLimiter\LimiterInterface;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 
 /**
- * OrdersV0Api Class Doc Comment.
+ * OrdersV0Api Class Doc Comment
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class OrdersV0Api
 {
-    public ?LimiterInterface $confirmShipmentRateLimiter;
-    public ?LimiterInterface $getOrderRateLimiter;
-    public ?LimiterInterface $getOrderAddressRateLimiter;
-    public ?LimiterInterface $getOrderBuyerInfoRateLimiter;
-    public ?LimiterInterface $getOrderItemsRateLimiter;
-    public ?LimiterInterface $getOrderItemsBuyerInfoRateLimiter;
-    public ?LimiterInterface $getOrderRegulatedInfoRateLimiter;
-    public ?LimiterInterface $getOrdersRateLimiter;
-    public ?LimiterInterface $updateVerificationStatusRateLimiter;
+    /**
+     * @var ClientInterface
+     */
     protected ClientInterface $client;
 
+    /**
+     * @var Configuration
+     */
     protected Configuration $config;
 
+    /**
+     * @var HeaderSelector
+     */
     protected HeaderSelector $headerSelector;
 
     /**
@@ -86,43 +74,46 @@ class OrdersV0Api
      */
     protected int $hostIndex;
 
-    private bool $rateLimiterEnabled;
-    private InMemoryStorage $rateLimitStorage;
+    /**
+     * @var ?RateLimitConfiguration
+     */
+    private ?RateLimitConfiguration $rateLimitConfig = null;
 
     /**
+     * @var ?LimiterInterface
+     */
+    private ?LimiterInterface $rateLimiter = null;
+
+    /**
+     * @param Configuration   $config
+     * @param RateLimitConfiguration|null $rateLimitConfig
+     * @param ClientInterface|null $client
+     * @param HeaderSelector|null $selector
      * @param int $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         Configuration $config,
+        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
-        ?bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimiterEnabled = $rateLimiterEnabled;
-
-        if ($rateLimiterEnabled) {
-            $this->rateLimitStorage = new InMemoryStorage();
-
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('OrdersV0Api-confirmShipment'), $this->rateLimitStorage);
-            $this->confirmShipmentRateLimiter = $factory->create('OrdersV0Api-confirmShipment');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('OrdersV0Api-getOrder'), $this->rateLimitStorage);
-            $this->getOrderRateLimiter = $factory->create('OrdersV0Api-getOrder');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('OrdersV0Api-getOrderAddress'), $this->rateLimitStorage);
-            $this->getOrderAddressRateLimiter = $factory->create('OrdersV0Api-getOrderAddress');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('OrdersV0Api-getOrderBuyerInfo'), $this->rateLimitStorage);
-            $this->getOrderBuyerInfoRateLimiter = $factory->create('OrdersV0Api-getOrderBuyerInfo');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('OrdersV0Api-getOrderItems'), $this->rateLimitStorage);
-            $this->getOrderItemsRateLimiter = $factory->create('OrdersV0Api-getOrderItems');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('OrdersV0Api-getOrderItemsBuyerInfo'), $this->rateLimitStorage);
-            $this->getOrderItemsBuyerInfoRateLimiter = $factory->create('OrdersV0Api-getOrderItemsBuyerInfo');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('OrdersV0Api-getOrderRegulatedInfo'), $this->rateLimitStorage);
-            $this->getOrderRegulatedInfoRateLimiter = $factory->create('OrdersV0Api-getOrderRegulatedInfo');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('OrdersV0Api-getOrders'), $this->rateLimitStorage);
-            $this->getOrdersRateLimiter = $factory->create('OrdersV0Api-getOrders');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('OrdersV0Api-updateVerificationStatus'), $this->rateLimitStorage);
-            $this->updateVerificationStatusRateLimiter = $factory->create('OrdersV0Api-updateVerificationStatus');
+        $this->rateLimitConfig = $rateLimitConfig;
+        if ($rateLimitConfig) {
+            $type = $rateLimitConfig->getRateLimitType();
+            $rateLimitOptions = [
+                'id' => 'spApiCall',
+                'policy' => $type,
+                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
+            ];
+            if ($type === "fixed_window" || $type === "sliding_window") {
+                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
+            } else {
+                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
+            }
+            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
+            $this->rateLimiter = $factory->create();
         }
 
         $this->client = $client ?: new Client();
@@ -131,7 +122,7 @@ class OrdersV0Api
     }
 
     /**
-     * Set the host index.
+     * Set the host index
      *
      * @param int $hostIndex Host index (required)
      */
@@ -141,7 +132,7 @@ class OrdersV0Api
     }
 
     /**
-     * Get the host index.
+     * Get the host index
      *
      * @return int Host index
      */
@@ -150,64 +141,56 @@ class OrdersV0Api
         return $this->hostIndex;
     }
 
+    /**
+     * @return Configuration
+     */
     public function getConfig(): Configuration
     {
         return $this->config;
     }
 
     /**
-     * Operation confirmShipment.
+     * Operation confirmShipment
      *
-     * @param string                 $order_id
-     *                                                    An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param ConfirmShipmentRequest $payload
-     *                                                    Request body of &#x60;confirmShipment&#x60;. (required)
-     * @param null|string            $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  \SpApi\Model\orders\v0\ConfirmShipmentRequest $payload
+     *  Request body of &#x60;confirmShipment&#x60;. (required)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return 
      */
     public function confirmShipment(
         string $order_id,
-        ConfirmShipmentRequest $payload,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\orders\v0\ConfirmShipmentRequest $payload
     ): void {
-        $this->confirmShipmentWithHttpInfo($order_id, $payload, $restrictedDataToken);
+        $this->confirmShipmentWithHttpInfo($order_id, $payload);
     }
 
     /**
-     * Operation confirmShipmentWithHttpInfo.
+     * Operation confirmShipmentWithHttpInfo
      *
-     * @param string                 $order_id
-     *                                                    An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param ConfirmShipmentRequest $payload
-     *                                                    Request body of &#x60;confirmShipment&#x60;. (required)
-     * @param null|string            $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  \SpApi\Model\orders\v0\ConfirmShipmentRequest $payload
+     *  Request body of &#x60;confirmShipment&#x60;. (required)
      *
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of , HTTP status code, HTTP response headers (array of strings)
      */
     public function confirmShipmentWithHttpInfo(
         string $order_id,
-        ConfirmShipmentRequest $payload,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\orders\v0\ConfirmShipmentRequest $payload
     ): array {
         $request = $this->confirmShipmentRequest($order_id, $payload);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-confirmShipment');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->confirmShipmentRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -241,77 +224,122 @@ class OrdersV0Api
             }
 
             return [null, $statusCode, $response->getHeaders()];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\orders\v0\ConfirmShipmentErrorResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\ConfirmShipmentErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\ConfirmShipmentErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\ConfirmShipmentErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\ConfirmShipmentErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\ConfirmShipmentErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\ConfirmShipmentErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\ConfirmShipmentErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation confirmShipmentAsync.
+     * Operation confirmShipmentAsync
      *
-     * @param string                 $order_id
-     *                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param ConfirmShipmentRequest $payload
-     *                                         Request body of &#x60;confirmShipment&#x60;. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  \SpApi\Model\orders\v0\ConfirmShipmentRequest $payload
+     *  Request body of &#x60;confirmShipment&#x60;. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function confirmShipmentAsync(
         string $order_id,
-        ConfirmShipmentRequest $payload
+        \SpApi\Model\orders\v0\ConfirmShipmentRequest $payload
     ): PromiseInterface {
         return $this->confirmShipmentAsyncWithHttpInfo($order_id, $payload)
             ->then(
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation confirmShipmentAsyncWithHttpInfo.
+     * Operation confirmShipmentAsyncWithHttpInfo
      *
-     * @param string                 $order_id
-     *                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param ConfirmShipmentRequest $payload
-     *                                         Request body of &#x60;confirmShipment&#x60;. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  \SpApi\Model\orders\v0\ConfirmShipmentRequest $payload
+     *  Request body of &#x60;confirmShipment&#x60;. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function confirmShipmentAsyncWithHttpInfo(
         string $order_id,
-        ConfirmShipmentRequest $payload,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\orders\v0\ConfirmShipmentRequest $payload
     ): PromiseInterface {
         $returnType = '';
         $request = $this->confirmShipmentRequest($order_id, $payload);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-confirmShipment');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->confirmShipmentRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) {
+                function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -323,32 +351,32 @@ class OrdersV0Api
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'confirmShipment'.
+     * Create request for operation 'confirmShipment'
      *
-     * @param string                 $order_id
-     *                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param ConfirmShipmentRequest $payload
-     *                                         Request body of &#x60;confirmShipment&#x60;. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  \SpApi\Model\orders\v0\ConfirmShipmentRequest $payload
+     *  Request body of &#x60;confirmShipment&#x60;. (required)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function confirmShipmentRequest(
         string $order_id,
-        ConfirmShipmentRequest $payload
+        \SpApi\Model\orders\v0\ConfirmShipmentRequest $payload
     ): Request {
         // verify the required parameter 'order_id' is set
-        if (null === $order_id || (is_array($order_id) && 0 === count($order_id))) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling confirmShipment'
             );
         }
         // verify the required parameter 'payload' is set
-        if (null === $payload || (is_array($payload) && 0 === count($payload))) {
+        if ($payload === null || (is_array($payload) && count($payload) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $payload when calling confirmShipment'
             );
@@ -361,24 +389,34 @@ class OrdersV0Api
         $httpBody = '';
         $multipart = false;
 
+
+
         // path params
-        if (null !== $order_id) {
+        if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{orderId}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            'application/json',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                'application/json'
+                ,
+                false
+            );
+        }
 
         // for model (json/xml)
         if (isset($payload)) {
-            if ('application/json' === $headers['Content-Type']) {
+            if ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($payload));
             } else {
                 $httpBody = $payload;
@@ -391,19 +429,22 @@ class OrdersV0Api
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -417,64 +458,51 @@ class OrdersV0Api
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'POST',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getOrder.
+     * Operation getOrder
      *
-     * @param string      $order_id
-     *                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\orders\v0\GetOrderResponse
      */
     public function getOrder(
-        string $order_id,
-        ?string $restrictedDataToken = null
-    ): GetOrderResponse {
-        list($response) = $this->getOrderWithHttpInfo($order_id, $restrictedDataToken);
-
+        string $order_id
+    ): \SpApi\Model\orders\v0\GetOrderResponse {
+        list($response) = $this->getOrderWithHttpInfo($order_id);
         return $response;
     }
 
     /**
-     * Operation getOrderWithHttpInfo.
+     * Operation getOrderWithHttpInfo
      *
-     * @param string      $order_id
-     *                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
-     * @return array of \SpApi\Model\orders\v0\GetOrderResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\orders\v0\GetOrderResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getOrderWithHttpInfo(
-        string $order_id,
-        ?string $restrictedDataToken = null
+        string $order_id
     ): array {
         $request = $this->getOrderRequest($order_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrder');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getOrderRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -506,39 +534,202 @@ class OrdersV0Api
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\orders\v0\GetOrderResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\orders\v0\GetOrderResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\orders\v0\GetOrderResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\orders\v0\GetOrderResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\orders\v0\GetOrderResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\orders\v0\GetOrderResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\orders\v0\GetOrderResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\orders\v0\GetOrderResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\orders\v0\GetOrderResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\orders\v0\GetOrderResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\orders\v0\GetOrderResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getOrderAsync.
+     * Operation getOrderAsync
      *
-     * @param string $order_id
-     *                         An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderAsync(
         string $order_id
@@ -548,42 +739,35 @@ class OrdersV0Api
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getOrderAsyncWithHttpInfo.
+     * Operation getOrderAsyncWithHttpInfo
      *
-     * @param string $order_id
-     *                         An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderAsyncWithHttpInfo(
-        string $order_id,
-        ?string $restrictedDataToken = null
+        string $order_id
     ): PromiseInterface {
         $returnType = '\SpApi\Model\orders\v0\GetOrderResponse';
         $request = $this->getOrderRequest($order_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrder');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getOrderRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -591,13 +775,12 @@ class OrdersV0Api
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -609,23 +792,23 @@ class OrdersV0Api
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getOrder'.
+     * Create request for operation 'getOrder'
      *
-     * @param string $order_id
-     *                         An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getOrderRequest(
         string $order_id
     ): Request {
         // verify the required parameter 'order_id' is set
-        if (null === $order_id || (is_array($order_id) && 0 === count($order_id))) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling getOrder'
             );
@@ -638,20 +821,30 @@ class OrdersV0Api
         $httpBody = '';
         $multipart = false;
 
+
+
         // path params
-        if (null !== $order_id) {
+        if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{orderId}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -662,19 +855,22 @@ class OrdersV0Api
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -688,64 +884,51 @@ class OrdersV0Api
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getOrderAddress.
+     * Operation getOrderAddress
      *
-     * @param string      $order_id
-     *                                         The Amazon order identifier in 3-7-7 format. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (required)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\orders\v0\GetOrderAddressResponse
      */
     public function getOrderAddress(
-        string $order_id,
-        ?string $restrictedDataToken = null
-    ): GetOrderAddressResponse {
-        list($response) = $this->getOrderAddressWithHttpInfo($order_id, $restrictedDataToken);
-
+        string $order_id
+    ): \SpApi\Model\orders\v0\GetOrderAddressResponse {
+        list($response) = $this->getOrderAddressWithHttpInfo($order_id);
         return $response;
     }
 
     /**
-     * Operation getOrderAddressWithHttpInfo.
+     * Operation getOrderAddressWithHttpInfo
      *
-     * @param string      $order_id
-     *                                         The Amazon order identifier in 3-7-7 format. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (required)
      *
-     * @return array of \SpApi\Model\orders\v0\GetOrderAddressResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\orders\v0\GetOrderAddressResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getOrderAddressWithHttpInfo(
-        string $order_id,
-        ?string $restrictedDataToken = null
+        string $order_id
     ): array {
         $request = $this->getOrderAddressRequest($order_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrderAddress');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getOrderAddressRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -777,39 +960,202 @@ class OrdersV0Api
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderAddressResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderAddressResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderAddressResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderAddressResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderAddressResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderAddressResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderAddressResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\orders\v0\GetOrderAddressResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\orders\v0\GetOrderAddressResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderAddressResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\orders\v0\GetOrderAddressResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderAddressResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderAddressResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderAddressResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderAddressResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderAddressResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderAddressResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderAddressResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getOrderAddressAsync.
+     * Operation getOrderAddressAsync
      *
-     * @param string $order_id
-     *                         The Amazon order identifier in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderAddressAsync(
         string $order_id
@@ -819,42 +1165,35 @@ class OrdersV0Api
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getOrderAddressAsyncWithHttpInfo.
+     * Operation getOrderAddressAsyncWithHttpInfo
      *
-     * @param string $order_id
-     *                         The Amazon order identifier in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderAddressAsyncWithHttpInfo(
-        string $order_id,
-        ?string $restrictedDataToken = null
+        string $order_id
     ): PromiseInterface {
         $returnType = '\SpApi\Model\orders\v0\GetOrderAddressResponse';
         $request = $this->getOrderAddressRequest($order_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrderAddress');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getOrderAddressRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -862,13 +1201,12 @@ class OrdersV0Api
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -880,23 +1218,23 @@ class OrdersV0Api
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getOrderAddress'.
+     * Create request for operation 'getOrderAddress'
      *
-     * @param string $order_id
-     *                         The Amazon order identifier in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getOrderAddressRequest(
         string $order_id
     ): Request {
         // verify the required parameter 'order_id' is set
-        if (null === $order_id || (is_array($order_id) && 0 === count($order_id))) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling getOrderAddress'
             );
@@ -909,20 +1247,30 @@ class OrdersV0Api
         $httpBody = '';
         $multipart = false;
 
+
+
         // path params
-        if (null !== $order_id) {
+        if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{orderId}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -933,19 +1281,22 @@ class OrdersV0Api
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -959,64 +1310,51 @@ class OrdersV0Api
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getOrderBuyerInfo.
+     * Operation getOrderBuyerInfo
      *
-     * @param string      $order_id
-     *                                         The Amazon order identifier in 3-7-7 format. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (required)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\orders\v0\GetOrderBuyerInfoResponse
      */
     public function getOrderBuyerInfo(
-        string $order_id,
-        ?string $restrictedDataToken = null
-    ): GetOrderBuyerInfoResponse {
-        list($response) = $this->getOrderBuyerInfoWithHttpInfo($order_id, $restrictedDataToken);
-
+        string $order_id
+    ): \SpApi\Model\orders\v0\GetOrderBuyerInfoResponse {
+        list($response) = $this->getOrderBuyerInfoWithHttpInfo($order_id);
         return $response;
     }
 
     /**
-     * Operation getOrderBuyerInfoWithHttpInfo.
+     * Operation getOrderBuyerInfoWithHttpInfo
      *
-     * @param string      $order_id
-     *                                         The Amazon order identifier in 3-7-7 format. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (required)
      *
-     * @return array of \SpApi\Model\orders\v0\GetOrderBuyerInfoResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\orders\v0\GetOrderBuyerInfoResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getOrderBuyerInfoWithHttpInfo(
-        string $order_id,
-        ?string $restrictedDataToken = null
+        string $order_id
     ): array {
         $request = $this->getOrderBuyerInfoRequest($order_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrderBuyerInfo');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getOrderBuyerInfoRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -1048,39 +1386,202 @@ class OrdersV0Api
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getOrderBuyerInfoAsync.
+     * Operation getOrderBuyerInfoAsync
      *
-     * @param string $order_id
-     *                         The Amazon order identifier in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderBuyerInfoAsync(
         string $order_id
@@ -1090,42 +1591,35 @@ class OrdersV0Api
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getOrderBuyerInfoAsyncWithHttpInfo.
+     * Operation getOrderBuyerInfoAsyncWithHttpInfo
      *
-     * @param string $order_id
-     *                         The Amazon order identifier in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderBuyerInfoAsyncWithHttpInfo(
-        string $order_id,
-        ?string $restrictedDataToken = null
+        string $order_id
     ): PromiseInterface {
         $returnType = '\SpApi\Model\orders\v0\GetOrderBuyerInfoResponse';
         $request = $this->getOrderBuyerInfoRequest($order_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrderBuyerInfo');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getOrderBuyerInfoRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -1133,13 +1627,12 @@ class OrdersV0Api
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -1151,23 +1644,23 @@ class OrdersV0Api
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getOrderBuyerInfo'.
+     * Create request for operation 'getOrderBuyerInfo'
      *
-     * @param string $order_id
-     *                         The Amazon order identifier in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An &#x60;orderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getOrderBuyerInfoRequest(
         string $order_id
     ): Request {
         // verify the required parameter 'order_id' is set
-        if (null === $order_id || (is_array($order_id) && 0 === count($order_id))) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling getOrderBuyerInfo'
             );
@@ -1180,20 +1673,30 @@ class OrdersV0Api
         $httpBody = '';
         $multipart = false;
 
+
+
         // path params
-        if (null !== $order_id) {
+        if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{orderId}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -1204,19 +1707,22 @@ class OrdersV0Api
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1230,70 +1736,57 @@ class OrdersV0Api
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getOrderItems.
+     * Operation getOrderItems
      *
-     * @param string      $order_id
-     *                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $next_token
-     *                                         A string token returned in the response of your previous request. (optional)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\orders\v0\GetOrderItemsResponse
      */
     public function getOrderItems(
         string $order_id,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
-    ): GetOrderItemsResponse {
-        list($response) = $this->getOrderItemsWithHttpInfo($order_id, $next_token, $restrictedDataToken);
-
+        ?string $next_token = null
+    ): \SpApi\Model\orders\v0\GetOrderItemsResponse {
+        list($response) = $this->getOrderItemsWithHttpInfo($order_id, $next_token);
         return $response;
     }
 
     /**
-     * Operation getOrderItemsWithHttpInfo.
+     * Operation getOrderItemsWithHttpInfo
      *
-     * @param string      $order_id
-     *                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $next_token
-     *                                         A string token returned in the response of your previous request. (optional)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @return array of \SpApi\Model\orders\v0\GetOrderItemsResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\orders\v0\GetOrderItemsResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getOrderItemsWithHttpInfo(
         string $order_id,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): array {
         $request = $this->getOrderItemsRequest($order_id, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrderItems');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getOrderItemsRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -1325,41 +1818,204 @@ class OrdersV0Api
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\orders\v0\GetOrderItemsResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\orders\v0\GetOrderItemsResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\orders\v0\GetOrderItemsResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getOrderItemsAsync.
+     * Operation getOrderItemsAsync
      *
-     * @param string      $order_id
-     *                                An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $next_token
-     *                                A string token returned in the response of your previous request. (optional)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderItemsAsync(
         string $order_id,
@@ -1370,45 +2026,38 @@ class OrdersV0Api
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getOrderItemsAsyncWithHttpInfo.
+     * Operation getOrderItemsAsyncWithHttpInfo
      *
-     * @param string      $order_id
-     *                                An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $next_token
-     *                                A string token returned in the response of your previous request. (optional)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderItemsAsyncWithHttpInfo(
         string $order_id,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\orders\v0\GetOrderItemsResponse';
         $request = $this->getOrderItemsRequest($order_id, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrderItems');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getOrderItemsRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -1416,13 +2065,12 @@ class OrdersV0Api
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -1434,26 +2082,26 @@ class OrdersV0Api
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getOrderItems'.
+     * Create request for operation 'getOrderItems'
      *
-     * @param string      $order_id
-     *                                An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $next_token
-     *                                A string token returned in the response of your previous request. (optional)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getOrderItemsRequest(
         string $order_id,
         ?string $next_token = null
     ): Request {
         // verify the required parameter 'order_id' is set
-        if (null === $order_id || (is_array($order_id) && 0 === count($order_id))) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling getOrderItems'
             );
@@ -1473,24 +2121,32 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
+
         // path params
-        if (null !== $order_id) {
+        if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{orderId}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -1501,19 +2157,22 @@ class OrdersV0Api
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1527,70 +2186,57 @@ class OrdersV0Api
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getOrderItemsBuyerInfo.
+     * Operation getOrderItemsBuyerInfo
      *
-     * @param string      $order_id
-     *                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $next_token
-     *                                         A string token returned in the response of your previous request. (optional)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse
      */
     public function getOrderItemsBuyerInfo(
         string $order_id,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
-    ): GetOrderItemsBuyerInfoResponse {
-        list($response) = $this->getOrderItemsBuyerInfoWithHttpInfo($order_id, $next_token, $restrictedDataToken);
-
+        ?string $next_token = null
+    ): \SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse {
+        list($response) = $this->getOrderItemsBuyerInfoWithHttpInfo($order_id, $next_token);
         return $response;
     }
 
     /**
-     * Operation getOrderItemsBuyerInfoWithHttpInfo.
+     * Operation getOrderItemsBuyerInfoWithHttpInfo
      *
-     * @param string      $order_id
-     *                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $next_token
-     *                                         A string token returned in the response of your previous request. (optional)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @return array of \SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getOrderItemsBuyerInfoWithHttpInfo(
         string $order_id,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): array {
         $request = $this->getOrderItemsBuyerInfoRequest($order_id, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrderItemsBuyerInfo');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getOrderItemsBuyerInfoRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -1622,41 +2268,204 @@ class OrdersV0Api
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getOrderItemsBuyerInfoAsync.
+     * Operation getOrderItemsBuyerInfoAsync
      *
-     * @param string      $order_id
-     *                                An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $next_token
-     *                                A string token returned in the response of your previous request. (optional)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderItemsBuyerInfoAsync(
         string $order_id,
@@ -1667,45 +2476,38 @@ class OrdersV0Api
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getOrderItemsBuyerInfoAsyncWithHttpInfo.
+     * Operation getOrderItemsBuyerInfoAsyncWithHttpInfo
      *
-     * @param string      $order_id
-     *                                An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $next_token
-     *                                A string token returned in the response of your previous request. (optional)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderItemsBuyerInfoAsyncWithHttpInfo(
         string $order_id,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\orders\v0\GetOrderItemsBuyerInfoResponse';
         $request = $this->getOrderItemsBuyerInfoRequest($order_id, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrderItemsBuyerInfo');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getOrderItemsBuyerInfoRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -1713,13 +2515,12 @@ class OrdersV0Api
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -1731,26 +2532,26 @@ class OrdersV0Api
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getOrderItemsBuyerInfo'.
+     * Create request for operation 'getOrderItemsBuyerInfo'
      *
-     * @param string      $order_id
-     *                                An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|string $next_token
-     *                                A string token returned in the response of your previous request. (optional)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getOrderItemsBuyerInfoRequest(
         string $order_id,
         ?string $next_token = null
     ): Request {
         // verify the required parameter 'order_id' is set
-        if (null === $order_id || (is_array($order_id) && 0 === count($order_id))) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling getOrderItemsBuyerInfo'
             );
@@ -1770,24 +2571,32 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
+
         // path params
-        if (null !== $order_id) {
+        if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{orderId}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -1798,19 +2607,22 @@ class OrdersV0Api
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1824,64 +2636,51 @@ class OrdersV0Api
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getOrderRegulatedInfo.
+     * Operation getOrderRegulatedInfo
      *
-     * @param string      $order_id
-     *                                         The Amazon order identifier in 3-7-7 format. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse
      */
     public function getOrderRegulatedInfo(
-        string $order_id,
-        ?string $restrictedDataToken = null
-    ): GetOrderRegulatedInfoResponse {
-        list($response) = $this->getOrderRegulatedInfoWithHttpInfo($order_id, $restrictedDataToken);
-
+        string $order_id
+    ): \SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse {
+        list($response) = $this->getOrderRegulatedInfoWithHttpInfo($order_id);
         return $response;
     }
 
     /**
-     * Operation getOrderRegulatedInfoWithHttpInfo.
+     * Operation getOrderRegulatedInfoWithHttpInfo
      *
-     * @param string      $order_id
-     *                                         The Amazon order identifier in 3-7-7 format. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
-     * @return array of \SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getOrderRegulatedInfoWithHttpInfo(
-        string $order_id,
-        ?string $restrictedDataToken = null
+        string $order_id
     ): array {
         $request = $this->getOrderRegulatedInfoRequest($order_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrderRegulatedInfo');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getOrderRegulatedInfoRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -1913,39 +2712,202 @@ class OrdersV0Api
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getOrderRegulatedInfoAsync.
+     * Operation getOrderRegulatedInfoAsync
      *
-     * @param string $order_id
-     *                         The Amazon order identifier in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderRegulatedInfoAsync(
         string $order_id
@@ -1955,42 +2917,35 @@ class OrdersV0Api
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getOrderRegulatedInfoAsyncWithHttpInfo.
+     * Operation getOrderRegulatedInfoAsyncWithHttpInfo
      *
-     * @param string $order_id
-     *                         The Amazon order identifier in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrderRegulatedInfoAsyncWithHttpInfo(
-        string $order_id,
-        ?string $restrictedDataToken = null
+        string $order_id
     ): PromiseInterface {
         $returnType = '\SpApi\Model\orders\v0\GetOrderRegulatedInfoResponse';
         $request = $this->getOrderRegulatedInfoRequest($order_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrderRegulatedInfo');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getOrderRegulatedInfoRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -1998,13 +2953,12 @@ class OrdersV0Api
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -2016,23 +2970,23 @@ class OrdersV0Api
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getOrderRegulatedInfo'.
+     * Create request for operation 'getOrderRegulatedInfo'
      *
-     * @param string $order_id
-     *                         The Amazon order identifier in 3-7-7 format. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getOrderRegulatedInfoRequest(
         string $order_id
     ): Request {
         // verify the required parameter 'order_id' is set
-        if (null === $order_id || (is_array($order_id) && 0 === count($order_id))) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling getOrderRegulatedInfo'
             );
@@ -2045,20 +2999,30 @@ class OrdersV0Api
         $httpBody = '';
         $multipart = false;
 
+
+
         // path params
-        if (null !== $order_id) {
+        if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{orderId}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json', 'PendingOrder', 'ApprovedOrder', 'RejectedOrder'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json', 'PendingOrder', 'ApprovedOrder', 'RejectedOrder']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json', 'PendingOrder', 'ApprovedOrder', 'RejectedOrder'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -2069,19 +3033,22 @@ class OrdersV0Api
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -2095,66 +3062,65 @@ class OrdersV0Api
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getOrders.
+     * Operation getOrders
      *
-     * @param string[]      $marketplace_ids
-     *                                                           A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values. (required)
-     * @param null|string   $created_after
-     *                                                           Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set. (optional)
-     * @param null|string   $created_before
-     *                                                           Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time. (optional)
-     * @param null|string   $last_updated_after
-     *                                                           Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set. (optional)
-     * @param null|string   $last_updated_before
-     *                                                           Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time. (optional)
-     * @param null|string[] $order_statuses
-     *                                                           A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.) (optional)
-     * @param null|string[] $fulfillment_channels
-     *                                                           A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
-     * @param null|string[] $payment_methods
-     *                                                           A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
-     * @param null|string   $buyer_email
-     *                                                           The email address of a buyer. Used to select orders that contain the specified email address. (optional)
-     * @param null|string   $seller_order_id
-     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
-     * @param null|int      $max_results_per_page
-     *                                                           A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
-     * @param null|string[] $easy_ship_shipment_statuses
-     *                                                           A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.) (optional)
-     * @param null|string[] $electronic_invoice_statuses
-     *                                                           A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.) (optional)
-     * @param null|string   $next_token
-     *                                                           A string token returned in the response of your previous request. (optional)
-     * @param null|string[] $amazon_order_ids
-     *                                                           A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (optional)
-     * @param null|string   $actual_fulfillment_supply_source_id
-     *                                                           The &#x60;sourceId&#x60; of the location from where you want the order fulfilled. (optional)
-     * @param null|bool     $is_ispu
-     *                                                           When true, this order is marked to be picked up from a store rather than delivered. (optional)
-     * @param null|string   $store_chain_store_id
-     *                                                           The store chain store identifier. Linked to a specific store in a store chain. (optional)
-     * @param null|string   $earliest_delivery_date_before
-     *                                                           Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $earliest_delivery_date_after
-     *                                                           Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $latest_delivery_date_before
-     *                                                           Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $latest_delivery_date_after
-     *                                                           Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $restrictedDataToken                 Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string[] $marketplace_ids
+     *  A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values. (required)
+     * @param  string|null $created_after
+     *  Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set. (optional)
+     * @param  string|null $created_before
+     *  Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time. (optional)
+     * @param  string|null $last_updated_after
+     *  Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set. (optional)
+     * @param  string|null $last_updated_before
+     *  Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time. (optional)
+     * @param  string[]|null $order_statuses
+     *  A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.) (optional)
+     * @param  string[]|null $fulfillment_channels
+     *  A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
+     * @param  string[]|null $payment_methods
+     *  A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
+     * @param  string|null $buyer_email
+     *  The email address of a buyer. Used to select orders that contain the specified email address. (optional)
+     * @param  string|null $seller_order_id
+     *  An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
+     * @param  int|null $max_results_per_page
+     *  A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
+     * @param  string[]|null $easy_ship_shipment_statuses
+     *  A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.) (optional)
+     * @param  string[]|null $electronic_invoice_statuses
+     *  A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.) (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
+     * @param  string[]|null $amazon_order_ids
+     *  A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (optional)
+     * @param  string|null $actual_fulfillment_supply_source_id
+     *  The &#x60;sourceId&#x60; of the location from where you want the order fulfilled. (optional)
+     * @param  bool|null $is_ispu
+     *  When true, this order is marked to be picked up from a store rather than delivered. (optional)
+     * @param  string|null $store_chain_store_id
+     *  The store chain store identifier. Linked to a specific store in a store chain. (optional)
+     * @param  string|null $earliest_delivery_date_before
+     *  Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $earliest_delivery_date_after
+     *  Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $latest_delivery_date_before
+     *  Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $latest_delivery_date_after
+     *  Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\orders\v0\GetOrdersResponse
      */
     public function getOrders(
         array $marketplace_ids,
@@ -2178,67 +3144,63 @@ class OrdersV0Api
         ?string $earliest_delivery_date_before = null,
         ?string $earliest_delivery_date_after = null,
         ?string $latest_delivery_date_before = null,
-        ?string $latest_delivery_date_after = null,
-        ?string $restrictedDataToken = null
-    ): GetOrdersResponse {
-        list($response) = $this->getOrdersWithHttpInfo($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $buyer_email, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after, $restrictedDataToken);
-
+        ?string $latest_delivery_date_after = null
+    ): \SpApi\Model\orders\v0\GetOrdersResponse {
+        list($response) = $this->getOrdersWithHttpInfo($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $buyer_email, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after);
         return $response;
     }
 
     /**
-     * Operation getOrdersWithHttpInfo.
+     * Operation getOrdersWithHttpInfo
      *
-     * @param string[]      $marketplace_ids
-     *                                                           A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values. (required)
-     * @param null|string   $created_after
-     *                                                           Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set. (optional)
-     * @param null|string   $created_before
-     *                                                           Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time. (optional)
-     * @param null|string   $last_updated_after
-     *                                                           Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set. (optional)
-     * @param null|string   $last_updated_before
-     *                                                           Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time. (optional)
-     * @param null|string[] $order_statuses
-     *                                                           A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.) (optional)
-     * @param null|string[] $fulfillment_channels
-     *                                                           A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
-     * @param null|string[] $payment_methods
-     *                                                           A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
-     * @param null|string   $buyer_email
-     *                                                           The email address of a buyer. Used to select orders that contain the specified email address. (optional)
-     * @param null|string   $seller_order_id
-     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
-     * @param null|int      $max_results_per_page
-     *                                                           A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
-     * @param null|string[] $easy_ship_shipment_statuses
-     *                                                           A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.) (optional)
-     * @param null|string[] $electronic_invoice_statuses
-     *                                                           A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.) (optional)
-     * @param null|string   $next_token
-     *                                                           A string token returned in the response of your previous request. (optional)
-     * @param null|string[] $amazon_order_ids
-     *                                                           A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (optional)
-     * @param null|string   $actual_fulfillment_supply_source_id
-     *                                                           The &#x60;sourceId&#x60; of the location from where you want the order fulfilled. (optional)
-     * @param null|bool     $is_ispu
-     *                                                           When true, this order is marked to be picked up from a store rather than delivered. (optional)
-     * @param null|string   $store_chain_store_id
-     *                                                           The store chain store identifier. Linked to a specific store in a store chain. (optional)
-     * @param null|string   $earliest_delivery_date_before
-     *                                                           Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $earliest_delivery_date_after
-     *                                                           Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $latest_delivery_date_before
-     *                                                           Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $latest_delivery_date_after
-     *                                                           Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $restrictedDataToken                 Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string[] $marketplace_ids
+     *  A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values. (required)
+     * @param  string|null $created_after
+     *  Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set. (optional)
+     * @param  string|null $created_before
+     *  Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time. (optional)
+     * @param  string|null $last_updated_after
+     *  Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set. (optional)
+     * @param  string|null $last_updated_before
+     *  Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time. (optional)
+     * @param  string[]|null $order_statuses
+     *  A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.) (optional)
+     * @param  string[]|null $fulfillment_channels
+     *  A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
+     * @param  string[]|null $payment_methods
+     *  A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
+     * @param  string|null $buyer_email
+     *  The email address of a buyer. Used to select orders that contain the specified email address. (optional)
+     * @param  string|null $seller_order_id
+     *  An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
+     * @param  int|null $max_results_per_page
+     *  A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
+     * @param  string[]|null $easy_ship_shipment_statuses
+     *  A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.) (optional)
+     * @param  string[]|null $electronic_invoice_statuses
+     *  A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.) (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
+     * @param  string[]|null $amazon_order_ids
+     *  A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (optional)
+     * @param  string|null $actual_fulfillment_supply_source_id
+     *  The &#x60;sourceId&#x60; of the location from where you want the order fulfilled. (optional)
+     * @param  bool|null $is_ispu
+     *  When true, this order is marked to be picked up from a store rather than delivered. (optional)
+     * @param  string|null $store_chain_store_id
+     *  The store chain store identifier. Linked to a specific store in a store chain. (optional)
+     * @param  string|null $earliest_delivery_date_before
+     *  Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $earliest_delivery_date_after
+     *  Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $latest_delivery_date_before
+     *  Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $latest_delivery_date_after
+     *  Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
      *
-     * @return array of \SpApi\Model\orders\v0\GetOrdersResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\orders\v0\GetOrdersResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getOrdersWithHttpInfo(
         array $marketplace_ids,
@@ -2262,23 +3224,15 @@ class OrdersV0Api
         ?string $earliest_delivery_date_before = null,
         ?string $earliest_delivery_date_after = null,
         ?string $latest_delivery_date_before = null,
-        ?string $latest_delivery_date_after = null,
-        ?string $restrictedDataToken = null
+        ?string $latest_delivery_date_after = null
     ): array {
         $request = $this->getOrdersRequest($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $buyer_email, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrders');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getOrdersRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -2310,81 +3264,244 @@ class OrdersV0Api
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\orders\v0\GetOrdersResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\orders\v0\GetOrdersResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrdersResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrdersResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\orders\v0\GetOrdersResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrdersResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrdersResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\orders\v0\GetOrdersResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrdersResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrdersResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\orders\v0\GetOrdersResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrdersResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrdersResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\orders\v0\GetOrdersResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrdersResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrdersResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\orders\v0\GetOrdersResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrdersResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrdersResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\orders\v0\GetOrdersResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\orders\v0\GetOrdersResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrdersResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\orders\v0\GetOrdersResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\orders\v0\GetOrdersResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\orders\v0\GetOrdersResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\orders\v0\GetOrdersResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrdersResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrdersResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrdersResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrdersResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrdersResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrdersResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\GetOrdersResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getOrdersAsync.
+     * Operation getOrdersAsync
      *
-     * @param string[]      $marketplace_ids
-     *                                                           A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values. (required)
-     * @param null|string   $created_after
-     *                                                           Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set. (optional)
-     * @param null|string   $created_before
-     *                                                           Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time. (optional)
-     * @param null|string   $last_updated_after
-     *                                                           Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set. (optional)
-     * @param null|string   $last_updated_before
-     *                                                           Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time. (optional)
-     * @param null|string[] $order_statuses
-     *                                                           A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.) (optional)
-     * @param null|string[] $fulfillment_channels
-     *                                                           A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
-     * @param null|string[] $payment_methods
-     *                                                           A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
-     * @param null|string   $buyer_email
-     *                                                           The email address of a buyer. Used to select orders that contain the specified email address. (optional)
-     * @param null|string   $seller_order_id
-     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
-     * @param null|int      $max_results_per_page
-     *                                                           A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
-     * @param null|string[] $easy_ship_shipment_statuses
-     *                                                           A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.) (optional)
-     * @param null|string[] $electronic_invoice_statuses
-     *                                                           A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.) (optional)
-     * @param null|string   $next_token
-     *                                                           A string token returned in the response of your previous request. (optional)
-     * @param null|string[] $amazon_order_ids
-     *                                                           A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (optional)
-     * @param null|string   $actual_fulfillment_supply_source_id
-     *                                                           The &#x60;sourceId&#x60; of the location from where you want the order fulfilled. (optional)
-     * @param null|bool     $is_ispu
-     *                                                           When true, this order is marked to be picked up from a store rather than delivered. (optional)
-     * @param null|string   $store_chain_store_id
-     *                                                           The store chain store identifier. Linked to a specific store in a store chain. (optional)
-     * @param null|string   $earliest_delivery_date_before
-     *                                                           Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $earliest_delivery_date_after
-     *                                                           Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $latest_delivery_date_before
-     *                                                           Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $latest_delivery_date_after
-     *                                                           Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string[] $marketplace_ids
+     *  A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values. (required)
+     * @param  string|null $created_after
+     *  Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set. (optional)
+     * @param  string|null $created_before
+     *  Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time. (optional)
+     * @param  string|null $last_updated_after
+     *  Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set. (optional)
+     * @param  string|null $last_updated_before
+     *  Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time. (optional)
+     * @param  string[]|null $order_statuses
+     *  A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.) (optional)
+     * @param  string[]|null $fulfillment_channels
+     *  A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
+     * @param  string[]|null $payment_methods
+     *  A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
+     * @param  string|null $buyer_email
+     *  The email address of a buyer. Used to select orders that contain the specified email address. (optional)
+     * @param  string|null $seller_order_id
+     *  An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
+     * @param  int|null $max_results_per_page
+     *  A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
+     * @param  string[]|null $easy_ship_shipment_statuses
+     *  A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.) (optional)
+     * @param  string[]|null $electronic_invoice_statuses
+     *  A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.) (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
+     * @param  string[]|null $amazon_order_ids
+     *  A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (optional)
+     * @param  string|null $actual_fulfillment_supply_source_id
+     *  The &#x60;sourceId&#x60; of the location from where you want the order fulfilled. (optional)
+     * @param  bool|null $is_ispu
+     *  When true, this order is marked to be picked up from a store rather than delivered. (optional)
+     * @param  string|null $store_chain_store_id
+     *  The store chain store identifier. Linked to a specific store in a store chain. (optional)
+     * @param  string|null $earliest_delivery_date_before
+     *  Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $earliest_delivery_date_after
+     *  Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $latest_delivery_date_before
+     *  Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $latest_delivery_date_after
+     *  Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrdersAsync(
         array $marketplace_ids,
@@ -2415,59 +3532,59 @@ class OrdersV0Api
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getOrdersAsyncWithHttpInfo.
+     * Operation getOrdersAsyncWithHttpInfo
      *
-     * @param string[]      $marketplace_ids
-     *                                                           A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values. (required)
-     * @param null|string   $created_after
-     *                                                           Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set. (optional)
-     * @param null|string   $created_before
-     *                                                           Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time. (optional)
-     * @param null|string   $last_updated_after
-     *                                                           Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set. (optional)
-     * @param null|string   $last_updated_before
-     *                                                           Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time. (optional)
-     * @param null|string[] $order_statuses
-     *                                                           A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.) (optional)
-     * @param null|string[] $fulfillment_channels
-     *                                                           A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
-     * @param null|string[] $payment_methods
-     *                                                           A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
-     * @param null|string   $buyer_email
-     *                                                           The email address of a buyer. Used to select orders that contain the specified email address. (optional)
-     * @param null|string   $seller_order_id
-     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
-     * @param null|int      $max_results_per_page
-     *                                                           A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
-     * @param null|string[] $easy_ship_shipment_statuses
-     *                                                           A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.) (optional)
-     * @param null|string[] $electronic_invoice_statuses
-     *                                                           A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.) (optional)
-     * @param null|string   $next_token
-     *                                                           A string token returned in the response of your previous request. (optional)
-     * @param null|string[] $amazon_order_ids
-     *                                                           A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (optional)
-     * @param null|string   $actual_fulfillment_supply_source_id
-     *                                                           The &#x60;sourceId&#x60; of the location from where you want the order fulfilled. (optional)
-     * @param null|bool     $is_ispu
-     *                                                           When true, this order is marked to be picked up from a store rather than delivered. (optional)
-     * @param null|string   $store_chain_store_id
-     *                                                           The store chain store identifier. Linked to a specific store in a store chain. (optional)
-     * @param null|string   $earliest_delivery_date_before
-     *                                                           Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $earliest_delivery_date_after
-     *                                                           Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $latest_delivery_date_before
-     *                                                           Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $latest_delivery_date_after
-     *                                                           Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string[] $marketplace_ids
+     *  A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values. (required)
+     * @param  string|null $created_after
+     *  Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set. (optional)
+     * @param  string|null $created_before
+     *  Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time. (optional)
+     * @param  string|null $last_updated_after
+     *  Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set. (optional)
+     * @param  string|null $last_updated_before
+     *  Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time. (optional)
+     * @param  string[]|null $order_statuses
+     *  A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.) (optional)
+     * @param  string[]|null $fulfillment_channels
+     *  A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
+     * @param  string[]|null $payment_methods
+     *  A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
+     * @param  string|null $buyer_email
+     *  The email address of a buyer. Used to select orders that contain the specified email address. (optional)
+     * @param  string|null $seller_order_id
+     *  An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
+     * @param  int|null $max_results_per_page
+     *  A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
+     * @param  string[]|null $easy_ship_shipment_statuses
+     *  A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.) (optional)
+     * @param  string[]|null $electronic_invoice_statuses
+     *  A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.) (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
+     * @param  string[]|null $amazon_order_ids
+     *  A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (optional)
+     * @param  string|null $actual_fulfillment_supply_source_id
+     *  The &#x60;sourceId&#x60; of the location from where you want the order fulfilled. (optional)
+     * @param  bool|null $is_ispu
+     *  When true, this order is marked to be picked up from a store rather than delivered. (optional)
+     * @param  string|null $store_chain_store_id
+     *  The store chain store identifier. Linked to a specific store in a store chain. (optional)
+     * @param  string|null $earliest_delivery_date_before
+     *  Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $earliest_delivery_date_after
+     *  Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $latest_delivery_date_before
+     *  Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $latest_delivery_date_after
+     *  Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getOrdersAsyncWithHttpInfo(
         array $marketplace_ids,
@@ -2491,29 +3608,22 @@ class OrdersV0Api
         ?string $earliest_delivery_date_before = null,
         ?string $earliest_delivery_date_after = null,
         ?string $latest_delivery_date_before = null,
-        ?string $latest_delivery_date_after = null,
-        ?string $restrictedDataToken = null
+        ?string $latest_delivery_date_after = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\orders\v0\GetOrdersResponse';
         $request = $this->getOrdersRequest($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $buyer_email, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrders');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getOrdersRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -2521,13 +3631,12 @@ class OrdersV0Api
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -2539,59 +3648,59 @@ class OrdersV0Api
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getOrders'.
+     * Create request for operation 'getOrders'
      *
-     * @param string[]      $marketplace_ids
-     *                                                           A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values. (required)
-     * @param null|string   $created_after
-     *                                                           Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set. (optional)
-     * @param null|string   $created_before
-     *                                                           Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time. (optional)
-     * @param null|string   $last_updated_after
-     *                                                           Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set. (optional)
-     * @param null|string   $last_updated_before
-     *                                                           Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time. (optional)
-     * @param null|string[] $order_statuses
-     *                                                           A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.) (optional)
-     * @param null|string[] $fulfillment_channels
-     *                                                           A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
-     * @param null|string[] $payment_methods
-     *                                                           A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
-     * @param null|string   $buyer_email
-     *                                                           The email address of a buyer. Used to select orders that contain the specified email address. (optional)
-     * @param null|string   $seller_order_id
-     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
-     * @param null|int      $max_results_per_page
-     *                                                           A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
-     * @param null|string[] $easy_ship_shipment_statuses
-     *                                                           A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.) (optional)
-     * @param null|string[] $electronic_invoice_statuses
-     *                                                           A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.) (optional)
-     * @param null|string   $next_token
-     *                                                           A string token returned in the response of your previous request. (optional)
-     * @param null|string[] $amazon_order_ids
-     *                                                           A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (optional)
-     * @param null|string   $actual_fulfillment_supply_source_id
-     *                                                           The &#x60;sourceId&#x60; of the location from where you want the order fulfilled. (optional)
-     * @param null|bool     $is_ispu
-     *                                                           When true, this order is marked to be picked up from a store rather than delivered. (optional)
-     * @param null|string   $store_chain_store_id
-     *                                                           The store chain store identifier. Linked to a specific store in a store chain. (optional)
-     * @param null|string   $earliest_delivery_date_before
-     *                                                           Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $earliest_delivery_date_after
-     *                                                           Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $latest_delivery_date_before
-     *                                                           Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
-     * @param null|string   $latest_delivery_date_after
-     *                                                           Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string[] $marketplace_ids
+     *  A list of &#x60;MarketplaceId&#x60; values. Used to select orders that were placed in the specified marketplaces.  Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) for a complete list of &#x60;marketplaceId&#x60; values. (required)
+     * @param  string|null $created_after
+     *  Use this date to select orders created after (or at) a specified time. Only orders placed after the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;LastUpdatedAfter&#x60; and &#x60;LastUpdatedBefore&#x60; cannot be set when &#x60;CreatedAfter&#x60; is set. (optional)
+     * @param  string|null $created_before
+     *  Use this date to select orders created before (or at) a specified time. Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;CreatedBefore&#x60; is optional when &#x60;CreatedAfter&#x60; is set. If specified, &#x60;CreatedBefore&#x60; must be equal to or after the &#x60;CreatedAfter&#x60; date and at least two minutes before current time. (optional)
+     * @param  string|null $last_updated_after
+     *  Use this date to select orders that were last updated after (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: Either the &#x60;CreatedAfter&#x60; parameter or the &#x60;LastUpdatedAfter&#x60; parameter is required. Both cannot be empty. &#x60;CreatedAfter&#x60; or &#x60;CreatedBefore&#x60; cannot be set when &#x60;LastUpdatedAfter&#x60; is set. (optional)
+     * @param  string|null $last_updated_before
+     *  Use this date to select orders that were last updated before (or at) a specified time. An update is defined as any change in order status, including the creation of a new order. Includes updates made by Amazon and by the seller. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.  **Note**: &#x60;LastUpdatedBefore&#x60; is optional when &#x60;LastUpdatedAfter&#x60; is set. But if specified, &#x60;LastUpdatedBefore&#x60; must be equal to or after the &#x60;LastUpdatedAfter&#x60; date and at least two minutes before current time. (optional)
+     * @param  string[]|null $order_statuses
+     *  A list of &#x60;OrderStatus&#x60; values used to filter the results.  **Possible values:** - &#x60;PendingAvailability&#x60; (This status is available for pre-orders only. The order has been placed, payment has not been authorized, and the release date of the item is in the future.) - &#x60;Pending&#x60; (The order has been placed but payment has not been authorized.) - &#x60;Unshipped&#x60; (Payment has been authorized and the order is ready for shipment, but no items in the order have been shipped.) - &#x60;PartiallyShipped&#x60; (One or more, but not all, items in the order have been shipped.) - &#x60;Shipped&#x60; (All items in the order have been shipped.) - &#x60;InvoiceUnconfirmed&#x60; (All items in the order have been shipped. The seller has not yet given confirmation to Amazon that the invoice has been shipped to the buyer.) - &#x60;Canceled&#x60; (The order has been canceled.) - &#x60;Unfulfillable&#x60; (The order cannot be fulfilled. This state applies only to Multi-Channel Fulfillment orders.) (optional)
+     * @param  string[]|null $fulfillment_channels
+     *  A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
+     * @param  string[]|null $payment_methods
+     *  A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
+     * @param  string|null $buyer_email
+     *  The email address of a buyer. Used to select orders that contain the specified email address. (optional)
+     * @param  string|null $seller_order_id
+     *  An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, LastUpdatedBefore, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
+     * @param  int|null $max_results_per_page
+     *  A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
+     * @param  string[]|null $easy_ship_shipment_statuses
+     *  A list of &#x60;EasyShipShipmentStatus&#x60; values. Used to select Easy Ship orders with statuses that match the specified values. If &#x60;EasyShipShipmentStatus&#x60; is specified, only Amazon Easy Ship orders are returned.  **Possible values:** - &#x60;PendingSchedule&#x60; (The package is awaiting the schedule for pick-up.) - &#x60;PendingPickUp&#x60; (Amazon has not yet picked up the package from the seller.) - &#x60;PendingDropOff&#x60; (The seller will deliver the package to the carrier.) - &#x60;LabelCanceled&#x60; (The seller canceled the pickup.) - &#x60;PickedUp&#x60; (Amazon has picked up the package from the seller.) - &#x60;DroppedOff&#x60; (The package is delivered to the carrier by the seller.) - &#x60;AtOriginFC&#x60; (The packaged is at the origin fulfillment center.) - &#x60;AtDestinationFC&#x60; (The package is at the destination fulfillment center.) - &#x60;Delivered&#x60; (The package has been delivered.) - &#x60;RejectedByBuyer&#x60; (The package has been rejected by the buyer.) - &#x60;Undeliverable&#x60; (The package cannot be delivered.) - &#x60;ReturningToSeller&#x60; (The package was not delivered and is being returned to the seller.) - &#x60;ReturnedToSeller&#x60; (The package was not delivered and was returned to the seller.) - &#x60;Lost&#x60; (The package is lost.) - &#x60;OutForDelivery&#x60; (The package is out for delivery.) - &#x60;Damaged&#x60; (The package was damaged by the carrier.) (optional)
+     * @param  string[]|null $electronic_invoice_statuses
+     *  A list of &#x60;ElectronicInvoiceStatus&#x60; values. Used to select orders with electronic invoice statuses that match the specified values.  **Possible values:** - &#x60;NotRequired&#x60; (Electronic invoice submission is not required for this order.) - &#x60;NotFound&#x60; (The electronic invoice was not submitted for this order.) - &#x60;Processing&#x60; (The electronic invoice is being processed for this order.) - &#x60;Errored&#x60; (The last submitted electronic invoice was rejected for this order.) - &#x60;Accepted&#x60; (The last submitted electronic invoice was submitted and accepted.) (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
+     * @param  string[]|null $amazon_order_ids
+     *  A list of &#x60;AmazonOrderId&#x60; values. An &#x60;AmazonOrderId&#x60; is an Amazon-defined order identifier, in 3-7-7 format. (optional)
+     * @param  string|null $actual_fulfillment_supply_source_id
+     *  The &#x60;sourceId&#x60; of the location from where you want the order fulfilled. (optional)
+     * @param  bool|null $is_ispu
+     *  When true, this order is marked to be picked up from a store rather than delivered. (optional)
+     * @param  string|null $store_chain_store_id
+     *  The store chain store identifier. Linked to a specific store in a store chain. (optional)
+     * @param  string|null $earliest_delivery_date_before
+     *  Use this date to select orders with a earliest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $earliest_delivery_date_after
+     *  Use this date to select orders with a earliest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $latest_delivery_date_before
+     *  Use this date to select orders with a latest delivery date before (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
+     * @param  string|null $latest_delivery_date_after
+     *  Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getOrdersRequest(
         array $marketplace_ids,
@@ -2618,7 +3727,7 @@ class OrdersV0Api
         ?string $latest_delivery_date_after = null
     ): Request {
         // verify the required parameter 'marketplace_ids' is set
-        if (null === $marketplace_ids || (is_array($marketplace_ids) && 0 === count($marketplace_ids))) {
+        if ($marketplace_ids === null || (is_array($marketplace_ids) && count($marketplace_ids) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $marketplace_ids when calling getOrders'
             );
@@ -2627,9 +3736,10 @@ class OrdersV0Api
             throw new \InvalidArgumentException('invalid value for "$marketplace_ids" when calling OrdersV0Api.getOrders, number of items must be less than or equal to 50.');
         }
 
-        if (null !== $amazon_order_ids && count($amazon_order_ids) > 50) {
+        if ($amazon_order_ids !== null && count($amazon_order_ids) > 50) {
             throw new \InvalidArgumentException('invalid value for "$amazon_order_ids" when calling OrdersV0Api.getOrders, number of items must be less than or equal to 50.');
         }
+
 
         $resourcePath = '/orders/v0/orders';
         $formParams = [];
@@ -2645,8 +3755,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2655,8 +3764,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2665,8 +3773,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2675,8 +3782,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2685,8 +3791,7 @@ class OrdersV0Api
             'array', // openApiType
             'form', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2695,8 +3800,7 @@ class OrdersV0Api
             'array', // openApiType
             'form', // style
             false, // explode
-            true, // required
-            $this->config
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2705,8 +3809,7 @@ class OrdersV0Api
             'array', // openApiType
             'form', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2715,8 +3818,7 @@ class OrdersV0Api
             'array', // openApiType
             'form', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2725,8 +3827,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2735,8 +3836,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2745,8 +3845,7 @@ class OrdersV0Api
             'integer', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2755,8 +3854,7 @@ class OrdersV0Api
             'array', // openApiType
             'form', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2765,8 +3863,7 @@ class OrdersV0Api
             'array', // openApiType
             'form', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2775,8 +3872,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2785,8 +3881,7 @@ class OrdersV0Api
             'array', // openApiType
             'form', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2795,8 +3890,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2805,8 +3899,7 @@ class OrdersV0Api
             'boolean', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2815,8 +3908,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2825,8 +3917,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2835,8 +3926,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2845,8 +3935,7 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -2855,15 +3944,24 @@ class OrdersV0Api
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -2874,19 +3972,22 @@ class OrdersV0Api
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -2900,68 +4001,56 @@ class OrdersV0Api
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation updateVerificationStatus.
+     * Operation updateVerificationStatus
      *
-     * @param string                          $order_id
-     *                                                             The Amazon order identifier in 3-7-7 format. (required)
-     * @param UpdateVerificationStatusRequest $payload
-     *                                                             The request body for the &#x60;updateVerificationStatus&#x60; operation. (required)
-     * @param null|string                     $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  \SpApi\Model\orders\v0\UpdateVerificationStatusRequest $payload
+     *  The request body for the &#x60;updateVerificationStatus&#x60; operation. (required)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return 
      */
     public function updateVerificationStatus(
         string $order_id,
-        UpdateVerificationStatusRequest $payload,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\orders\v0\UpdateVerificationStatusRequest $payload
     ): void {
-        $this->updateVerificationStatusWithHttpInfo($order_id, $payload, $restrictedDataToken);
+        $this->updateVerificationStatusWithHttpInfo($order_id, $payload);
     }
 
     /**
-     * Operation updateVerificationStatusWithHttpInfo.
+     * Operation updateVerificationStatusWithHttpInfo
      *
-     * @param string                          $order_id
-     *                                                             The Amazon order identifier in 3-7-7 format. (required)
-     * @param UpdateVerificationStatusRequest $payload
-     *                                                             The request body for the &#x60;updateVerificationStatus&#x60; operation. (required)
-     * @param null|string                     $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  \SpApi\Model\orders\v0\UpdateVerificationStatusRequest $payload
+     *  The request body for the &#x60;updateVerificationStatus&#x60; operation. (required)
      *
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of , HTTP status code, HTTP response headers (array of strings)
      */
     public function updateVerificationStatusWithHttpInfo(
         string $order_id,
-        UpdateVerificationStatusRequest $payload,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\orders\v0\UpdateVerificationStatusRequest $payload
     ): array {
         $request = $this->updateVerificationStatusRequest($order_id, $payload);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-updateVerificationStatus');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->updateVerificationStatusRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -2995,77 +4084,130 @@ class OrdersV0Api
             }
 
             return [null, $statusCode, $response->getHeaders()];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\orders\v0\UpdateVerificationStatusErrorResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\UpdateVerificationStatusErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\UpdateVerificationStatusErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\UpdateVerificationStatusErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\UpdateVerificationStatusErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\UpdateVerificationStatusErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\UpdateVerificationStatusErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\UpdateVerificationStatusErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\orders\v0\UpdateVerificationStatusErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation updateVerificationStatusAsync.
+     * Operation updateVerificationStatusAsync
      *
-     * @param string                          $order_id
-     *                                                  The Amazon order identifier in 3-7-7 format. (required)
-     * @param UpdateVerificationStatusRequest $payload
-     *                                                  The request body for the &#x60;updateVerificationStatus&#x60; operation. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  \SpApi\Model\orders\v0\UpdateVerificationStatusRequest $payload
+     *  The request body for the &#x60;updateVerificationStatus&#x60; operation. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function updateVerificationStatusAsync(
         string $order_id,
-        UpdateVerificationStatusRequest $payload
+        \SpApi\Model\orders\v0\UpdateVerificationStatusRequest $payload
     ): PromiseInterface {
         return $this->updateVerificationStatusAsyncWithHttpInfo($order_id, $payload)
             ->then(
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation updateVerificationStatusAsyncWithHttpInfo.
+     * Operation updateVerificationStatusAsyncWithHttpInfo
      *
-     * @param string                          $order_id
-     *                                                  The Amazon order identifier in 3-7-7 format. (required)
-     * @param UpdateVerificationStatusRequest $payload
-     *                                                  The request body for the &#x60;updateVerificationStatus&#x60; operation. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  \SpApi\Model\orders\v0\UpdateVerificationStatusRequest $payload
+     *  The request body for the &#x60;updateVerificationStatus&#x60; operation. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function updateVerificationStatusAsyncWithHttpInfo(
         string $order_id,
-        UpdateVerificationStatusRequest $payload,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\orders\v0\UpdateVerificationStatusRequest $payload
     ): PromiseInterface {
         $returnType = '';
         $request = $this->updateVerificationStatusRequest($order_id, $payload);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-updateVerificationStatus');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->updateVerificationStatusRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) {
+                function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -3077,32 +4219,32 @@ class OrdersV0Api
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'updateVerificationStatus'.
+     * Create request for operation 'updateVerificationStatus'
      *
-     * @param string                          $order_id
-     *                                                  The Amazon order identifier in 3-7-7 format. (required)
-     * @param UpdateVerificationStatusRequest $payload
-     *                                                  The request body for the &#x60;updateVerificationStatus&#x60; operation. (required)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  \SpApi\Model\orders\v0\UpdateVerificationStatusRequest $payload
+     *  The request body for the &#x60;updateVerificationStatus&#x60; operation. (required)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function updateVerificationStatusRequest(
         string $order_id,
-        UpdateVerificationStatusRequest $payload
+        \SpApi\Model\orders\v0\UpdateVerificationStatusRequest $payload
     ): Request {
         // verify the required parameter 'order_id' is set
-        if (null === $order_id || (is_array($order_id) && 0 === count($order_id))) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling updateVerificationStatus'
             );
         }
         // verify the required parameter 'payload' is set
-        if (null === $payload || (is_array($payload) && 0 === count($payload))) {
+        if ($payload === null || (is_array($payload) && count($payload) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $payload when calling updateVerificationStatus'
             );
@@ -3115,24 +4257,34 @@ class OrdersV0Api
         $httpBody = '';
         $multipart = false;
 
+
+
         // path params
-        if (null !== $order_id) {
+        if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{orderId}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            'application/json',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                'application/json'
+                ,
+                false
+            );
+        }
 
         // for model (json/xml)
         if (isset($payload)) {
-            if ('application/json' === $headers['Content-Type']) {
+            if ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($payload));
             } else {
                 $httpBody = $payload;
@@ -3145,19 +4297,22 @@ class OrdersV0Api
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -3171,21 +4326,19 @@ class OrdersV0Api
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'PATCH',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Create http client option.
-     *
-     * @return array of http client options
+     * Create http client option
      *
      * @throws \RuntimeException on file opening failure
+     * @return array of http client options
      */
     protected function createHttpClientOption(): array
     {
@@ -3193,10 +4346,27 @@ class OrdersV0Api
         if ($this->config->getDebug()) {
             $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: '.$this->config->getDebugFile());
+                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
             }
         }
 
         return $options;
+    }
+
+    /**
+     * Rate Limiter waits for tokens
+     *
+     * @return void
+     */
+    public function rateLimitWait(): void
+    {
+        if ($this->rateLimiter) {
+            $type = $this->rateLimitConfig->getRateLimitType();
+            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
+                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
+            } else {
+                $this->rateLimiter->consume()->wait();
+            }
+        }
     }
 }

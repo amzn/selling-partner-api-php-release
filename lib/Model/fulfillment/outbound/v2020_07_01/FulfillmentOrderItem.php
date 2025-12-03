@@ -1,19 +1,17 @@
 <?php
-
 /**
- * FulfillmentOrderItem.
+ * FulfillmentOrderItem
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner APIs for Fulfillment Outbound.
+ * Selling Partner APIs for Fulfillment Outbound
  *
  * The Selling Partner API for Fulfillment Outbound lets you create applications that help a seller fulfill Multi-Channel Fulfillment orders using their inventory in Amazon's fulfillment network. You can get information on both potential and existing fulfillment orders.
  *
@@ -30,82 +28,81 @@
 
 namespace SpApi\Model\fulfillment\outbound\v2020_07_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * FulfillmentOrderItem Class Doc Comment.
+ * FulfillmentOrderItem Class Doc Comment
  *
  * @category Class
- *
  * @description Item information for a fulfillment order.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSerializable
+class FulfillmentOrderItem implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'FulfillmentOrderItem';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'seller_sku' => 'string',
-        'seller_fulfillment_order_item_id' => 'string',
-        'quantity' => 'int',
-        'gift_message' => 'string',
-        'displayable_comment' => 'string',
-        'fulfillment_network_sku' => 'string',
-        'order_item_disposition' => 'string',
-        'cancelled_quantity' => 'int',
-        'unfulfillable_quantity' => 'int',
-        'estimated_ship_date' => '\DateTime',
-        'estimated_arrival_date' => '\DateTime',
-        'per_unit_price' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money',
-        'per_unit_tax' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money',
-        'per_unit_declared_value' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money'];
+             'seller_sku' => 'string',
+             'seller_fulfillment_order_item_id' => 'string',
+             'quantity' => 'int',
+             'gift_message' => 'string',
+             'displayable_comment' => 'string',
+             'fulfillment_network_sku' => 'string',
+             'order_item_disposition' => 'string',
+             'cancelled_quantity' => 'int',
+             'unfulfillable_quantity' => 'int',
+             'estimated_ship_date' => '\DateTime',
+             'estimated_arrival_date' => '\DateTime',
+             'per_unit_price' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money',
+             'per_unit_tax' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money',
+             'per_unit_declared_value' => '\SpApi\Model\fulfillment\outbound\v2020_07_01\Money'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'seller_sku' => null,
-        'seller_fulfillment_order_item_id' => null,
-        'quantity' => 'int32',
-        'gift_message' => null,
-        'displayable_comment' => null,
-        'fulfillment_network_sku' => null,
-        'order_item_disposition' => null,
-        'cancelled_quantity' => 'int32',
-        'unfulfillable_quantity' => 'int32',
-        'estimated_ship_date' => 'date-time',
-        'estimated_arrival_date' => 'date-time',
-        'per_unit_price' => null,
-        'per_unit_tax' => null,
-        'per_unit_declared_value' => null];
+            'seller_sku' => null,
+            'seller_fulfillment_order_item_id' => null,
+            'quantity' => 'int32',
+            'gift_message' => null,
+            'displayable_comment' => null,
+            'fulfillment_network_sku' => null,
+            'order_item_disposition' => null,
+            'cancelled_quantity' => 'int32',
+            'unfulfillable_quantity' => 'int32',
+            'estimated_ship_date' => 'date-time',
+            'estimated_arrival_date' => 'date-time',
+            'per_unit_price' => null,
+            'per_unit_tax' => null,
+            'per_unit_declared_value' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'seller_sku' => false,
         'seller_fulfillment_order_item_id' => false,
@@ -120,41 +117,114 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
         'estimated_arrival_date' => true,
         'per_unit_price' => true,
         'per_unit_tax' => true,
-        'per_unit_declared_value' => true,
+        'per_unit_declared_value' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'seller_sku' => 'sellerSku',
-        'seller_fulfillment_order_item_id' => 'sellerFulfillmentOrderItemId',
-        'quantity' => 'quantity',
-        'gift_message' => 'giftMessage',
-        'displayable_comment' => 'displayableComment',
-        'fulfillment_network_sku' => 'fulfillmentNetworkSku',
-        'order_item_disposition' => 'orderItemDisposition',
-        'cancelled_quantity' => 'cancelledQuantity',
-        'unfulfillable_quantity' => 'unfulfillableQuantity',
-        'estimated_ship_date' => 'estimatedShipDate',
-        'estimated_arrival_date' => 'estimatedArrivalDate',
-        'per_unit_price' => 'perUnitPrice',
-        'per_unit_tax' => 'perUnitTax',
-        'per_unit_declared_value' => 'perUnitDeclaredValue',
+                'seller_fulfillment_order_item_id' => 'sellerFulfillmentOrderItemId',
+                'quantity' => 'quantity',
+                'gift_message' => 'giftMessage',
+                'displayable_comment' => 'displayableComment',
+                'fulfillment_network_sku' => 'fulfillmentNetworkSku',
+                'order_item_disposition' => 'orderItemDisposition',
+                'cancelled_quantity' => 'cancelledQuantity',
+                'unfulfillable_quantity' => 'unfulfillableQuantity',
+                'estimated_ship_date' => 'estimatedShipDate',
+                'estimated_arrival_date' => 'estimatedArrivalDate',
+                'per_unit_price' => 'perUnitPrice',
+                'per_unit_tax' => 'perUnitTax',
+                'per_unit_declared_value' => 'perUnitDeclaredValue'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -172,11 +242,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
         'estimated_arrival_date' => 'setEstimatedArrivalDate',
         'per_unit_price' => 'setPerUnitPrice',
         'per_unit_tax' => 'setPerUnitTax',
-        'per_unit_declared_value' => 'setPerUnitDeclaredValue',
+        'per_unit_declared_value' => 'setPerUnitDeclaredValue'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -194,19 +264,63 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
         'estimated_arrival_date' => 'getEstimatedArrivalDate',
         'per_unit_price' => 'getPerUnitPrice',
         'per_unit_tax' => 'getPerUnitTax',
-        'per_unit_declared_value' => 'getPerUnitDeclaredValue',
+        'per_unit_declared_value' => 'getPerUnitDeclaredValue'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -227,81 +341,21 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -313,38 +367,40 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if (null === $this->container['seller_sku']) {
+        if ($this->container['seller_sku'] === null) {
             $invalidProperties[] = "'seller_sku' can't be null";
         }
-        if (null === $this->container['seller_fulfillment_order_item_id']) {
+        if ($this->container['seller_fulfillment_order_item_id'] === null) {
             $invalidProperties[] = "'seller_fulfillment_order_item_id' can't be null";
         }
-        if (null === $this->container['quantity']) {
+        if ($this->container['quantity'] === null) {
             $invalidProperties[] = "'quantity' can't be null";
         }
-        if (null === $this->container['cancelled_quantity']) {
+        if ($this->container['cancelled_quantity'] === null) {
             $invalidProperties[] = "'cancelled_quantity' can't be null";
         }
-        if (null === $this->container['unfulfillable_quantity']) {
+        if ($this->container['unfulfillable_quantity'] === null) {
             $invalidProperties[] = "'unfulfillable_quantity' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets seller_sku.
+     * Gets seller_sku
+     *
+     * @return string
      */
     public function getSellerSku(): string
     {
@@ -352,9 +408,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets seller_sku.
+     * Sets seller_sku
      *
-     * @param string $seller_sku the seller SKU of the item
+     * @param string $seller_sku The seller SKU of the item.
+     *
+     * @return self
      */
     public function setSellerSku(string $seller_sku): self
     {
@@ -367,7 +425,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets seller_fulfillment_order_item_id.
+     * Gets seller_fulfillment_order_item_id
+     *
+     * @return string
      */
     public function getSellerFulfillmentOrderItemId(): string
     {
@@ -375,9 +435,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets seller_fulfillment_order_item_id.
+     * Sets seller_fulfillment_order_item_id
      *
-     * @param string $seller_fulfillment_order_item_id a fulfillment order item identifier submitted with a call to the `createFulfillmentOrder` operation
+     * @param string $seller_fulfillment_order_item_id A fulfillment order item identifier submitted with a call to the `createFulfillmentOrder` operation.
+     *
+     * @return self
      */
     public function setSellerFulfillmentOrderItemId(string $seller_fulfillment_order_item_id): self
     {
@@ -390,7 +452,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets quantity.
+     * Gets quantity
+     *
+     * @return int
      */
     public function getQuantity(): int
     {
@@ -398,9 +462,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets quantity.
+     * Sets quantity
      *
-     * @param int $quantity the item quantity
+     * @param int $quantity The item quantity.
+     *
+     * @return self
      */
     public function setQuantity(int $quantity): self
     {
@@ -413,7 +479,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets gift_message.
+     * Gets gift_message
+     *
+     * @return string|null
      */
     public function getGiftMessage(): ?string
     {
@@ -421,9 +489,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets gift_message.
+     * Sets gift_message
      *
-     * @param null|string $gift_message a message to the gift recipient, if applicable
+     * @param string|null $gift_message A message to the gift recipient, if applicable.
+     *
+     * @return self
      */
     public function setGiftMessage(?string $gift_message): self
     {
@@ -432,7 +502,7 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('gift_message', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -443,7 +513,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets displayable_comment.
+     * Gets displayable_comment
+     *
+     * @return string|null
      */
     public function getDisplayableComment(): ?string
     {
@@ -451,9 +523,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets displayable_comment.
+     * Sets displayable_comment
      *
-     * @param null|string $displayable_comment item-specific text that displays in recipient-facing materials such as the outbound shipment packing slip
+     * @param string|null $displayable_comment Item-specific text that displays in recipient-facing materials such as the outbound shipment packing slip.
+     *
+     * @return self
      */
     public function setDisplayableComment(?string $displayable_comment): self
     {
@@ -462,7 +536,7 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('displayable_comment', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -473,7 +547,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets fulfillment_network_sku.
+     * Gets fulfillment_network_sku
+     *
+     * @return string|null
      */
     public function getFulfillmentNetworkSku(): ?string
     {
@@ -481,9 +557,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets fulfillment_network_sku.
+     * Sets fulfillment_network_sku
      *
-     * @param null|string $fulfillment_network_sku amazon's fulfillment network SKU of the item
+     * @param string|null $fulfillment_network_sku Amazon's fulfillment network SKU of the item.
+     *
+     * @return self
      */
     public function setFulfillmentNetworkSku(?string $fulfillment_network_sku): self
     {
@@ -492,7 +570,7 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('fulfillment_network_sku', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -503,7 +581,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets order_item_disposition.
+     * Gets order_item_disposition
+     *
+     * @return string|null
      */
     public function getOrderItemDisposition(): ?string
     {
@@ -511,9 +591,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets order_item_disposition.
+     * Sets order_item_disposition
      *
-     * @param null|string $order_item_disposition indicates whether the item is sellable or unsellable
+     * @param string|null $order_item_disposition Indicates whether the item is sellable or unsellable.
+     *
+     * @return self
      */
     public function setOrderItemDisposition(?string $order_item_disposition): self
     {
@@ -522,7 +604,7 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('order_item_disposition', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -533,7 +615,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets cancelled_quantity.
+     * Gets cancelled_quantity
+     *
+     * @return int
      */
     public function getCancelledQuantity(): int
     {
@@ -541,9 +625,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets cancelled_quantity.
+     * Sets cancelled_quantity
      *
-     * @param int $cancelled_quantity the item quantity
+     * @param int $cancelled_quantity The item quantity.
+     *
+     * @return self
      */
     public function setCancelledQuantity(int $cancelled_quantity): self
     {
@@ -556,7 +642,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets unfulfillable_quantity.
+     * Gets unfulfillable_quantity
+     *
+     * @return int
      */
     public function getUnfulfillableQuantity(): int
     {
@@ -564,9 +652,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets unfulfillable_quantity.
+     * Sets unfulfillable_quantity
      *
-     * @param int $unfulfillable_quantity the item quantity
+     * @param int $unfulfillable_quantity The item quantity.
+     *
+     * @return self
      */
     public function setUnfulfillableQuantity(int $unfulfillable_quantity): self
     {
@@ -579,7 +669,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets estimated_ship_date.
+     * Gets estimated_ship_date
+     *
+     * @return \DateTime|null
      */
     public function getEstimatedShipDate(): ?\DateTime
     {
@@ -587,9 +679,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets estimated_ship_date.
+     * Sets estimated_ship_date
      *
-     * @param null|\DateTime $estimated_ship_date Date timestamp
+     * @param \DateTime|null $estimated_ship_date Date timestamp
+     *
+     * @return self
      */
     public function setEstimatedShipDate(?\DateTime $estimated_ship_date): self
     {
@@ -598,7 +692,7 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('estimated_ship_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -609,7 +703,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets estimated_arrival_date.
+     * Gets estimated_arrival_date
+     *
+     * @return \DateTime|null
      */
     public function getEstimatedArrivalDate(): ?\DateTime
     {
@@ -617,9 +713,11 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets estimated_arrival_date.
+     * Sets estimated_arrival_date
      *
-     * @param null|\DateTime $estimated_arrival_date Date timestamp
+     * @param \DateTime|null $estimated_arrival_date Date timestamp
+     *
+     * @return self
      */
     public function setEstimatedArrivalDate(?\DateTime $estimated_arrival_date): self
     {
@@ -628,7 +726,7 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('estimated_arrival_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -639,26 +737,30 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets per_unit_price.
+     * Gets per_unit_price
+     *
+     * @return \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null
      */
-    public function getPerUnitPrice(): ?Money
+    public function getPerUnitPrice(): ?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money
     {
         return $this->container['per_unit_price'];
     }
 
     /**
-     * Sets per_unit_price.
+     * Sets per_unit_price
      *
-     * @param null|Money $per_unit_price per_unit_price
+     * @param \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null $per_unit_price per_unit_price
+     *
+     * @return self
      */
-    public function setPerUnitPrice(?Money $per_unit_price): self
+    public function setPerUnitPrice(?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money $per_unit_price): self
     {
         if (is_null($per_unit_price)) {
             array_push($this->openAPINullablesSetToNull, 'per_unit_price');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('per_unit_price', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -669,26 +771,30 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets per_unit_tax.
+     * Gets per_unit_tax
+     *
+     * @return \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null
      */
-    public function getPerUnitTax(): ?Money
+    public function getPerUnitTax(): ?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money
     {
         return $this->container['per_unit_tax'];
     }
 
     /**
-     * Sets per_unit_tax.
+     * Sets per_unit_tax
      *
-     * @param null|Money $per_unit_tax per_unit_tax
+     * @param \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null $per_unit_tax per_unit_tax
+     *
+     * @return self
      */
-    public function setPerUnitTax(?Money $per_unit_tax): self
+    public function setPerUnitTax(?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money $per_unit_tax): self
     {
         if (is_null($per_unit_tax)) {
             array_push($this->openAPINullablesSetToNull, 'per_unit_tax');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('per_unit_tax', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -699,26 +805,30 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets per_unit_declared_value.
+     * Gets per_unit_declared_value
+     *
+     * @return \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null
      */
-    public function getPerUnitDeclaredValue(): ?Money
+    public function getPerUnitDeclaredValue(): ?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money
     {
         return $this->container['per_unit_declared_value'];
     }
 
     /**
-     * Sets per_unit_declared_value.
+     * Sets per_unit_declared_value
      *
-     * @param null|Money $per_unit_declared_value per_unit_declared_value
+     * @param \SpApi\Model\fulfillment\outbound\v2020_07_01\Money|null $per_unit_declared_value per_unit_declared_value
+     *
+     * @return self
      */
-    public function setPerUnitDeclaredValue(?Money $per_unit_declared_value): self
+    public function setPerUnitDeclaredValue(?\SpApi\Model\fulfillment\outbound\v2020_07_01\Money $per_unit_declared_value): self
     {
         if (is_null($per_unit_declared_value)) {
             array_push($this->openAPINullablesSetToNull, 'per_unit_declared_value');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('per_unit_declared_value', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -728,10 +838,13 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -741,9 +854,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -754,8 +867,10 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -769,7 +884,9 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -778,67 +895,39 @@ class FulfillmentOrderItem implements ModelInterface, \ArrayAccess, \JsonSeriali
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

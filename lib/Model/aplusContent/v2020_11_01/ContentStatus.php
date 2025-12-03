@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ContentStatus.
+ * ContentStatus
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for A+ Content Management.
+ * Selling Partner API for A+ Content Management
  *
  * Use the A+ Content API to build applications that help selling partners add rich marketing content to their Amazon product detail pages. Selling partners can use A+ content to share their brand and product story, which helps buyers make informed purchasing decisions. Selling partners use content modules to add images and text.
  *
@@ -29,22 +27,22 @@
  */
 
 namespace SpApi\Model\aplusContent\v2020_11_01;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ContentStatus Class Doc Comment.
+ * ContentStatus Class Doc Comment
  *
  * @category Class
- *
  * @description The submission status of the content document.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class ContentStatus
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const APPROVED = 'APPROVED';
 
@@ -55,8 +53,7 @@ class ContentStatus
     public const SUBMITTED = 'SUBMITTED';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
@@ -65,7 +62,9 @@ class ContentStatus
             self::APPROVED,
             self::DRAFT,
             self::REJECTED,
-            self::SUBMITTED,
+            self::SUBMITTED
         ];
     }
 }
+
+

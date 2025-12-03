@@ -1,19 +1,17 @@
 <?php
-
 /**
- * FinancialEvents.
+ * FinancialEvents
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Finances.
+ * Selling Partner API for Finances
  *
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller's business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range.
  *
@@ -30,120 +28,119 @@
 
 namespace SpApi\Model\finances\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * FinancialEvents Class Doc Comment.
+ * FinancialEvents Class Doc Comment
  *
  * @category Class
- *
  * @description Contains all information related to a financial event.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
+class FinancialEvents implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'FinancialEvents';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'shipment_event_list' => '\SpApi\Model\finances\v0\ShipmentEvent[]',
-        'shipment_settle_event_list' => '\SpApi\Model\finances\v0\ShipmentEvent[]',
-        'refund_event_list' => '\SpApi\Model\finances\v0\ShipmentEvent[]',
-        'guarantee_claim_event_list' => '\SpApi\Model\finances\v0\ShipmentEvent[]',
-        'chargeback_event_list' => '\SpApi\Model\finances\v0\ShipmentEvent[]',
-        'pay_with_amazon_event_list' => '\SpApi\Model\finances\v0\PayWithAmazonEvent[]',
-        'service_provider_credit_event_list' => '\SpApi\Model\finances\v0\SolutionProviderCreditEvent[]',
-        'retrocharge_event_list' => '\SpApi\Model\finances\v0\RetrochargeEvent[]',
-        'rental_transaction_event_list' => '\SpApi\Model\finances\v0\RentalTransactionEvent[]',
-        'product_ads_payment_event_list' => '\SpApi\Model\finances\v0\ProductAdsPaymentEvent[]',
-        'service_fee_event_list' => '\SpApi\Model\finances\v0\ServiceFeeEvent[]',
-        'seller_deal_payment_event_list' => '\SpApi\Model\finances\v0\SellerDealPaymentEvent[]',
-        'debt_recovery_event_list' => '\SpApi\Model\finances\v0\DebtRecoveryEvent[]',
-        'loan_servicing_event_list' => '\SpApi\Model\finances\v0\LoanServicingEvent[]',
-        'adjustment_event_list' => '\SpApi\Model\finances\v0\AdjustmentEvent[]',
-        'safet_reimbursement_event_list' => '\SpApi\Model\finances\v0\SAFETReimbursementEvent[]',
-        'seller_review_enrollment_payment_event_list' => '\SpApi\Model\finances\v0\SellerReviewEnrollmentPaymentEvent[]',
-        'fba_liquidation_event_list' => '\SpApi\Model\finances\v0\FBALiquidationEvent[]',
-        'coupon_payment_event_list' => '\SpApi\Model\finances\v0\CouponPaymentEvent[]',
-        'imaging_services_fee_event_list' => '\SpApi\Model\finances\v0\ImagingServicesFeeEvent[]',
-        'network_commingling_transaction_event_list' => '\SpApi\Model\finances\v0\NetworkComminglingTransactionEvent[]',
-        'affordability_expense_event_list' => '\SpApi\Model\finances\v0\AffordabilityExpenseEvent[]',
-        'affordability_expense_reversal_event_list' => '\SpApi\Model\finances\v0\AffordabilityExpenseEvent[]',
-        'removal_shipment_event_list' => '\SpApi\Model\finances\v0\RemovalShipmentEvent[]',
-        'removal_shipment_adjustment_event_list' => '\SpApi\Model\finances\v0\RemovalShipmentAdjustmentEvent[]',
-        'trial_shipment_event_list' => '\SpApi\Model\finances\v0\TrialShipmentEvent[]',
-        'tds_reimbursement_event_list' => '\SpApi\Model\finances\v0\TDSReimbursementEvent[]',
-        'adhoc_disbursement_event_list' => '\SpApi\Model\finances\v0\AdhocDisbursementEvent[]',
-        'tax_withholding_event_list' => '\SpApi\Model\finances\v0\TaxWithholdingEvent[]',
-        'charge_refund_event_list' => '\SpApi\Model\finances\v0\ChargeRefundEvent[]',
-        'failed_adhoc_disbursement_event_list' => '\SpApi\Model\finances\v0\FailedAdhocDisbursementEvent[]',
-        'value_added_service_charge_event_list' => '\SpApi\Model\finances\v0\ValueAddedServiceChargeEvent[]',
-        'capacity_reservation_billing_event_list' => '\SpApi\Model\finances\v0\CapacityReservationBillingEvent[]'];
+             'shipment_event_list' => '\SpApi\Model\finances\v0\ShipmentEvent[]',
+             'shipment_settle_event_list' => '\SpApi\Model\finances\v0\ShipmentEvent[]',
+             'refund_event_list' => '\SpApi\Model\finances\v0\ShipmentEvent[]',
+             'guarantee_claim_event_list' => '\SpApi\Model\finances\v0\ShipmentEvent[]',
+             'chargeback_event_list' => '\SpApi\Model\finances\v0\ShipmentEvent[]',
+             'pay_with_amazon_event_list' => '\SpApi\Model\finances\v0\PayWithAmazonEvent[]',
+             'service_provider_credit_event_list' => '\SpApi\Model\finances\v0\SolutionProviderCreditEvent[]',
+             'retrocharge_event_list' => '\SpApi\Model\finances\v0\RetrochargeEvent[]',
+             'rental_transaction_event_list' => '\SpApi\Model\finances\v0\RentalTransactionEvent[]',
+             'product_ads_payment_event_list' => '\SpApi\Model\finances\v0\ProductAdsPaymentEvent[]',
+             'service_fee_event_list' => '\SpApi\Model\finances\v0\ServiceFeeEvent[]',
+             'seller_deal_payment_event_list' => '\SpApi\Model\finances\v0\SellerDealPaymentEvent[]',
+             'debt_recovery_event_list' => '\SpApi\Model\finances\v0\DebtRecoveryEvent[]',
+             'loan_servicing_event_list' => '\SpApi\Model\finances\v0\LoanServicingEvent[]',
+             'adjustment_event_list' => '\SpApi\Model\finances\v0\AdjustmentEvent[]',
+             'safet_reimbursement_event_list' => '\SpApi\Model\finances\v0\SAFETReimbursementEvent[]',
+             'seller_review_enrollment_payment_event_list' => '\SpApi\Model\finances\v0\SellerReviewEnrollmentPaymentEvent[]',
+             'fba_liquidation_event_list' => '\SpApi\Model\finances\v0\FBALiquidationEvent[]',
+             'coupon_payment_event_list' => '\SpApi\Model\finances\v0\CouponPaymentEvent[]',
+             'imaging_services_fee_event_list' => '\SpApi\Model\finances\v0\ImagingServicesFeeEvent[]',
+             'network_commingling_transaction_event_list' => '\SpApi\Model\finances\v0\NetworkComminglingTransactionEvent[]',
+             'affordability_expense_event_list' => '\SpApi\Model\finances\v0\AffordabilityExpenseEvent[]',
+             'affordability_expense_reversal_event_list' => '\SpApi\Model\finances\v0\AffordabilityExpenseEvent[]',
+             'removal_shipment_event_list' => '\SpApi\Model\finances\v0\RemovalShipmentEvent[]',
+             'removal_shipment_adjustment_event_list' => '\SpApi\Model\finances\v0\RemovalShipmentAdjustmentEvent[]',
+             'trial_shipment_event_list' => '\SpApi\Model\finances\v0\TrialShipmentEvent[]',
+             'tds_reimbursement_event_list' => '\SpApi\Model\finances\v0\TDSReimbursementEvent[]',
+             'adhoc_disbursement_event_list' => '\SpApi\Model\finances\v0\AdhocDisbursementEvent[]',
+             'tax_withholding_event_list' => '\SpApi\Model\finances\v0\TaxWithholdingEvent[]',
+             'charge_refund_event_list' => '\SpApi\Model\finances\v0\ChargeRefundEvent[]',
+             'failed_adhoc_disbursement_event_list' => '\SpApi\Model\finances\v0\FailedAdhocDisbursementEvent[]',
+             'value_added_service_charge_event_list' => '\SpApi\Model\finances\v0\ValueAddedServiceChargeEvent[]',
+             'capacity_reservation_billing_event_list' => '\SpApi\Model\finances\v0\CapacityReservationBillingEvent[]'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'shipment_event_list' => null,
-        'shipment_settle_event_list' => null,
-        'refund_event_list' => null,
-        'guarantee_claim_event_list' => null,
-        'chargeback_event_list' => null,
-        'pay_with_amazon_event_list' => null,
-        'service_provider_credit_event_list' => null,
-        'retrocharge_event_list' => null,
-        'rental_transaction_event_list' => null,
-        'product_ads_payment_event_list' => null,
-        'service_fee_event_list' => null,
-        'seller_deal_payment_event_list' => null,
-        'debt_recovery_event_list' => null,
-        'loan_servicing_event_list' => null,
-        'adjustment_event_list' => null,
-        'safet_reimbursement_event_list' => null,
-        'seller_review_enrollment_payment_event_list' => null,
-        'fba_liquidation_event_list' => null,
-        'coupon_payment_event_list' => null,
-        'imaging_services_fee_event_list' => null,
-        'network_commingling_transaction_event_list' => null,
-        'affordability_expense_event_list' => null,
-        'affordability_expense_reversal_event_list' => null,
-        'removal_shipment_event_list' => null,
-        'removal_shipment_adjustment_event_list' => null,
-        'trial_shipment_event_list' => null,
-        'tds_reimbursement_event_list' => null,
-        'adhoc_disbursement_event_list' => null,
-        'tax_withholding_event_list' => null,
-        'charge_refund_event_list' => null,
-        'failed_adhoc_disbursement_event_list' => null,
-        'value_added_service_charge_event_list' => null,
-        'capacity_reservation_billing_event_list' => null];
+            'shipment_event_list' => null,
+            'shipment_settle_event_list' => null,
+            'refund_event_list' => null,
+            'guarantee_claim_event_list' => null,
+            'chargeback_event_list' => null,
+            'pay_with_amazon_event_list' => null,
+            'service_provider_credit_event_list' => null,
+            'retrocharge_event_list' => null,
+            'rental_transaction_event_list' => null,
+            'product_ads_payment_event_list' => null,
+            'service_fee_event_list' => null,
+            'seller_deal_payment_event_list' => null,
+            'debt_recovery_event_list' => null,
+            'loan_servicing_event_list' => null,
+            'adjustment_event_list' => null,
+            'safet_reimbursement_event_list' => null,
+            'seller_review_enrollment_payment_event_list' => null,
+            'fba_liquidation_event_list' => null,
+            'coupon_payment_event_list' => null,
+            'imaging_services_fee_event_list' => null,
+            'network_commingling_transaction_event_list' => null,
+            'affordability_expense_event_list' => null,
+            'affordability_expense_reversal_event_list' => null,
+            'removal_shipment_event_list' => null,
+            'removal_shipment_adjustment_event_list' => null,
+            'trial_shipment_event_list' => null,
+            'tds_reimbursement_event_list' => null,
+            'adhoc_disbursement_event_list' => null,
+            'tax_withholding_event_list' => null,
+            'charge_refund_event_list' => null,
+            'failed_adhoc_disbursement_event_list' => null,
+            'value_added_service_charge_event_list' => null,
+            'capacity_reservation_billing_event_list' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'shipment_event_list' => true,
         'shipment_settle_event_list' => true,
@@ -177,60 +174,133 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         'charge_refund_event_list' => true,
         'failed_adhoc_disbursement_event_list' => true,
         'value_added_service_charge_event_list' => true,
-        'capacity_reservation_billing_event_list' => true,
+        'capacity_reservation_billing_event_list' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'shipment_event_list' => 'ShipmentEventList',
-        'shipment_settle_event_list' => 'ShipmentSettleEventList',
-        'refund_event_list' => 'RefundEventList',
-        'guarantee_claim_event_list' => 'GuaranteeClaimEventList',
-        'chargeback_event_list' => 'ChargebackEventList',
-        'pay_with_amazon_event_list' => 'PayWithAmazonEventList',
-        'service_provider_credit_event_list' => 'ServiceProviderCreditEventList',
-        'retrocharge_event_list' => 'RetrochargeEventList',
-        'rental_transaction_event_list' => 'RentalTransactionEventList',
-        'product_ads_payment_event_list' => 'ProductAdsPaymentEventList',
-        'service_fee_event_list' => 'ServiceFeeEventList',
-        'seller_deal_payment_event_list' => 'SellerDealPaymentEventList',
-        'debt_recovery_event_list' => 'DebtRecoveryEventList',
-        'loan_servicing_event_list' => 'LoanServicingEventList',
-        'adjustment_event_list' => 'AdjustmentEventList',
-        'safet_reimbursement_event_list' => 'SAFETReimbursementEventList',
-        'seller_review_enrollment_payment_event_list' => 'SellerReviewEnrollmentPaymentEventList',
-        'fba_liquidation_event_list' => 'FBALiquidationEventList',
-        'coupon_payment_event_list' => 'CouponPaymentEventList',
-        'imaging_services_fee_event_list' => 'ImagingServicesFeeEventList',
-        'network_commingling_transaction_event_list' => 'NetworkComminglingTransactionEventList',
-        'affordability_expense_event_list' => 'AffordabilityExpenseEventList',
-        'affordability_expense_reversal_event_list' => 'AffordabilityExpenseReversalEventList',
-        'removal_shipment_event_list' => 'RemovalShipmentEventList',
-        'removal_shipment_adjustment_event_list' => 'RemovalShipmentAdjustmentEventList',
-        'trial_shipment_event_list' => 'TrialShipmentEventList',
-        'tds_reimbursement_event_list' => 'TDSReimbursementEventList',
-        'adhoc_disbursement_event_list' => 'AdhocDisbursementEventList',
-        'tax_withholding_event_list' => 'TaxWithholdingEventList',
-        'charge_refund_event_list' => 'ChargeRefundEventList',
-        'failed_adhoc_disbursement_event_list' => 'FailedAdhocDisbursementEventList',
-        'value_added_service_charge_event_list' => 'ValueAddedServiceChargeEventList',
-        'capacity_reservation_billing_event_list' => 'CapacityReservationBillingEventList',
+                'shipment_settle_event_list' => 'ShipmentSettleEventList',
+                'refund_event_list' => 'RefundEventList',
+                'guarantee_claim_event_list' => 'GuaranteeClaimEventList',
+                'chargeback_event_list' => 'ChargebackEventList',
+                'pay_with_amazon_event_list' => 'PayWithAmazonEventList',
+                'service_provider_credit_event_list' => 'ServiceProviderCreditEventList',
+                'retrocharge_event_list' => 'RetrochargeEventList',
+                'rental_transaction_event_list' => 'RentalTransactionEventList',
+                'product_ads_payment_event_list' => 'ProductAdsPaymentEventList',
+                'service_fee_event_list' => 'ServiceFeeEventList',
+                'seller_deal_payment_event_list' => 'SellerDealPaymentEventList',
+                'debt_recovery_event_list' => 'DebtRecoveryEventList',
+                'loan_servicing_event_list' => 'LoanServicingEventList',
+                'adjustment_event_list' => 'AdjustmentEventList',
+                'safet_reimbursement_event_list' => 'SAFETReimbursementEventList',
+                'seller_review_enrollment_payment_event_list' => 'SellerReviewEnrollmentPaymentEventList',
+                'fba_liquidation_event_list' => 'FBALiquidationEventList',
+                'coupon_payment_event_list' => 'CouponPaymentEventList',
+                'imaging_services_fee_event_list' => 'ImagingServicesFeeEventList',
+                'network_commingling_transaction_event_list' => 'NetworkComminglingTransactionEventList',
+                'affordability_expense_event_list' => 'AffordabilityExpenseEventList',
+                'affordability_expense_reversal_event_list' => 'AffordabilityExpenseReversalEventList',
+                'removal_shipment_event_list' => 'RemovalShipmentEventList',
+                'removal_shipment_adjustment_event_list' => 'RemovalShipmentAdjustmentEventList',
+                'trial_shipment_event_list' => 'TrialShipmentEventList',
+                'tds_reimbursement_event_list' => 'TDSReimbursementEventList',
+                'adhoc_disbursement_event_list' => 'AdhocDisbursementEventList',
+                'tax_withholding_event_list' => 'TaxWithholdingEventList',
+                'charge_refund_event_list' => 'ChargeRefundEventList',
+                'failed_adhoc_disbursement_event_list' => 'FailedAdhocDisbursementEventList',
+                'value_added_service_charge_event_list' => 'ValueAddedServiceChargeEventList',
+                'capacity_reservation_billing_event_list' => 'CapacityReservationBillingEventList'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -267,11 +337,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         'charge_refund_event_list' => 'setChargeRefundEventList',
         'failed_adhoc_disbursement_event_list' => 'setFailedAdhocDisbursementEventList',
         'value_added_service_charge_event_list' => 'setValueAddedServiceChargeEventList',
-        'capacity_reservation_billing_event_list' => 'setCapacityReservationBillingEventList',
+        'capacity_reservation_billing_event_list' => 'setCapacityReservationBillingEventList'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -308,19 +378,63 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         'charge_refund_event_list' => 'getChargeRefundEventList',
         'failed_adhoc_disbursement_event_list' => 'getFailedAdhocDisbursementEventList',
         'value_added_service_charge_event_list' => 'getValueAddedServiceChargeEventList',
-        'capacity_reservation_billing_event_list' => 'getCapacityReservationBillingEventList',
+        'capacity_reservation_billing_event_list' => 'getCapacityReservationBillingEventList'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -360,81 +474,21 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -444,22 +498,27 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets shipment_event_list.
+     * Gets shipment_event_list
+     *
+     * @return array|null
      */
     public function getShipmentEventList(): ?array
     {
@@ -467,9 +526,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets shipment_event_list.
+     * Sets shipment_event_list
      *
-     * @param null|array $shipment_event_list a list of shipment event information
+     * @param array|null $shipment_event_list A list of shipment event information.
+     *
+     * @return self
      */
     public function setShipmentEventList(?array $shipment_event_list): self
     {
@@ -478,7 +539,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('shipment_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -489,7 +550,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets shipment_settle_event_list.
+     * Gets shipment_settle_event_list
+     *
+     * @return array|null
      */
     public function getShipmentSettleEventList(): ?array
     {
@@ -497,9 +560,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets shipment_settle_event_list.
+     * Sets shipment_settle_event_list
      *
-     * @param null|array $shipment_settle_event_list a list of `ShipmentEvent` items
+     * @param array|null $shipment_settle_event_list A list of `ShipmentEvent` items.
+     *
+     * @return self
      */
     public function setShipmentSettleEventList(?array $shipment_settle_event_list): self
     {
@@ -508,7 +573,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('shipment_settle_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -519,7 +584,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets refund_event_list.
+     * Gets refund_event_list
+     *
+     * @return array|null
      */
     public function getRefundEventList(): ?array
     {
@@ -527,9 +594,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets refund_event_list.
+     * Sets refund_event_list
      *
-     * @param null|array $refund_event_list a list of shipment event information
+     * @param array|null $refund_event_list A list of shipment event information.
+     *
+     * @return self
      */
     public function setRefundEventList(?array $refund_event_list): self
     {
@@ -538,7 +607,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('refund_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -549,7 +618,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets guarantee_claim_event_list.
+     * Gets guarantee_claim_event_list
+     *
+     * @return array|null
      */
     public function getGuaranteeClaimEventList(): ?array
     {
@@ -557,9 +628,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets guarantee_claim_event_list.
+     * Sets guarantee_claim_event_list
      *
-     * @param null|array $guarantee_claim_event_list a list of shipment event information
+     * @param array|null $guarantee_claim_event_list A list of shipment event information.
+     *
+     * @return self
      */
     public function setGuaranteeClaimEventList(?array $guarantee_claim_event_list): self
     {
@@ -568,7 +641,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('guarantee_claim_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -579,7 +652,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets chargeback_event_list.
+     * Gets chargeback_event_list
+     *
+     * @return array|null
      */
     public function getChargebackEventList(): ?array
     {
@@ -587,9 +662,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets chargeback_event_list.
+     * Sets chargeback_event_list
      *
-     * @param null|array $chargeback_event_list a list of shipment event information
+     * @param array|null $chargeback_event_list A list of shipment event information.
+     *
+     * @return self
      */
     public function setChargebackEventList(?array $chargeback_event_list): self
     {
@@ -598,7 +675,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('chargeback_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -609,7 +686,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets pay_with_amazon_event_list.
+     * Gets pay_with_amazon_event_list
+     *
+     * @return array|null
      */
     public function getPayWithAmazonEventList(): ?array
     {
@@ -617,9 +696,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets pay_with_amazon_event_list.
+     * Sets pay_with_amazon_event_list
      *
-     * @param null|array $pay_with_amazon_event_list a list of events related to the seller's Pay with Amazon account
+     * @param array|null $pay_with_amazon_event_list A list of events related to the seller's Pay with Amazon account.
+     *
+     * @return self
      */
     public function setPayWithAmazonEventList(?array $pay_with_amazon_event_list): self
     {
@@ -628,7 +709,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('pay_with_amazon_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -639,7 +720,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets service_provider_credit_event_list.
+     * Gets service_provider_credit_event_list
+     *
+     * @return array|null
      */
     public function getServiceProviderCreditEventList(): ?array
     {
@@ -647,9 +730,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets service_provider_credit_event_list.
+     * Sets service_provider_credit_event_list
      *
-     * @param null|array $service_provider_credit_event_list a list of information about solution provider credits
+     * @param array|null $service_provider_credit_event_list A list of information about solution provider credits.
+     *
+     * @return self
      */
     public function setServiceProviderCreditEventList(?array $service_provider_credit_event_list): self
     {
@@ -658,7 +743,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('service_provider_credit_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -669,7 +754,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets retrocharge_event_list.
+     * Gets retrocharge_event_list
+     *
+     * @return array|null
      */
     public function getRetrochargeEventList(): ?array
     {
@@ -677,9 +764,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets retrocharge_event_list.
+     * Sets retrocharge_event_list
      *
-     * @param null|array $retrocharge_event_list a list of information about Retrocharge or RetrochargeReversal events
+     * @param array|null $retrocharge_event_list A list of information about Retrocharge or RetrochargeReversal events.
+     *
+     * @return self
      */
     public function setRetrochargeEventList(?array $retrocharge_event_list): self
     {
@@ -688,7 +777,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('retrocharge_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -699,7 +788,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets rental_transaction_event_list.
+     * Gets rental_transaction_event_list
+     *
+     * @return array|null
      */
     public function getRentalTransactionEventList(): ?array
     {
@@ -707,9 +798,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets rental_transaction_event_list.
+     * Sets rental_transaction_event_list
      *
-     * @param null|array $rental_transaction_event_list a list of rental transaction event information
+     * @param array|null $rental_transaction_event_list A list of rental transaction event information.
+     *
+     * @return self
      */
     public function setRentalTransactionEventList(?array $rental_transaction_event_list): self
     {
@@ -718,7 +811,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('rental_transaction_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -729,7 +822,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets product_ads_payment_event_list.
+     * Gets product_ads_payment_event_list
+     *
+     * @return array|null
      */
     public function getProductAdsPaymentEventList(): ?array
     {
@@ -737,9 +832,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets product_ads_payment_event_list.
+     * Sets product_ads_payment_event_list
      *
-     * @param null|array $product_ads_payment_event_list a list of sponsored products payment events
+     * @param array|null $product_ads_payment_event_list A list of sponsored products payment events.
+     *
+     * @return self
      */
     public function setProductAdsPaymentEventList(?array $product_ads_payment_event_list): self
     {
@@ -748,7 +845,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('product_ads_payment_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -759,7 +856,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets service_fee_event_list.
+     * Gets service_fee_event_list
+     *
+     * @return array|null
      */
     public function getServiceFeeEventList(): ?array
     {
@@ -767,9 +866,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets service_fee_event_list.
+     * Sets service_fee_event_list
      *
-     * @param null|array $service_fee_event_list a list of information about service fee events
+     * @param array|null $service_fee_event_list A list of information about service fee events.
+     *
+     * @return self
      */
     public function setServiceFeeEventList(?array $service_fee_event_list): self
     {
@@ -778,7 +879,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('service_fee_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -789,7 +890,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets seller_deal_payment_event_list.
+     * Gets seller_deal_payment_event_list
+     *
+     * @return array|null
      */
     public function getSellerDealPaymentEventList(): ?array
     {
@@ -797,9 +900,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets seller_deal_payment_event_list.
+     * Sets seller_deal_payment_event_list
      *
-     * @param null|array $seller_deal_payment_event_list a list of payment events for deal-related fees
+     * @param array|null $seller_deal_payment_event_list A list of payment events for deal-related fees.
+     *
+     * @return self
      */
     public function setSellerDealPaymentEventList(?array $seller_deal_payment_event_list): self
     {
@@ -808,7 +913,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('seller_deal_payment_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -819,7 +924,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets debt_recovery_event_list.
+     * Gets debt_recovery_event_list
+     *
+     * @return array|null
      */
     public function getDebtRecoveryEventList(): ?array
     {
@@ -827,9 +934,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets debt_recovery_event_list.
+     * Sets debt_recovery_event_list
      *
-     * @param null|array $debt_recovery_event_list a list of debt recovery event information
+     * @param array|null $debt_recovery_event_list A list of debt recovery event information.
+     *
+     * @return self
      */
     public function setDebtRecoveryEventList(?array $debt_recovery_event_list): self
     {
@@ -838,7 +947,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('debt_recovery_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -849,7 +958,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets loan_servicing_event_list.
+     * Gets loan_servicing_event_list
+     *
+     * @return array|null
      */
     public function getLoanServicingEventList(): ?array
     {
@@ -857,9 +968,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets loan_servicing_event_list.
+     * Sets loan_servicing_event_list
      *
-     * @param null|array $loan_servicing_event_list a list of loan servicing events
+     * @param array|null $loan_servicing_event_list A list of loan servicing events.
+     *
+     * @return self
      */
     public function setLoanServicingEventList(?array $loan_servicing_event_list): self
     {
@@ -868,7 +981,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('loan_servicing_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -879,7 +992,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets adjustment_event_list.
+     * Gets adjustment_event_list
+     *
+     * @return array|null
      */
     public function getAdjustmentEventList(): ?array
     {
@@ -887,9 +1002,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets adjustment_event_list.
+     * Sets adjustment_event_list
      *
-     * @param null|array $adjustment_event_list a list of adjustment event information for the seller's account
+     * @param array|null $adjustment_event_list A list of adjustment event information for the seller's account.
+     *
+     * @return self
      */
     public function setAdjustmentEventList(?array $adjustment_event_list): self
     {
@@ -898,7 +1015,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('adjustment_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -909,7 +1026,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets safet_reimbursement_event_list.
+     * Gets safet_reimbursement_event_list
+     *
+     * @return array|null
      */
     public function getSafetReimbursementEventList(): ?array
     {
@@ -917,9 +1036,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets safet_reimbursement_event_list.
+     * Sets safet_reimbursement_event_list
      *
-     * @param null|array $safet_reimbursement_event_list a list of SAFETReimbursementEvents
+     * @param array|null $safet_reimbursement_event_list A list of SAFETReimbursementEvents.
+     *
+     * @return self
      */
     public function setSafetReimbursementEventList(?array $safet_reimbursement_event_list): self
     {
@@ -928,7 +1049,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('safet_reimbursement_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -939,7 +1060,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets seller_review_enrollment_payment_event_list.
+     * Gets seller_review_enrollment_payment_event_list
+     *
+     * @return array|null
      */
     public function getSellerReviewEnrollmentPaymentEventList(): ?array
     {
@@ -947,9 +1070,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets seller_review_enrollment_payment_event_list.
+     * Sets seller_review_enrollment_payment_event_list
      *
-     * @param null|array $seller_review_enrollment_payment_event_list a list of information about fee events for the Early Reviewer Program
+     * @param array|null $seller_review_enrollment_payment_event_list A list of information about fee events for the Early Reviewer Program.
+     *
+     * @return self
      */
     public function setSellerReviewEnrollmentPaymentEventList(?array $seller_review_enrollment_payment_event_list): self
     {
@@ -958,7 +1083,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('seller_review_enrollment_payment_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -969,7 +1094,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets fba_liquidation_event_list.
+     * Gets fba_liquidation_event_list
+     *
+     * @return array|null
      */
     public function getFbaLiquidationEventList(): ?array
     {
@@ -977,9 +1104,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets fba_liquidation_event_list.
+     * Sets fba_liquidation_event_list
      *
-     * @param null|array $fba_liquidation_event_list a list of FBA inventory liquidation payment events
+     * @param array|null $fba_liquidation_event_list A list of FBA inventory liquidation payment events.
+     *
+     * @return self
      */
     public function setFbaLiquidationEventList(?array $fba_liquidation_event_list): self
     {
@@ -988,7 +1117,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('fba_liquidation_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -999,7 +1128,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets coupon_payment_event_list.
+     * Gets coupon_payment_event_list
+     *
+     * @return array|null
      */
     public function getCouponPaymentEventList(): ?array
     {
@@ -1007,9 +1138,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets coupon_payment_event_list.
+     * Sets coupon_payment_event_list
      *
-     * @param null|array $coupon_payment_event_list a list of coupon payment event information
+     * @param array|null $coupon_payment_event_list A list of coupon payment event information.
+     *
+     * @return self
      */
     public function setCouponPaymentEventList(?array $coupon_payment_event_list): self
     {
@@ -1018,7 +1151,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('coupon_payment_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1029,7 +1162,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets imaging_services_fee_event_list.
+     * Gets imaging_services_fee_event_list
+     *
+     * @return array|null
      */
     public function getImagingServicesFeeEventList(): ?array
     {
@@ -1037,9 +1172,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets imaging_services_fee_event_list.
+     * Sets imaging_services_fee_event_list
      *
-     * @param null|array $imaging_services_fee_event_list a list of fee events related to Amazon Imaging services
+     * @param array|null $imaging_services_fee_event_list A list of fee events related to Amazon Imaging services.
+     *
+     * @return self
      */
     public function setImagingServicesFeeEventList(?array $imaging_services_fee_event_list): self
     {
@@ -1048,7 +1185,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('imaging_services_fee_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1059,7 +1196,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets network_commingling_transaction_event_list.
+     * Gets network_commingling_transaction_event_list
+     *
+     * @return array|null
      */
     public function getNetworkComminglingTransactionEventList(): ?array
     {
@@ -1067,9 +1206,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets network_commingling_transaction_event_list.
+     * Sets network_commingling_transaction_event_list
      *
-     * @param null|array $network_commingling_transaction_event_list a list of network commingling transaction events
+     * @param array|null $network_commingling_transaction_event_list A list of network commingling transaction events.
+     *
+     * @return self
      */
     public function setNetworkComminglingTransactionEventList(?array $network_commingling_transaction_event_list): self
     {
@@ -1078,7 +1219,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('network_commingling_transaction_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1089,7 +1230,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets affordability_expense_event_list.
+     * Gets affordability_expense_event_list
+     *
+     * @return array|null
      */
     public function getAffordabilityExpenseEventList(): ?array
     {
@@ -1097,9 +1240,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets affordability_expense_event_list.
+     * Sets affordability_expense_event_list
      *
-     * @param null|array $affordability_expense_event_list a list of expense information related to an affordability promotion
+     * @param array|null $affordability_expense_event_list A list of expense information related to an affordability promotion.
+     *
+     * @return self
      */
     public function setAffordabilityExpenseEventList(?array $affordability_expense_event_list): self
     {
@@ -1108,7 +1253,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('affordability_expense_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1119,7 +1264,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets affordability_expense_reversal_event_list.
+     * Gets affordability_expense_reversal_event_list
+     *
+     * @return array|null
      */
     public function getAffordabilityExpenseReversalEventList(): ?array
     {
@@ -1127,9 +1274,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets affordability_expense_reversal_event_list.
+     * Sets affordability_expense_reversal_event_list
      *
-     * @param null|array $affordability_expense_reversal_event_list a list of expense information related to an affordability promotion
+     * @param array|null $affordability_expense_reversal_event_list A list of expense information related to an affordability promotion.
+     *
+     * @return self
      */
     public function setAffordabilityExpenseReversalEventList(?array $affordability_expense_reversal_event_list): self
     {
@@ -1138,7 +1287,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('affordability_expense_reversal_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1149,7 +1298,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets removal_shipment_event_list.
+     * Gets removal_shipment_event_list
+     *
+     * @return array|null
      */
     public function getRemovalShipmentEventList(): ?array
     {
@@ -1157,9 +1308,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets removal_shipment_event_list.
+     * Sets removal_shipment_event_list
      *
-     * @param null|array $removal_shipment_event_list a list of removal shipment event information
+     * @param array|null $removal_shipment_event_list A list of removal shipment event information.
+     *
+     * @return self
      */
     public function setRemovalShipmentEventList(?array $removal_shipment_event_list): self
     {
@@ -1168,7 +1321,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('removal_shipment_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1179,7 +1332,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets removal_shipment_adjustment_event_list.
+     * Gets removal_shipment_adjustment_event_list
+     *
+     * @return array|null
      */
     public function getRemovalShipmentAdjustmentEventList(): ?array
     {
@@ -1187,9 +1342,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets removal_shipment_adjustment_event_list.
+     * Sets removal_shipment_adjustment_event_list
      *
-     * @param null|array $removal_shipment_adjustment_event_list a comma-delimited list of Removal shipmentAdjustment details for FBA inventory
+     * @param array|null $removal_shipment_adjustment_event_list A comma-delimited list of Removal shipmentAdjustment details for FBA inventory.
+     *
+     * @return self
      */
     public function setRemovalShipmentAdjustmentEventList(?array $removal_shipment_adjustment_event_list): self
     {
@@ -1198,7 +1355,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('removal_shipment_adjustment_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1209,7 +1366,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets trial_shipment_event_list.
+     * Gets trial_shipment_event_list
+     *
+     * @return array|null
      */
     public function getTrialShipmentEventList(): ?array
     {
@@ -1217,9 +1376,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets trial_shipment_event_list.
+     * Sets trial_shipment_event_list
      *
-     * @param null|array $trial_shipment_event_list a list of information about trial shipment financial events
+     * @param array|null $trial_shipment_event_list A list of information about trial shipment financial events.
+     *
+     * @return self
      */
     public function setTrialShipmentEventList(?array $trial_shipment_event_list): self
     {
@@ -1228,7 +1389,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('trial_shipment_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1239,7 +1400,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets tds_reimbursement_event_list.
+     * Gets tds_reimbursement_event_list
+     *
+     * @return array|null
      */
     public function getTdsReimbursementEventList(): ?array
     {
@@ -1247,9 +1410,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets tds_reimbursement_event_list.
+     * Sets tds_reimbursement_event_list
      *
-     * @param null|array $tds_reimbursement_event_list a list of `TDSReimbursementEvent` items
+     * @param array|null $tds_reimbursement_event_list A list of `TDSReimbursementEvent` items.
+     *
+     * @return self
      */
     public function setTdsReimbursementEventList(?array $tds_reimbursement_event_list): self
     {
@@ -1258,7 +1423,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('tds_reimbursement_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1269,7 +1434,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets adhoc_disbursement_event_list.
+     * Gets adhoc_disbursement_event_list
+     *
+     * @return array|null
      */
     public function getAdhocDisbursementEventList(): ?array
     {
@@ -1277,9 +1444,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets adhoc_disbursement_event_list.
+     * Sets adhoc_disbursement_event_list
      *
-     * @param null|array $adhoc_disbursement_event_list a list of `AdhocDisbursement` events
+     * @param array|null $adhoc_disbursement_event_list A list of `AdhocDisbursement` events.
+     *
+     * @return self
      */
     public function setAdhocDisbursementEventList(?array $adhoc_disbursement_event_list): self
     {
@@ -1288,7 +1457,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('adhoc_disbursement_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1299,7 +1468,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets tax_withholding_event_list.
+     * Gets tax_withholding_event_list
+     *
+     * @return array|null
      */
     public function getTaxWithholdingEventList(): ?array
     {
@@ -1307,9 +1478,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets tax_withholding_event_list.
+     * Sets tax_withholding_event_list
      *
-     * @param null|array $tax_withholding_event_list a list of `TaxWithholding` events
+     * @param array|null $tax_withholding_event_list A list of `TaxWithholding` events.
+     *
+     * @return self
      */
     public function setTaxWithholdingEventList(?array $tax_withholding_event_list): self
     {
@@ -1318,7 +1491,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('tax_withholding_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1329,7 +1502,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets charge_refund_event_list.
+     * Gets charge_refund_event_list
+     *
+     * @return array|null
      */
     public function getChargeRefundEventList(): ?array
     {
@@ -1337,9 +1512,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets charge_refund_event_list.
+     * Sets charge_refund_event_list
      *
-     * @param null|array $charge_refund_event_list a list of charge refund events
+     * @param array|null $charge_refund_event_list A list of charge refund events.
+     *
+     * @return self
      */
     public function setChargeRefundEventList(?array $charge_refund_event_list): self
     {
@@ -1348,7 +1525,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('charge_refund_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1359,7 +1536,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets failed_adhoc_disbursement_event_list.
+     * Gets failed_adhoc_disbursement_event_list
+     *
+     * @return array|null
      */
     public function getFailedAdhocDisbursementEventList(): ?array
     {
@@ -1367,9 +1546,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets failed_adhoc_disbursement_event_list.
+     * Sets failed_adhoc_disbursement_event_list
      *
-     * @param null|array $failed_adhoc_disbursement_event_list a list of `FailedAdhocDisbursementEvent`s
+     * @param array|null $failed_adhoc_disbursement_event_list A list of `FailedAdhocDisbursementEvent`s.
+     *
+     * @return self
      */
     public function setFailedAdhocDisbursementEventList(?array $failed_adhoc_disbursement_event_list): self
     {
@@ -1378,7 +1559,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('failed_adhoc_disbursement_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1389,7 +1570,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets value_added_service_charge_event_list.
+     * Gets value_added_service_charge_event_list
+     *
+     * @return array|null
      */
     public function getValueAddedServiceChargeEventList(): ?array
     {
@@ -1397,9 +1580,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets value_added_service_charge_event_list.
+     * Sets value_added_service_charge_event_list
      *
-     * @param null|array $value_added_service_charge_event_list a list of `ValueAddedServiceCharge` events
+     * @param array|null $value_added_service_charge_event_list A list of `ValueAddedServiceCharge` events.
+     *
+     * @return self
      */
     public function setValueAddedServiceChargeEventList(?array $value_added_service_charge_event_list): self
     {
@@ -1408,7 +1593,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('value_added_service_charge_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1419,7 +1604,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets capacity_reservation_billing_event_list.
+     * Gets capacity_reservation_billing_event_list
+     *
+     * @return array|null
      */
     public function getCapacityReservationBillingEventList(): ?array
     {
@@ -1427,9 +1614,11 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets capacity_reservation_billing_event_list.
+     * Sets capacity_reservation_billing_event_list
      *
-     * @param null|array $capacity_reservation_billing_event_list a list of `CapacityReservationBillingEvent` events
+     * @param array|null $capacity_reservation_billing_event_list A list of `CapacityReservationBillingEvent` events.
+     *
+     * @return self
      */
     public function setCapacityReservationBillingEventList(?array $capacity_reservation_billing_event_list): self
     {
@@ -1438,7 +1627,7 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('capacity_reservation_billing_event_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1448,10 +1637,13 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -1461,9 +1653,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -1474,8 +1666,10 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -1489,7 +1683,9 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -1498,67 +1694,39 @@ class FinancialEvents implements ModelInterface, \ArrayAccess, \JsonSerializable
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

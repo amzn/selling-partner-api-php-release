@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ServiceUploadDocument.
+ * ServiceUploadDocument
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Services.
+ * Selling Partner API for Services
  *
  * With the Services API, you can build applications that help service providers get and modify their service orders and manage their resources.
  *
@@ -30,25 +28,219 @@
 
 namespace SpApi\Model\services\v1;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ServiceUploadDocument Class Doc Comment.
+ * ServiceUploadDocument Class Doc Comment
  *
  * @category Class
- *
  * @description Input for to be uploaded document.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ServiceUploadDocument implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
+
+    /**
+      * The original name of the model.
+      *
+      * @var string
+      */
+    protected static string $openAPIModelName = 'ServiceUploadDocument';
+
+    /**
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
+    protected static array $openAPITypes = [
+             'content_type' => 'string',
+             'content_length' => 'float',
+             'content_md5' => 'string'    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
+    protected static array $openAPIFormats = [
+            'content_type' => null,
+            'content_length' => 'int64',
+            'content_md5' => null    ];
+
+    /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static array $openAPINullables = [
+        'content_type' => false,
+        'content_length' => false,
+        'content_md5' => true
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected array $openAPINullablesSetToNull = [];
+
+    /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @var string[]
+     */
+    protected static array $attributeMap = [
+        'content_type' => 'contentType',
+                'content_length' => 'contentLength',
+                'content_md5' => 'contentMD5'
+        
+    ];
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @var string[]
+     */
+    protected static array $setters = [
+        'content_type' => 'setContentType',
+        'content_length' => 'setContentLength',
+        'content_md5' => 'setContentMd5'
+    ];
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @var string[]
+     */
+    protected static array $getters = [
+        'content_type' => 'getContentType',
+        'content_length' => 'getContentLength',
+        'content_md5' => 'getContentMd5'
+    ];
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
 
     public const CONTENT_TYPE_TIFF = 'TIFF';
     public const CONTENT_TYPE_JPG = 'JPG';
@@ -58,184 +250,7 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     public const CONTENT_TYPE_PDF = 'PDF';
 
     /**
-     * The original name of the model.
-     */
-    protected static string $openAPIModelName = 'ServiceUploadDocument';
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
-    protected static array $openAPITypes = [
-        'content_type' => 'string',
-        'content_length' => 'float',
-        'content_md5' => 'string'];
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
-    protected static array $openAPIFormats = [
-        'content_type' => null,
-        'content_length' => 'int64',
-        'content_md5' => null];
-
-    /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
-    protected static array $openAPINullables = [
-        'content_type' => false,
-        'content_length' => false,
-        'content_md5' => true,
-    ];
-
-    /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
-    protected array $openAPINullablesSetToNull = [];
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     *
-     * @var string[]
-     */
-    protected static array $attributeMap = [
-        'content_type' => 'contentType',
-        'content_length' => 'contentLength',
-        'content_md5' => 'contentMD5',
-    ];
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     *
-     * @var string[]
-     */
-    protected static array $setters = [
-        'content_type' => 'setContentType',
-        'content_length' => 'setContentLength',
-        'content_md5' => 'setContentMd5',
-    ];
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     *
-     * @var string[]
-     */
-    protected static array $getters = [
-        'content_type' => 'getContentType',
-        'content_length' => 'getContentLength',
-        'content_md5' => 'getContentMd5',
-    ];
-
-    /**
-     * Associative array for storing property values.
-     */
-    protected array $container = [];
-
-    /**
-     * Constructor.
-     *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
-     */
-    public function __construct(?array $data = null)
-    {
-        $this->setIfExists('content_type', $data ?? [], null);
-        $this->setIfExists('content_length', $data ?? [], null);
-        $this->setIfExists('content_md5', $data ?? [], null);
-    }
-
-    /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
-    }
-
-    /**
-     * Gets allowable values of the enum.
+     * Gets allowable values of the enum
      *
      * @return string[]
      */
@@ -252,6 +267,44 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
+     * Associative array for storing property values
+     *
+     * @var array
+     */
+    protected array $container = [];
+
+    /**
+     * Constructor
+     *
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->setIfExists('content_type', $data ?? [], null);
+        $this->setIfExists('content_length', $data ?? [], null);
+        $this->setIfExists('content_md5', $data ?? [], null);
+    }
+
+    /**
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
+    }
+
+    /**
      * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
@@ -260,7 +313,7 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     {
         $invalidProperties = [];
 
-        if (null === $this->container['content_type']) {
+        if ($this->container['content_type'] === null) {
             $invalidProperties[] = "'content_type' can't be null";
         }
         $allowedValues = $this->getContentTypeAllowableValues();
@@ -272,19 +325,19 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
             );
         }
 
-        if (null === $this->container['content_length']) {
+        if ($this->container['content_length'] === null) {
             $invalidProperties[] = "'content_length' can't be null";
         }
-        if ($this->container['content_length'] > 5.24288E+6) {
+        if (($this->container['content_length'] > 5.24288E+6)) {
             $invalidProperties[] = "invalid value for 'content_length', must be smaller than or equal to 5.24288E+6.";
         }
 
-        if ($this->container['content_length'] < 1) {
+        if (($this->container['content_length'] < 1)) {
             $invalidProperties[] = "invalid value for 'content_length', must be bigger than or equal to 1.";
         }
 
-        if (!is_null($this->container['content_md5']) && !preg_match('/^[A-Za-z0-9\\\\+\\/]{22}={2}$/', $this->container['content_md5'])) {
-            $invalidProperties[] = "invalid value for 'content_md5', must be conform to the pattern /^[A-Za-z0-9\\\\+\\/]{22}={2}$/.";
+        if (!is_null($this->container['content_md5']) && !preg_match("/^[A-Za-z0-9\\\\+\/]{22}={2}$/", $this->container['content_md5'])) {
+            $invalidProperties[] = "invalid value for 'content_md5', must be conform to the pattern /^[A-Za-z0-9\\\\+\/]{22}={2}$/.";
         }
 
         return $invalidProperties;
@@ -292,17 +345,20 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets content_type.
+     * Gets content_type
+     *
+     * @return string
      */
     public function getContentType(): string
     {
@@ -310,9 +366,11 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets content_type.
+     * Sets content_type
      *
      * @param string $content_type The content type of the to-be-uploaded file
+     *
+     * @return self
      */
     public function setContentType(string $content_type): self
     {
@@ -335,7 +393,9 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets content_length.
+     * Gets content_length
+     *
+     * @return float
      */
     public function getContentLength(): float
     {
@@ -343,9 +403,11 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets content_length.
+     * Sets content_length
      *
      * @param float $content_length The content length of the to-be-uploaded file
+     *
+     * @return self
      */
     public function setContentLength(float $content_length): self
     {
@@ -353,10 +415,10 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
             throw new \InvalidArgumentException('non-nullable content_length cannot be null');
         }
 
-        if ($content_length > 5.24288E+6) {
+        if (($content_length > 5.24288E+6)) {
             throw new \InvalidArgumentException('invalid value for $content_length when calling ServiceUploadDocument., must be smaller than or equal to 5.24288E+6.');
         }
-        if ($content_length < 1) {
+        if (($content_length < 1)) {
             throw new \InvalidArgumentException('invalid value for $content_length when calling ServiceUploadDocument., must be bigger than or equal to 1.');
         }
 
@@ -366,7 +428,9 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets content_md5.
+     * Gets content_md5
+     *
+     * @return string|null
      */
     public function getContentMd5(): ?string
     {
@@ -374,9 +438,11 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets content_md5.
+     * Sets content_md5
      *
-     * @param null|string $content_md5 An MD5 hash of the content to be submitted to the upload destination. This value is used to determine if the data has been corrupted or tampered with during transit.
+     * @param string|null $content_md5 An MD5 hash of the content to be submitted to the upload destination. This value is used to determine if the data has been corrupted or tampered with during transit.
+     *
+     * @return self
      */
     public function setContentMd5(?string $content_md5): self
     {
@@ -385,14 +451,14 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('content_md5', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
 
-        if (!is_null($content_md5) && (!preg_match('/^[A-Za-z0-9\\\\+\\/]{22}={2}$/', ObjectSerializer::toString($content_md5)))) {
-            throw new \InvalidArgumentException('invalid value for $content_md5 when calling ServiceUploadDocument., must conform to the pattern /^[A-Za-z0-9\\\\+\\/]{22}={2}$/.');
+        if (!is_null($content_md5) && (!preg_match("/^[A-Za-z0-9\\\\+\/]{22}={2}$/", ObjectSerializer::toString($content_md5)))) {
+            throw new \InvalidArgumentException("invalid value for \$content_md5 when calling ServiceUploadDocument., must conform to the pattern /^[A-Za-z0-9\\\\+\/]{22}={2}$/.");
         }
 
         $this->container['content_md5'] = $content_md5;
@@ -400,10 +466,13 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -413,9 +482,9 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -426,8 +495,10 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -441,7 +512,9 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -450,67 +523,39 @@ class ServiceUploadDocument implements ModelInterface, \ArrayAccess, \JsonSerial
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

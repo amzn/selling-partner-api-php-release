@@ -1,19 +1,17 @@
 <?php
-
 /**
- * UnfulfillableQuantity.
+ * UnfulfillableQuantity
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for FBA Inventory.
+ * Selling Partner API for FBA Inventory
  *
  * The Selling Partner API for FBA Inventory lets you programmatically retrieve information about inventory in Amazon's fulfillment network.
  *
@@ -30,68 +28,67 @@
 
 namespace SpApi\Model\fba\inventory\v1;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * UnfulfillableQuantity Class Doc Comment.
+ * UnfulfillableQuantity Class Doc Comment
  *
  * @category Class
- *
  * @description The quantity of unfulfillable inventory.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerializable
+class UnfulfillableQuantity implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'UnfulfillableQuantity';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'total_unfulfillable_quantity' => 'int',
-        'customer_damaged_quantity' => 'int',
-        'warehouse_damaged_quantity' => 'int',
-        'distributor_damaged_quantity' => 'int',
-        'carrier_damaged_quantity' => 'int',
-        'defective_quantity' => 'int',
-        'expired_quantity' => 'int'];
+             'total_unfulfillable_quantity' => 'int',
+             'customer_damaged_quantity' => 'int',
+             'warehouse_damaged_quantity' => 'int',
+             'distributor_damaged_quantity' => 'int',
+             'carrier_damaged_quantity' => 'int',
+             'defective_quantity' => 'int',
+             'expired_quantity' => 'int'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'total_unfulfillable_quantity' => null,
-        'customer_damaged_quantity' => null,
-        'warehouse_damaged_quantity' => null,
-        'distributor_damaged_quantity' => null,
-        'carrier_damaged_quantity' => null,
-        'defective_quantity' => null,
-        'expired_quantity' => null];
+            'total_unfulfillable_quantity' => null,
+            'customer_damaged_quantity' => null,
+            'warehouse_damaged_quantity' => null,
+            'distributor_damaged_quantity' => null,
+            'carrier_damaged_quantity' => null,
+            'defective_quantity' => null,
+            'expired_quantity' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'total_unfulfillable_quantity' => true,
         'customer_damaged_quantity' => true,
@@ -99,34 +96,107 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         'distributor_damaged_quantity' => true,
         'carrier_damaged_quantity' => true,
         'defective_quantity' => true,
-        'expired_quantity' => true,
+        'expired_quantity' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'total_unfulfillable_quantity' => 'totalUnfulfillableQuantity',
-        'customer_damaged_quantity' => 'customerDamagedQuantity',
-        'warehouse_damaged_quantity' => 'warehouseDamagedQuantity',
-        'distributor_damaged_quantity' => 'distributorDamagedQuantity',
-        'carrier_damaged_quantity' => 'carrierDamagedQuantity',
-        'defective_quantity' => 'defectiveQuantity',
-        'expired_quantity' => 'expiredQuantity',
+                'customer_damaged_quantity' => 'customerDamagedQuantity',
+                'warehouse_damaged_quantity' => 'warehouseDamagedQuantity',
+                'distributor_damaged_quantity' => 'distributorDamagedQuantity',
+                'carrier_damaged_quantity' => 'carrierDamagedQuantity',
+                'defective_quantity' => 'defectiveQuantity',
+                'expired_quantity' => 'expiredQuantity'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -137,11 +207,11 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         'distributor_damaged_quantity' => 'setDistributorDamagedQuantity',
         'carrier_damaged_quantity' => 'setCarrierDamagedQuantity',
         'defective_quantity' => 'setDefectiveQuantity',
-        'expired_quantity' => 'setExpiredQuantity',
+        'expired_quantity' => 'setExpiredQuantity'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -152,19 +222,63 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         'distributor_damaged_quantity' => 'getDistributorDamagedQuantity',
         'carrier_damaged_quantity' => 'getCarrierDamagedQuantity',
         'defective_quantity' => 'getDefectiveQuantity',
-        'expired_quantity' => 'getExpiredQuantity',
+        'expired_quantity' => 'getExpiredQuantity'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -178,81 +292,21 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -262,22 +316,27 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets total_unfulfillable_quantity.
+     * Gets total_unfulfillable_quantity
+     *
+     * @return int|null
      */
     public function getTotalUnfulfillableQuantity(): ?int
     {
@@ -285,9 +344,11 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets total_unfulfillable_quantity.
+     * Sets total_unfulfillable_quantity
      *
-     * @param null|int $total_unfulfillable_quantity the total number of units in Amazon's fulfillment network in unsellable condition
+     * @param int|null $total_unfulfillable_quantity The total number of units in Amazon's fulfillment network in unsellable condition.
+     *
+     * @return self
      */
     public function setTotalUnfulfillableQuantity(?int $total_unfulfillable_quantity): self
     {
@@ -296,7 +357,7 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('total_unfulfillable_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -307,7 +368,9 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets customer_damaged_quantity.
+     * Gets customer_damaged_quantity
+     *
+     * @return int|null
      */
     public function getCustomerDamagedQuantity(): ?int
     {
@@ -315,9 +378,11 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets customer_damaged_quantity.
+     * Sets customer_damaged_quantity
      *
-     * @param null|int $customer_damaged_quantity the number of units in customer damaged disposition
+     * @param int|null $customer_damaged_quantity The number of units in customer damaged disposition.
+     *
+     * @return self
      */
     public function setCustomerDamagedQuantity(?int $customer_damaged_quantity): self
     {
@@ -326,7 +391,7 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('customer_damaged_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -337,7 +402,9 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets warehouse_damaged_quantity.
+     * Gets warehouse_damaged_quantity
+     *
+     * @return int|null
      */
     public function getWarehouseDamagedQuantity(): ?int
     {
@@ -345,9 +412,11 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets warehouse_damaged_quantity.
+     * Sets warehouse_damaged_quantity
      *
-     * @param null|int $warehouse_damaged_quantity the number of units in warehouse damaged disposition
+     * @param int|null $warehouse_damaged_quantity The number of units in warehouse damaged disposition.
+     *
+     * @return self
      */
     public function setWarehouseDamagedQuantity(?int $warehouse_damaged_quantity): self
     {
@@ -356,7 +425,7 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('warehouse_damaged_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -367,7 +436,9 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets distributor_damaged_quantity.
+     * Gets distributor_damaged_quantity
+     *
+     * @return int|null
      */
     public function getDistributorDamagedQuantity(): ?int
     {
@@ -375,9 +446,11 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets distributor_damaged_quantity.
+     * Sets distributor_damaged_quantity
      *
-     * @param null|int $distributor_damaged_quantity the number of units in distributor damaged disposition
+     * @param int|null $distributor_damaged_quantity The number of units in distributor damaged disposition.
+     *
+     * @return self
      */
     public function setDistributorDamagedQuantity(?int $distributor_damaged_quantity): self
     {
@@ -386,7 +459,7 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('distributor_damaged_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -397,7 +470,9 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets carrier_damaged_quantity.
+     * Gets carrier_damaged_quantity
+     *
+     * @return int|null
      */
     public function getCarrierDamagedQuantity(): ?int
     {
@@ -405,9 +480,11 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets carrier_damaged_quantity.
+     * Sets carrier_damaged_quantity
      *
-     * @param null|int $carrier_damaged_quantity the number of units in carrier damaged disposition
+     * @param int|null $carrier_damaged_quantity The number of units in carrier damaged disposition.
+     *
+     * @return self
      */
     public function setCarrierDamagedQuantity(?int $carrier_damaged_quantity): self
     {
@@ -416,7 +493,7 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('carrier_damaged_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -427,7 +504,9 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets defective_quantity.
+     * Gets defective_quantity
+     *
+     * @return int|null
      */
     public function getDefectiveQuantity(): ?int
     {
@@ -435,9 +514,11 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets defective_quantity.
+     * Sets defective_quantity
      *
-     * @param null|int $defective_quantity the number of units in defective disposition
+     * @param int|null $defective_quantity The number of units in defective disposition.
+     *
+     * @return self
      */
     public function setDefectiveQuantity(?int $defective_quantity): self
     {
@@ -446,7 +527,7 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('defective_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -457,7 +538,9 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets expired_quantity.
+     * Gets expired_quantity
+     *
+     * @return int|null
      */
     public function getExpiredQuantity(): ?int
     {
@@ -465,9 +548,11 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets expired_quantity.
+     * Sets expired_quantity
      *
-     * @param null|int $expired_quantity the number of units in expired disposition
+     * @param int|null $expired_quantity The number of units in expired disposition.
+     *
+     * @return self
      */
     public function setExpiredQuantity(?int $expired_quantity): self
     {
@@ -476,7 +561,7 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('expired_quantity', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -486,10 +571,13 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -499,9 +587,9 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -512,8 +600,10 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -527,7 +617,9 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -536,67 +628,39 @@ class UnfulfillableQuantity implements ModelInterface, \ArrayAccess, \JsonSerial
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

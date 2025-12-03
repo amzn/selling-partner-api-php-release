@@ -1,19 +1,17 @@
 <?php
-
 /**
- * SupplySource.
+ * SupplySource
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Supply Sources.
+ * Selling Partner API for Supply Sources
  *
  * Manage configurations and capabilities of seller supply sources.
  *
@@ -30,72 +28,71 @@
 
 namespace SpApi\Model\supplySources\v2020_07_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * SupplySource Class Doc Comment.
+ * SupplySource Class Doc Comment
  *
  * @category Class
- *
  * @description The supply source details, including configurations and capabilities.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
+class SupplySource implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'SupplySource';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'supply_source_id' => 'string',
-        'supply_source_code' => 'string',
-        'alias' => 'string',
-        'status' => '\SpApi\Model\supplySources\v2020_07_01\SupplySourceStatusReadOnly',
-        'address' => '\SpApi\Model\supplySources\v2020_07_01\Address',
-        'configuration' => '\SpApi\Model\supplySources\v2020_07_01\SupplySourceConfiguration',
-        'capabilities' => '\SpApi\Model\supplySources\v2020_07_01\SupplySourceCapabilities',
-        'created_at' => 'string',
-        'updated_at' => 'string'];
+             'supply_source_id' => 'string',
+             'supply_source_code' => 'string',
+             'alias' => 'string',
+             'status' => '\SpApi\Model\supplySources\v2020_07_01\SupplySourceStatusReadOnly',
+             'address' => '\SpApi\Model\supplySources\v2020_07_01\Address',
+             'configuration' => '\SpApi\Model\supplySources\v2020_07_01\SupplySourceConfiguration',
+             'capabilities' => '\SpApi\Model\supplySources\v2020_07_01\SupplySourceCapabilities',
+             'created_at' => 'string',
+             'updated_at' => 'string'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'supply_source_id' => null,
-        'supply_source_code' => null,
-        'alias' => null,
-        'status' => null,
-        'address' => null,
-        'configuration' => null,
-        'capabilities' => null,
-        'created_at' => null,
-        'updated_at' => null];
+            'supply_source_id' => null,
+            'supply_source_code' => null,
+            'alias' => null,
+            'status' => null,
+            'address' => null,
+            'configuration' => null,
+            'capabilities' => null,
+            'created_at' => null,
+            'updated_at' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'supply_source_id' => true,
         'supply_source_code' => true,
@@ -105,36 +102,109 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
         'configuration' => true,
         'capabilities' => true,
         'created_at' => true,
-        'updated_at' => true,
+        'updated_at' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'supply_source_id' => 'supplySourceId',
-        'supply_source_code' => 'supplySourceCode',
-        'alias' => 'alias',
-        'status' => 'status',
-        'address' => 'address',
-        'configuration' => 'configuration',
-        'capabilities' => 'capabilities',
-        'created_at' => 'createdAt',
-        'updated_at' => 'updatedAt',
+                'supply_source_code' => 'supplySourceCode',
+                'alias' => 'alias',
+                'status' => 'status',
+                'address' => 'address',
+                'configuration' => 'configuration',
+                'capabilities' => 'capabilities',
+                'created_at' => 'createdAt',
+                'updated_at' => 'updatedAt'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -147,11 +217,11 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
         'configuration' => 'setConfiguration',
         'capabilities' => 'setCapabilities',
         'created_at' => 'setCreatedAt',
-        'updated_at' => 'setUpdatedAt',
+        'updated_at' => 'setUpdatedAt'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -164,19 +234,63 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
         'configuration' => 'getConfiguration',
         'capabilities' => 'getCapabilities',
         'created_at' => 'getCreatedAt',
-        'updated_at' => 'getUpdatedAt',
+        'updated_at' => 'getUpdatedAt'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -192,81 +306,21 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -276,22 +330,27 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets supply_source_id.
+     * Gets supply_source_id
+     *
+     * @return string|null
      */
     public function getSupplySourceId(): ?string
     {
@@ -299,9 +358,11 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets supply_source_id.
+     * Sets supply_source_id
      *
-     * @param null|string $supply_source_id an Amazon generated unique supply source ID
+     * @param string|null $supply_source_id An Amazon generated unique supply source ID.
+     *
+     * @return self
      */
     public function setSupplySourceId(?string $supply_source_id): self
     {
@@ -310,7 +371,7 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('supply_source_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -321,7 +382,9 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets supply_source_code.
+     * Gets supply_source_code
+     *
+     * @return string|null
      */
     public function getSupplySourceCode(): ?string
     {
@@ -329,9 +392,11 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets supply_source_code.
+     * Sets supply_source_code
      *
-     * @param null|string $supply_source_code the seller-provided unique supply source code
+     * @param string|null $supply_source_code The seller-provided unique supply source code.
+     *
+     * @return self
      */
     public function setSupplySourceCode(?string $supply_source_code): self
     {
@@ -340,7 +405,7 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('supply_source_code', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -351,7 +416,9 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets alias.
+     * Gets alias
+     *
+     * @return string|null
      */
     public function getAlias(): ?string
     {
@@ -359,9 +426,11 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets alias.
+     * Sets alias
      *
-     * @param null|string $alias The custom alias for this supply source
+     * @param string|null $alias The custom alias for this supply source
+     *
+     * @return self
      */
     public function setAlias(?string $alias): self
     {
@@ -370,7 +439,7 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('alias', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -381,7 +450,9 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets status.
+     * Gets status
+     *
+     * @return string|null
      */
     public function getStatus(): ?string
     {
@@ -389,9 +460,11 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets status.
+     * Sets status
      *
-     * @param null|string $status status
+     * @param string|null $status status
+     *
+     * @return self
      */
     public function setStatus(?string $status): self
     {
@@ -400,7 +473,7 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('status', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -411,26 +484,30 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets address.
+     * Gets address
+     *
+     * @return \SpApi\Model\supplySources\v2020_07_01\Address|null
      */
-    public function getAddress(): ?Address
+    public function getAddress(): ?\SpApi\Model\supplySources\v2020_07_01\Address
     {
         return $this->container['address'];
     }
 
     /**
-     * Sets address.
+     * Sets address
      *
-     * @param null|Address $address address
+     * @param \SpApi\Model\supplySources\v2020_07_01\Address|null $address address
+     *
+     * @return self
      */
-    public function setAddress(?Address $address): self
+    public function setAddress(?\SpApi\Model\supplySources\v2020_07_01\Address $address): self
     {
         if (is_null($address)) {
             array_push($this->openAPINullablesSetToNull, 'address');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('address', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -441,26 +518,30 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets configuration.
+     * Gets configuration
+     *
+     * @return \SpApi\Model\supplySources\v2020_07_01\SupplySourceConfiguration|null
      */
-    public function getConfiguration(): ?SupplySourceConfiguration
+    public function getConfiguration(): ?\SpApi\Model\supplySources\v2020_07_01\SupplySourceConfiguration
     {
         return $this->container['configuration'];
     }
 
     /**
-     * Sets configuration.
+     * Sets configuration
      *
-     * @param null|SupplySourceConfiguration $configuration configuration
+     * @param \SpApi\Model\supplySources\v2020_07_01\SupplySourceConfiguration|null $configuration configuration
+     *
+     * @return self
      */
-    public function setConfiguration(?SupplySourceConfiguration $configuration): self
+    public function setConfiguration(?\SpApi\Model\supplySources\v2020_07_01\SupplySourceConfiguration $configuration): self
     {
         if (is_null($configuration)) {
             array_push($this->openAPINullablesSetToNull, 'configuration');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('configuration', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -471,26 +552,30 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets capabilities.
+     * Gets capabilities
+     *
+     * @return \SpApi\Model\supplySources\v2020_07_01\SupplySourceCapabilities|null
      */
-    public function getCapabilities(): ?SupplySourceCapabilities
+    public function getCapabilities(): ?\SpApi\Model\supplySources\v2020_07_01\SupplySourceCapabilities
     {
         return $this->container['capabilities'];
     }
 
     /**
-     * Sets capabilities.
+     * Sets capabilities
      *
-     * @param null|SupplySourceCapabilities $capabilities capabilities
+     * @param \SpApi\Model\supplySources\v2020_07_01\SupplySourceCapabilities|null $capabilities capabilities
+     *
+     * @return self
      */
-    public function setCapabilities(?SupplySourceCapabilities $capabilities): self
+    public function setCapabilities(?\SpApi\Model\supplySources\v2020_07_01\SupplySourceCapabilities $capabilities): self
     {
         if (is_null($capabilities)) {
             array_push($this->openAPINullablesSetToNull, 'capabilities');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('capabilities', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -501,7 +586,9 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets created_at.
+     * Gets created_at
+     *
+     * @return string|null
      */
     public function getCreatedAt(): ?string
     {
@@ -509,9 +596,11 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets created_at.
+     * Sets created_at
      *
-     * @param null|string $created_at a date and time in the rfc3339 format
+     * @param string|null $created_at A date and time in the rfc3339 format.
+     *
+     * @return self
      */
     public function setCreatedAt(?string $created_at): self
     {
@@ -520,7 +609,7 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('created_at', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -531,7 +620,9 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets updated_at.
+     * Gets updated_at
+     *
+     * @return string|null
      */
     public function getUpdatedAt(): ?string
     {
@@ -539,9 +630,11 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets updated_at.
+     * Sets updated_at
      *
-     * @param null|string $updated_at a date and time in the rfc3339 format
+     * @param string|null $updated_at A date and time in the rfc3339 format.
+     *
+     * @return self
      */
     public function setUpdatedAt(?string $updated_at): self
     {
@@ -550,7 +643,7 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('updated_at', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -560,10 +653,13 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -573,9 +669,9 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -586,8 +682,10 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -601,7 +699,9 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -610,67 +710,39 @@ class SupplySource implements ModelInterface, \ArrayAccess, \JsonSerializable
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

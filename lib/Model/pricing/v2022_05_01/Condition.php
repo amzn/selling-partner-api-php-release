@@ -1,19 +1,17 @@
 <?php
-
 /**
- * Condition.
+ * Condition
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Pricing.
+ * Selling Partner API for Pricing
  *
  * The Selling Partner API for Pricing helps you programmatically retrieve product pricing and offer pricing information for Amazon Marketplace products.  For more information, refer to the [Product Pricing v2022-05-01 Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v2022-05-01-use-case-guide).
  *
@@ -29,22 +27,22 @@
  */
 
 namespace SpApi\Model\pricing\v2022_05_01;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * Condition Class Doc Comment.
+ * Condition Class Doc Comment
  *
  * @category Class
- *
  * @description The condition of the item.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class Condition
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const _NEW = 'New';
 
@@ -57,8 +55,7 @@ class Condition
     public const CLUB = 'Club';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
@@ -68,7 +65,9 @@ class Condition
             self::USED,
             self::COLLECTIBLE,
             self::REFURBISHED,
-            self::CLUB,
+            self::CLUB
         ];
     }
 }
+
+

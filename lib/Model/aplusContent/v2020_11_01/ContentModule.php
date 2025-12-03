@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ContentModule.
+ * ContentModule
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for A+ Content Management.
+ * Selling Partner API for A+ Content Management
  *
  * Use the A+ Content API to build applications that help selling partners add rich marketing content to their Amazon product detail pages. Selling partners can use A+ content to share their brand and product story, which helps buyers make informed purchasing decisions. Selling partners use content modules to add images and text.
  *
@@ -30,86 +28,85 @@
 
 namespace SpApi\Model\aplusContent\v2020_11_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ContentModule Class Doc Comment.
+ * ContentModule Class Doc Comment
  *
  * @category Class
- *
  * @description An A+ Content module. An A+ Content document is composed of content modules. The &#x60;contentModuleType&#x60; property selects which content module types to use.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ContentModule implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ContentModule';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'content_module_type' => '\SpApi\Model\aplusContent\v2020_11_01\ContentModuleType',
-        'standard_company_logo' => '\SpApi\Model\aplusContent\v2020_11_01\StandardCompanyLogoModule',
-        'standard_comparison_table' => '\SpApi\Model\aplusContent\v2020_11_01\StandardComparisonTableModule',
-        'standard_four_image_text' => '\SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextModule',
-        'standard_four_image_text_quadrant' => '\SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextQuadrantModule',
-        'standard_header_image_text' => '\SpApi\Model\aplusContent\v2020_11_01\StandardHeaderImageTextModule',
-        'standard_image_sidebar' => '\SpApi\Model\aplusContent\v2020_11_01\StandardImageSidebarModule',
-        'standard_image_text_overlay' => '\SpApi\Model\aplusContent\v2020_11_01\StandardImageTextOverlayModule',
-        'standard_multiple_image_text' => '\SpApi\Model\aplusContent\v2020_11_01\StandardMultipleImageTextModule',
-        'standard_product_description' => '\SpApi\Model\aplusContent\v2020_11_01\StandardProductDescriptionModule',
-        'standard_single_image_highlights' => '\SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageHighlightsModule',
-        'standard_single_image_specs_detail' => '\SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageSpecsDetailModule',
-        'standard_single_side_image' => '\SpApi\Model\aplusContent\v2020_11_01\StandardSingleSideImageModule',
-        'standard_tech_specs' => '\SpApi\Model\aplusContent\v2020_11_01\StandardTechSpecsModule',
-        'standard_text' => '\SpApi\Model\aplusContent\v2020_11_01\StandardTextModule',
-        'standard_three_image_text' => '\SpApi\Model\aplusContent\v2020_11_01\StandardThreeImageTextModule'];
+             'content_module_type' => '\SpApi\Model\aplusContent\v2020_11_01\ContentModuleType',
+             'standard_company_logo' => '\SpApi\Model\aplusContent\v2020_11_01\StandardCompanyLogoModule',
+             'standard_comparison_table' => '\SpApi\Model\aplusContent\v2020_11_01\StandardComparisonTableModule',
+             'standard_four_image_text' => '\SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextModule',
+             'standard_four_image_text_quadrant' => '\SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextQuadrantModule',
+             'standard_header_image_text' => '\SpApi\Model\aplusContent\v2020_11_01\StandardHeaderImageTextModule',
+             'standard_image_sidebar' => '\SpApi\Model\aplusContent\v2020_11_01\StandardImageSidebarModule',
+             'standard_image_text_overlay' => '\SpApi\Model\aplusContent\v2020_11_01\StandardImageTextOverlayModule',
+             'standard_multiple_image_text' => '\SpApi\Model\aplusContent\v2020_11_01\StandardMultipleImageTextModule',
+             'standard_product_description' => '\SpApi\Model\aplusContent\v2020_11_01\StandardProductDescriptionModule',
+             'standard_single_image_highlights' => '\SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageHighlightsModule',
+             'standard_single_image_specs_detail' => '\SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageSpecsDetailModule',
+             'standard_single_side_image' => '\SpApi\Model\aplusContent\v2020_11_01\StandardSingleSideImageModule',
+             'standard_tech_specs' => '\SpApi\Model\aplusContent\v2020_11_01\StandardTechSpecsModule',
+             'standard_text' => '\SpApi\Model\aplusContent\v2020_11_01\StandardTextModule',
+             'standard_three_image_text' => '\SpApi\Model\aplusContent\v2020_11_01\StandardThreeImageTextModule'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'content_module_type' => null,
-        'standard_company_logo' => null,
-        'standard_comparison_table' => null,
-        'standard_four_image_text' => null,
-        'standard_four_image_text_quadrant' => null,
-        'standard_header_image_text' => null,
-        'standard_image_sidebar' => null,
-        'standard_image_text_overlay' => null,
-        'standard_multiple_image_text' => null,
-        'standard_product_description' => null,
-        'standard_single_image_highlights' => null,
-        'standard_single_image_specs_detail' => null,
-        'standard_single_side_image' => null,
-        'standard_tech_specs' => null,
-        'standard_text' => null,
-        'standard_three_image_text' => null];
+            'content_module_type' => null,
+            'standard_company_logo' => null,
+            'standard_comparison_table' => null,
+            'standard_four_image_text' => null,
+            'standard_four_image_text_quadrant' => null,
+            'standard_header_image_text' => null,
+            'standard_image_sidebar' => null,
+            'standard_image_text_overlay' => null,
+            'standard_multiple_image_text' => null,
+            'standard_product_description' => null,
+            'standard_single_image_highlights' => null,
+            'standard_single_image_specs_detail' => null,
+            'standard_single_side_image' => null,
+            'standard_tech_specs' => null,
+            'standard_text' => null,
+            'standard_three_image_text' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'content_module_type' => false,
         'standard_company_logo' => true,
@@ -126,43 +123,116 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
         'standard_single_side_image' => true,
         'standard_tech_specs' => true,
         'standard_text' => true,
-        'standard_three_image_text' => true,
+        'standard_three_image_text' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'content_module_type' => 'contentModuleType',
-        'standard_company_logo' => 'standardCompanyLogo',
-        'standard_comparison_table' => 'standardComparisonTable',
-        'standard_four_image_text' => 'standardFourImageText',
-        'standard_four_image_text_quadrant' => 'standardFourImageTextQuadrant',
-        'standard_header_image_text' => 'standardHeaderImageText',
-        'standard_image_sidebar' => 'standardImageSidebar',
-        'standard_image_text_overlay' => 'standardImageTextOverlay',
-        'standard_multiple_image_text' => 'standardMultipleImageText',
-        'standard_product_description' => 'standardProductDescription',
-        'standard_single_image_highlights' => 'standardSingleImageHighlights',
-        'standard_single_image_specs_detail' => 'standardSingleImageSpecsDetail',
-        'standard_single_side_image' => 'standardSingleSideImage',
-        'standard_tech_specs' => 'standardTechSpecs',
-        'standard_text' => 'standardText',
-        'standard_three_image_text' => 'standardThreeImageText',
+                'standard_company_logo' => 'standardCompanyLogo',
+                'standard_comparison_table' => 'standardComparisonTable',
+                'standard_four_image_text' => 'standardFourImageText',
+                'standard_four_image_text_quadrant' => 'standardFourImageTextQuadrant',
+                'standard_header_image_text' => 'standardHeaderImageText',
+                'standard_image_sidebar' => 'standardImageSidebar',
+                'standard_image_text_overlay' => 'standardImageTextOverlay',
+                'standard_multiple_image_text' => 'standardMultipleImageText',
+                'standard_product_description' => 'standardProductDescription',
+                'standard_single_image_highlights' => 'standardSingleImageHighlights',
+                'standard_single_image_specs_detail' => 'standardSingleImageSpecsDetail',
+                'standard_single_side_image' => 'standardSingleSideImage',
+                'standard_tech_specs' => 'standardTechSpecs',
+                'standard_text' => 'standardText',
+                'standard_three_image_text' => 'standardThreeImageText'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -182,11 +252,11 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
         'standard_single_side_image' => 'setStandardSingleSideImage',
         'standard_tech_specs' => 'setStandardTechSpecs',
         'standard_text' => 'setStandardText',
-        'standard_three_image_text' => 'setStandardThreeImageText',
+        'standard_three_image_text' => 'setStandardThreeImageText'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -206,19 +276,63 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
         'standard_single_side_image' => 'getStandardSingleSideImage',
         'standard_tech_specs' => 'getStandardTechSpecs',
         'standard_text' => 'getStandardText',
-        'standard_three_image_text' => 'getStandardThreeImageText',
+        'standard_three_image_text' => 'getStandardThreeImageText'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -241,81 +355,21 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -327,26 +381,28 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
-        if (null === $this->container['content_module_type']) {
+        if ($this->container['content_module_type'] === null) {
             $invalidProperties[] = "'content_module_type' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets content_module_type.
+     * Gets content_module_type
+     *
+     * @return string
      */
     public function getContentModuleType(): string
     {
@@ -354,9 +410,11 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets content_module_type.
+     * Sets content_module_type
      *
      * @param string $content_module_type content_module_type
+     *
+     * @return self
      */
     public function setContentModuleType(string $content_module_type): self
     {
@@ -369,26 +427,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_company_logo.
+     * Gets standard_company_logo
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardCompanyLogoModule|null
      */
-    public function getStandardCompanyLogo(): ?StandardCompanyLogoModule
+    public function getStandardCompanyLogo(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardCompanyLogoModule
     {
         return $this->container['standard_company_logo'];
     }
 
     /**
-     * Sets standard_company_logo.
+     * Sets standard_company_logo
      *
-     * @param null|StandardCompanyLogoModule $standard_company_logo standard_company_logo
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardCompanyLogoModule|null $standard_company_logo standard_company_logo
+     *
+     * @return self
      */
-    public function setStandardCompanyLogo(?StandardCompanyLogoModule $standard_company_logo): self
+    public function setStandardCompanyLogo(?\SpApi\Model\aplusContent\v2020_11_01\StandardCompanyLogoModule $standard_company_logo): self
     {
         if (is_null($standard_company_logo)) {
             array_push($this->openAPINullablesSetToNull, 'standard_company_logo');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_company_logo', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -399,26 +461,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_comparison_table.
+     * Gets standard_comparison_table
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardComparisonTableModule|null
      */
-    public function getStandardComparisonTable(): ?StandardComparisonTableModule
+    public function getStandardComparisonTable(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardComparisonTableModule
     {
         return $this->container['standard_comparison_table'];
     }
 
     /**
-     * Sets standard_comparison_table.
+     * Sets standard_comparison_table
      *
-     * @param null|StandardComparisonTableModule $standard_comparison_table standard_comparison_table
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardComparisonTableModule|null $standard_comparison_table standard_comparison_table
+     *
+     * @return self
      */
-    public function setStandardComparisonTable(?StandardComparisonTableModule $standard_comparison_table): self
+    public function setStandardComparisonTable(?\SpApi\Model\aplusContent\v2020_11_01\StandardComparisonTableModule $standard_comparison_table): self
     {
         if (is_null($standard_comparison_table)) {
             array_push($this->openAPINullablesSetToNull, 'standard_comparison_table');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_comparison_table', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -429,26 +495,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_four_image_text.
+     * Gets standard_four_image_text
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextModule|null
      */
-    public function getStandardFourImageText(): ?StandardFourImageTextModule
+    public function getStandardFourImageText(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextModule
     {
         return $this->container['standard_four_image_text'];
     }
 
     /**
-     * Sets standard_four_image_text.
+     * Sets standard_four_image_text
      *
-     * @param null|StandardFourImageTextModule $standard_four_image_text standard_four_image_text
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextModule|null $standard_four_image_text standard_four_image_text
+     *
+     * @return self
      */
-    public function setStandardFourImageText(?StandardFourImageTextModule $standard_four_image_text): self
+    public function setStandardFourImageText(?\SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextModule $standard_four_image_text): self
     {
         if (is_null($standard_four_image_text)) {
             array_push($this->openAPINullablesSetToNull, 'standard_four_image_text');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_four_image_text', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -459,26 +529,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_four_image_text_quadrant.
+     * Gets standard_four_image_text_quadrant
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextQuadrantModule|null
      */
-    public function getStandardFourImageTextQuadrant(): ?StandardFourImageTextQuadrantModule
+    public function getStandardFourImageTextQuadrant(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextQuadrantModule
     {
         return $this->container['standard_four_image_text_quadrant'];
     }
 
     /**
-     * Sets standard_four_image_text_quadrant.
+     * Sets standard_four_image_text_quadrant
      *
-     * @param null|StandardFourImageTextQuadrantModule $standard_four_image_text_quadrant standard_four_image_text_quadrant
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextQuadrantModule|null $standard_four_image_text_quadrant standard_four_image_text_quadrant
+     *
+     * @return self
      */
-    public function setStandardFourImageTextQuadrant(?StandardFourImageTextQuadrantModule $standard_four_image_text_quadrant): self
+    public function setStandardFourImageTextQuadrant(?\SpApi\Model\aplusContent\v2020_11_01\StandardFourImageTextQuadrantModule $standard_four_image_text_quadrant): self
     {
         if (is_null($standard_four_image_text_quadrant)) {
             array_push($this->openAPINullablesSetToNull, 'standard_four_image_text_quadrant');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_four_image_text_quadrant', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -489,26 +563,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_header_image_text.
+     * Gets standard_header_image_text
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardHeaderImageTextModule|null
      */
-    public function getStandardHeaderImageText(): ?StandardHeaderImageTextModule
+    public function getStandardHeaderImageText(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardHeaderImageTextModule
     {
         return $this->container['standard_header_image_text'];
     }
 
     /**
-     * Sets standard_header_image_text.
+     * Sets standard_header_image_text
      *
-     * @param null|StandardHeaderImageTextModule $standard_header_image_text standard_header_image_text
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardHeaderImageTextModule|null $standard_header_image_text standard_header_image_text
+     *
+     * @return self
      */
-    public function setStandardHeaderImageText(?StandardHeaderImageTextModule $standard_header_image_text): self
+    public function setStandardHeaderImageText(?\SpApi\Model\aplusContent\v2020_11_01\StandardHeaderImageTextModule $standard_header_image_text): self
     {
         if (is_null($standard_header_image_text)) {
             array_push($this->openAPINullablesSetToNull, 'standard_header_image_text');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_header_image_text', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -519,26 +597,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_image_sidebar.
+     * Gets standard_image_sidebar
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardImageSidebarModule|null
      */
-    public function getStandardImageSidebar(): ?StandardImageSidebarModule
+    public function getStandardImageSidebar(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardImageSidebarModule
     {
         return $this->container['standard_image_sidebar'];
     }
 
     /**
-     * Sets standard_image_sidebar.
+     * Sets standard_image_sidebar
      *
-     * @param null|StandardImageSidebarModule $standard_image_sidebar standard_image_sidebar
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardImageSidebarModule|null $standard_image_sidebar standard_image_sidebar
+     *
+     * @return self
      */
-    public function setStandardImageSidebar(?StandardImageSidebarModule $standard_image_sidebar): self
+    public function setStandardImageSidebar(?\SpApi\Model\aplusContent\v2020_11_01\StandardImageSidebarModule $standard_image_sidebar): self
     {
         if (is_null($standard_image_sidebar)) {
             array_push($this->openAPINullablesSetToNull, 'standard_image_sidebar');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_image_sidebar', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -549,26 +631,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_image_text_overlay.
+     * Gets standard_image_text_overlay
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardImageTextOverlayModule|null
      */
-    public function getStandardImageTextOverlay(): ?StandardImageTextOverlayModule
+    public function getStandardImageTextOverlay(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardImageTextOverlayModule
     {
         return $this->container['standard_image_text_overlay'];
     }
 
     /**
-     * Sets standard_image_text_overlay.
+     * Sets standard_image_text_overlay
      *
-     * @param null|StandardImageTextOverlayModule $standard_image_text_overlay standard_image_text_overlay
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardImageTextOverlayModule|null $standard_image_text_overlay standard_image_text_overlay
+     *
+     * @return self
      */
-    public function setStandardImageTextOverlay(?StandardImageTextOverlayModule $standard_image_text_overlay): self
+    public function setStandardImageTextOverlay(?\SpApi\Model\aplusContent\v2020_11_01\StandardImageTextOverlayModule $standard_image_text_overlay): self
     {
         if (is_null($standard_image_text_overlay)) {
             array_push($this->openAPINullablesSetToNull, 'standard_image_text_overlay');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_image_text_overlay', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -579,26 +665,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_multiple_image_text.
+     * Gets standard_multiple_image_text
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardMultipleImageTextModule|null
      */
-    public function getStandardMultipleImageText(): ?StandardMultipleImageTextModule
+    public function getStandardMultipleImageText(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardMultipleImageTextModule
     {
         return $this->container['standard_multiple_image_text'];
     }
 
     /**
-     * Sets standard_multiple_image_text.
+     * Sets standard_multiple_image_text
      *
-     * @param null|StandardMultipleImageTextModule $standard_multiple_image_text standard_multiple_image_text
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardMultipleImageTextModule|null $standard_multiple_image_text standard_multiple_image_text
+     *
+     * @return self
      */
-    public function setStandardMultipleImageText(?StandardMultipleImageTextModule $standard_multiple_image_text): self
+    public function setStandardMultipleImageText(?\SpApi\Model\aplusContent\v2020_11_01\StandardMultipleImageTextModule $standard_multiple_image_text): self
     {
         if (is_null($standard_multiple_image_text)) {
             array_push($this->openAPINullablesSetToNull, 'standard_multiple_image_text');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_multiple_image_text', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -609,26 +699,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_product_description.
+     * Gets standard_product_description
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardProductDescriptionModule|null
      */
-    public function getStandardProductDescription(): ?StandardProductDescriptionModule
+    public function getStandardProductDescription(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardProductDescriptionModule
     {
         return $this->container['standard_product_description'];
     }
 
     /**
-     * Sets standard_product_description.
+     * Sets standard_product_description
      *
-     * @param null|StandardProductDescriptionModule $standard_product_description standard_product_description
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardProductDescriptionModule|null $standard_product_description standard_product_description
+     *
+     * @return self
      */
-    public function setStandardProductDescription(?StandardProductDescriptionModule $standard_product_description): self
+    public function setStandardProductDescription(?\SpApi\Model\aplusContent\v2020_11_01\StandardProductDescriptionModule $standard_product_description): self
     {
         if (is_null($standard_product_description)) {
             array_push($this->openAPINullablesSetToNull, 'standard_product_description');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_product_description', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -639,26 +733,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_single_image_highlights.
+     * Gets standard_single_image_highlights
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageHighlightsModule|null
      */
-    public function getStandardSingleImageHighlights(): ?StandardSingleImageHighlightsModule
+    public function getStandardSingleImageHighlights(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageHighlightsModule
     {
         return $this->container['standard_single_image_highlights'];
     }
 
     /**
-     * Sets standard_single_image_highlights.
+     * Sets standard_single_image_highlights
      *
-     * @param null|StandardSingleImageHighlightsModule $standard_single_image_highlights standard_single_image_highlights
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageHighlightsModule|null $standard_single_image_highlights standard_single_image_highlights
+     *
+     * @return self
      */
-    public function setStandardSingleImageHighlights(?StandardSingleImageHighlightsModule $standard_single_image_highlights): self
+    public function setStandardSingleImageHighlights(?\SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageHighlightsModule $standard_single_image_highlights): self
     {
         if (is_null($standard_single_image_highlights)) {
             array_push($this->openAPINullablesSetToNull, 'standard_single_image_highlights');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_single_image_highlights', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -669,26 +767,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_single_image_specs_detail.
+     * Gets standard_single_image_specs_detail
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageSpecsDetailModule|null
      */
-    public function getStandardSingleImageSpecsDetail(): ?StandardSingleImageSpecsDetailModule
+    public function getStandardSingleImageSpecsDetail(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageSpecsDetailModule
     {
         return $this->container['standard_single_image_specs_detail'];
     }
 
     /**
-     * Sets standard_single_image_specs_detail.
+     * Sets standard_single_image_specs_detail
      *
-     * @param null|StandardSingleImageSpecsDetailModule $standard_single_image_specs_detail standard_single_image_specs_detail
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageSpecsDetailModule|null $standard_single_image_specs_detail standard_single_image_specs_detail
+     *
+     * @return self
      */
-    public function setStandardSingleImageSpecsDetail(?StandardSingleImageSpecsDetailModule $standard_single_image_specs_detail): self
+    public function setStandardSingleImageSpecsDetail(?\SpApi\Model\aplusContent\v2020_11_01\StandardSingleImageSpecsDetailModule $standard_single_image_specs_detail): self
     {
         if (is_null($standard_single_image_specs_detail)) {
             array_push($this->openAPINullablesSetToNull, 'standard_single_image_specs_detail');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_single_image_specs_detail', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -699,26 +801,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_single_side_image.
+     * Gets standard_single_side_image
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardSingleSideImageModule|null
      */
-    public function getStandardSingleSideImage(): ?StandardSingleSideImageModule
+    public function getStandardSingleSideImage(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardSingleSideImageModule
     {
         return $this->container['standard_single_side_image'];
     }
 
     /**
-     * Sets standard_single_side_image.
+     * Sets standard_single_side_image
      *
-     * @param null|StandardSingleSideImageModule $standard_single_side_image standard_single_side_image
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardSingleSideImageModule|null $standard_single_side_image standard_single_side_image
+     *
+     * @return self
      */
-    public function setStandardSingleSideImage(?StandardSingleSideImageModule $standard_single_side_image): self
+    public function setStandardSingleSideImage(?\SpApi\Model\aplusContent\v2020_11_01\StandardSingleSideImageModule $standard_single_side_image): self
     {
         if (is_null($standard_single_side_image)) {
             array_push($this->openAPINullablesSetToNull, 'standard_single_side_image');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_single_side_image', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -729,26 +835,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_tech_specs.
+     * Gets standard_tech_specs
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardTechSpecsModule|null
      */
-    public function getStandardTechSpecs(): ?StandardTechSpecsModule
+    public function getStandardTechSpecs(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardTechSpecsModule
     {
         return $this->container['standard_tech_specs'];
     }
 
     /**
-     * Sets standard_tech_specs.
+     * Sets standard_tech_specs
      *
-     * @param null|StandardTechSpecsModule $standard_tech_specs standard_tech_specs
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardTechSpecsModule|null $standard_tech_specs standard_tech_specs
+     *
+     * @return self
      */
-    public function setStandardTechSpecs(?StandardTechSpecsModule $standard_tech_specs): self
+    public function setStandardTechSpecs(?\SpApi\Model\aplusContent\v2020_11_01\StandardTechSpecsModule $standard_tech_specs): self
     {
         if (is_null($standard_tech_specs)) {
             array_push($this->openAPINullablesSetToNull, 'standard_tech_specs');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_tech_specs', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -759,26 +869,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_text.
+     * Gets standard_text
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardTextModule|null
      */
-    public function getStandardText(): ?StandardTextModule
+    public function getStandardText(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardTextModule
     {
         return $this->container['standard_text'];
     }
 
     /**
-     * Sets standard_text.
+     * Sets standard_text
      *
-     * @param null|StandardTextModule $standard_text standard_text
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardTextModule|null $standard_text standard_text
+     *
+     * @return self
      */
-    public function setStandardText(?StandardTextModule $standard_text): self
+    public function setStandardText(?\SpApi\Model\aplusContent\v2020_11_01\StandardTextModule $standard_text): self
     {
         if (is_null($standard_text)) {
             array_push($this->openAPINullablesSetToNull, 'standard_text');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_text', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -789,26 +903,30 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets standard_three_image_text.
+     * Gets standard_three_image_text
+     *
+     * @return \SpApi\Model\aplusContent\v2020_11_01\StandardThreeImageTextModule|null
      */
-    public function getStandardThreeImageText(): ?StandardThreeImageTextModule
+    public function getStandardThreeImageText(): ?\SpApi\Model\aplusContent\v2020_11_01\StandardThreeImageTextModule
     {
         return $this->container['standard_three_image_text'];
     }
 
     /**
-     * Sets standard_three_image_text.
+     * Sets standard_three_image_text
      *
-     * @param null|StandardThreeImageTextModule $standard_three_image_text standard_three_image_text
+     * @param \SpApi\Model\aplusContent\v2020_11_01\StandardThreeImageTextModule|null $standard_three_image_text standard_three_image_text
+     *
+     * @return self
      */
-    public function setStandardThreeImageText(?StandardThreeImageTextModule $standard_three_image_text): self
+    public function setStandardThreeImageText(?\SpApi\Model\aplusContent\v2020_11_01\StandardThreeImageTextModule $standard_three_image_text): self
     {
         if (is_null($standard_three_image_text)) {
             array_push($this->openAPINullablesSetToNull, 'standard_three_image_text');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('standard_three_image_text', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -818,10 +936,13 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -831,9 +952,9 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -844,8 +965,10 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -859,7 +982,9 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -868,67 +993,39 @@ class ContentModule implements ModelInterface, \ArrayAccess, \JsonSerializable
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

@@ -1,19 +1,17 @@
 <?php
-
 /**
- * OperationalConfiguration.
+ * OperationalConfiguration
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Supply Sources.
+ * Selling Partner API for Supply Sources
  *
  * Manage configurations and capabilities of seller supply sources.
  *
@@ -30,91 +28,163 @@
 
 namespace SpApi\Model\supplySources\v2020_07_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * OperationalConfiguration Class Doc Comment.
+ * OperationalConfiguration Class Doc Comment
  *
  * @category Class
- *
  * @description The operational configuration of &#x60;supplySources&#x60;.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSerializable
+class OperationalConfiguration implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'OperationalConfiguration';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'contact_details' => '\SpApi\Model\supplySources\v2020_07_01\ContactDetails',
-        'throughput_config' => '\SpApi\Model\supplySources\v2020_07_01\ThroughputConfig',
-        'operating_hours_by_day' => '\SpApi\Model\supplySources\v2020_07_01\OperatingHoursByDay',
-        'handling_time' => '\SpApi\Model\supplySources\v2020_07_01\Duration'];
+             'contact_details' => '\SpApi\Model\supplySources\v2020_07_01\ContactDetails',
+             'throughput_config' => '\SpApi\Model\supplySources\v2020_07_01\ThroughputConfig',
+             'operating_hours_by_day' => '\SpApi\Model\supplySources\v2020_07_01\OperatingHoursByDay',
+             'handling_time' => '\SpApi\Model\supplySources\v2020_07_01\Duration'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'contact_details' => null,
-        'throughput_config' => null,
-        'operating_hours_by_day' => null,
-        'handling_time' => null];
+            'contact_details' => null,
+            'throughput_config' => null,
+            'operating_hours_by_day' => null,
+            'handling_time' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'contact_details' => true,
         'throughput_config' => true,
         'operating_hours_by_day' => true,
-        'handling_time' => true,
+        'handling_time' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'contact_details' => 'contactDetails',
-        'throughput_config' => 'throughputConfig',
-        'operating_hours_by_day' => 'operatingHoursByDay',
-        'handling_time' => 'handlingTime',
+                'throughput_config' => 'throughputConfig',
+                'operating_hours_by_day' => 'operatingHoursByDay',
+                'handling_time' => 'handlingTime'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -122,11 +192,11 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
         'contact_details' => 'setContactDetails',
         'throughput_config' => 'setThroughputConfig',
         'operating_hours_by_day' => 'setOperatingHoursByDay',
-        'handling_time' => 'setHandlingTime',
+        'handling_time' => 'setHandlingTime'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -134,19 +204,63 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
         'contact_details' => 'getContactDetails',
         'throughput_config' => 'getThroughputConfig',
         'operating_hours_by_day' => 'getOperatingHoursByDay',
-        'handling_time' => 'getHandlingTime',
+        'handling_time' => 'getHandlingTime'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -157,81 +271,21 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -241,41 +295,48 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets contact_details.
+     * Gets contact_details
+     *
+     * @return \SpApi\Model\supplySources\v2020_07_01\ContactDetails|null
      */
-    public function getContactDetails(): ?ContactDetails
+    public function getContactDetails(): ?\SpApi\Model\supplySources\v2020_07_01\ContactDetails
     {
         return $this->container['contact_details'];
     }
 
     /**
-     * Sets contact_details.
+     * Sets contact_details
      *
-     * @param null|ContactDetails $contact_details contact_details
+     * @param \SpApi\Model\supplySources\v2020_07_01\ContactDetails|null $contact_details contact_details
+     *
+     * @return self
      */
-    public function setContactDetails(?ContactDetails $contact_details): self
+    public function setContactDetails(?\SpApi\Model\supplySources\v2020_07_01\ContactDetails $contact_details): self
     {
         if (is_null($contact_details)) {
             array_push($this->openAPINullablesSetToNull, 'contact_details');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('contact_details', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -286,26 +347,30 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets throughput_config.
+     * Gets throughput_config
+     *
+     * @return \SpApi\Model\supplySources\v2020_07_01\ThroughputConfig|null
      */
-    public function getThroughputConfig(): ?ThroughputConfig
+    public function getThroughputConfig(): ?\SpApi\Model\supplySources\v2020_07_01\ThroughputConfig
     {
         return $this->container['throughput_config'];
     }
 
     /**
-     * Sets throughput_config.
+     * Sets throughput_config
      *
-     * @param null|ThroughputConfig $throughput_config throughput_config
+     * @param \SpApi\Model\supplySources\v2020_07_01\ThroughputConfig|null $throughput_config throughput_config
+     *
+     * @return self
      */
-    public function setThroughputConfig(?ThroughputConfig $throughput_config): self
+    public function setThroughputConfig(?\SpApi\Model\supplySources\v2020_07_01\ThroughputConfig $throughput_config): self
     {
         if (is_null($throughput_config)) {
             array_push($this->openAPINullablesSetToNull, 'throughput_config');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('throughput_config', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -316,26 +381,30 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets operating_hours_by_day.
+     * Gets operating_hours_by_day
+     *
+     * @return \SpApi\Model\supplySources\v2020_07_01\OperatingHoursByDay|null
      */
-    public function getOperatingHoursByDay(): ?OperatingHoursByDay
+    public function getOperatingHoursByDay(): ?\SpApi\Model\supplySources\v2020_07_01\OperatingHoursByDay
     {
         return $this->container['operating_hours_by_day'];
     }
 
     /**
-     * Sets operating_hours_by_day.
+     * Sets operating_hours_by_day
      *
-     * @param null|OperatingHoursByDay $operating_hours_by_day operating_hours_by_day
+     * @param \SpApi\Model\supplySources\v2020_07_01\OperatingHoursByDay|null $operating_hours_by_day operating_hours_by_day
+     *
+     * @return self
      */
-    public function setOperatingHoursByDay(?OperatingHoursByDay $operating_hours_by_day): self
+    public function setOperatingHoursByDay(?\SpApi\Model\supplySources\v2020_07_01\OperatingHoursByDay $operating_hours_by_day): self
     {
         if (is_null($operating_hours_by_day)) {
             array_push($this->openAPINullablesSetToNull, 'operating_hours_by_day');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('operating_hours_by_day', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -346,26 +415,30 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets handling_time.
+     * Gets handling_time
+     *
+     * @return \SpApi\Model\supplySources\v2020_07_01\Duration|null
      */
-    public function getHandlingTime(): ?Duration
+    public function getHandlingTime(): ?\SpApi\Model\supplySources\v2020_07_01\Duration
     {
         return $this->container['handling_time'];
     }
 
     /**
-     * Sets handling_time.
+     * Sets handling_time
      *
-     * @param null|Duration $handling_time handling_time
+     * @param \SpApi\Model\supplySources\v2020_07_01\Duration|null $handling_time handling_time
+     *
+     * @return self
      */
-    public function setHandlingTime(?Duration $handling_time): self
+    public function setHandlingTime(?\SpApi\Model\supplySources\v2020_07_01\Duration $handling_time): self
     {
         if (is_null($handling_time)) {
             array_push($this->openAPINullablesSetToNull, 'handling_time');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('handling_time', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -375,10 +448,13 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -388,9 +464,9 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -401,8 +477,10 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -416,7 +494,9 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -425,67 +505,39 @@ class OperationalConfiguration implements ModelInterface, \ArrayAccess, \JsonSer
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

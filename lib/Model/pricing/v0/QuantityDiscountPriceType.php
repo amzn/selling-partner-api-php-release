@@ -1,19 +1,17 @@
 <?php
-
 /**
- * QuantityDiscountPriceType.
+ * QuantityDiscountPriceType
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Pricing.
+ * Selling Partner API for Pricing
  *
  * The Selling Partner API for Pricing helps you programmatically retrieve product pricing and offer information for Amazon Marketplace products.
  *
@@ -30,117 +28,233 @@
 
 namespace SpApi\Model\pricing\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * QuantityDiscountPriceType Class Doc Comment.
+ * QuantityDiscountPriceType Class Doc Comment
  *
  * @category Class
- *
  * @description Contains pricing information that includes special pricing when buying in bulk.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSerializable
+class QuantityDiscountPriceType implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'QuantityDiscountPriceType';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'quantity_tier' => 'int',
-        'quantity_discount_type' => '\SpApi\Model\pricing\v0\QuantityDiscountType',
-        'listing_price' => '\SpApi\Model\pricing\v0\MoneyType'];
+             'quantity_tier' => 'int',
+             'quantity_discount_type' => '\SpApi\Model\pricing\v0\QuantityDiscountType',
+             'listing_price' => '\SpApi\Model\pricing\v0\MoneyType'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'quantity_tier' => 'int32',
-        'quantity_discount_type' => null,
-        'listing_price' => null];
+            'quantity_tier' => 'int32',
+            'quantity_discount_type' => null,
+            'listing_price' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'quantity_tier' => false,
         'quantity_discount_type' => false,
-        'listing_price' => false,
+        'listing_price' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'quantity_tier' => 'quantityTier',
-        'quantity_discount_type' => 'quantityDiscountType',
-        'listing_price' => 'listingPrice',
+                'quantity_discount_type' => 'quantityDiscountType',
+                'listing_price' => 'listingPrice'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
     protected static array $setters = [
         'quantity_tier' => 'setQuantityTier',
         'quantity_discount_type' => 'setQuantityDiscountType',
-        'listing_price' => 'setListingPrice',
+        'listing_price' => 'setListingPrice'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
     protected static array $getters = [
         'quantity_tier' => 'getQuantityTier',
         'quantity_discount_type' => 'getQuantityDiscountType',
-        'listing_price' => 'getListingPrice',
+        'listing_price' => 'getListingPrice'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -150,81 +264,21 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -236,32 +290,34 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
     {
         $invalidProperties = [];
 
-        if (null === $this->container['quantity_tier']) {
+        if ($this->container['quantity_tier'] === null) {
             $invalidProperties[] = "'quantity_tier' can't be null";
         }
-        if (null === $this->container['quantity_discount_type']) {
+        if ($this->container['quantity_discount_type'] === null) {
             $invalidProperties[] = "'quantity_discount_type' can't be null";
         }
-        if (null === $this->container['listing_price']) {
+        if ($this->container['listing_price'] === null) {
             $invalidProperties[] = "'listing_price' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets quantity_tier.
+     * Gets quantity_tier
+     *
+     * @return int
      */
     public function getQuantityTier(): int
     {
@@ -269,9 +325,11 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Sets quantity_tier.
+     * Sets quantity_tier
      *
-     * @param int $quantity_tier indicates at what quantity this price becomes active
+     * @param int $quantity_tier Indicates at what quantity this price becomes active.
+     *
+     * @return self
      */
     public function setQuantityTier(int $quantity_tier): self
     {
@@ -284,7 +342,9 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Gets quantity_discount_type.
+     * Gets quantity_discount_type
+     *
+     * @return string
      */
     public function getQuantityDiscountType(): string
     {
@@ -292,9 +352,11 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Sets quantity_discount_type.
+     * Sets quantity_discount_type
      *
      * @param string $quantity_discount_type quantity_discount_type
+     *
+     * @return self
      */
     public function setQuantityDiscountType(string $quantity_discount_type): self
     {
@@ -307,19 +369,23 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Gets listing_price.
+     * Gets listing_price
+     *
+     * @return \SpApi\Model\pricing\v0\MoneyType
      */
-    public function getListingPrice(): MoneyType
+    public function getListingPrice(): \SpApi\Model\pricing\v0\MoneyType
     {
         return $this->container['listing_price'];
     }
 
     /**
-     * Sets listing_price.
+     * Sets listing_price
      *
-     * @param MoneyType $listing_price listing_price
+     * @param \SpApi\Model\pricing\v0\MoneyType $listing_price listing_price
+     *
+     * @return self
      */
-    public function setListingPrice(MoneyType $listing_price): self
+    public function setListingPrice(\SpApi\Model\pricing\v0\MoneyType $listing_price): self
     {
         if (is_null($listing_price)) {
             throw new \InvalidArgumentException('non-nullable listing_price cannot be null');
@@ -329,10 +395,13 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -342,9 +411,9 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -355,8 +424,10 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -370,7 +441,9 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -379,67 +452,39 @@ class QuantityDiscountPriceType implements ModelInterface, \ArrayAccess, \JsonSe
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

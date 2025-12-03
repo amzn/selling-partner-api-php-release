@@ -1,19 +1,17 @@
 <?php
-
 /**
- * DeliveryExperienceType.
+ * DeliveryExperienceType
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Merchant Fulfillment.
+ * Selling Partner API for Merchant Fulfillment
  *
  * With the Selling Partner API for Merchant Fulfillment, you can build applications that sellers can use to purchase shipping for non-Prime and Prime orders using Amazon's Buy Shipping Services.
  *
@@ -29,22 +27,22 @@
  */
 
 namespace SpApi\Model\merchantFulfillment\v0;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * DeliveryExperienceType Class Doc Comment.
+ * DeliveryExperienceType Class Doc Comment
  *
  * @category Class
- *
  * @description The delivery confirmation level.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class DeliveryExperienceType
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const DELIVERY_CONFIRMATION_WITH_ADULT_SIGNATURE = 'DeliveryConfirmationWithAdultSignature';
 
@@ -55,8 +53,7 @@ class DeliveryExperienceType
     public const NO_TRACKING = 'NoTracking';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
@@ -65,7 +62,9 @@ class DeliveryExperienceType
             self::DELIVERY_CONFIRMATION_WITH_ADULT_SIGNATURE,
             self::DELIVERY_CONFIRMATION_WITH_SIGNATURE,
             self::DELIVERY_CONFIRMATION_WITHOUT_SIGNATURE,
-            self::NO_TRACKING,
+            self::NO_TRACKING
         ];
     }
 }
+
+

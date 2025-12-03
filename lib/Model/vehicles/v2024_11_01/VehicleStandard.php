@@ -1,15 +1,13 @@
 <?php
-
 /**
- * VehicleStandard.
+ * VehicleStandard
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
@@ -29,37 +27,38 @@
  */
 
 namespace SpApi\Model\vehicles\v2024_11_01;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * VehicleStandard Class Doc Comment.
+ * VehicleStandard Class Doc Comment
  *
  * @category Class
- *
  * @description Standard followed to uniquely identify a vehicle.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class VehicleStandard
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const KTYPE = 'KTYPE';
 
     public const AMAZON_ID = 'AMAZON_ID';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
     {
         return [
             self::KTYPE,
-            self::AMAZON_ID,
+            self::AMAZON_ID
         ];
     }
 }
+
+

@@ -1,18 +1,16 @@
 <?php
-
 /**
  * DefaultApi
- * PHP version 8.3.
+ * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * The Selling Partner API for Finances.
+ * The Selling Partner API for Finances
  *
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller's business. You can obtain financial events for a given order or date range without having to wait until a statement period closes.
  *
@@ -37,32 +35,38 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use SpApi\AuthAndAuth\RateLimitConfiguration;
+use Symfony\Component\RateLimiter\LimiterInterface;
+use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use SpApi\ApiException;
-use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
-use SpApi\Model\finances\v2024_06_19\ListTransactionsResponse;
 use SpApi\ObjectSerializer;
-use Symfony\Component\RateLimiter\LimiterInterface;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 
 /**
- * DefaultApi Class Doc Comment.
+ * DefaultApi Class Doc Comment
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class DefaultApi
 {
-    public ?LimiterInterface $listTransactionsRateLimiter;
+    /**
+     * @var ClientInterface
+     */
     protected ClientInterface $client;
 
+    /**
+     * @var Configuration
+     */
     protected Configuration $config;
 
+    /**
+     * @var HeaderSelector
+     */
     protected HeaderSelector $headerSelector;
 
     /**
@@ -70,27 +74,46 @@ class DefaultApi
      */
     protected int $hostIndex;
 
-    private bool $rateLimiterEnabled;
-    private InMemoryStorage $rateLimitStorage;
+    /**
+     * @var ?RateLimitConfiguration
+     */
+    private ?RateLimitConfiguration $rateLimitConfig = null;
 
     /**
+     * @var ?LimiterInterface
+     */
+    private ?LimiterInterface $rateLimiter = null;
+
+    /**
+     * @param Configuration   $config
+     * @param RateLimitConfiguration|null $rateLimitConfig
+     * @param ClientInterface|null $client
+     * @param HeaderSelector|null $selector
      * @param int $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         Configuration $config,
+        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
-        ?bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimiterEnabled = $rateLimiterEnabled;
-
-        if ($rateLimiterEnabled) {
-            $this->rateLimitStorage = new InMemoryStorage();
-
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('DefaultApi-listTransactions'), $this->rateLimitStorage);
-            $this->listTransactionsRateLimiter = $factory->create('DefaultApi-listTransactions');
+        $this->rateLimitConfig = $rateLimitConfig;
+        if ($rateLimitConfig) {
+            $type = $rateLimitConfig->getRateLimitType();
+            $rateLimitOptions = [
+                'id' => 'spApiCall',
+                'policy' => $type,
+                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
+            ];
+            if ($type === "fixed_window" || $type === "sliding_window") {
+                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
+            } else {
+                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
+            }
+            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
+            $this->rateLimiter = $factory->create();
         }
 
         $this->client = $client ?: new Client();
@@ -99,7 +122,7 @@ class DefaultApi
     }
 
     /**
-     * Set the host index.
+     * Set the host index
      *
      * @param int $hostIndex Host index (required)
      */
@@ -109,7 +132,7 @@ class DefaultApi
     }
 
     /**
-     * Get the host index.
+     * Get the host index
      *
      * @return int Host index
      */
@@ -118,84 +141,69 @@ class DefaultApi
         return $this->hostIndex;
     }
 
+    /**
+     * @return Configuration
+     */
     public function getConfig(): Configuration
     {
         return $this->config;
     }
 
     /**
-     * Operation listTransactions.
+     * Operation listTransactions
      *
-     * @param \DateTime      $posted_after
-     *                                            The response includes financial events posted on or after this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request. (required)
-     * @param null|\DateTime $posted_before
-     *                                            A date used for selecting transactions posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no transactions are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $marketplace_id
-     *                                            The identifier of the marketplace from which you want to retrieve transactions. The marketplace ID is the globally unique identifier of a marketplace. To find the ID for your marketplace, refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids). (optional)
-     * @param null|string    $transaction_status
-     *                                            The status of the transaction.  **Possible values:**  * &#x60;DEFERRED&#x60;: the transaction is currently deferred. * &#x60;RELEASED&#x60;: the transaction is currently released. * &#x60;DEFERRED_RELEASED&#x60;: the transaction was deferred in the past, but is now released. The status of a deferred transaction is updated to &#x60;DEFERRED_RELEASED&#x60; when the transaction is released. (optional)
-     * @param null|string    $next_token
-     *                                            A string token returned in the response of your previous request. (optional)
-     * @param null|string    $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  \DateTime $posted_after
+     *  A date used for selecting transactions posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format. (required)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting transactions posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no transactions are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $marketplace_id
+     *  A string token used to select Marketplace ID. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\finances\v2024_06_19\ListTransactionsResponse
      */
     public function listTransactions(
         \DateTime $posted_after,
         ?\DateTime $posted_before = null,
         ?string $marketplace_id = null,
-        ?string $transaction_status = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
-    ): ListTransactionsResponse {
-        list($response) = $this->listTransactionsWithHttpInfo($posted_after, $posted_before, $marketplace_id, $transaction_status, $next_token, $restrictedDataToken);
-
+        ?string $next_token = null
+    ): \SpApi\Model\finances\v2024_06_19\ListTransactionsResponse {
+        list($response) = $this->listTransactionsWithHttpInfo($posted_after, $posted_before, $marketplace_id, $next_token);
         return $response;
     }
 
     /**
-     * Operation listTransactionsWithHttpInfo.
+     * Operation listTransactionsWithHttpInfo
      *
-     * @param \DateTime      $posted_after
-     *                                            The response includes financial events posted on or after this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request. (required)
-     * @param null|\DateTime $posted_before
-     *                                            A date used for selecting transactions posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no transactions are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $marketplace_id
-     *                                            The identifier of the marketplace from which you want to retrieve transactions. The marketplace ID is the globally unique identifier of a marketplace. To find the ID for your marketplace, refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids). (optional)
-     * @param null|string    $transaction_status
-     *                                            The status of the transaction.  **Possible values:**  * &#x60;DEFERRED&#x60;: the transaction is currently deferred. * &#x60;RELEASED&#x60;: the transaction is currently released. * &#x60;DEFERRED_RELEASED&#x60;: the transaction was deferred in the past, but is now released. The status of a deferred transaction is updated to &#x60;DEFERRED_RELEASED&#x60; when the transaction is released. (optional)
-     * @param null|string    $next_token
-     *                                            A string token returned in the response of your previous request. (optional)
-     * @param null|string    $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  \DateTime $posted_after
+     *  A date used for selecting transactions posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format. (required)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting transactions posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no transactions are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $marketplace_id
+     *  A string token used to select Marketplace ID. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @return array of \SpApi\Model\finances\v2024_06_19\ListTransactionsResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\finances\v2024_06_19\ListTransactionsResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listTransactionsWithHttpInfo(
         \DateTime $posted_after,
         ?\DateTime $posted_before = null,
         ?string $marketplace_id = null,
-        ?string $transaction_status = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): array {
-        $request = $this->listTransactionsRequest($posted_after, $posted_before, $marketplace_id, $transaction_status, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'DefaultApi-listTransactions');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->listTransactionsRequest($posted_after, $posted_before, $marketplace_id, $next_token);
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->listTransactionsRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -227,108 +235,304 @@ class DefaultApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\finances\v2024_06_19\ListTransactionsResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\finances\v2024_06_19\ListTransactionsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v2024_06_19\ListTransactionsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v2024_06_19\ListTransactionsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\finances\v2024_06_19\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v2024_06_19\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v2024_06_19\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\finances\v2024_06_19\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v2024_06_19\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v2024_06_19\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\finances\v2024_06_19\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v2024_06_19\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v2024_06_19\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\finances\v2024_06_19\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v2024_06_19\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v2024_06_19\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 413:
+                    if ('\SpApi\Model\finances\v2024_06_19\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v2024_06_19\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v2024_06_19\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\finances\v2024_06_19\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v2024_06_19\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v2024_06_19\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\finances\v2024_06_19\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v2024_06_19\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v2024_06_19\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\finances\v2024_06_19\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v2024_06_19\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v2024_06_19\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\finances\v2024_06_19\ListTransactionsResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\finances\v2024_06_19\ListTransactionsResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v2024_06_19\ListTransactionsResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\finances\v2024_06_19\ErrorList',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v2024_06_19\ListTransactionsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v2024_06_19\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v2024_06_19\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v2024_06_19\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v2024_06_19\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v2024_06_19\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v2024_06_19\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v2024_06_19\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v2024_06_19\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation listTransactionsAsync.
+     * Operation listTransactionsAsync
      *
-     * @param \DateTime      $posted_after
-     *                                           The response includes financial events posted on or after this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request. (required)
-     * @param null|\DateTime $posted_before
-     *                                           A date used for selecting transactions posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no transactions are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $marketplace_id
-     *                                           The identifier of the marketplace from which you want to retrieve transactions. The marketplace ID is the globally unique identifier of a marketplace. To find the ID for your marketplace, refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids). (optional)
-     * @param null|string    $transaction_status
-     *                                           The status of the transaction.  **Possible values:**  * &#x60;DEFERRED&#x60;: the transaction is currently deferred. * &#x60;RELEASED&#x60;: the transaction is currently released. * &#x60;DEFERRED_RELEASED&#x60;: the transaction was deferred in the past, but is now released. The status of a deferred transaction is updated to &#x60;DEFERRED_RELEASED&#x60; when the transaction is released. (optional)
-     * @param null|string    $next_token
-     *                                           A string token returned in the response of your previous request. (optional)
+     * @param  \DateTime $posted_after
+     *  A date used for selecting transactions posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format. (required)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting transactions posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no transactions are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $marketplace_id
+     *  A string token used to select Marketplace ID. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function listTransactionsAsync(
         \DateTime $posted_after,
         ?\DateTime $posted_before = null,
         ?string $marketplace_id = null,
-        ?string $transaction_status = null,
         ?string $next_token = null
     ): PromiseInterface {
-        return $this->listTransactionsAsyncWithHttpInfo($posted_after, $posted_before, $marketplace_id, $transaction_status, $next_token)
+        return $this->listTransactionsAsyncWithHttpInfo($posted_after, $posted_before, $marketplace_id, $next_token)
             ->then(
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation listTransactionsAsyncWithHttpInfo.
+     * Operation listTransactionsAsyncWithHttpInfo
      *
-     * @param \DateTime      $posted_after
-     *                                           The response includes financial events posted on or after this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request. (required)
-     * @param null|\DateTime $posted_before
-     *                                           A date used for selecting transactions posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no transactions are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $marketplace_id
-     *                                           The identifier of the marketplace from which you want to retrieve transactions. The marketplace ID is the globally unique identifier of a marketplace. To find the ID for your marketplace, refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids). (optional)
-     * @param null|string    $transaction_status
-     *                                           The status of the transaction.  **Possible values:**  * &#x60;DEFERRED&#x60;: the transaction is currently deferred. * &#x60;RELEASED&#x60;: the transaction is currently released. * &#x60;DEFERRED_RELEASED&#x60;: the transaction was deferred in the past, but is now released. The status of a deferred transaction is updated to &#x60;DEFERRED_RELEASED&#x60; when the transaction is released. (optional)
-     * @param null|string    $next_token
-     *                                           A string token returned in the response of your previous request. (optional)
+     * @param  \DateTime $posted_after
+     *  A date used for selecting transactions posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format. (required)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting transactions posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no transactions are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $marketplace_id
+     *  A string token used to select Marketplace ID. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function listTransactionsAsyncWithHttpInfo(
         \DateTime $posted_after,
         ?\DateTime $posted_before = null,
         ?string $marketplace_id = null,
-        ?string $transaction_status = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\finances\v2024_06_19\ListTransactionsResponse';
-        $request = $this->listTransactionsRequest($posted_after, $posted_before, $marketplace_id, $transaction_status, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'DefaultApi-listTransactions');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->listTransactionsRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->listTransactionsRequest($posted_after, $posted_before, $marketplace_id, $next_token);
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -336,13 +540,12 @@ class DefaultApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -354,35 +557,32 @@ class DefaultApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'listTransactions'.
+     * Create request for operation 'listTransactions'
      *
-     * @param \DateTime      $posted_after
-     *                                           The response includes financial events posted on or after this date. This date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. The date-time must be more than two minutes before the time of the request. (required)
-     * @param null|\DateTime $posted_before
-     *                                           A date used for selecting transactions posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no transactions are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $marketplace_id
-     *                                           The identifier of the marketplace from which you want to retrieve transactions. The marketplace ID is the globally unique identifier of a marketplace. To find the ID for your marketplace, refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids). (optional)
-     * @param null|string    $transaction_status
-     *                                           The status of the transaction.  **Possible values:**  * &#x60;DEFERRED&#x60;: the transaction is currently deferred. * &#x60;RELEASED&#x60;: the transaction is currently released. * &#x60;DEFERRED_RELEASED&#x60;: the transaction was deferred in the past, but is now released. The status of a deferred transaction is updated to &#x60;DEFERRED_RELEASED&#x60; when the transaction is released. (optional)
-     * @param null|string    $next_token
-     *                                           A string token returned in the response of your previous request. (optional)
+     * @param  \DateTime $posted_after
+     *  A date used for selecting transactions posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in ISO 8601 date time format. (required)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting transactions posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in ISO 8601 date time format. If PostedAfter and PostedBefore are more than 180 days apart, no transactions are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $marketplace_id
+     *  A string token used to select Marketplace ID. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function listTransactionsRequest(
         \DateTime $posted_after,
         ?\DateTime $posted_before = null,
         ?string $marketplace_id = null,
-        ?string $transaction_status = null,
         ?string $next_token = null
     ): Request {
         // verify the required parameter 'posted_after' is set
-        if (null === $posted_after || (is_array($posted_after) && 0 === count($posted_after))) {
+        if ($posted_after === null || (is_array($posted_after) && count($posted_after) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $posted_after when calling listTransactions'
             );
@@ -402,8 +602,7 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            true, // required
-            $this->config
+            true // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -412,8 +611,7 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -422,18 +620,7 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $transaction_status,
-            'transactionStatus', // param base name
-            'string', // openApiType
-            '', // style
-            false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -442,15 +629,24 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -461,19 +657,22 @@ class DefaultApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -487,21 +686,19 @@ class DefaultApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Create http client option.
-     *
-     * @return array of http client options
+     * Create http client option
      *
      * @throws \RuntimeException on file opening failure
+     * @return array of http client options
      */
     protected function createHttpClientOption(): array
     {
@@ -509,10 +706,27 @@ class DefaultApi
         if ($this->config->getDebug()) {
             $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: '.$this->config->getDebugFile());
+                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
             }
         }
 
         return $options;
+    }
+
+    /**
+     * Rate Limiter waits for tokens
+     *
+     * @return void
+     */
+    public function rateLimitWait(): void
+    {
+        if ($this->rateLimiter) {
+            $type = $this->rateLimitConfig->getRateLimitType();
+            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
+                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
+            } else {
+                $this->rateLimiter->consume()->wait();
+            }
+        }
     }
 }

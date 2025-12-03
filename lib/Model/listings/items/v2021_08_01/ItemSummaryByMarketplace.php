@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ItemSummaryByMarketplace.
+ * ItemSummaryByMarketplace
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Listings Items.
+ * Selling Partner API for Listings Items
  *
  * The Selling Partner API for Listings Items (Listings Items API) provides programmatic access to selling partner listings on Amazon. Use this API in collaboration with the Selling Partner API for Product Type Definitions, which you use to retrieve the information about Amazon product types needed to use the Listings Items API.  For more information, see the [Listings Items API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-use-case-guide).
  *
@@ -30,25 +28,261 @@
 
 namespace SpApi\Model\listings\items\v2021_08_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ItemSummaryByMarketplace Class Doc Comment.
+ * ItemSummaryByMarketplace Class Doc Comment
  *
  * @category Class
- *
  * @description Summary details of a listings item for an Amazon marketplace.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ItemSummaryByMarketplace implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
+
+    /**
+      * The original name of the model.
+      *
+      * @var string
+      */
+    protected static string $openAPIModelName = 'ItemSummaryByMarketplace';
+
+    /**
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
+    protected static array $openAPITypes = [
+             'marketplace_id' => 'string',
+             'asin' => 'string',
+             'product_type' => 'string',
+             'condition_type' => 'string',
+             'status' => 'string[]',
+             'fn_sku' => 'string',
+             'item_name' => 'string',
+             'created_date' => '\DateTime',
+             'last_updated_date' => '\DateTime',
+             'main_image' => '\SpApi\Model\listings\items\v2021_08_01\ItemImage'    ];
+
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
+    protected static array $openAPIFormats = [
+            'marketplace_id' => null,
+            'asin' => null,
+            'product_type' => null,
+            'condition_type' => null,
+            'status' => null,
+            'fn_sku' => null,
+            'item_name' => null,
+            'created_date' => 'date-time',
+            'last_updated_date' => 'date-time',
+            'main_image' => null    ];
+
+    /**
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
+    protected static array $openAPINullables = [
+        'marketplace_id' => false,
+        'asin' => true,
+        'product_type' => false,
+        'condition_type' => true,
+        'status' => false,
+        'fn_sku' => true,
+        'item_name' => true,
+        'created_date' => false,
+        'last_updated_date' => false,
+        'main_image' => true
+    ];
+
+    /**
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
+    protected array $openAPINullablesSetToNull = [];
+
+    /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @var string[]
+     */
+    protected static array $attributeMap = [
+        'marketplace_id' => 'marketplaceId',
+                'asin' => 'asin',
+                'product_type' => 'productType',
+                'condition_type' => 'conditionType',
+                'status' => 'status',
+                'fn_sku' => 'fnSku',
+                'item_name' => 'itemName',
+                'created_date' => 'createdDate',
+                'last_updated_date' => 'lastUpdatedDate',
+                'main_image' => 'mainImage'
+        
+    ];
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @var string[]
+     */
+    protected static array $setters = [
+        'marketplace_id' => 'setMarketplaceId',
+        'asin' => 'setAsin',
+        'product_type' => 'setProductType',
+        'condition_type' => 'setConditionType',
+        'status' => 'setStatus',
+        'fn_sku' => 'setFnSku',
+        'item_name' => 'setItemName',
+        'created_date' => 'setCreatedDate',
+        'last_updated_date' => 'setLastUpdatedDate',
+        'main_image' => 'setMainImage'
+    ];
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @var string[]
+     */
+    protected static array $getters = [
+        'marketplace_id' => 'getMarketplaceId',
+        'asin' => 'getAsin',
+        'product_type' => 'getProductType',
+        'condition_type' => 'getConditionType',
+        'status' => 'getStatus',
+        'fn_sku' => 'getFnSku',
+        'item_name' => 'getItemName',
+        'created_date' => 'getCreatedDate',
+        'last_updated_date' => 'getLastUpdatedDate',
+        'main_image' => 'getMainImage'
+    ];
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
 
     public const CONDITION_TYPE_NEW_NEW = 'new_new';
     public const CONDITION_TYPE_NEW_OPEN_BOX = 'new_open_box';
@@ -67,233 +301,7 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     public const STATUS_DISCOVERABLE = 'DISCOVERABLE';
 
     /**
-     * The original name of the model.
-     */
-    protected static string $openAPIModelName = 'ItemSummaryByMarketplace';
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
-    protected static array $openAPITypes = [
-        'marketplace_id' => 'string',
-        'asin' => 'string',
-        'product_type' => 'string',
-        'condition_type' => 'string',
-        'status' => 'string[]',
-        'fn_sku' => 'string',
-        'item_name' => 'string',
-        'created_date' => '\DateTime',
-        'last_updated_date' => '\DateTime',
-        'main_image' => '\SpApi\Model\listings\items\v2021_08_01\ItemImage'];
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
-    protected static array $openAPIFormats = [
-        'marketplace_id' => null,
-        'asin' => null,
-        'product_type' => null,
-        'condition_type' => null,
-        'status' => null,
-        'fn_sku' => null,
-        'item_name' => null,
-        'created_date' => 'date-time',
-        'last_updated_date' => 'date-time',
-        'main_image' => null];
-
-    /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
-    protected static array $openAPINullables = [
-        'marketplace_id' => false,
-        'asin' => true,
-        'product_type' => false,
-        'condition_type' => true,
-        'status' => false,
-        'fn_sku' => true,
-        'item_name' => true,
-        'created_date' => false,
-        'last_updated_date' => false,
-        'main_image' => true,
-    ];
-
-    /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
-    protected array $openAPINullablesSetToNull = [];
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     *
-     * @var string[]
-     */
-    protected static array $attributeMap = [
-        'marketplace_id' => 'marketplaceId',
-        'asin' => 'asin',
-        'product_type' => 'productType',
-        'condition_type' => 'conditionType',
-        'status' => 'status',
-        'fn_sku' => 'fnSku',
-        'item_name' => 'itemName',
-        'created_date' => 'createdDate',
-        'last_updated_date' => 'lastUpdatedDate',
-        'main_image' => 'mainImage',
-    ];
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     *
-     * @var string[]
-     */
-    protected static array $setters = [
-        'marketplace_id' => 'setMarketplaceId',
-        'asin' => 'setAsin',
-        'product_type' => 'setProductType',
-        'condition_type' => 'setConditionType',
-        'status' => 'setStatus',
-        'fn_sku' => 'setFnSku',
-        'item_name' => 'setItemName',
-        'created_date' => 'setCreatedDate',
-        'last_updated_date' => 'setLastUpdatedDate',
-        'main_image' => 'setMainImage',
-    ];
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     *
-     * @var string[]
-     */
-    protected static array $getters = [
-        'marketplace_id' => 'getMarketplaceId',
-        'asin' => 'getAsin',
-        'product_type' => 'getProductType',
-        'condition_type' => 'getConditionType',
-        'status' => 'getStatus',
-        'fn_sku' => 'getFnSku',
-        'item_name' => 'getItemName',
-        'created_date' => 'getCreatedDate',
-        'last_updated_date' => 'getLastUpdatedDate',
-        'main_image' => 'getMainImage',
-    ];
-
-    /**
-     * Associative array for storing property values.
-     */
-    protected array $container = [];
-
-    /**
-     * Constructor.
-     *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
-     */
-    public function __construct(?array $data = null)
-    {
-        $this->setIfExists('marketplace_id', $data ?? [], null);
-        $this->setIfExists('asin', $data ?? [], null);
-        $this->setIfExists('product_type', $data ?? [], null);
-        $this->setIfExists('condition_type', $data ?? [], null);
-        $this->setIfExists('status', $data ?? [], null);
-        $this->setIfExists('fn_sku', $data ?? [], null);
-        $this->setIfExists('item_name', $data ?? [], null);
-        $this->setIfExists('created_date', $data ?? [], null);
-        $this->setIfExists('last_updated_date', $data ?? [], null);
-        $this->setIfExists('main_image', $data ?? [], null);
-    }
-
-    /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
-    }
-
-    /**
-     * Gets allowable values of the enum.
+     * Gets allowable values of the enum
      *
      * @return string[]
      */
@@ -317,7 +325,7 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets allowable values of the enum.
+     * Gets allowable values of the enum
      *
      * @return string[]
      */
@@ -330,6 +338,51 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
+     * Associative array for storing property values
+     *
+     * @var array
+     */
+    protected array $container = [];
+
+    /**
+     * Constructor
+     *
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->setIfExists('marketplace_id', $data ?? [], null);
+        $this->setIfExists('asin', $data ?? [], null);
+        $this->setIfExists('product_type', $data ?? [], null);
+        $this->setIfExists('condition_type', $data ?? [], null);
+        $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('fn_sku', $data ?? [], null);
+        $this->setIfExists('item_name', $data ?? [], null);
+        $this->setIfExists('created_date', $data ?? [], null);
+        $this->setIfExists('last_updated_date', $data ?? [], null);
+        $this->setIfExists('main_image', $data ?? [], null);
+    }
+
+    /**
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
+    }
+
+    /**
      * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
@@ -338,10 +391,10 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     {
         $invalidProperties = [];
 
-        if (null === $this->container['marketplace_id']) {
+        if ($this->container['marketplace_id'] === null) {
             $invalidProperties[] = "'marketplace_id' can't be null";
         }
-        if (null === $this->container['product_type']) {
+        if ($this->container['product_type'] === null) {
             $invalidProperties[] = "'product_type' can't be null";
         }
         $allowedValues = $this->getConditionTypeAllowableValues();
@@ -353,32 +406,34 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
             );
         }
 
-        if (null === $this->container['status']) {
+        if ($this->container['status'] === null) {
             $invalidProperties[] = "'status' can't be null";
         }
-        if (null === $this->container['created_date']) {
+        if ($this->container['created_date'] === null) {
             $invalidProperties[] = "'created_date' can't be null";
         }
-        if (null === $this->container['last_updated_date']) {
+        if ($this->container['last_updated_date'] === null) {
             $invalidProperties[] = "'last_updated_date' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets marketplace_id.
+     * Gets marketplace_id
+     *
+     * @return string
      */
     public function getMarketplaceId(): string
     {
@@ -386,9 +441,11 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Sets marketplace_id.
+     * Sets marketplace_id
      *
      * @param string $marketplace_id A marketplace identifier. Identifies the Amazon marketplace for the listings item.
+     *
+     * @return self
      */
     public function setMarketplaceId(string $marketplace_id): self
     {
@@ -401,7 +458,9 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets asin.
+     * Gets asin
+     *
+     * @return string|null
      */
     public function getAsin(): ?string
     {
@@ -409,9 +468,11 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Sets asin.
+     * Sets asin
      *
-     * @param null|string $asin amazon Standard Identification Number (ASIN) of the listings item
+     * @param string|null $asin Amazon Standard Identification Number (ASIN) of the listings item.
+     *
+     * @return self
      */
     public function setAsin(?string $asin): self
     {
@@ -420,7 +481,7 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('asin', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -431,7 +492,9 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets product_type.
+     * Gets product_type
+     *
+     * @return string
      */
     public function getProductType(): string
     {
@@ -439,9 +502,11 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Sets product_type.
+     * Sets product_type
      *
-     * @param string $product_type the Amazon product type of the listings item
+     * @param string $product_type The Amazon product type of the listings item.
+     *
+     * @return self
      */
     public function setProductType(string $product_type): self
     {
@@ -454,7 +519,9 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets condition_type.
+     * Gets condition_type
+     *
+     * @return string|null
      */
     public function getConditionType(): ?string
     {
@@ -462,9 +529,11 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Sets condition_type.
+     * Sets condition_type
      *
-     * @param null|string $condition_type identifies the condition of the listings item
+     * @param string|null $condition_type Identifies the condition of the listings item.
+     *
+     * @return self
      */
     public function setConditionType(?string $condition_type): self
     {
@@ -473,7 +542,7 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('condition_type', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -494,7 +563,9 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets status.
+     * Gets status
+     *
+     * @return array
      */
     public function getStatus(): array
     {
@@ -502,9 +573,11 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Sets status.
+     * Sets status
      *
-     * @param array $status statuses that apply to the listings item
+     * @param array $status Statuses that apply to the listings item.
+     *
+     * @return self
      */
     public function setStatus(array $status): self
     {
@@ -526,7 +599,9 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets fn_sku.
+     * Gets fn_sku
+     *
+     * @return string|null
      */
     public function getFnSku(): ?string
     {
@@ -534,9 +609,11 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Sets fn_sku.
+     * Sets fn_sku
      *
-     * @param null|string $fn_sku the fulfillment network stock keeping unit is an identifier used by Amazon fulfillment centers to identify each unique item
+     * @param string|null $fn_sku The fulfillment network stock keeping unit is an identifier used by Amazon fulfillment centers to identify each unique item.
+     *
+     * @return self
      */
     public function setFnSku(?string $fn_sku): self
     {
@@ -545,7 +622,7 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('fn_sku', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -556,7 +633,9 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets item_name.
+     * Gets item_name
+     *
+     * @return string|null
      */
     public function getItemName(): ?string
     {
@@ -564,9 +643,11 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Sets item_name.
+     * Sets item_name
      *
-     * @param null|string $item_name the name or title associated with an Amazon catalog item
+     * @param string|null $item_name The name or title associated with an Amazon catalog item.
+     *
+     * @return self
      */
     public function setItemName(?string $item_name): self
     {
@@ -575,7 +656,7 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('item_name', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -586,7 +667,9 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets created_date.
+     * Gets created_date
+     *
+     * @return \DateTime
      */
     public function getCreatedDate(): \DateTime
     {
@@ -594,9 +677,11 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Sets created_date.
+     * Sets created_date
      *
-     * @param \DateTime $created_date the date the listings item was created in ISO 8601 format
+     * @param \DateTime $created_date The date the listings item was created in ISO 8601 format.
+     *
+     * @return self
      */
     public function setCreatedDate(\DateTime $created_date): self
     {
@@ -609,7 +694,9 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets last_updated_date.
+     * Gets last_updated_date
+     *
+     * @return \DateTime
      */
     public function getLastUpdatedDate(): \DateTime
     {
@@ -617,9 +704,11 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Sets last_updated_date.
+     * Sets last_updated_date
      *
-     * @param \DateTime $last_updated_date the date the listings item was last updated in ISO 8601 format
+     * @param \DateTime $last_updated_date The date the listings item was last updated in ISO 8601 format.
+     *
+     * @return self
      */
     public function setLastUpdatedDate(\DateTime $last_updated_date): self
     {
@@ -632,26 +721,30 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     }
 
     /**
-     * Gets main_image.
+     * Gets main_image
+     *
+     * @return \SpApi\Model\listings\items\v2021_08_01\ItemImage|null
      */
-    public function getMainImage(): ?ItemImage
+    public function getMainImage(): ?\SpApi\Model\listings\items\v2021_08_01\ItemImage
     {
         return $this->container['main_image'];
     }
 
     /**
-     * Sets main_image.
+     * Sets main_image
      *
-     * @param null|ItemImage $main_image main_image
+     * @param \SpApi\Model\listings\items\v2021_08_01\ItemImage|null $main_image main_image
+     *
+     * @return self
      */
-    public function setMainImage(?ItemImage $main_image): self
+    public function setMainImage(?\SpApi\Model\listings\items\v2021_08_01\ItemImage $main_image): self
     {
         if (is_null($main_image)) {
             array_push($this->openAPINullablesSetToNull, 'main_image');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('main_image', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -661,10 +754,13 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -674,9 +770,9 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -687,8 +783,10 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -702,7 +800,9 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -711,67 +811,39 @@ class ItemSummaryByMarketplace implements ModelInterface, \ArrayAccess, \JsonSer
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

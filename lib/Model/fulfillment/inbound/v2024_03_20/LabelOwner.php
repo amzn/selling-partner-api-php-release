@@ -1,15 +1,13 @@
 <?php
-
 /**
- * LabelOwner.
+ * LabelOwner
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
@@ -29,22 +27,22 @@
  */
 
 namespace SpApi\Model\fulfillment\inbound\v2024_03_20;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * LabelOwner Class Doc Comment.
+ * LabelOwner Class Doc Comment
  *
  * @category Class
- *
  * @description Specifies who will label the items. Options include &#x60;AMAZON&#x60;, &#x60;SELLER&#x60; or &#x60;NONE&#x60;.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class LabelOwner
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const AMAZON = 'AMAZON';
 
@@ -53,8 +51,7 @@ class LabelOwner
     public const NONE = 'NONE';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
@@ -62,7 +59,9 @@ class LabelOwner
         return [
             self::AMAZON,
             self::SELLER,
-            self::NONE,
+            self::NONE
         ];
     }
 }
+
+

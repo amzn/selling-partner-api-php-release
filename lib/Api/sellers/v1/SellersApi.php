@@ -1,18 +1,16 @@
 <?php
-
 /**
  * SellersApi
- * PHP version 8.3.
+ * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * The Selling Partner API for Sellers.
+ * The Selling Partner API for Sellers
  *
  * The [Selling Partner API for Sellers](https://developer-docs.amazon.com/sp-api/docs/sellers-api-v1-reference) (Sellers API) provides essential information about seller accounts, such as:  - The marketplaces a seller can list in - The default language and currency of a marketplace - Whether the seller has suspended listings  Refer to the [Sellers API reference](https://developer-docs.amazon.com/sp-api/docs/sellers-api-v1-reference) for details about this API's operations, data types, and schemas.
  *
@@ -37,34 +35,38 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use SpApi\AuthAndAuth\RateLimitConfiguration;
+use Symfony\Component\RateLimiter\LimiterInterface;
+use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use SpApi\ApiException;
-use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
-use SpApi\Model\sellers\v1\GetAccountResponse;
-use SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse;
 use SpApi\ObjectSerializer;
-use Symfony\Component\RateLimiter\LimiterInterface;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 
 /**
- * SellersApi Class Doc Comment.
+ * SellersApi Class Doc Comment
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class SellersApi
 {
-    public ?LimiterInterface $getAccountRateLimiter;
-    public ?LimiterInterface $getMarketplaceParticipationsRateLimiter;
+    /**
+     * @var ClientInterface
+     */
     protected ClientInterface $client;
 
+    /**
+     * @var Configuration
+     */
     protected Configuration $config;
 
+    /**
+     * @var HeaderSelector
+     */
     protected HeaderSelector $headerSelector;
 
     /**
@@ -72,29 +74,46 @@ class SellersApi
      */
     protected int $hostIndex;
 
-    private bool $rateLimiterEnabled;
-    private InMemoryStorage $rateLimitStorage;
+    /**
+     * @var ?RateLimitConfiguration
+     */
+    private ?RateLimitConfiguration $rateLimitConfig = null;
 
     /**
+     * @var ?LimiterInterface
+     */
+    private ?LimiterInterface $rateLimiter = null;
+
+    /**
+     * @param Configuration   $config
+     * @param RateLimitConfiguration|null $rateLimitConfig
+     * @param ClientInterface|null $client
+     * @param HeaderSelector|null $selector
      * @param int $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         Configuration $config,
+        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
-        ?bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimiterEnabled = $rateLimiterEnabled;
-
-        if ($rateLimiterEnabled) {
-            $this->rateLimitStorage = new InMemoryStorage();
-
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('SellersApi-getAccount'), $this->rateLimitStorage);
-            $this->getAccountRateLimiter = $factory->create('SellersApi-getAccount');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('SellersApi-getMarketplaceParticipations'), $this->rateLimitStorage);
-            $this->getMarketplaceParticipationsRateLimiter = $factory->create('SellersApi-getMarketplaceParticipations');
+        $this->rateLimitConfig = $rateLimitConfig;
+        if ($rateLimitConfig) {
+            $type = $rateLimitConfig->getRateLimitType();
+            $rateLimitOptions = [
+                'id' => 'spApiCall',
+                'policy' => $type,
+                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
+            ];
+            if ($type === "fixed_window" || $type === "sliding_window") {
+                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
+            } else {
+                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
+            }
+            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
+            $this->rateLimiter = $factory->create();
         }
 
         $this->client = $client ?: new Client();
@@ -103,7 +122,7 @@ class SellersApi
     }
 
     /**
-     * Set the host index.
+     * Set the host index
      *
      * @param int $hostIndex Host index (required)
      */
@@ -113,7 +132,7 @@ class SellersApi
     }
 
     /**
-     * Get the host index.
+     * Get the host index
      *
      * @return int Host index
      */
@@ -122,54 +141,47 @@ class SellersApi
         return $this->hostIndex;
     }
 
+    /**
+     * @return Configuration
+     */
     public function getConfig(): Configuration
     {
         return $this->config;
     }
 
     /**
-     * Operation getAccount.
+     * Operation getAccount
      *
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\sellers\v1\GetAccountResponse
      */
     public function getAccount(
-        ?string $restrictedDataToken = null
-    ): GetAccountResponse {
-        list($response) = $this->getAccountWithHttpInfo($restrictedDataToken);
-
+    
+    ): \SpApi\Model\sellers\v1\GetAccountResponse {
+        list($response) = $this->getAccountWithHttpInfo();
         return $response;
     }
 
     /**
-     * Operation getAccountWithHttpInfo.
+     * Operation getAccountWithHttpInfo
      *
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @return array of \SpApi\Model\sellers\v1\GetAccountResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\sellers\v1\GetAccountResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getAccountWithHttpInfo(
-        ?string $restrictedDataToken = null
+    
     ): array {
         $request = $this->getAccountRequest();
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'SellersApi-getAccount');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getAccountRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -201,76 +213,282 @@ class SellersApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\sellers\v1\GetAccountResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\sellers\v1\GetAccountResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetAccountResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetAccountResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\sellers\v1\GetAccountResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetAccountResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetAccountResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\sellers\v1\GetAccountResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetAccountResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetAccountResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\sellers\v1\GetAccountResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetAccountResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetAccountResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 413:
+                    if ('\SpApi\Model\sellers\v1\GetAccountResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetAccountResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetAccountResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\sellers\v1\GetAccountResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetAccountResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetAccountResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\sellers\v1\GetAccountResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetAccountResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetAccountResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\sellers\v1\GetAccountResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetAccountResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetAccountResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\sellers\v1\GetAccountResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetAccountResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetAccountResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\sellers\v1\GetAccountResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\sellers\v1\GetAccountResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetAccountResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\sellers\v1\GetAccountResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetAccountResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetAccountResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetAccountResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetAccountResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetAccountResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetAccountResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetAccountResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetAccountResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetAccountResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getAccountAsync.
+     * Operation getAccountAsync
+     *
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getAccountAsync(
+    
     ): PromiseInterface {
         return $this->getAccountAsyncWithHttpInfo()
             ->then(
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getAccountAsyncWithHttpInfo.
+     * Operation getAccountAsyncWithHttpInfo
+     *
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getAccountAsyncWithHttpInfo(
-        ?string $restrictedDataToken = null
+    
     ): PromiseInterface {
         $returnType = '\SpApi\Model\sellers\v1\GetAccountResponse';
         $request = $this->getAccountRequest();
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'SellersApi-getAccount');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getAccountRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -278,13 +496,12 @@ class SellersApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -296,17 +513,20 @@ class SellersApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getAccount'.
+     * Create request for operation 'getAccount'
+     *
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getAccountRequest(
+    
     ): Request {
+
         $resourcePath = '/sellers/v1/account';
         $formParams = [];
         $queryParams = [];
@@ -314,11 +534,22 @@ class SellersApi
         $httpBody = '';
         $multipart = false;
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+
+
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -329,19 +560,22 @@ class SellersApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -355,58 +589,47 @@ class SellersApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getMarketplaceParticipations.
+     * Operation getMarketplaceParticipations
      *
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse
      */
     public function getMarketplaceParticipations(
-        ?string $restrictedDataToken = null
-    ): GetMarketplaceParticipationsResponse {
-        list($response) = $this->getMarketplaceParticipationsWithHttpInfo($restrictedDataToken);
-
+    
+    ): \SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse {
+        list($response) = $this->getMarketplaceParticipationsWithHttpInfo();
         return $response;
     }
 
     /**
-     * Operation getMarketplaceParticipationsWithHttpInfo.
+     * Operation getMarketplaceParticipationsWithHttpInfo
      *
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @return array of \SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getMarketplaceParticipationsWithHttpInfo(
-        ?string $restrictedDataToken = null
+    
     ): array {
         $request = $this->getMarketplaceParticipationsRequest();
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'SellersApi-getMarketplaceParticipations');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getMarketplaceParticipationsRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -438,76 +661,282 @@ class SellersApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 413:
+                    if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getMarketplaceParticipationsAsync.
+     * Operation getMarketplaceParticipationsAsync
+     *
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getMarketplaceParticipationsAsync(
+    
     ): PromiseInterface {
         return $this->getMarketplaceParticipationsAsyncWithHttpInfo()
             ->then(
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getMarketplaceParticipationsAsyncWithHttpInfo.
+     * Operation getMarketplaceParticipationsAsyncWithHttpInfo
+     *
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getMarketplaceParticipationsAsyncWithHttpInfo(
-        ?string $restrictedDataToken = null
+    
     ): PromiseInterface {
         $returnType = '\SpApi\Model\sellers\v1\GetMarketplaceParticipationsResponse';
         $request = $this->getMarketplaceParticipationsRequest();
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'SellersApi-getMarketplaceParticipations');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getMarketplaceParticipationsRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -515,13 +944,12 @@ class SellersApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -533,17 +961,20 @@ class SellersApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getMarketplaceParticipations'.
+     * Create request for operation 'getMarketplaceParticipations'
+     *
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getMarketplaceParticipationsRequest(
+    
     ): Request {
+
         $resourcePath = '/sellers/v1/marketplaceParticipations';
         $formParams = [];
         $queryParams = [];
@@ -551,11 +982,22 @@ class SellersApi
         $httpBody = '';
         $multipart = false;
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json', 'payload'],
-            '',
-            $multipart
-        );
+
+
+
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json', 'payload']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json', 'payload'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -566,19 +1008,22 @@ class SellersApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -592,21 +1037,19 @@ class SellersApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Create http client option.
-     *
-     * @return array of http client options
+     * Create http client option
      *
      * @throws \RuntimeException on file opening failure
+     * @return array of http client options
      */
     protected function createHttpClientOption(): array
     {
@@ -614,10 +1057,27 @@ class SellersApi
         if ($this->config->getDebug()) {
             $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: '.$this->config->getDebugFile());
+                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
             }
         }
 
         return $options;
+    }
+
+    /**
+     * Rate Limiter waits for tokens
+     *
+     * @return void
+     */
+    public function rateLimitWait(): void
+    {
+        if ($this->rateLimiter) {
+            $type = $this->rateLimitConfig->getRateLimitType();
+            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
+                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
+            } else {
+                $this->rateLimiter->consume()->wait();
+            }
+        }
     }
 }

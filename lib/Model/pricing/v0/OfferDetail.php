@@ -1,19 +1,17 @@
 <?php
-
 /**
- * OfferDetail.
+ * OfferDetail
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Pricing.
+ * Selling Partner API for Pricing
  *
  * The Selling Partner API for Pricing helps you programmatically retrieve product pricing and offer information for Amazon Marketplace products.
  *
@@ -30,86 +28,85 @@
 
 namespace SpApi\Model\pricing\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * OfferDetail Class Doc Comment.
+ * OfferDetail Class Doc Comment
  *
  * @category Class
- *
  * @description Schema for an individual offer. Object in &#x60;OfferDetailList&#x60;.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
+class OfferDetail implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'OfferDetail';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'my_offer' => 'bool',
-        'offer_type' => '\SpApi\Model\pricing\v0\OfferCustomerType',
-        'sub_condition' => 'string',
-        'seller_id' => 'string',
-        'condition_notes' => 'string',
-        'seller_feedback_rating' => '\SpApi\Model\pricing\v0\SellerFeedbackType',
-        'shipping_time' => '\SpApi\Model\pricing\v0\DetailedShippingTimeType',
-        'listing_price' => '\SpApi\Model\pricing\v0\MoneyType',
-        'quantity_discount_prices' => '\SpApi\Model\pricing\v0\QuantityDiscountPriceType[]',
-        'points' => '\SpApi\Model\pricing\v0\Points',
-        'shipping' => '\SpApi\Model\pricing\v0\MoneyType',
-        'ships_from' => '\SpApi\Model\pricing\v0\ShipsFromType',
-        'is_fulfilled_by_amazon' => 'bool',
-        'prime_information' => '\SpApi\Model\pricing\v0\PrimeInformationType',
-        'is_buy_box_winner' => 'bool',
-        'is_featured_merchant' => 'bool'];
+             'my_offer' => 'bool',
+             'offer_type' => '\SpApi\Model\pricing\v0\OfferCustomerType',
+             'sub_condition' => 'string',
+             'seller_id' => 'string',
+             'condition_notes' => 'string',
+             'seller_feedback_rating' => '\SpApi\Model\pricing\v0\SellerFeedbackType',
+             'shipping_time' => '\SpApi\Model\pricing\v0\DetailedShippingTimeType',
+             'listing_price' => '\SpApi\Model\pricing\v0\MoneyType',
+             'quantity_discount_prices' => '\SpApi\Model\pricing\v0\QuantityDiscountPriceType[]',
+             'points' => '\SpApi\Model\pricing\v0\Points',
+             'shipping' => '\SpApi\Model\pricing\v0\MoneyType',
+             'ships_from' => '\SpApi\Model\pricing\v0\ShipsFromType',
+             'is_fulfilled_by_amazon' => 'bool',
+             'prime_information' => '\SpApi\Model\pricing\v0\PrimeInformationType',
+             'is_buy_box_winner' => 'bool',
+             'is_featured_merchant' => 'bool'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'my_offer' => null,
-        'offer_type' => null,
-        'sub_condition' => null,
-        'seller_id' => null,
-        'condition_notes' => null,
-        'seller_feedback_rating' => null,
-        'shipping_time' => null,
-        'listing_price' => null,
-        'quantity_discount_prices' => null,
-        'points' => null,
-        'shipping' => null,
-        'ships_from' => null,
-        'is_fulfilled_by_amazon' => null,
-        'prime_information' => null,
-        'is_buy_box_winner' => null,
-        'is_featured_merchant' => null];
+            'my_offer' => null,
+            'offer_type' => null,
+            'sub_condition' => null,
+            'seller_id' => null,
+            'condition_notes' => null,
+            'seller_feedback_rating' => null,
+            'shipping_time' => null,
+            'listing_price' => null,
+            'quantity_discount_prices' => null,
+            'points' => null,
+            'shipping' => null,
+            'ships_from' => null,
+            'is_fulfilled_by_amazon' => null,
+            'prime_information' => null,
+            'is_buy_box_winner' => null,
+            'is_featured_merchant' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'my_offer' => true,
         'offer_type' => true,
@@ -126,43 +123,116 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         'is_fulfilled_by_amazon' => false,
         'prime_information' => true,
         'is_buy_box_winner' => true,
-        'is_featured_merchant' => true,
+        'is_featured_merchant' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'my_offer' => 'MyOffer',
-        'offer_type' => 'offerType',
-        'sub_condition' => 'SubCondition',
-        'seller_id' => 'SellerId',
-        'condition_notes' => 'ConditionNotes',
-        'seller_feedback_rating' => 'SellerFeedbackRating',
-        'shipping_time' => 'ShippingTime',
-        'listing_price' => 'ListingPrice',
-        'quantity_discount_prices' => 'quantityDiscountPrices',
-        'points' => 'Points',
-        'shipping' => 'Shipping',
-        'ships_from' => 'ShipsFrom',
-        'is_fulfilled_by_amazon' => 'IsFulfilledByAmazon',
-        'prime_information' => 'PrimeInformation',
-        'is_buy_box_winner' => 'IsBuyBoxWinner',
-        'is_featured_merchant' => 'IsFeaturedMerchant',
+                'offer_type' => 'offerType',
+                'sub_condition' => 'SubCondition',
+                'seller_id' => 'SellerId',
+                'condition_notes' => 'ConditionNotes',
+                'seller_feedback_rating' => 'SellerFeedbackRating',
+                'shipping_time' => 'ShippingTime',
+                'listing_price' => 'ListingPrice',
+                'quantity_discount_prices' => 'quantityDiscountPrices',
+                'points' => 'Points',
+                'shipping' => 'Shipping',
+                'ships_from' => 'ShipsFrom',
+                'is_fulfilled_by_amazon' => 'IsFulfilledByAmazon',
+                'prime_information' => 'PrimeInformation',
+                'is_buy_box_winner' => 'IsBuyBoxWinner',
+                'is_featured_merchant' => 'IsFeaturedMerchant'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -182,11 +252,11 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         'is_fulfilled_by_amazon' => 'setIsFulfilledByAmazon',
         'prime_information' => 'setPrimeInformation',
         'is_buy_box_winner' => 'setIsBuyBoxWinner',
-        'is_featured_merchant' => 'setIsFeaturedMerchant',
+        'is_featured_merchant' => 'setIsFeaturedMerchant'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -206,19 +276,63 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         'is_fulfilled_by_amazon' => 'getIsFulfilledByAmazon',
         'prime_information' => 'getPrimeInformation',
         'is_buy_box_winner' => 'getIsBuyBoxWinner',
-        'is_featured_merchant' => 'getIsFeaturedMerchant',
+        'is_featured_merchant' => 'getIsFeaturedMerchant'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -241,81 +355,21 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -327,38 +381,40 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
-        if (null === $this->container['sub_condition']) {
+        if ($this->container['sub_condition'] === null) {
             $invalidProperties[] = "'sub_condition' can't be null";
         }
-        if (null === $this->container['shipping_time']) {
+        if ($this->container['shipping_time'] === null) {
             $invalidProperties[] = "'shipping_time' can't be null";
         }
-        if (null === $this->container['listing_price']) {
+        if ($this->container['listing_price'] === null) {
             $invalidProperties[] = "'listing_price' can't be null";
         }
-        if (null === $this->container['shipping']) {
+        if ($this->container['shipping'] === null) {
             $invalidProperties[] = "'shipping' can't be null";
         }
-        if (null === $this->container['is_fulfilled_by_amazon']) {
+        if ($this->container['is_fulfilled_by_amazon'] === null) {
             $invalidProperties[] = "'is_fulfilled_by_amazon' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets my_offer.
+     * Gets my_offer
+     *
+     * @return bool|null
      */
     public function getMyOffer(): ?bool
     {
@@ -366,9 +422,11 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets my_offer.
+     * Sets my_offer
      *
-     * @param null|bool $my_offer when true, this is the seller's offer
+     * @param bool|null $my_offer When true, this is the seller's offer.
+     *
+     * @return self
      */
     public function setMyOffer(?bool $my_offer): self
     {
@@ -377,7 +435,7 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('my_offer', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -388,7 +446,9 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets offer_type.
+     * Gets offer_type
+     *
+     * @return string|null
      */
     public function getOfferType(): ?string
     {
@@ -396,9 +456,11 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets offer_type.
+     * Sets offer_type
      *
-     * @param null|string $offer_type offer_type
+     * @param string|null $offer_type offer_type
+     *
+     * @return self
      */
     public function setOfferType(?string $offer_type): self
     {
@@ -407,7 +469,7 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('offer_type', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -418,7 +480,9 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets sub_condition.
+     * Gets sub_condition
+     *
+     * @return string
      */
     public function getSubCondition(): string
     {
@@ -426,9 +490,11 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets sub_condition.
+     * Sets sub_condition
      *
      * @param string $sub_condition The subcondition of the item. Subcondition values: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other.
+     *
+     * @return self
      */
     public function setSubCondition(string $sub_condition): self
     {
@@ -441,7 +507,9 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets seller_id.
+     * Gets seller_id
+     *
+     * @return string|null
      */
     public function getSellerId(): ?string
     {
@@ -449,9 +517,11 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets seller_id.
+     * Sets seller_id
      *
-     * @param null|string $seller_id the seller identifier for the offer
+     * @param string|null $seller_id The seller identifier for the offer.
+     *
+     * @return self
      */
     public function setSellerId(?string $seller_id): self
     {
@@ -460,7 +530,7 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('seller_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -471,7 +541,9 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets condition_notes.
+     * Gets condition_notes
+     *
+     * @return string|null
      */
     public function getConditionNotes(): ?string
     {
@@ -479,9 +551,11 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets condition_notes.
+     * Sets condition_notes
      *
-     * @param null|string $condition_notes information about the condition of the item
+     * @param string|null $condition_notes Information about the condition of the item.
+     *
+     * @return self
      */
     public function setConditionNotes(?string $condition_notes): self
     {
@@ -490,7 +564,7 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('condition_notes', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -501,26 +575,30 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets seller_feedback_rating.
+     * Gets seller_feedback_rating
+     *
+     * @return \SpApi\Model\pricing\v0\SellerFeedbackType|null
      */
-    public function getSellerFeedbackRating(): ?SellerFeedbackType
+    public function getSellerFeedbackRating(): ?\SpApi\Model\pricing\v0\SellerFeedbackType
     {
         return $this->container['seller_feedback_rating'];
     }
 
     /**
-     * Sets seller_feedback_rating.
+     * Sets seller_feedback_rating
      *
-     * @param null|SellerFeedbackType $seller_feedback_rating seller_feedback_rating
+     * @param \SpApi\Model\pricing\v0\SellerFeedbackType|null $seller_feedback_rating seller_feedback_rating
+     *
+     * @return self
      */
-    public function setSellerFeedbackRating(?SellerFeedbackType $seller_feedback_rating): self
+    public function setSellerFeedbackRating(?\SpApi\Model\pricing\v0\SellerFeedbackType $seller_feedback_rating): self
     {
         if (is_null($seller_feedback_rating)) {
             array_push($this->openAPINullablesSetToNull, 'seller_feedback_rating');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('seller_feedback_rating', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -531,19 +609,23 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets shipping_time.
+     * Gets shipping_time
+     *
+     * @return \SpApi\Model\pricing\v0\DetailedShippingTimeType
      */
-    public function getShippingTime(): DetailedShippingTimeType
+    public function getShippingTime(): \SpApi\Model\pricing\v0\DetailedShippingTimeType
     {
         return $this->container['shipping_time'];
     }
 
     /**
-     * Sets shipping_time.
+     * Sets shipping_time
      *
-     * @param DetailedShippingTimeType $shipping_time shipping_time
+     * @param \SpApi\Model\pricing\v0\DetailedShippingTimeType $shipping_time shipping_time
+     *
+     * @return self
      */
-    public function setShippingTime(DetailedShippingTimeType $shipping_time): self
+    public function setShippingTime(\SpApi\Model\pricing\v0\DetailedShippingTimeType $shipping_time): self
     {
         if (is_null($shipping_time)) {
             throw new \InvalidArgumentException('non-nullable shipping_time cannot be null');
@@ -554,19 +636,23 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets listing_price.
+     * Gets listing_price
+     *
+     * @return \SpApi\Model\pricing\v0\MoneyType
      */
-    public function getListingPrice(): MoneyType
+    public function getListingPrice(): \SpApi\Model\pricing\v0\MoneyType
     {
         return $this->container['listing_price'];
     }
 
     /**
-     * Sets listing_price.
+     * Sets listing_price
      *
-     * @param MoneyType $listing_price listing_price
+     * @param \SpApi\Model\pricing\v0\MoneyType $listing_price listing_price
+     *
+     * @return self
      */
-    public function setListingPrice(MoneyType $listing_price): self
+    public function setListingPrice(\SpApi\Model\pricing\v0\MoneyType $listing_price): self
     {
         if (is_null($listing_price)) {
             throw new \InvalidArgumentException('non-nullable listing_price cannot be null');
@@ -577,7 +663,9 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets quantity_discount_prices.
+     * Gets quantity_discount_prices
+     *
+     * @return array|null
      */
     public function getQuantityDiscountPrices(): ?array
     {
@@ -585,9 +673,11 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets quantity_discount_prices.
+     * Sets quantity_discount_prices
      *
-     * @param null|array $quantity_discount_prices list of `QuantityDiscountPrice` that contains item's pricing information when buy in bulk
+     * @param array|null $quantity_discount_prices List of `QuantityDiscountPrice` that contains item's pricing information when buy in bulk.
+     *
+     * @return self
      */
     public function setQuantityDiscountPrices(?array $quantity_discount_prices): self
     {
@@ -596,7 +686,7 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('quantity_discount_prices', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -607,26 +697,30 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets points.
+     * Gets points
+     *
+     * @return \SpApi\Model\pricing\v0\Points|null
      */
-    public function getPoints(): ?Points
+    public function getPoints(): ?\SpApi\Model\pricing\v0\Points
     {
         return $this->container['points'];
     }
 
     /**
-     * Sets points.
+     * Sets points
      *
-     * @param null|Points $points points
+     * @param \SpApi\Model\pricing\v0\Points|null $points points
+     *
+     * @return self
      */
-    public function setPoints(?Points $points): self
+    public function setPoints(?\SpApi\Model\pricing\v0\Points $points): self
     {
         if (is_null($points)) {
             array_push($this->openAPINullablesSetToNull, 'points');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('points', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -637,19 +731,23 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets shipping.
+     * Gets shipping
+     *
+     * @return \SpApi\Model\pricing\v0\MoneyType
      */
-    public function getShipping(): MoneyType
+    public function getShipping(): \SpApi\Model\pricing\v0\MoneyType
     {
         return $this->container['shipping'];
     }
 
     /**
-     * Sets shipping.
+     * Sets shipping
      *
-     * @param MoneyType $shipping shipping
+     * @param \SpApi\Model\pricing\v0\MoneyType $shipping shipping
+     *
+     * @return self
      */
-    public function setShipping(MoneyType $shipping): self
+    public function setShipping(\SpApi\Model\pricing\v0\MoneyType $shipping): self
     {
         if (is_null($shipping)) {
             throw new \InvalidArgumentException('non-nullable shipping cannot be null');
@@ -660,26 +758,30 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets ships_from.
+     * Gets ships_from
+     *
+     * @return \SpApi\Model\pricing\v0\ShipsFromType|null
      */
-    public function getShipsFrom(): ?ShipsFromType
+    public function getShipsFrom(): ?\SpApi\Model\pricing\v0\ShipsFromType
     {
         return $this->container['ships_from'];
     }
 
     /**
-     * Sets ships_from.
+     * Sets ships_from
      *
-     * @param null|ShipsFromType $ships_from ships_from
+     * @param \SpApi\Model\pricing\v0\ShipsFromType|null $ships_from ships_from
+     *
+     * @return self
      */
-    public function setShipsFrom(?ShipsFromType $ships_from): self
+    public function setShipsFrom(?\SpApi\Model\pricing\v0\ShipsFromType $ships_from): self
     {
         if (is_null($ships_from)) {
             array_push($this->openAPINullablesSetToNull, 'ships_from');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('ships_from', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -690,7 +792,9 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets is_fulfilled_by_amazon.
+     * Gets is_fulfilled_by_amazon
+     *
+     * @return bool
      */
     public function getIsFulfilledByAmazon(): bool
     {
@@ -698,9 +802,11 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets is_fulfilled_by_amazon.
+     * Sets is_fulfilled_by_amazon
      *
-     * @param bool $is_fulfilled_by_amazon when true, the offer is fulfilled by Amazon
+     * @param bool $is_fulfilled_by_amazon When true, the offer is fulfilled by Amazon.
+     *
+     * @return self
      */
     public function setIsFulfilledByAmazon(bool $is_fulfilled_by_amazon): self
     {
@@ -713,26 +819,30 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets prime_information.
+     * Gets prime_information
+     *
+     * @return \SpApi\Model\pricing\v0\PrimeInformationType|null
      */
-    public function getPrimeInformation(): ?PrimeInformationType
+    public function getPrimeInformation(): ?\SpApi\Model\pricing\v0\PrimeInformationType
     {
         return $this->container['prime_information'];
     }
 
     /**
-     * Sets prime_information.
+     * Sets prime_information
      *
-     * @param null|PrimeInformationType $prime_information prime_information
+     * @param \SpApi\Model\pricing\v0\PrimeInformationType|null $prime_information prime_information
+     *
+     * @return self
      */
-    public function setPrimeInformation(?PrimeInformationType $prime_information): self
+    public function setPrimeInformation(?\SpApi\Model\pricing\v0\PrimeInformationType $prime_information): self
     {
         if (is_null($prime_information)) {
             array_push($this->openAPINullablesSetToNull, 'prime_information');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('prime_information', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -743,7 +853,9 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets is_buy_box_winner.
+     * Gets is_buy_box_winner
+     *
+     * @return bool|null
      */
     public function getIsBuyBoxWinner(): ?bool
     {
@@ -751,9 +863,11 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets is_buy_box_winner.
+     * Sets is_buy_box_winner
      *
-     * @param null|bool $is_buy_box_winner When true, the offer is currently in the Buy Box. There can be up to two Buy Box winners at any time per ASIN, one that is eligible for Prime and one that is not eligible for Prime.
+     * @param bool|null $is_buy_box_winner When true, the offer is currently in the Buy Box. There can be up to two Buy Box winners at any time per ASIN, one that is eligible for Prime and one that is not eligible for Prime.
+     *
+     * @return self
      */
     public function setIsBuyBoxWinner(?bool $is_buy_box_winner): self
     {
@@ -762,7 +876,7 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('is_buy_box_winner', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -773,7 +887,9 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets is_featured_merchant.
+     * Gets is_featured_merchant
+     *
+     * @return bool|null
      */
     public function getIsFeaturedMerchant(): ?bool
     {
@@ -781,9 +897,11 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets is_featured_merchant.
+     * Sets is_featured_merchant
      *
-     * @param null|bool $is_featured_merchant when true, the seller of the item is eligible to win the Buy Box
+     * @param bool|null $is_featured_merchant When true, the seller of the item is eligible to win the Buy Box.
+     *
+     * @return self
      */
     public function setIsFeaturedMerchant(?bool $is_featured_merchant): self
     {
@@ -792,7 +910,7 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('is_featured_merchant', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -802,10 +920,13 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -815,9 +936,9 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -828,8 +949,10 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -843,7 +966,9 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -852,67 +977,39 @@ class OfferDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

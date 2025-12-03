@@ -2,13 +2,15 @@
 
 namespace SpApi\AuthAndAuth;
 
-class LWAAccessTokenRequestMeta implements \JsonSerializable
+use JsonSerializable;
+
+class LWAAccessTokenRequestMeta implements JsonSerializable
 {
-    private const GRANT_TYPE_SERIALIZED = 'grant_type';
-    private const CLIENT_ID_SERIALIZED = 'client_id';
-    private const CLIENT_SECRET_SERIALIZED = 'client_secret';
-    private const REFRESH_TOKEN_SERIALIZED = 'refresh_token';
-    private const SCOPE_SERIALIZED = 'scope';
+    private const GRANT_TYPE_SERIALIZED = "grant_type";
+    private const CLIENT_ID_SERIALIZED = "client_id";
+    private const CLIENT_SECRET_SERIALIZED = "client_secret";
+    private const REFRESH_TOKEN_SERIALIZED = "refresh_token";
+    private const SCOPE_SERIALIZED = "scope";
 
     private string $grantType;
 
@@ -28,9 +30,9 @@ class LWAAccessTokenRequestMeta implements \JsonSerializable
         $this->scopes = $lwaAuthorizationCredentials->getScopes();
 
         if (!empty($lwaAuthorizationCredentials->getScopes())) {
-            $this->grantType = 'client_credentials';
+            $this->grantType = "client_credentials";
         } else {
-            $this->grantType = 'refresh_token';
+            $this->grantType = "refresh_token";
         }
     }
 
@@ -41,7 +43,7 @@ class LWAAccessTokenRequestMeta implements \JsonSerializable
             static::CLIENT_ID_SERIALIZED => $this->clientId,
             static::CLIENT_SECRET_SERIALIZED => $this->clientSecret,
             static::REFRESH_TOKEN_SERIALIZED => $this->refreshToken,
-            static::SCOPE_SERIALIZED => $this->scopes ? implode(' ', $this->scopes) : null,
+            static::SCOPE_SERIALIZED => $this->scopes ? implode(" ", $this->scopes) : null
         ];
     }
 
