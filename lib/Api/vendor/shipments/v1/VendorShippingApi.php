@@ -35,10 +35,10 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use SpApi\AuthAndAuth\RateLimitConfiguration;
 use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
-use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\ApiException;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
@@ -74,12 +74,15 @@ class VendorShippingApi
      */
     protected int $hostIndex;
 
-    private Bool $rateLimiterEnabled;
-    private InMemoryStorage $rateLimitStorage;
-    public ?LimiterInterface $getShipmentDetailsRateLimiter;
-    public ?LimiterInterface $getShipmentLabelsRateLimiter;
-    public ?LimiterInterface $submitShipmentConfirmationsRateLimiter;
-    public ?LimiterInterface $submitShipmentsRateLimiter;
+    /**
+     * @var ?RateLimitConfiguration
+     */
+    private ?RateLimitConfiguration $rateLimitConfig = null;
+
+    /**
+     * @var ?LimiterInterface
+     */
+    private ?LimiterInterface $rateLimiter = null;
 
     /**
      * @param Configuration   $config
@@ -90,25 +93,27 @@ class VendorShippingApi
      */
     public function __construct(
         Configuration $config,
+        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
-        ?Bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimiterEnabled = $rateLimiterEnabled;
-
-        if ($rateLimiterEnabled) {
-            $this->rateLimitStorage = new InMemoryStorage();
-
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions("VendorShippingApi-getShipmentDetails"), $this->rateLimitStorage);
-            $this->getShipmentDetailsRateLimiter = $factory->create("VendorShippingApi-getShipmentDetails");
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions("VendorShippingApi-getShipmentLabels"), $this->rateLimitStorage);
-            $this->getShipmentLabelsRateLimiter = $factory->create("VendorShippingApi-getShipmentLabels");
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions("VendorShippingApi-submitShipmentConfirmations"), $this->rateLimitStorage);
-            $this->submitShipmentConfirmationsRateLimiter = $factory->create("VendorShippingApi-submitShipmentConfirmations");
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions("VendorShippingApi-submitShipments"), $this->rateLimitStorage);
-            $this->submitShipmentsRateLimiter = $factory->create("VendorShippingApi-submitShipments");
+        $this->rateLimitConfig = $rateLimitConfig;
+        if ($rateLimitConfig) {
+            $type = $rateLimitConfig->getRateLimitType();
+            $rateLimitOptions = [
+                'id' => 'spApiCall',
+                'policy' => $type,
+                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
+            ];
+            if ($type === "fixed_window" || $type === "sliding_window") {
+                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
+            } else {
+                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
+            }
+            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
+            $this->rateLimiter = $factory->create();
         }
 
         $this->client = $client ?: new Client();
@@ -143,6 +148,7 @@ class VendorShippingApi
     {
         return $this->config;
     }
+
     /**
      * Operation getShipmentDetails
      *
@@ -197,7 +203,6 @@ class VendorShippingApi
      * @param  string|null $seller_warehouse_code
      *  Get Shipping Details based on vendor warehouse code. This value should be same as &#39;sellingParty.partyId&#39; in the Shipment. (optional)
      *
-     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse
@@ -226,10 +231,9 @@ class VendorShippingApi
         ?string $vendor_shipment_identifier = null,
         ?string $buyer_reference_number = null,
         ?string $buyer_warehouse_code = null,
-        ?string $seller_warehouse_code = null,
-        ?string $restrictedDataToken = null
+        ?string $seller_warehouse_code = null
     ): \SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse {
-        list($response) = $this->getShipmentDetailsWithHttpInfo($limit, $sort_order, $next_token, $created_after, $created_before, $shipment_confirmed_before, $shipment_confirmed_after, $package_label_created_before, $package_label_created_after, $shipped_before, $shipped_after, $estimated_delivery_before, $estimated_delivery_after, $shipment_delivery_before, $shipment_delivery_after, $requested_pick_up_before, $requested_pick_up_after, $scheduled_pick_up_before, $scheduled_pick_up_after, $current_shipment_status, $vendor_shipment_identifier, $buyer_reference_number, $buyer_warehouse_code, $seller_warehouse_code,$restrictedDataToken);
+        list($response) = $this->getShipmentDetailsWithHttpInfo($limit, $sort_order, $next_token, $created_after, $created_before, $shipment_confirmed_before, $shipment_confirmed_after, $package_label_created_before, $package_label_created_after, $shipped_before, $shipped_after, $estimated_delivery_before, $estimated_delivery_after, $shipment_delivery_before, $shipment_delivery_after, $requested_pick_up_before, $requested_pick_up_after, $scheduled_pick_up_before, $scheduled_pick_up_after, $current_shipment_status, $vendor_shipment_identifier, $buyer_reference_number, $buyer_warehouse_code, $seller_warehouse_code);
         return $response;
     }
 
@@ -287,7 +291,6 @@ class VendorShippingApi
      * @param  string|null $seller_warehouse_code
      *  Get Shipping Details based on vendor warehouse code. This value should be same as &#39;sellingParty.partyId&#39; in the Shipment. (optional)
      *
-     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse, HTTP status code, HTTP response headers (array of strings)
@@ -316,21 +319,15 @@ class VendorShippingApi
         ?string $vendor_shipment_identifier = null,
         ?string $buyer_reference_number = null,
         ?string $buyer_warehouse_code = null,
-        ?string $seller_warehouse_code = null,
-        ?string $restrictedDataToken = null
+        ?string $seller_warehouse_code = null
     ): array {
         $request = $this->getShipmentDetailsRequest($limit, $sort_order, $next_token, $created_after, $created_before, $shipment_confirmed_before, $shipment_confirmed_after, $package_label_created_before, $package_label_created_after, $shipped_before, $shipped_after, $estimated_delivery_before, $estimated_delivery_after, $shipment_delivery_before, $shipment_delivery_after, $requested_pick_up_before, $requested_pick_up_after, $scheduled_pick_up_before, $scheduled_pick_up_after, $current_shipment_status, $vendor_shipment_identifier, $buyer_reference_number, $buyer_warehouse_code, $seller_warehouse_code);
-        if ($restrictedDataToken !== null) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "VendorShippingApi-getShipmentDetails");
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
+
         try {
             $options = $this->createHttpClientOption();
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getShipmentDetailsRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -362,27 +359,236 @@ class VendorShippingApi
                     (string) $response->getBody()
                 );
             }
-                if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' === '\SplFileObject') {
-                    $content = $response->getBody(); //stream goes to serializer
-                } else {
-                    $content = (string) $response->getBody();
-                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' !== 'string') {
-                        $content = json_decode($content);
-                    }
-                }
 
-                return [
-                    ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse', []),
-                    $response->getStatusCode(),
-                    $response->getHeaders()
-                ];
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 401:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
         } catch (ApiException $e) {
-                $data = ObjectSerializer::deserialize(
-                    $e->getResponseBody(),
-                    '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse',
-                    $e->getResponseHeaders()
-                );
-                $e->setResponseObject($data);
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
@@ -559,19 +765,12 @@ class VendorShippingApi
         ?string $vendor_shipment_identifier = null,
         ?string $buyer_reference_number = null,
         ?string $buyer_warehouse_code = null,
-        ?string $seller_warehouse_code = null,
-    ?string $restrictedDataToken = null
+        ?string $seller_warehouse_code = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\vendor\shipments\v1\GetShipmentDetailsResponse';
         $request = $this->getShipmentDetailsRequest($limit, $sort_order, $next_token, $created_after, $created_before, $shipment_confirmed_before, $shipment_confirmed_after, $package_label_created_before, $package_label_created_after, $shipped_before, $shipped_after, $estimated_delivery_before, $estimated_delivery_after, $shipment_delivery_before, $shipment_delivery_after, $requested_pick_up_before, $requested_pick_up_after, $scheduled_pick_up_before, $scheduled_pick_up_after, $current_shipment_status, $vendor_shipment_identifier, $buyer_reference_number, $buyer_warehouse_code, $seller_warehouse_code);
-        if ($restrictedDataToken !== null) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "VendorShippingApi-getShipmentDetails");
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getShipmentDetailsRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -712,8 +911,7 @@ class VendorShippingApi
             'integer', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -722,8 +920,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -732,8 +929,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -742,8 +938,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -752,8 +947,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -762,8 +956,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -772,8 +965,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -782,8 +974,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -792,8 +983,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -802,8 +992,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -812,8 +1001,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -822,8 +1010,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -832,8 +1019,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -842,8 +1028,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -852,8 +1037,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -862,8 +1046,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -872,8 +1055,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -882,8 +1064,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -892,8 +1073,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -902,8 +1082,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -912,8 +1091,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -922,8 +1100,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -932,8 +1109,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -942,19 +1118,24 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
 
 
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            
-            '',
-            $multipart
-        );
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -1010,7 +1191,7 @@ class VendorShippingApi
      * @param  string|null $sort_order
      *  Sort the list by shipment label creation date in ascending or descending order. (optional)
      * @param  string|null $next_token
-     *  A token that you use to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages. (optional)
+     *  A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages. (optional)
      * @param  \DateTime|null $label_created_after
      *  Shipment labels created after this time will be included in the result. This field must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) datetime format. (optional)
      * @param  \DateTime|null $label_created_before
@@ -1022,7 +1203,6 @@ class VendorShippingApi
      * @param  string|null $seller_warehouse_code
      *  Get Shipping labels based on vendor warehouse code. This value must be same as the &#x60;sellingParty.partyId&#x60; in the shipment. (optional)
      *
-     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \SpApi\Model\vendor\shipments\v1\GetShipmentLabels
@@ -1035,10 +1215,9 @@ class VendorShippingApi
         ?\DateTime $label_created_before = null,
         ?string $buyer_reference_number = null,
         ?string $vendor_shipment_identifier = null,
-        ?string $seller_warehouse_code = null,
-        ?string $restrictedDataToken = null
+        ?string $seller_warehouse_code = null
     ): \SpApi\Model\vendor\shipments\v1\GetShipmentLabels {
-        list($response) = $this->getShipmentLabelsWithHttpInfo($limit, $sort_order, $next_token, $label_created_after, $label_created_before, $buyer_reference_number, $vendor_shipment_identifier, $seller_warehouse_code,$restrictedDataToken);
+        list($response) = $this->getShipmentLabelsWithHttpInfo($limit, $sort_order, $next_token, $label_created_after, $label_created_before, $buyer_reference_number, $vendor_shipment_identifier, $seller_warehouse_code);
         return $response;
     }
 
@@ -1050,7 +1229,7 @@ class VendorShippingApi
      * @param  string|null $sort_order
      *  Sort the list by shipment label creation date in ascending or descending order. (optional)
      * @param  string|null $next_token
-     *  A token that you use to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages. (optional)
+     *  A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages. (optional)
      * @param  \DateTime|null $label_created_after
      *  Shipment labels created after this time will be included in the result. This field must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) datetime format. (optional)
      * @param  \DateTime|null $label_created_before
@@ -1062,7 +1241,6 @@ class VendorShippingApi
      * @param  string|null $seller_warehouse_code
      *  Get Shipping labels based on vendor warehouse code. This value must be same as the &#x60;sellingParty.partyId&#x60; in the shipment. (optional)
      *
-     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \SpApi\Model\vendor\shipments\v1\GetShipmentLabels, HTTP status code, HTTP response headers (array of strings)
@@ -1075,21 +1253,15 @@ class VendorShippingApi
         ?\DateTime $label_created_before = null,
         ?string $buyer_reference_number = null,
         ?string $vendor_shipment_identifier = null,
-        ?string $seller_warehouse_code = null,
-        ?string $restrictedDataToken = null
+        ?string $seller_warehouse_code = null
     ): array {
         $request = $this->getShipmentLabelsRequest($limit, $sort_order, $next_token, $label_created_after, $label_created_before, $buyer_reference_number, $vendor_shipment_identifier, $seller_warehouse_code);
-        if ($restrictedDataToken !== null) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "VendorShippingApi-getShipmentLabels");
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
+
         try {
             $options = $this->createHttpClientOption();
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getShipmentLabelsRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -1121,27 +1293,236 @@ class VendorShippingApi
                     (string) $response->getBody()
                 );
             }
-                if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' === '\SplFileObject') {
-                    $content = $response->getBody(); //stream goes to serializer
-                } else {
-                    $content = (string) $response->getBody();
-                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' !== 'string') {
-                        $content = json_decode($content);
-                    }
-                }
 
-                return [
-                    ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels', []),
-                    $response->getStatusCode(),
-                    $response->getHeaders()
-                ];
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 401:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\GetShipmentLabels' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
         } catch (ApiException $e) {
-                $data = ObjectSerializer::deserialize(
-                    $e->getResponseBody(),
-                    '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels',
-                    $e->getResponseHeaders()
-                );
-                $e->setResponseObject($data);
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
@@ -1154,7 +1535,7 @@ class VendorShippingApi
      * @param  string|null $sort_order
      *  Sort the list by shipment label creation date in ascending or descending order. (optional)
      * @param  string|null $next_token
-     *  A token that you use to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages. (optional)
+     *  A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages. (optional)
      * @param  \DateTime|null $label_created_after
      *  Shipment labels created after this time will be included in the result. This field must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) datetime format. (optional)
      * @param  \DateTime|null $label_created_before
@@ -1195,7 +1576,7 @@ class VendorShippingApi
      * @param  string|null $sort_order
      *  Sort the list by shipment label creation date in ascending or descending order. (optional)
      * @param  string|null $next_token
-     *  A token that you use to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages. (optional)
+     *  A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages. (optional)
      * @param  \DateTime|null $label_created_after
      *  Shipment labels created after this time will be included in the result. This field must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) datetime format. (optional)
      * @param  \DateTime|null $label_created_before
@@ -1218,19 +1599,12 @@ class VendorShippingApi
         ?\DateTime $label_created_before = null,
         ?string $buyer_reference_number = null,
         ?string $vendor_shipment_identifier = null,
-        ?string $seller_warehouse_code = null,
-    ?string $restrictedDataToken = null
+        ?string $seller_warehouse_code = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\vendor\shipments\v1\GetShipmentLabels';
         $request = $this->getShipmentLabelsRequest($limit, $sort_order, $next_token, $label_created_after, $label_created_before, $buyer_reference_number, $vendor_shipment_identifier, $seller_warehouse_code);
-        if ($restrictedDataToken !== null) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "VendorShippingApi-getShipmentLabels");
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getShipmentLabelsRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1276,7 +1650,7 @@ class VendorShippingApi
      * @param  string|null $sort_order
      *  Sort the list by shipment label creation date in ascending or descending order. (optional)
      * @param  string|null $next_token
-     *  A token that you use to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages. (optional)
+     *  A token that is used to retrieve the next page of results. The response includes &#x60;nextToken&#x60; when the number of results exceeds the specified &#x60;pageSize&#x60; value. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until &#x60;nextToken&#x60; is null. Note that this operation can return empty pages. (optional)
      * @param  \DateTime|null $label_created_after
      *  Shipment labels created after this time will be included in the result. This field must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) datetime format. (optional)
      * @param  \DateTime|null $label_created_before
@@ -1323,8 +1697,7 @@ class VendorShippingApi
             'integer', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1333,8 +1706,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1343,8 +1715,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1353,8 +1724,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1363,8 +1733,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1373,8 +1742,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1383,8 +1751,7 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1393,19 +1760,24 @@ class VendorShippingApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
 
 
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            
-            '',
-            $multipart
-        );
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -1461,16 +1833,14 @@ class VendorShippingApi
      * @param  \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsRequest $body
      *  A request to submit shipment confirmation. (required)
      *
-     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse
      */
     public function submitShipmentConfirmations(
-        \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsRequest $body,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsRequest $body
     ): \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse {
-        list($response) = $this->submitShipmentConfirmationsWithHttpInfo($body,$restrictedDataToken);
+        list($response) = $this->submitShipmentConfirmationsWithHttpInfo($body);
         return $response;
     }
 
@@ -1482,27 +1852,20 @@ class VendorShippingApi
      * @param  \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsRequest $body
      *  A request to submit shipment confirmation. (required)
      *
-     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function submitShipmentConfirmationsWithHttpInfo(
-        \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsRequest $body,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsRequest $body
     ): array {
         $request = $this->submitShipmentConfirmationsRequest($body);
-        if ($restrictedDataToken !== null) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "VendorShippingApi-submitShipmentConfirmations");
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
+
         try {
             $options = $this->createHttpClientOption();
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->submitShipmentConfirmationsRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -1534,27 +1897,236 @@ class VendorShippingApi
                     (string) $response->getBody()
                 );
             }
-                if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
-                    $content = $response->getBody(); //stream goes to serializer
-                } else {
-                    $content = (string) $response->getBody();
-                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
-                        $content = json_decode($content);
-                    }
-                }
 
-                return [
-                    ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
-                    $response->getStatusCode(),
-                    $response->getHeaders()
-                ];
+            switch($statusCode) {
+                case 202:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 413:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
         } catch (ApiException $e) {
-                $data = ObjectSerializer::deserialize(
-                    $e->getResponseBody(),
-                    '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
-                    $e->getResponseHeaders()
-                );
-                $e->setResponseObject($data);
+            switch ($e->getCode()) {
+                case 202:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
@@ -1593,19 +2165,12 @@ class VendorShippingApi
      * @return PromiseInterface
      */
     public function submitShipmentConfirmationsAsyncWithHttpInfo(
-        \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsRequest $body,
-    ?string $restrictedDataToken = null
+        \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsRequest $body
     ): PromiseInterface {
         $returnType = '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse';
         $request = $this->submitShipmentConfirmationsRequest($body);
-        if ($restrictedDataToken !== null) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "VendorShippingApi-submitShipmentConfirmations");
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->submitShipmentConfirmationsRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1673,12 +2238,18 @@ class VendorShippingApi
 
 
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            'application/json'
-            ,
-            $multipart
-        );
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                'application/json'
+                ,
+                false
+            );
+        }
 
         // for model (json/xml)
         if (isset($body)) {
@@ -1740,16 +2311,14 @@ class VendorShippingApi
      * @param  \SpApi\Model\vendor\shipments\v1\SubmitShipments $body
      *  A request to submit shipment request. (required)
      *
-     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse
      */
     public function submitShipments(
-        \SpApi\Model\vendor\shipments\v1\SubmitShipments $body,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\vendor\shipments\v1\SubmitShipments $body
     ): \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse {
-        list($response) = $this->submitShipmentsWithHttpInfo($body,$restrictedDataToken);
+        list($response) = $this->submitShipmentsWithHttpInfo($body);
         return $response;
     }
 
@@ -1761,27 +2330,20 @@ class VendorShippingApi
      * @param  \SpApi\Model\vendor\shipments\v1\SubmitShipments $body
      *  A request to submit shipment request. (required)
      *
-     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function submitShipmentsWithHttpInfo(
-        \SpApi\Model\vendor\shipments\v1\SubmitShipments $body,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\vendor\shipments\v1\SubmitShipments $body
     ): array {
         $request = $this->submitShipmentsRequest($body);
-        if ($restrictedDataToken !== null) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "VendorShippingApi-submitShipments");
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
+
         try {
             $options = $this->createHttpClientOption();
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->submitShipmentsRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -1813,27 +2375,236 @@ class VendorShippingApi
                     (string) $response->getBody()
                 );
             }
-                if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
-                    $content = $response->getBody(); //stream goes to serializer
-                } else {
-                    $content = (string) $response->getBody();
-                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
-                        $content = json_decode($content);
-                    }
-                }
 
-                return [
-                    ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
-                    $response->getStatusCode(),
-                    $response->getHeaders()
-                ];
+            switch($statusCode) {
+                case 202:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 413:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
         } catch (ApiException $e) {
-                $data = ObjectSerializer::deserialize(
-                    $e->getResponseBody(),
-                    '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
-                    $e->getResponseHeaders()
-                );
-                $e->setResponseObject($data);
+            switch ($e->getCode()) {
+                case 202:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
@@ -1872,19 +2643,12 @@ class VendorShippingApi
      * @return PromiseInterface
      */
     public function submitShipmentsAsyncWithHttpInfo(
-        \SpApi\Model\vendor\shipments\v1\SubmitShipments $body,
-    ?string $restrictedDataToken = null
+        \SpApi\Model\vendor\shipments\v1\SubmitShipments $body
     ): PromiseInterface {
         $returnType = '\SpApi\Model\vendor\shipments\v1\SubmitShipmentConfirmationsResponse';
         $request = $this->submitShipmentsRequest($body);
-        if ($restrictedDataToken !== null) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "VendorShippingApi-submitShipments");
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->submitShipmentsRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1952,12 +2716,18 @@ class VendorShippingApi
 
 
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            'application/json'
-            ,
-            $multipart
-        );
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                'application/json'
+                ,
+                false
+            );
+        }
 
         // for model (json/xml)
         if (isset($body)) {
@@ -2028,5 +2798,22 @@ class VendorShippingApi
         }
 
         return $options;
+    }
+
+    /**
+     * Rate Limiter waits for tokens
+     *
+     * @return void
+     */
+    public function rateLimitWait(): void
+    {
+        if ($this->rateLimiter) {
+            $type = $this->rateLimitConfig->getRateLimitType();
+            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
+                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
+            } else {
+                $this->rateLimiter->consume()->wait();
+            }
+        }
     }
 }

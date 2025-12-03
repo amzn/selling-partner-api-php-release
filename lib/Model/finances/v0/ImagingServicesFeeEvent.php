@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ImagingServicesFeeEvent.
+ * ImagingServicesFeeEvent
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Finances.
+ * Selling Partner API for Finances
  *
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller's business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range.
  *
@@ -30,91 +28,163 @@
 
 namespace SpApi\Model\finances\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ImagingServicesFeeEvent Class Doc Comment.
+ * ImagingServicesFeeEvent Class Doc Comment
  *
  * @category Class
- *
  * @description A fee event related to Amazon Imaging services.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ImagingServicesFeeEvent implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ImagingServicesFeeEvent';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'imaging_request_billing_item_id' => 'string',
-        'asin' => 'string',
-        'posted_date' => '\DateTime',
-        'fee_list' => '\SpApi\Model\finances\v0\FeeComponent[]'];
+             'imaging_request_billing_item_id' => 'string',
+             'asin' => 'string',
+             'posted_date' => '\DateTime',
+             'fee_list' => '\SpApi\Model\finances\v0\FeeComponent[]'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'imaging_request_billing_item_id' => null,
-        'asin' => null,
-        'posted_date' => 'date-time',
-        'fee_list' => null];
+            'imaging_request_billing_item_id' => null,
+            'asin' => null,
+            'posted_date' => 'date-time',
+            'fee_list' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'imaging_request_billing_item_id' => true,
         'asin' => true,
         'posted_date' => true,
-        'fee_list' => true,
+        'fee_list' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'imaging_request_billing_item_id' => 'ImagingRequestBillingItemID',
-        'asin' => 'ASIN',
-        'posted_date' => 'PostedDate',
-        'fee_list' => 'FeeList',
+                'asin' => 'ASIN',
+                'posted_date' => 'PostedDate',
+                'fee_list' => 'FeeList'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -122,11 +192,11 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
         'imaging_request_billing_item_id' => 'setImagingRequestBillingItemId',
         'asin' => 'setAsin',
         'posted_date' => 'setPostedDate',
-        'fee_list' => 'setFeeList',
+        'fee_list' => 'setFeeList'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -134,19 +204,63 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
         'imaging_request_billing_item_id' => 'getImagingRequestBillingItemId',
         'asin' => 'getAsin',
         'posted_date' => 'getPostedDate',
-        'fee_list' => 'getFeeList',
+        'fee_list' => 'getFeeList'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -157,81 +271,21 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -241,22 +295,27 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets imaging_request_billing_item_id.
+     * Gets imaging_request_billing_item_id
+     *
+     * @return string|null
      */
     public function getImagingRequestBillingItemId(): ?string
     {
@@ -264,9 +323,11 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Sets imaging_request_billing_item_id.
+     * Sets imaging_request_billing_item_id
      *
-     * @param null|string $imaging_request_billing_item_id the identifier for the imaging services request
+     * @param string|null $imaging_request_billing_item_id The identifier for the imaging services request.
+     *
+     * @return self
      */
     public function setImagingRequestBillingItemId(?string $imaging_request_billing_item_id): self
     {
@@ -275,7 +336,7 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('imaging_request_billing_item_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -286,7 +347,9 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Gets asin.
+     * Gets asin
+     *
+     * @return string|null
      */
     public function getAsin(): ?string
     {
@@ -294,9 +357,11 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Sets asin.
+     * Sets asin
      *
-     * @param null|string $asin the Amazon Standard Identification Number (ASIN) of the item for which the imaging service was requested
+     * @param string|null $asin The Amazon Standard Identification Number (ASIN) of the item for which the imaging service was requested.
+     *
+     * @return self
      */
     public function setAsin(?string $asin): self
     {
@@ -305,7 +370,7 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('asin', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -316,7 +381,9 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Gets posted_date.
+     * Gets posted_date
+     *
+     * @return \DateTime|null
      */
     public function getPostedDate(): ?\DateTime
     {
@@ -324,9 +391,11 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Sets posted_date.
+     * Sets posted_date
      *
-     * @param null|\DateTime $posted_date fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate)
+     * @param \DateTime|null $posted_date Fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate).
+     *
+     * @return self
      */
     public function setPostedDate(?\DateTime $posted_date): self
     {
@@ -335,7 +404,7 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('posted_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -346,7 +415,9 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Gets fee_list.
+     * Gets fee_list
+     *
+     * @return array|null
      */
     public function getFeeList(): ?array
     {
@@ -354,9 +425,11 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Sets fee_list.
+     * Sets fee_list
      *
-     * @param null|array $fee_list a list of fee component information
+     * @param array|null $fee_list A list of fee component information.
+     *
+     * @return self
      */
     public function setFeeList(?array $fee_list): self
     {
@@ -365,7 +438,7 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('fee_list', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -375,10 +448,13 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -388,9 +464,9 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -401,8 +477,10 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -416,7 +494,9 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -425,67 +505,39 @@ class ImagingServicesFeeEvent implements ModelInterface, \ArrayAccess, \JsonSeri
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

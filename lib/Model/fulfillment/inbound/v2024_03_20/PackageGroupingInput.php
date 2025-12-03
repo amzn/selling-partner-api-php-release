@@ -1,15 +1,13 @@
 <?php
-
 /**
- * PackageGroupingInput.
+ * PackageGroupingInput
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
@@ -30,117 +28,233 @@
 
 namespace SpApi\Model\fulfillment\inbound\v2024_03_20;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * PackageGroupingInput Class Doc Comment.
+ * PackageGroupingInput Class Doc Comment
  *
  * @category Class
- *
  * @description Packing information for the inbound plan.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSerializable
+class PackageGroupingInput implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'PackageGroupingInput';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'boxes' => '\SpApi\Model\fulfillment\inbound\v2024_03_20\BoxInput[]',
-        'packing_group_id' => 'string',
-        'shipment_id' => 'string'];
+             'boxes' => '\SpApi\Model\fulfillment\inbound\v2024_03_20\BoxInput[]',
+             'packing_group_id' => 'string',
+             'shipment_id' => 'string'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'boxes' => null,
-        'packing_group_id' => null,
-        'shipment_id' => null];
+            'boxes' => null,
+            'packing_group_id' => null,
+            'shipment_id' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'boxes' => false,
         'packing_group_id' => true,
-        'shipment_id' => true,
+        'shipment_id' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'boxes' => 'boxes',
-        'packing_group_id' => 'packingGroupId',
-        'shipment_id' => 'shipmentId',
+                'packing_group_id' => 'packingGroupId',
+                'shipment_id' => 'shipmentId'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
     protected static array $setters = [
         'boxes' => 'setBoxes',
         'packing_group_id' => 'setPackingGroupId',
-        'shipment_id' => 'setShipmentId',
+        'shipment_id' => 'setShipmentId'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
     protected static array $getters = [
         'boxes' => 'getBoxes',
         'packing_group_id' => 'getPackingGroupId',
-        'shipment_id' => 'getShipmentId',
+        'shipment_id' => 'getShipmentId'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -150,81 +264,21 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -236,14 +290,14 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if (null === $this->container['boxes']) {
+        if ($this->container['boxes'] === null) {
             $invalidProperties[] = "'boxes' can't be null";
         }
-        if (count($this->container['boxes']) > 5000) {
+        if ((count($this->container['boxes']) > 5000)) {
             $invalidProperties[] = "invalid value for 'boxes', number of items must be less than or equal to 5000.";
         }
 
-        if (count($this->container['boxes']) < 1) {
+        if ((count($this->container['boxes']) < 1)) {
             $invalidProperties[] = "invalid value for 'boxes', number of items must be greater than or equal to 1.";
         }
 
@@ -255,7 +309,7 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
             $invalidProperties[] = "invalid value for 'packing_group_id', the character length must be bigger than or equal to 38.";
         }
 
-        if (!is_null($this->container['packing_group_id']) && !preg_match('/^[a-zA-Z0-9-]*$/', $this->container['packing_group_id'])) {
+        if (!is_null($this->container['packing_group_id']) && !preg_match("/^[a-zA-Z0-9-]*$/", $this->container['packing_group_id'])) {
             $invalidProperties[] = "invalid value for 'packing_group_id', must be conform to the pattern /^[a-zA-Z0-9-]*$/.";
         }
 
@@ -267,7 +321,7 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
             $invalidProperties[] = "invalid value for 'shipment_id', the character length must be bigger than or equal to 38.";
         }
 
-        if (!is_null($this->container['shipment_id']) && !preg_match('/^[a-zA-Z0-9-]*$/', $this->container['shipment_id'])) {
+        if (!is_null($this->container['shipment_id']) && !preg_match("/^[a-zA-Z0-9-]*$/", $this->container['shipment_id'])) {
             $invalidProperties[] = "invalid value for 'shipment_id', must be conform to the pattern /^[a-zA-Z0-9-]*$/.";
         }
 
@@ -276,17 +330,20 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets boxes.
+     * Gets boxes
+     *
+     * @return array
      */
     public function getBoxes(): array
     {
@@ -294,9 +351,11 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets boxes.
+     * Sets boxes
      *
-     * @param array $boxes box level information being provided
+     * @param array $boxes Box level information being provided.
+     *
+     * @return self
      */
     public function setBoxes(array $boxes): self
     {
@@ -304,10 +363,10 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
             throw new \InvalidArgumentException('non-nullable boxes cannot be null');
         }
 
-        if (count($boxes) > 5000) {
+        if ((count($boxes) > 5000)) {
             throw new \InvalidArgumentException('invalid value for $boxes when calling PackageGroupingInput., number of items must be less than or equal to 5000.');
         }
-        if (count($boxes) < 1) {
+        if ((count($boxes) < 1)) {
             throw new \InvalidArgumentException('invalid length for $boxes when calling PackageGroupingInput., number of items must be greater than or equal to 1.');
         }
         $this->container['boxes'] = $boxes;
@@ -316,7 +375,9 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets packing_group_id.
+     * Gets packing_group_id
+     *
+     * @return string|null
      */
     public function getPackingGroupId(): ?string
     {
@@ -324,9 +385,11 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets packing_group_id.
+     * Sets packing_group_id
      *
-     * @param null|string $packing_group_id The ID of the `packingGroup` that packages are grouped according to. The `PackingGroupId` can only be provided before placement confirmation, and it must belong to the confirmed `PackingOption`. One of `ShipmentId` or `PackingGroupId` must be provided with every request.
+     * @param string|null $packing_group_id The ID of the `packingGroup` that packages are grouped according to. The `PackingGroupId` can only be provided before placement confirmation, and it must belong to the confirmed `PackingOption`. One of `ShipmentId` or `PackingGroupId` must be provided with every request.
+     *
+     * @return self
      */
     public function setPackingGroupId(?string $packing_group_id): self
     {
@@ -335,7 +398,7 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('packing_group_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -346,8 +409,8 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
         if (!is_null($packing_group_id) && (mb_strlen($packing_group_id) < 38)) {
             throw new \InvalidArgumentException('invalid length for $packing_group_id when calling PackageGroupingInput., must be bigger than or equal to 38.');
         }
-        if (!is_null($packing_group_id) && (!preg_match('/^[a-zA-Z0-9-]*$/', ObjectSerializer::toString($packing_group_id)))) {
-            throw new \InvalidArgumentException('invalid value for $packing_group_id when calling PackageGroupingInput., must conform to the pattern /^[a-zA-Z0-9-]*$/.');
+        if (!is_null($packing_group_id) && (!preg_match("/^[a-zA-Z0-9-]*$/", ObjectSerializer::toString($packing_group_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$packing_group_id when calling PackageGroupingInput., must conform to the pattern /^[a-zA-Z0-9-]*$/.");
         }
 
         $this->container['packing_group_id'] = $packing_group_id;
@@ -356,7 +419,9 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets shipment_id.
+     * Gets shipment_id
+     *
+     * @return string|null
      */
     public function getShipmentId(): ?string
     {
@@ -364,9 +429,11 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets shipment_id.
+     * Sets shipment_id
      *
-     * @param null|string $shipment_id The ID of the shipment that packages are grouped according to. The `ShipmentId` can only be provided after placement confirmation, and the shipment must belong to the confirmed placement option. One of `ShipmentId` or `PackingGroupId` must be provided with every request.
+     * @param string|null $shipment_id The ID of the shipment that packages are grouped according to. The `ShipmentId` can only be provided after placement confirmation, and the shipment must belong to the confirmed placement option. One of `ShipmentId` or `PackingGroupId` must be provided with every request.
+     *
+     * @return self
      */
     public function setShipmentId(?string $shipment_id): self
     {
@@ -375,7 +442,7 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('shipment_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -386,8 +453,8 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
         if (!is_null($shipment_id) && (mb_strlen($shipment_id) < 38)) {
             throw new \InvalidArgumentException('invalid length for $shipment_id when calling PackageGroupingInput., must be bigger than or equal to 38.');
         }
-        if (!is_null($shipment_id) && (!preg_match('/^[a-zA-Z0-9-]*$/', ObjectSerializer::toString($shipment_id)))) {
-            throw new \InvalidArgumentException('invalid value for $shipment_id when calling PackageGroupingInput., must conform to the pattern /^[a-zA-Z0-9-]*$/.');
+        if (!is_null($shipment_id) && (!preg_match("/^[a-zA-Z0-9-]*$/", ObjectSerializer::toString($shipment_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$shipment_id when calling PackageGroupingInput., must conform to the pattern /^[a-zA-Z0-9-]*$/.");
         }
 
         $this->container['shipment_id'] = $shipment_id;
@@ -395,10 +462,13 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -408,9 +478,9 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -421,8 +491,10 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -436,7 +508,9 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -445,67 +519,39 @@ class PackageGroupingInput implements ModelInterface, \ArrayAccess, \JsonSeriali
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

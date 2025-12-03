@@ -1,18 +1,16 @@
 <?php
-
 /**
  * ApplicationsApi
- * PHP version 8.3.
+ * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Application Management.
+ * Selling Partner API for Application Management
  *
  * The Selling Partner API for Application Management lets you programmatically update the client secret on registered applications.
  *
@@ -37,31 +35,38 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use SpApi\AuthAndAuth\RateLimitConfiguration;
+use Symfony\Component\RateLimiter\LimiterInterface;
+use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use SpApi\ApiException;
-use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
 use SpApi\ObjectSerializer;
-use Symfony\Component\RateLimiter\LimiterInterface;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 
 /**
- * ApplicationsApi Class Doc Comment.
+ * ApplicationsApi Class Doc Comment
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class ApplicationsApi
 {
-    public ?LimiterInterface $rotateApplicationClientSecretRateLimiter;
+    /**
+     * @var ClientInterface
+     */
     protected ClientInterface $client;
 
+    /**
+     * @var Configuration
+     */
     protected Configuration $config;
 
+    /**
+     * @var HeaderSelector
+     */
     protected HeaderSelector $headerSelector;
 
     /**
@@ -69,27 +74,46 @@ class ApplicationsApi
      */
     protected int $hostIndex;
 
-    private bool $rateLimiterEnabled;
-    private InMemoryStorage $rateLimitStorage;
+    /**
+     * @var ?RateLimitConfiguration
+     */
+    private ?RateLimitConfiguration $rateLimitConfig = null;
 
     /**
+     * @var ?LimiterInterface
+     */
+    private ?LimiterInterface $rateLimiter = null;
+
+    /**
+     * @param Configuration   $config
+     * @param RateLimitConfiguration|null $rateLimitConfig
+     * @param ClientInterface|null $client
+     * @param HeaderSelector|null $selector
      * @param int $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         Configuration $config,
+        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
-        ?bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimiterEnabled = $rateLimiterEnabled;
-
-        if ($rateLimiterEnabled) {
-            $this->rateLimitStorage = new InMemoryStorage();
-
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('ApplicationsApi-rotateApplicationClientSecret'), $this->rateLimitStorage);
-            $this->rotateApplicationClientSecretRateLimiter = $factory->create('ApplicationsApi-rotateApplicationClientSecret');
+        $this->rateLimitConfig = $rateLimitConfig;
+        if ($rateLimitConfig) {
+            $type = $rateLimitConfig->getRateLimitType();
+            $rateLimitOptions = [
+                'id' => 'spApiCall',
+                'policy' => $type,
+                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
+            ];
+            if ($type === "fixed_window" || $type === "sliding_window") {
+                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
+            } else {
+                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
+            }
+            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
+            $this->rateLimiter = $factory->create();
         }
 
         $this->client = $client ?: new Client();
@@ -98,7 +122,7 @@ class ApplicationsApi
     }
 
     /**
-     * Set the host index.
+     * Set the host index
      *
      * @param int $hostIndex Host index (required)
      */
@@ -108,7 +132,7 @@ class ApplicationsApi
     }
 
     /**
-     * Get the host index.
+     * Get the host index
      *
      * @return int Host index
      */
@@ -117,52 +141,46 @@ class ApplicationsApi
         return $this->hostIndex;
     }
 
+    /**
+     * @return Configuration
+     */
     public function getConfig(): Configuration
     {
         return $this->config;
     }
 
     /**
-     * Operation rotateApplicationClientSecret.
+     * Operation rotateApplicationClientSecret
      *
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return 
      */
     public function rotateApplicationClientSecret(
-        ?string $restrictedDataToken = null
+    
     ): void {
-        $this->rotateApplicationClientSecretWithHttpInfo($restrictedDataToken);
+        $this->rotateApplicationClientSecretWithHttpInfo();
     }
 
     /**
-     * Operation rotateApplicationClientSecretWithHttpInfo.
+     * Operation rotateApplicationClientSecretWithHttpInfo
      *
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of , HTTP status code, HTTP response headers (array of strings)
      */
     public function rotateApplicationClientSecretWithHttpInfo(
-        ?string $restrictedDataToken = null
+    
     ): array {
         $request = $this->rotateApplicationClientSecretRequest();
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'ApplicationsApi-rotateApplicationClientSecret');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->rotateApplicationClientSecretRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -196,63 +214,120 @@ class ApplicationsApi
             }
 
             return [null, $statusCode, $response->getHeaders()];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\applications\v2023_11_30\ErrorList',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\applications\v2023_11_30\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\applications\v2023_11_30\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\applications\v2023_11_30\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\applications\v2023_11_30\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\applications\v2023_11_30\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\applications\v2023_11_30\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\applications\v2023_11_30\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\applications\v2023_11_30\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation rotateApplicationClientSecretAsync.
+     * Operation rotateApplicationClientSecretAsync
+     *
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function rotateApplicationClientSecretAsync(
+    
     ): PromiseInterface {
         return $this->rotateApplicationClientSecretAsyncWithHttpInfo()
             ->then(
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation rotateApplicationClientSecretAsyncWithHttpInfo.
+     * Operation rotateApplicationClientSecretAsyncWithHttpInfo
+     *
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function rotateApplicationClientSecretAsyncWithHttpInfo(
-        ?string $restrictedDataToken = null
+    
     ): PromiseInterface {
         $returnType = '';
         $request = $this->rotateApplicationClientSecretRequest();
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'ApplicationsApi-rotateApplicationClientSecret');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->rotateApplicationClientSecretRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) {
+                function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -264,17 +339,20 @@ class ApplicationsApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'rotateApplicationClientSecret'.
+     * Create request for operation 'rotateApplicationClientSecret'
+     *
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function rotateApplicationClientSecretRequest(
+    
     ): Request {
+
         $resourcePath = '/applications/2023-11-30/clientSecret';
         $formParams = [];
         $queryParams = [];
@@ -282,11 +360,22 @@ class ApplicationsApi
         $httpBody = '';
         $multipart = false;
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+
+
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -297,19 +386,22 @@ class ApplicationsApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -323,21 +415,19 @@ class ApplicationsApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'POST',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Create http client option.
-     *
-     * @return array of http client options
+     * Create http client option
      *
      * @throws \RuntimeException on file opening failure
+     * @return array of http client options
      */
     protected function createHttpClientOption(): array
     {
@@ -345,10 +435,27 @@ class ApplicationsApi
         if ($this->config->getDebug()) {
             $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: '.$this->config->getDebugFile());
+                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
             }
         }
 
         return $options;
+    }
+
+    /**
+     * Rate Limiter waits for tokens
+     *
+     * @return void
+     */
+    public function rateLimitWait(): void
+    {
+        if ($this->rateLimiter) {
+            $type = $this->rateLimitConfig->getRateLimitType();
+            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
+                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
+            } else {
+                $this->rateLimiter->consume()->wait();
+            }
+        }
     }
 }

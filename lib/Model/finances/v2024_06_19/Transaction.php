@@ -1,19 +1,17 @@
 <?php
-
 /**
- * Transaction.
+ * Transaction
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * The Selling Partner API for Finances.
+ * The Selling Partner API for Finances
  *
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller's business. You can obtain financial events for a given order or date range without having to wait until a statement period closes.
  *
@@ -30,78 +28,77 @@
 
 namespace SpApi\Model\finances\v2024_06_19;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * Transaction Class Doc Comment.
+ * Transaction Class Doc Comment
  *
  * @category Class
- *
  * @description Contains all information related to the transaction.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
+class Transaction implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'Transaction';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'selling_partner_metadata' => '\SpApi\Model\finances\v2024_06_19\SellingPartnerMetadata',
-        'related_identifiers' => '\SpApi\Model\finances\v2024_06_19\RelatedIdentifier[]',
-        'transaction_type' => 'string',
-        'transaction_id' => 'string',
-        'transaction_status' => 'string',
-        'description' => 'string',
-        'posted_date' => '\DateTime',
-        'total_amount' => '\SpApi\Model\finances\v2024_06_19\Currency',
-        'marketplace_details' => '\SpApi\Model\finances\v2024_06_19\MarketplaceDetails',
-        'items' => '\SpApi\Model\finances\v2024_06_19\Item[]',
-        'contexts' => '\SpApi\Model\finances\v2024_06_19\Context[]',
-        'breakdowns' => '\SpApi\Model\finances\v2024_06_19\Breakdown[]'];
+             'selling_partner_metadata' => '\SpApi\Model\finances\v2024_06_19\SellingPartnerMetadata',
+             'related_identifiers' => '\SpApi\Model\finances\v2024_06_19\RelatedIdentifier[]',
+             'transaction_type' => 'string',
+             'transaction_id' => 'string',
+             'transaction_status' => 'string',
+             'description' => 'string',
+             'posted_date' => '\DateTime',
+             'total_amount' => '\SpApi\Model\finances\v2024_06_19\Currency',
+             'marketplace_details' => '\SpApi\Model\finances\v2024_06_19\MarketplaceDetails',
+             'items' => '\SpApi\Model\finances\v2024_06_19\Item[]',
+             'contexts' => '\SpApi\Model\finances\v2024_06_19\Context[]',
+             'breakdowns' => '\SpApi\Model\finances\v2024_06_19\Breakdown[]'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'selling_partner_metadata' => null,
-        'related_identifiers' => null,
-        'transaction_type' => null,
-        'transaction_id' => null,
-        'transaction_status' => null,
-        'description' => null,
-        'posted_date' => 'date-time',
-        'total_amount' => null,
-        'marketplace_details' => null,
-        'items' => null,
-        'contexts' => null,
-        'breakdowns' => null];
+            'selling_partner_metadata' => null,
+            'related_identifiers' => null,
+            'transaction_type' => null,
+            'transaction_id' => null,
+            'transaction_status' => null,
+            'description' => null,
+            'posted_date' => 'date-time',
+            'total_amount' => null,
+            'marketplace_details' => null,
+            'items' => null,
+            'contexts' => null,
+            'breakdowns' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'selling_partner_metadata' => true,
         'related_identifiers' => true,
@@ -114,39 +111,112 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         'marketplace_details' => true,
         'items' => true,
         'contexts' => true,
-        'breakdowns' => true,
+        'breakdowns' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'selling_partner_metadata' => 'sellingPartnerMetadata',
-        'related_identifiers' => 'relatedIdentifiers',
-        'transaction_type' => 'transactionType',
-        'transaction_id' => 'transactionId',
-        'transaction_status' => 'transactionStatus',
-        'description' => 'description',
-        'posted_date' => 'postedDate',
-        'total_amount' => 'totalAmount',
-        'marketplace_details' => 'marketplaceDetails',
-        'items' => 'items',
-        'contexts' => 'contexts',
-        'breakdowns' => 'breakdowns',
+                'related_identifiers' => 'relatedIdentifiers',
+                'transaction_type' => 'transactionType',
+                'transaction_id' => 'transactionId',
+                'transaction_status' => 'transactionStatus',
+                'description' => 'description',
+                'posted_date' => 'postedDate',
+                'total_amount' => 'totalAmount',
+                'marketplace_details' => 'marketplaceDetails',
+                'items' => 'items',
+                'contexts' => 'contexts',
+                'breakdowns' => 'breakdowns'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -162,11 +232,11 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         'marketplace_details' => 'setMarketplaceDetails',
         'items' => 'setItems',
         'contexts' => 'setContexts',
-        'breakdowns' => 'setBreakdowns',
+        'breakdowns' => 'setBreakdowns'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -182,19 +252,63 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         'marketplace_details' => 'getMarketplaceDetails',
         'items' => 'getItems',
         'contexts' => 'getContexts',
-        'breakdowns' => 'getBreakdowns',
+        'breakdowns' => 'getBreakdowns'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -213,81 +327,21 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -297,41 +351,48 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets selling_partner_metadata.
+     * Gets selling_partner_metadata
+     *
+     * @return \SpApi\Model\finances\v2024_06_19\SellingPartnerMetadata|null
      */
-    public function getSellingPartnerMetadata(): ?SellingPartnerMetadata
+    public function getSellingPartnerMetadata(): ?\SpApi\Model\finances\v2024_06_19\SellingPartnerMetadata
     {
         return $this->container['selling_partner_metadata'];
     }
 
     /**
-     * Sets selling_partner_metadata.
+     * Sets selling_partner_metadata
      *
-     * @param null|SellingPartnerMetadata $selling_partner_metadata selling_partner_metadata
+     * @param \SpApi\Model\finances\v2024_06_19\SellingPartnerMetadata|null $selling_partner_metadata selling_partner_metadata
+     *
+     * @return self
      */
-    public function setSellingPartnerMetadata(?SellingPartnerMetadata $selling_partner_metadata): self
+    public function setSellingPartnerMetadata(?\SpApi\Model\finances\v2024_06_19\SellingPartnerMetadata $selling_partner_metadata): self
     {
         if (is_null($selling_partner_metadata)) {
             array_push($this->openAPINullablesSetToNull, 'selling_partner_metadata');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('selling_partner_metadata', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -342,7 +403,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets related_identifiers.
+     * Gets related_identifiers
+     *
+     * @return array|null
      */
     public function getRelatedIdentifiers(): ?array
     {
@@ -350,9 +413,11 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets related_identifiers.
+     * Sets related_identifiers
      *
-     * @param null|array $related_identifiers related business identifiers of the transaction
+     * @param array|null $related_identifiers Related business identifiers of the transaction.
+     *
+     * @return self
      */
     public function setRelatedIdentifiers(?array $related_identifiers): self
     {
@@ -361,7 +426,7 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('related_identifiers', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -372,7 +437,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets transaction_type.
+     * Gets transaction_type
+     *
+     * @return string|null
      */
     public function getTransactionType(): ?string
     {
@@ -380,9 +447,11 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets transaction_type.
+     * Sets transaction_type
      *
-     * @param null|string $transaction_type The type of transaction.  Possible values:  * Shipment
+     * @param string|null $transaction_type The type of transaction.  Possible values:  * Shipment
+     *
+     * @return self
      */
     public function setTransactionType(?string $transaction_type): self
     {
@@ -391,7 +460,7 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('transaction_type', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -402,7 +471,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets transaction_id.
+     * Gets transaction_id
+     *
+     * @return string|null
      */
     public function getTransactionId(): ?string
     {
@@ -410,9 +481,11 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets transaction_id.
+     * Sets transaction_id
      *
-     * @param null|string $transaction_id the unique identifier for the transaction
+     * @param string|null $transaction_id The unique identifier for the transaction.
+     *
+     * @return self
      */
     public function setTransactionId(?string $transaction_id): self
     {
@@ -421,7 +494,7 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('transaction_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -432,7 +505,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets transaction_status.
+     * Gets transaction_status
+     *
+     * @return string|null
      */
     public function getTransactionStatus(): ?string
     {
@@ -440,9 +515,11 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets transaction_status.
+     * Sets transaction_status
      *
-     * @param null|string $transaction_status The status of the transaction.  **Possible values:**  * `DEFERRED`: the transaction is currently deferred. * `RELEASED`: the transaction is currently released. * `DEFERRED_RELEASED`: the transaction was deferred in the past, but is now released. The status of a deferred transaction is updated to `DEFERRED_RELEASED` when the transaction is released.
+     * @param string|null $transaction_status The status for the transaction.   Possible values:  * Deferred *Released
+     *
+     * @return self
      */
     public function setTransactionStatus(?string $transaction_status): self
     {
@@ -451,7 +528,7 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('transaction_status', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -462,7 +539,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets description.
+     * Gets description
+     *
+     * @return string|null
      */
     public function getDescription(): ?string
     {
@@ -470,9 +549,11 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets description.
+     * Sets description
      *
-     * @param null|string $description Describes the reasons for the transaction.  Example: 'Order Payment','Refund Order'
+     * @param string|null $description Describes the reasons for the transaction.  Example: 'Order Payment','Refund Order'
+     *
+     * @return self
      */
     public function setDescription(?string $description): self
     {
@@ -481,7 +562,7 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('description', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -492,7 +573,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets posted_date.
+     * Gets posted_date
+     *
+     * @return \DateTime|null
      */
     public function getPostedDate(): ?\DateTime
     {
@@ -500,9 +583,11 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets posted_date.
+     * Sets posted_date
      *
-     * @param null|\DateTime $posted_date fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate)
+     * @param \DateTime|null $posted_date Fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate).
+     *
+     * @return self
      */
     public function setPostedDate(?\DateTime $posted_date): self
     {
@@ -511,7 +596,7 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('posted_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -522,26 +607,30 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets total_amount.
+     * Gets total_amount
+     *
+     * @return \SpApi\Model\finances\v2024_06_19\Currency|null
      */
-    public function getTotalAmount(): ?Currency
+    public function getTotalAmount(): ?\SpApi\Model\finances\v2024_06_19\Currency
     {
         return $this->container['total_amount'];
     }
 
     /**
-     * Sets total_amount.
+     * Sets total_amount
      *
-     * @param null|Currency $total_amount total_amount
+     * @param \SpApi\Model\finances\v2024_06_19\Currency|null $total_amount total_amount
+     *
+     * @return self
      */
-    public function setTotalAmount(?Currency $total_amount): self
+    public function setTotalAmount(?\SpApi\Model\finances\v2024_06_19\Currency $total_amount): self
     {
         if (is_null($total_amount)) {
             array_push($this->openAPINullablesSetToNull, 'total_amount');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('total_amount', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -552,26 +641,30 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets marketplace_details.
+     * Gets marketplace_details
+     *
+     * @return \SpApi\Model\finances\v2024_06_19\MarketplaceDetails|null
      */
-    public function getMarketplaceDetails(): ?MarketplaceDetails
+    public function getMarketplaceDetails(): ?\SpApi\Model\finances\v2024_06_19\MarketplaceDetails
     {
         return $this->container['marketplace_details'];
     }
 
     /**
-     * Sets marketplace_details.
+     * Sets marketplace_details
      *
-     * @param null|MarketplaceDetails $marketplace_details marketplace_details
+     * @param \SpApi\Model\finances\v2024_06_19\MarketplaceDetails|null $marketplace_details marketplace_details
+     *
+     * @return self
      */
-    public function setMarketplaceDetails(?MarketplaceDetails $marketplace_details): self
+    public function setMarketplaceDetails(?\SpApi\Model\finances\v2024_06_19\MarketplaceDetails $marketplace_details): self
     {
         if (is_null($marketplace_details)) {
             array_push($this->openAPINullablesSetToNull, 'marketplace_details');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('marketplace_details', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -582,7 +675,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets items.
+     * Gets items
+     *
+     * @return array|null
      */
     public function getItems(): ?array
     {
@@ -590,9 +685,11 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets items.
+     * Sets items
      *
-     * @param null|array $items List of items in the transaction
+     * @param array|null $items List of items in the transaction
+     *
+     * @return self
      */
     public function setItems(?array $items): self
     {
@@ -601,7 +698,7 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('items', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -612,7 +709,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets contexts.
+     * Gets contexts
+     *
+     * @return array|null
      */
     public function getContexts(): ?array
     {
@@ -620,9 +719,11 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets contexts.
+     * Sets contexts
      *
-     * @param null|array $contexts list of additional Information about the item
+     * @param array|null $contexts List of additional Information about the item.
+     *
+     * @return self
      */
     public function setContexts(?array $contexts): self
     {
@@ -631,7 +732,7 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('contexts', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -642,7 +743,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets breakdowns.
+     * Gets breakdowns
+     *
+     * @return array|null
      */
     public function getBreakdowns(): ?array
     {
@@ -650,9 +753,11 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets breakdowns.
+     * Sets breakdowns
      *
-     * @param null|array $breakdowns a list of breakdowns that detail how the total amount is calculated for the transaction
+     * @param array|null $breakdowns List of breakdowns which will provide the details on how the total amount is calculated for the financial transaction.
+     *
+     * @return self
      */
     public function setBreakdowns(?array $breakdowns): self
     {
@@ -661,7 +766,7 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('breakdowns', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -671,10 +776,13 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -684,9 +792,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -697,8 +805,10 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -712,7 +822,9 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -721,67 +833,39 @@ class Transaction implements ModelInterface, \ArrayAccess, \JsonSerializable
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

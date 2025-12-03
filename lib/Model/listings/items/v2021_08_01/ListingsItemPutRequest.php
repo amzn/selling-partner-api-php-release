@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ListingsItemPutRequest.
+ * ListingsItemPutRequest
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Listings Items.
+ * Selling Partner API for Listings Items
  *
  * The Selling Partner API for Listings Items (Listings Items API) provides programmatic access to selling partner listings on Amazon. Use this API in collaboration with the Selling Partner API for Product Type Definitions, which you use to retrieve the information about Amazon product types needed to use the Listings Items API.  For more information, see the [Listings Items API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-use-case-guide).
  *
@@ -30,144 +28,76 @@
 
 namespace SpApi\Model\listings\items\v2021_08_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ListingsItemPutRequest Class Doc Comment.
+ * ListingsItemPutRequest Class Doc Comment
  *
  * @category Class
- *
  * @description The request body schema for the &#x60;putListingsItem&#x60; operation.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ListingsItemPutRequest implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
-    public const REQUIREMENTS_LISTING = 'LISTING';
-    public const REQUIREMENTS_LISTING_PRODUCT_ONLY = 'LISTING_PRODUCT_ONLY';
-    public const REQUIREMENTS_LISTING_OFFER_ONLY = 'LISTING_OFFER_ONLY';
-
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ListingsItemPutRequest';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'product_type' => 'string',
-        'requirements' => 'string',
-        'attributes' => 'array<string,mixed>'];
+             'product_type' => 'string',
+             'requirements' => 'string',
+             'attributes' => 'array<string,mixed>'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'product_type' => null,
-        'requirements' => null,
-        'attributes' => null];
+            'product_type' => null,
+            'requirements' => null,
+            'attributes' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'product_type' => false,
         'requirements' => true,
-        'attributes' => false,
+        'attributes' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * Array of property to type mappings. Used for (de)serialization
      *
-     * @var string[]
-     */
-    protected static array $attributeMap = [
-        'product_type' => 'productType',
-        'requirements' => 'requirements',
-        'attributes' => 'attributes',
-    ];
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     *
-     * @var string[]
-     */
-    protected static array $setters = [
-        'product_type' => 'setProductType',
-        'requirements' => 'setRequirements',
-        'attributes' => 'setAttributes',
-    ];
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     *
-     * @var string[]
-     */
-    protected static array $getters = [
-        'product_type' => 'getProductType',
-        'requirements' => 'getRequirements',
-        'attributes' => 'getAttributes',
-    ];
-
-    /**
-     * Associative array for storing property values.
-     */
-    protected array $container = [];
-
-    /**
-     * Constructor.
-     *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
-     */
-    public function __construct(?array $data = null)
-    {
-        $this->setIfExists('product_type', $data ?? [], null);
-        $this->setIfExists('requirements', $data ?? [], null);
-        $this->setIfExists('attributes', $data ?? [], null);
-    }
-
-    /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
+     * @return array
      */
     public static function openAPITypes(): array
     {
@@ -175,7 +105,9 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
      */
     public static function openAPIFormats(): array
     {
@@ -183,7 +115,40 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Checks if a property is nullable.
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
      */
     public static function isNullable(string $property): bool
     {
@@ -192,6 +157,9 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
 
     /**
      * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -200,7 +168,44 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
 
     /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
+     *
+     * @var string[]
+     */
+    protected static array $attributeMap = [
+        'product_type' => 'productType',
+                'requirements' => 'requirements',
+                'attributes' => 'attributes'
+        
+    ];
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @var string[]
+     */
+    protected static array $setters = [
+        'product_type' => 'setProductType',
+        'requirements' => 'setRequirements',
+        'attributes' => 'setAttributes'
+    ];
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @var string[]
+     */
+    protected static array $getters = [
+        'product_type' => 'getProductType',
+        'requirements' => 'getRequirements',
+        'attributes' => 'getAttributes'
+    ];
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
      */
     public static function attributeMap(): array
     {
@@ -208,7 +213,9 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
      */
     public static function setters(): array
     {
@@ -216,7 +223,9 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
      */
     public static function getters(): array
     {
@@ -225,14 +234,20 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
 
     /**
      * The original name of the model.
+     *
+     * @return string
      */
     public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
 
+    public const REQUIREMENTS_LISTING = 'LISTING';
+    public const REQUIREMENTS_LISTING_PRODUCT_ONLY = 'LISTING_PRODUCT_ONLY';
+    public const REQUIREMENTS_LISTING_OFFER_ONLY = 'LISTING_OFFER_ONLY';
+
     /**
-     * Gets allowable values of the enum.
+     * Gets allowable values of the enum
      *
      * @return string[]
      */
@@ -246,6 +261,44 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
+     * Associative array for storing property values
+     *
+     * @var array
+     */
+    protected array $container = [];
+
+    /**
+     * Constructor
+     *
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->setIfExists('product_type', $data ?? [], null);
+        $this->setIfExists('requirements', $data ?? [], null);
+        $this->setIfExists('attributes', $data ?? [], null);
+    }
+
+    /**
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
+    }
+
+    /**
      * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
@@ -254,7 +307,7 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     {
         $invalidProperties = [];
 
-        if (null === $this->container['product_type']) {
+        if ($this->container['product_type'] === null) {
             $invalidProperties[] = "'product_type' can't be null";
         }
         $allowedValues = $this->getRequirementsAllowableValues();
@@ -266,26 +319,28 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
             );
         }
 
-        if (null === $this->container['attributes']) {
+        if ($this->container['attributes'] === null) {
             $invalidProperties[] = "'attributes' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets product_type.
+     * Gets product_type
+     *
+     * @return string
      */
     public function getProductType(): string
     {
@@ -293,9 +348,11 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets product_type.
+     * Sets product_type
      *
-     * @param string $product_type the Amazon product type of the listings item
+     * @param string $product_type The Amazon product type of the listings item.
+     *
+     * @return self
      */
     public function setProductType(string $product_type): self
     {
@@ -308,7 +365,9 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets requirements.
+     * Gets requirements
+     *
+     * @return string|null
      */
     public function getRequirements(): ?string
     {
@@ -316,9 +375,11 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets requirements.
+     * Sets requirements
      *
-     * @param null|string $requirements the name of the requirements set for the provided data
+     * @param string|null $requirements The name of the requirements set for the provided data.
+     *
+     * @return self
      */
     public function setRequirements(?string $requirements): self
     {
@@ -327,7 +388,7 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('requirements', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -348,7 +409,7 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets attributes.
+     * Gets attributes
      *
      * @return array<string,mixed>
      */
@@ -358,9 +419,11 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     }
 
     /**
-     * Sets attributes.
+     * Sets attributes
      *
-     * @param array<string,mixed> $attributes a JSON object containing structured listings item attribute data keyed by attribute name
+     * @param array<string,mixed> $attributes A JSON object containing structured listings item attribute data keyed by attribute name.
+     *
+     * @return self
      */
     public function setAttributes(array $attributes): self
     {
@@ -372,10 +435,13 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -385,9 +451,9 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -398,8 +464,10 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -413,7 +481,9 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -422,67 +492,39 @@ class ListingsItemPutRequest implements ModelInterface, \ArrayAccess, \JsonSeria
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

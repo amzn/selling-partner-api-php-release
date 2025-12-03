@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ItemRelationship.
+ * ItemRelationship
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Listings Items.
+ * Selling Partner API for Listings Items
  *
  * The Selling Partner API for Listings Items (Listings Items API) provides programmatic access to selling partner listings on Amazon. Use this API in collaboration with the Selling Partner API for Product Type Definitions, which you use to retrieve the information about Amazon product types needed to use the Listings Items API.  For more information, see the [Listings Items API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-use-case-guide).
  *
@@ -30,150 +28,79 @@
 
 namespace SpApi\Model\listings\items\v2021_08_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ItemRelationship Class Doc Comment.
+ * ItemRelationship Class Doc Comment
  *
  * @category Class
- *
- * @description The relationship details for a listing item.
- *
+ * @description the relationship details for a listing item.
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ItemRelationship implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
-    public const TYPE_VARIATION = 'VARIATION';
-    public const TYPE_PACKAGE_HIERARCHY = 'PACKAGE_HIERARCHY';
-
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ItemRelationship';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'child_skus' => 'string[]',
-        'parent_skus' => 'string[]',
-        'variation_theme' => '\SpApi\Model\listings\items\v2021_08_01\ItemVariationTheme',
-        'type' => 'string'];
+             'child_skus' => 'string[]',
+             'parent_skus' => 'string[]',
+             'variation_theme' => '\SpApi\Model\listings\items\v2021_08_01\ItemVariationTheme',
+             'type' => 'string'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'child_skus' => null,
-        'parent_skus' => null,
-        'variation_theme' => null,
-        'type' => null];
+            'child_skus' => null,
+            'parent_skus' => null,
+            'variation_theme' => null,
+            'type' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'child_skus' => true,
         'parent_skus' => true,
         'variation_theme' => true,
-        'type' => false,
+        'type' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * Array of property to type mappings. Used for (de)serialization
      *
-     * @var string[]
-     */
-    protected static array $attributeMap = [
-        'child_skus' => 'childSkus',
-        'parent_skus' => 'parentSkus',
-        'variation_theme' => 'variationTheme',
-        'type' => 'type',
-    ];
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     *
-     * @var string[]
-     */
-    protected static array $setters = [
-        'child_skus' => 'setChildSkus',
-        'parent_skus' => 'setParentSkus',
-        'variation_theme' => 'setVariationTheme',
-        'type' => 'setType',
-    ];
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     *
-     * @var string[]
-     */
-    protected static array $getters = [
-        'child_skus' => 'getChildSkus',
-        'parent_skus' => 'getParentSkus',
-        'variation_theme' => 'getVariationTheme',
-        'type' => 'getType',
-    ];
-
-    /**
-     * Associative array for storing property values.
-     */
-    protected array $container = [];
-
-    /**
-     * Constructor.
-     *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
-     */
-    public function __construct(?array $data = null)
-    {
-        $this->setIfExists('child_skus', $data ?? [], null);
-        $this->setIfExists('parent_skus', $data ?? [], null);
-        $this->setIfExists('variation_theme', $data ?? [], null);
-        $this->setIfExists('type', $data ?? [], null);
-    }
-
-    /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
+     * @return array
      */
     public static function openAPITypes(): array
     {
@@ -181,7 +108,9 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
      */
     public static function openAPIFormats(): array
     {
@@ -189,7 +118,40 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Checks if a property is nullable.
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
      */
     public static function isNullable(string $property): bool
     {
@@ -198,6 +160,9 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
 
     /**
      * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -206,7 +171,47 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
 
     /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
+     *
+     * @var string[]
+     */
+    protected static array $attributeMap = [
+        'child_skus' => 'childSkus',
+                'parent_skus' => 'parentSkus',
+                'variation_theme' => 'variationTheme',
+                'type' => 'type'
+        
+    ];
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @var string[]
+     */
+    protected static array $setters = [
+        'child_skus' => 'setChildSkus',
+        'parent_skus' => 'setParentSkus',
+        'variation_theme' => 'setVariationTheme',
+        'type' => 'setType'
+    ];
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @var string[]
+     */
+    protected static array $getters = [
+        'child_skus' => 'getChildSkus',
+        'parent_skus' => 'getParentSkus',
+        'variation_theme' => 'getVariationTheme',
+        'type' => 'getType'
+    ];
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
      */
     public static function attributeMap(): array
     {
@@ -214,7 +219,9 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
      */
     public static function setters(): array
     {
@@ -222,7 +229,9 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
      */
     public static function getters(): array
     {
@@ -231,14 +240,19 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
 
     /**
      * The original name of the model.
+     *
+     * @return string
      */
     public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
 
+    public const TYPE_VARIATION = 'VARIATION';
+    public const TYPE_PACKAGE_HIERARCHY = 'PACKAGE_HIERARCHY';
+
     /**
-     * Gets allowable values of the enum.
+     * Gets allowable values of the enum
      *
      * @return string[]
      */
@@ -251,6 +265,45 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
+     * Associative array for storing property values
+     *
+     * @var array
+     */
+    protected array $container = [];
+
+    /**
+     * Constructor
+     *
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->setIfExists('child_skus', $data ?? [], null);
+        $this->setIfExists('parent_skus', $data ?? [], null);
+        $this->setIfExists('variation_theme', $data ?? [], null);
+        $this->setIfExists('type', $data ?? [], null);
+    }
+
+    /**
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
+    }
+
+    /**
      * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
@@ -259,7 +312,7 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     {
         $invalidProperties = [];
 
-        if (null === $this->container['type']) {
+        if ($this->container['type'] === null) {
             $invalidProperties[] = "'type' can't be null";
         }
         $allowedValues = $this->getTypeAllowableValues();
@@ -276,17 +329,20 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets child_skus.
+     * Gets child_skus
+     *
+     * @return array|null
      */
     public function getChildSkus(): ?array
     {
@@ -294,9 +350,11 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets child_skus.
+     * Sets child_skus
      *
-     * @param null|array $child_skus identifiers (SKUs) of the related items that are children of this listing item
+     * @param array|null $child_skus Identifiers (SKUs) of the related items that are children of this listing item.
+     *
+     * @return self
      */
     public function setChildSkus(?array $child_skus): self
     {
@@ -305,7 +363,7 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('child_skus', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -316,7 +374,9 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets parent_skus.
+     * Gets parent_skus
+     *
+     * @return array|null
      */
     public function getParentSkus(): ?array
     {
@@ -324,9 +384,11 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets parent_skus.
+     * Sets parent_skus
      *
-     * @param null|array $parent_skus identifiers (SKUs) of the related items that are parents of this listing item
+     * @param array|null $parent_skus Identifiers (SKUs) of the related items that are parents of this listing item.
+     *
+     * @return self
      */
     public function setParentSkus(?array $parent_skus): self
     {
@@ -335,7 +397,7 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('parent_skus', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -346,26 +408,30 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets variation_theme.
+     * Gets variation_theme
+     *
+     * @return \SpApi\Model\listings\items\v2021_08_01\ItemVariationTheme|null
      */
-    public function getVariationTheme(): ?ItemVariationTheme
+    public function getVariationTheme(): ?\SpApi\Model\listings\items\v2021_08_01\ItemVariationTheme
     {
         return $this->container['variation_theme'];
     }
 
     /**
-     * Sets variation_theme.
+     * Sets variation_theme
      *
-     * @param null|ItemVariationTheme $variation_theme variation_theme
+     * @param \SpApi\Model\listings\items\v2021_08_01\ItemVariationTheme|null $variation_theme variation_theme
+     *
+     * @return self
      */
-    public function setVariationTheme(?ItemVariationTheme $variation_theme): self
+    public function setVariationTheme(?\SpApi\Model\listings\items\v2021_08_01\ItemVariationTheme $variation_theme): self
     {
         if (is_null($variation_theme)) {
             array_push($this->openAPINullablesSetToNull, 'variation_theme');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('variation_theme', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -376,7 +442,9 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets type.
+     * Gets type
+     *
+     * @return string
      */
     public function getType(): string
     {
@@ -384,9 +452,11 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets type.
+     * Sets type
      *
-     * @param string $type the type of relationship
+     * @param string $type The type of relationship.
+     *
+     * @return self
      */
     public function setType(string $type): self
     {
@@ -408,10 +478,13 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -421,9 +494,9 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -434,8 +507,10 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -449,7 +524,9 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -458,67 +535,39 @@ class ItemRelationship implements ModelInterface, \ArrayAccess, \JsonSerializabl
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

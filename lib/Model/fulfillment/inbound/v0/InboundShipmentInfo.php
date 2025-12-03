@@ -1,19 +1,17 @@
 <?php
-
 /**
- * InboundShipmentInfo.
+ * InboundShipmentInfo
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Fulfillment Inbound.
+ * Selling Partner API for Fulfillment Inbound
  *
  * The Selling Partner API for Fulfillment Inbound lets you create applications that create and update inbound shipments of inventory to Amazon's fulfillment network.
  *
@@ -30,74 +28,73 @@
 
 namespace SpApi\Model\fulfillment\inbound\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * InboundShipmentInfo Class Doc Comment.
+ * InboundShipmentInfo Class Doc Comment
  *
  * @category Class
- *
  * @description Information about the seller&#39;s inbound shipments. Returned by the listInboundShipments operation.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializable
+class InboundShipmentInfo implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'InboundShipmentInfo';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'shipment_id' => 'string',
-        'shipment_name' => 'string',
-        'ship_from_address' => '\SpApi\Model\fulfillment\inbound\v0\Address',
-        'destination_fulfillment_center_id' => 'string',
-        'shipment_status' => '\SpApi\Model\fulfillment\inbound\v0\ShipmentStatus',
-        'label_prep_type' => '\SpApi\Model\fulfillment\inbound\v0\LabelPrepType',
-        'are_cases_required' => 'bool',
-        'confirmed_need_by_date' => '\DateTime',
-        'box_contents_source' => '\SpApi\Model\fulfillment\inbound\v0\BoxContentsSource',
-        'estimated_box_contents_fee' => '\SpApi\Model\fulfillment\inbound\v0\BoxContentsFeeDetails'];
+             'shipment_id' => 'string',
+             'shipment_name' => 'string',
+             'ship_from_address' => '\SpApi\Model\fulfillment\inbound\v0\Address',
+             'destination_fulfillment_center_id' => 'string',
+             'shipment_status' => '\SpApi\Model\fulfillment\inbound\v0\ShipmentStatus',
+             'label_prep_type' => '\SpApi\Model\fulfillment\inbound\v0\LabelPrepType',
+             'are_cases_required' => 'bool',
+             'confirmed_need_by_date' => '\DateTime',
+             'box_contents_source' => '\SpApi\Model\fulfillment\inbound\v0\BoxContentsSource',
+             'estimated_box_contents_fee' => '\SpApi\Model\fulfillment\inbound\v0\BoxContentsFeeDetails'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'shipment_id' => null,
-        'shipment_name' => null,
-        'ship_from_address' => null,
-        'destination_fulfillment_center_id' => null,
-        'shipment_status' => null,
-        'label_prep_type' => null,
-        'are_cases_required' => null,
-        'confirmed_need_by_date' => 'date',
-        'box_contents_source' => null,
-        'estimated_box_contents_fee' => null];
+            'shipment_id' => null,
+            'shipment_name' => null,
+            'ship_from_address' => null,
+            'destination_fulfillment_center_id' => null,
+            'shipment_status' => null,
+            'label_prep_type' => null,
+            'are_cases_required' => null,
+            'confirmed_need_by_date' => 'date',
+            'box_contents_source' => null,
+            'estimated_box_contents_fee' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'shipment_id' => true,
         'shipment_name' => true,
@@ -108,37 +105,110 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         'are_cases_required' => false,
         'confirmed_need_by_date' => true,
         'box_contents_source' => true,
-        'estimated_box_contents_fee' => true,
+        'estimated_box_contents_fee' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'shipment_id' => 'ShipmentId',
-        'shipment_name' => 'ShipmentName',
-        'ship_from_address' => 'ShipFromAddress',
-        'destination_fulfillment_center_id' => 'DestinationFulfillmentCenterId',
-        'shipment_status' => 'ShipmentStatus',
-        'label_prep_type' => 'LabelPrepType',
-        'are_cases_required' => 'AreCasesRequired',
-        'confirmed_need_by_date' => 'ConfirmedNeedByDate',
-        'box_contents_source' => 'BoxContentsSource',
-        'estimated_box_contents_fee' => 'EstimatedBoxContentsFee',
+                'shipment_name' => 'ShipmentName',
+                'ship_from_address' => 'ShipFromAddress',
+                'destination_fulfillment_center_id' => 'DestinationFulfillmentCenterId',
+                'shipment_status' => 'ShipmentStatus',
+                'label_prep_type' => 'LabelPrepType',
+                'are_cases_required' => 'AreCasesRequired',
+                'confirmed_need_by_date' => 'ConfirmedNeedByDate',
+                'box_contents_source' => 'BoxContentsSource',
+                'estimated_box_contents_fee' => 'EstimatedBoxContentsFee'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -152,11 +222,11 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         'are_cases_required' => 'setAreCasesRequired',
         'confirmed_need_by_date' => 'setConfirmedNeedByDate',
         'box_contents_source' => 'setBoxContentsSource',
-        'estimated_box_contents_fee' => 'setEstimatedBoxContentsFee',
+        'estimated_box_contents_fee' => 'setEstimatedBoxContentsFee'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -170,19 +240,63 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         'are_cases_required' => 'getAreCasesRequired',
         'confirmed_need_by_date' => 'getConfirmedNeedByDate',
         'box_contents_source' => 'getBoxContentsSource',
-        'estimated_box_contents_fee' => 'getEstimatedBoxContentsFee',
+        'estimated_box_contents_fee' => 'getEstimatedBoxContentsFee'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -199,81 +313,21 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -285,29 +339,31 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     {
         $invalidProperties = [];
 
-        if (null === $this->container['ship_from_address']) {
+        if ($this->container['ship_from_address'] === null) {
             $invalidProperties[] = "'ship_from_address' can't be null";
         }
-        if (null === $this->container['are_cases_required']) {
+        if ($this->container['are_cases_required'] === null) {
             $invalidProperties[] = "'are_cases_required' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets shipment_id.
+     * Gets shipment_id
+     *
+     * @return string|null
      */
     public function getShipmentId(): ?string
     {
@@ -315,9 +371,11 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Sets shipment_id.
+     * Sets shipment_id
      *
-     * @param null|string $shipment_id the shipment identifier submitted in the request
+     * @param string|null $shipment_id The shipment identifier submitted in the request.
+     *
+     * @return self
      */
     public function setShipmentId(?string $shipment_id): self
     {
@@ -326,7 +384,7 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('shipment_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -337,7 +395,9 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Gets shipment_name.
+     * Gets shipment_name
+     *
+     * @return string|null
      */
     public function getShipmentName(): ?string
     {
@@ -345,9 +405,11 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Sets shipment_name.
+     * Sets shipment_name
      *
-     * @param null|string $shipment_name the name for the inbound shipment
+     * @param string|null $shipment_name The name for the inbound shipment.
+     *
+     * @return self
      */
     public function setShipmentName(?string $shipment_name): self
     {
@@ -356,7 +418,7 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('shipment_name', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -367,19 +429,23 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Gets ship_from_address.
+     * Gets ship_from_address
+     *
+     * @return \SpApi\Model\fulfillment\inbound\v0\Address
      */
-    public function getShipFromAddress(): Address
+    public function getShipFromAddress(): \SpApi\Model\fulfillment\inbound\v0\Address
     {
         return $this->container['ship_from_address'];
     }
 
     /**
-     * Sets ship_from_address.
+     * Sets ship_from_address
      *
-     * @param Address $ship_from_address ship_from_address
+     * @param \SpApi\Model\fulfillment\inbound\v0\Address $ship_from_address ship_from_address
+     *
+     * @return self
      */
-    public function setShipFromAddress(Address $ship_from_address): self
+    public function setShipFromAddress(\SpApi\Model\fulfillment\inbound\v0\Address $ship_from_address): self
     {
         if (is_null($ship_from_address)) {
             throw new \InvalidArgumentException('non-nullable ship_from_address cannot be null');
@@ -390,7 +456,9 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Gets destination_fulfillment_center_id.
+     * Gets destination_fulfillment_center_id
+     *
+     * @return string|null
      */
     public function getDestinationFulfillmentCenterId(): ?string
     {
@@ -398,9 +466,11 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Sets destination_fulfillment_center_id.
+     * Sets destination_fulfillment_center_id
      *
-     * @param null|string $destination_fulfillment_center_id an Amazon fulfillment center identifier created by Amazon
+     * @param string|null $destination_fulfillment_center_id An Amazon fulfillment center identifier created by Amazon.
+     *
+     * @return self
      */
     public function setDestinationFulfillmentCenterId(?string $destination_fulfillment_center_id): self
     {
@@ -409,7 +479,7 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('destination_fulfillment_center_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -420,7 +490,9 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Gets shipment_status.
+     * Gets shipment_status
+     *
+     * @return string|null
      */
     public function getShipmentStatus(): ?string
     {
@@ -428,9 +500,11 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Sets shipment_status.
+     * Sets shipment_status
      *
-     * @param null|string $shipment_status shipment_status
+     * @param string|null $shipment_status shipment_status
+     *
+     * @return self
      */
     public function setShipmentStatus(?string $shipment_status): self
     {
@@ -439,7 +513,7 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('shipment_status', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -450,7 +524,9 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Gets label_prep_type.
+     * Gets label_prep_type
+     *
+     * @return string|null
      */
     public function getLabelPrepType(): ?string
     {
@@ -458,9 +534,11 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Sets label_prep_type.
+     * Sets label_prep_type
      *
-     * @param null|string $label_prep_type label_prep_type
+     * @param string|null $label_prep_type label_prep_type
+     *
+     * @return self
      */
     public function setLabelPrepType(?string $label_prep_type): self
     {
@@ -469,7 +547,7 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('label_prep_type', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -480,7 +558,9 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Gets are_cases_required.
+     * Gets are_cases_required
+     *
+     * @return bool
      */
     public function getAreCasesRequired(): bool
     {
@@ -488,9 +568,11 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Sets are_cases_required.
+     * Sets are_cases_required
      *
      * @param bool $are_cases_required Indicates whether or not an inbound shipment contains case-packed boxes. When AreCasesRequired = true for an inbound shipment, all items in the inbound shipment must be case packed.
+     *
+     * @return self
      */
     public function setAreCasesRequired(bool $are_cases_required): self
     {
@@ -503,7 +585,9 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Gets confirmed_need_by_date.
+     * Gets confirmed_need_by_date
+     *
+     * @return \DateTime|null
      */
     public function getConfirmedNeedByDate(): ?\DateTime
     {
@@ -511,9 +595,11 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Sets confirmed_need_by_date.
+     * Sets confirmed_need_by_date
      *
-     * @param null|\DateTime $confirmed_need_by_date Type containing date in string format
+     * @param \DateTime|null $confirmed_need_by_date Type containing date in string format
+     *
+     * @return self
      */
     public function setConfirmedNeedByDate(?\DateTime $confirmed_need_by_date): self
     {
@@ -522,7 +608,7 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('confirmed_need_by_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -533,7 +619,9 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Gets box_contents_source.
+     * Gets box_contents_source
+     *
+     * @return string|null
      */
     public function getBoxContentsSource(): ?string
     {
@@ -541,9 +629,11 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Sets box_contents_source.
+     * Sets box_contents_source
      *
-     * @param null|string $box_contents_source box_contents_source
+     * @param string|null $box_contents_source box_contents_source
+     *
+     * @return self
      */
     public function setBoxContentsSource(?string $box_contents_source): self
     {
@@ -552,7 +642,7 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('box_contents_source', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -563,26 +653,30 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     }
 
     /**
-     * Gets estimated_box_contents_fee.
+     * Gets estimated_box_contents_fee
+     *
+     * @return \SpApi\Model\fulfillment\inbound\v0\BoxContentsFeeDetails|null
      */
-    public function getEstimatedBoxContentsFee(): ?BoxContentsFeeDetails
+    public function getEstimatedBoxContentsFee(): ?\SpApi\Model\fulfillment\inbound\v0\BoxContentsFeeDetails
     {
         return $this->container['estimated_box_contents_fee'];
     }
 
     /**
-     * Sets estimated_box_contents_fee.
+     * Sets estimated_box_contents_fee
      *
-     * @param null|BoxContentsFeeDetails $estimated_box_contents_fee estimated_box_contents_fee
+     * @param \SpApi\Model\fulfillment\inbound\v0\BoxContentsFeeDetails|null $estimated_box_contents_fee estimated_box_contents_fee
+     *
+     * @return self
      */
-    public function setEstimatedBoxContentsFee(?BoxContentsFeeDetails $estimated_box_contents_fee): self
+    public function setEstimatedBoxContentsFee(?\SpApi\Model\fulfillment\inbound\v0\BoxContentsFeeDetails $estimated_box_contents_fee): self
     {
         if (is_null($estimated_box_contents_fee)) {
             array_push($this->openAPINullablesSetToNull, 'estimated_box_contents_fee');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('estimated_box_contents_fee', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -592,10 +686,13 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -605,9 +702,9 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -618,8 +715,10 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -633,7 +732,9 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -642,67 +743,39 @@ class InboundShipmentInfo implements ModelInterface, \ArrayAccess, \JsonSerializ
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

@@ -1,19 +1,17 @@
 <?php
-
 /**
- * Business.
+ * Business
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * The Selling Partner API for Sellers.
+ * The Selling Partner API for Sellers
  *
  * The [Selling Partner API for Sellers](https://developer-docs.amazon.com/sp-api/docs/sellers-api-v1-reference) (Sellers API) provides essential information about seller accounts, such as:  - The marketplaces a seller can list in - The default language and currency of a marketplace - Whether the seller has suspended listings  Refer to the [Sellers API reference](https://developer-docs.amazon.com/sp-api/docs/sellers-api-v1-reference) for details about this API's operations, data types, and schemas.
  *
@@ -30,95 +28,167 @@
 
 namespace SpApi\Model\sellers\v1;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * Business Class Doc Comment.
+ * Business Class Doc Comment
  *
  * @category Class
- *
  * @description Information about the seller&#39;s business. Certain fields may be omitted depending on the seller&#39;s &#x60;businessType&#x60;.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
+class Business implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'Business';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'name' => 'string',
-        'registered_business_address' => '\SpApi\Model\sellers\v1\Address',
-        'company_registration_number' => 'string',
-        'company_tax_identification_number' => 'string',
-        'non_latin_name' => 'string'];
+             'name' => 'string',
+             'registered_business_address' => '\SpApi\Model\sellers\v1\Address',
+             'company_registration_number' => 'string',
+             'company_tax_identification_number' => 'string',
+             'non_latin_name' => 'string'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'name' => null,
-        'registered_business_address' => null,
-        'company_registration_number' => null,
-        'company_tax_identification_number' => null,
-        'non_latin_name' => null];
+            'name' => null,
+            'registered_business_address' => null,
+            'company_registration_number' => null,
+            'company_tax_identification_number' => null,
+            'non_latin_name' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'name' => false,
         'registered_business_address' => false,
         'company_registration_number' => true,
         'company_tax_identification_number' => true,
-        'non_latin_name' => true,
+        'non_latin_name' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'name' => 'name',
-        'registered_business_address' => 'registeredBusinessAddress',
-        'company_registration_number' => 'companyRegistrationNumber',
-        'company_tax_identification_number' => 'companyTaxIdentificationNumber',
-        'non_latin_name' => 'nonLatinName',
+                'registered_business_address' => 'registeredBusinessAddress',
+                'company_registration_number' => 'companyRegistrationNumber',
+                'company_tax_identification_number' => 'companyTaxIdentificationNumber',
+                'non_latin_name' => 'nonLatinName'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -127,11 +197,11 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
         'registered_business_address' => 'setRegisteredBusinessAddress',
         'company_registration_number' => 'setCompanyRegistrationNumber',
         'company_tax_identification_number' => 'setCompanyTaxIdentificationNumber',
-        'non_latin_name' => 'setNonLatinName',
+        'non_latin_name' => 'setNonLatinName'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -140,19 +210,63 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
         'registered_business_address' => 'getRegisteredBusinessAddress',
         'company_registration_number' => 'getCompanyRegistrationNumber',
         'company_tax_identification_number' => 'getCompanyTaxIdentificationNumber',
-        'non_latin_name' => 'getNonLatinName',
+        'non_latin_name' => 'getNonLatinName'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -164,81 +278,21 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -250,29 +304,31 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
-        if (null === $this->container['name']) {
+        if ($this->container['name'] === null) {
             $invalidProperties[] = "'name' can't be null";
         }
-        if (null === $this->container['registered_business_address']) {
+        if ($this->container['registered_business_address'] === null) {
             $invalidProperties[] = "'registered_business_address' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets name.
+     * Gets name
+     *
+     * @return string
      */
     public function getName(): string
     {
@@ -280,9 +336,11 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets name.
+     * Sets name
      *
-     * @param string $name the registered business name
+     * @param string $name The registered business name.
+     *
+     * @return self
      */
     public function setName(string $name): self
     {
@@ -295,19 +353,23 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets registered_business_address.
+     * Gets registered_business_address
+     *
+     * @return \SpApi\Model\sellers\v1\Address
      */
-    public function getRegisteredBusinessAddress(): Address
+    public function getRegisteredBusinessAddress(): \SpApi\Model\sellers\v1\Address
     {
         return $this->container['registered_business_address'];
     }
 
     /**
-     * Sets registered_business_address.
+     * Sets registered_business_address
      *
-     * @param Address $registered_business_address registered_business_address
+     * @param \SpApi\Model\sellers\v1\Address $registered_business_address registered_business_address
+     *
+     * @return self
      */
-    public function setRegisteredBusinessAddress(Address $registered_business_address): self
+    public function setRegisteredBusinessAddress(\SpApi\Model\sellers\v1\Address $registered_business_address): self
     {
         if (is_null($registered_business_address)) {
             throw new \InvalidArgumentException('non-nullable registered_business_address cannot be null');
@@ -318,7 +380,9 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets company_registration_number.
+     * Gets company_registration_number
+     *
+     * @return string|null
      */
     public function getCompanyRegistrationNumber(): ?string
     {
@@ -326,9 +390,11 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets company_registration_number.
+     * Sets company_registration_number
      *
-     * @param null|string $company_registration_number The seller's company registration number, if applicable. This field will be absent for individual sellers and sole proprietorships.
+     * @param string|null $company_registration_number The seller's company registration number, if applicable. This field will be absent for individual sellers and sole proprietorships.
+     *
+     * @return self
      */
     public function setCompanyRegistrationNumber(?string $company_registration_number): self
     {
@@ -337,7 +403,7 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('company_registration_number', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -348,7 +414,9 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets company_tax_identification_number.
+     * Gets company_tax_identification_number
+     *
+     * @return string|null
      */
     public function getCompanyTaxIdentificationNumber(): ?string
     {
@@ -356,9 +424,11 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets company_tax_identification_number.
+     * Sets company_tax_identification_number
      *
-     * @param null|string $company_tax_identification_number The seller's company tax identification number, if applicable. This field will be present for certain business types only, such as sole proprietorships.
+     * @param string|null $company_tax_identification_number The seller's company tax identification number, if applicable. This field will be present for certain business types only, such as sole proprietorships.
+     *
+     * @return self
      */
     public function setCompanyTaxIdentificationNumber(?string $company_tax_identification_number): self
     {
@@ -367,7 +437,7 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('company_tax_identification_number', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -378,7 +448,9 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets non_latin_name.
+     * Gets non_latin_name
+     *
+     * @return string|null
      */
     public function getNonLatinName(): ?string
     {
@@ -386,9 +458,11 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sets non_latin_name.
+     * Sets non_latin_name
      *
-     * @param null|string $non_latin_name the non-Latin script version of the registered business name, if applicable
+     * @param string|null $non_latin_name The non-Latin script version of the registered business name, if applicable.
+     *
+     * @return self
      */
     public function setNonLatinName(?string $non_latin_name): self
     {
@@ -397,7 +471,7 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('non_latin_name', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -407,10 +481,13 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -420,9 +497,9 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -433,8 +510,10 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -448,7 +527,9 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -457,67 +538,39 @@ class Business implements ModelInterface, \ArrayAccess, \JsonSerializable
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

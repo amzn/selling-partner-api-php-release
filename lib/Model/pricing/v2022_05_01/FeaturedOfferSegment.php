@@ -1,19 +1,17 @@
 <?php
-
 /**
- * FeaturedOfferSegment.
+ * FeaturedOfferSegment
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Pricing.
+ * Selling Partner API for Pricing
  *
  * The Selling Partner API for Pricing helps you programmatically retrieve product pricing and offer pricing information for Amazon Marketplace products.  For more information, refer to the [Product Pricing v2022-05-01 Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v2022-05-01-use-case-guide).
  *
@@ -30,137 +28,73 @@
 
 namespace SpApi\Model\pricing\v2022_05_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * FeaturedOfferSegment Class Doc Comment.
+ * FeaturedOfferSegment Class Doc Comment
  *
  * @category Class
- *
  * @description Describes the segment in which the offer is featured.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSerializable
+class FeaturedOfferSegment implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
-    public const CUSTOMER_MEMBERSHIP_PRIME = 'PRIME';
-    public const CUSTOMER_MEMBERSHIP_NON_PRIME = 'NON_PRIME';
-    public const CUSTOMER_MEMBERSHIP__DEFAULT = 'DEFAULT';
-
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'FeaturedOfferSegment';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'customer_membership' => 'string',
-        'segment_details' => '\SpApi\Model\pricing\v2022_05_01\SegmentDetails'];
+             'customer_membership' => 'string',
+             'segment_details' => '\SpApi\Model\pricing\v2022_05_01\SegmentDetails'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'customer_membership' => null,
-        'segment_details' => null];
+            'customer_membership' => null,
+            'segment_details' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'customer_membership' => false,
-        'segment_details' => false,
+        'segment_details' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * Array of property to type mappings. Used for (de)serialization
      *
-     * @var string[]
-     */
-    protected static array $attributeMap = [
-        'customer_membership' => 'customerMembership',
-        'segment_details' => 'segmentDetails',
-    ];
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     *
-     * @var string[]
-     */
-    protected static array $setters = [
-        'customer_membership' => 'setCustomerMembership',
-        'segment_details' => 'setSegmentDetails',
-    ];
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     *
-     * @var string[]
-     */
-    protected static array $getters = [
-        'customer_membership' => 'getCustomerMembership',
-        'segment_details' => 'getSegmentDetails',
-    ];
-
-    /**
-     * Associative array for storing property values.
-     */
-    protected array $container = [];
-
-    /**
-     * Constructor.
-     *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
-     */
-    public function __construct(?array $data = null)
-    {
-        $this->setIfExists('customer_membership', $data ?? [], null);
-        $this->setIfExists('segment_details', $data ?? [], null);
-    }
-
-    /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
+     * @return array
      */
     public static function openAPITypes(): array
     {
@@ -168,7 +102,9 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
      */
     public static function openAPIFormats(): array
     {
@@ -176,7 +112,40 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Checks if a property is nullable.
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
      */
     public static function isNullable(string $property): bool
     {
@@ -185,6 +154,9 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
 
     /**
      * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -193,7 +165,41 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
 
     /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
+     *
+     * @var string[]
+     */
+    protected static array $attributeMap = [
+        'customer_membership' => 'customerMembership',
+                'segment_details' => 'segmentDetails'
+        
+    ];
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @var string[]
+     */
+    protected static array $setters = [
+        'customer_membership' => 'setCustomerMembership',
+        'segment_details' => 'setSegmentDetails'
+    ];
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @var string[]
+     */
+    protected static array $getters = [
+        'customer_membership' => 'getCustomerMembership',
+        'segment_details' => 'getSegmentDetails'
+    ];
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
      */
     public static function attributeMap(): array
     {
@@ -201,7 +207,9 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
      */
     public static function setters(): array
     {
@@ -209,7 +217,9 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
      */
     public static function getters(): array
     {
@@ -218,14 +228,19 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
 
     /**
      * The original name of the model.
+     *
+     * @return string
      */
     public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
 
+    public const CUSTOMER_MEMBERSHIP_PRIME = 'PRIME';
+    public const CUSTOMER_MEMBERSHIP_NON_PRIME = 'NON_PRIME';
+
     /**
-     * Gets allowable values of the enum.
+     * Gets allowable values of the enum
      *
      * @return string[]
      */
@@ -234,8 +249,44 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
         return [
             self::CUSTOMER_MEMBERSHIP_PRIME,
             self::CUSTOMER_MEMBERSHIP_NON_PRIME,
-            self::CUSTOMER_MEMBERSHIP__DEFAULT,
         ];
+    }
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
+     */
+    protected array $container = [];
+
+    /**
+     * Constructor
+     *
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->setIfExists('customer_membership', $data ?? [], null);
+        $this->setIfExists('segment_details', $data ?? [], null);
+    }
+
+    /**
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -247,7 +298,7 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if (null === $this->container['customer_membership']) {
+        if ($this->container['customer_membership'] === null) {
             $invalidProperties[] = "'customer_membership' can't be null";
         }
         $allowedValues = $this->getCustomerMembershipAllowableValues();
@@ -259,26 +310,28 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
             );
         }
 
-        if (null === $this->container['segment_details']) {
+        if ($this->container['segment_details'] === null) {
             $invalidProperties[] = "'segment_details' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets customer_membership.
+     * Gets customer_membership
+     *
+     * @return string
      */
     public function getCustomerMembership(): string
     {
@@ -286,9 +339,11 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets customer_membership.
+     * Sets customer_membership
      *
      * @param string $customer_membership The customer membership type that makes up this segment
+     *
+     * @return self
      */
     public function setCustomerMembership(string $customer_membership): self
     {
@@ -311,19 +366,23 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets segment_details.
+     * Gets segment_details
+     *
+     * @return \SpApi\Model\pricing\v2022_05_01\SegmentDetails
      */
-    public function getSegmentDetails(): SegmentDetails
+    public function getSegmentDetails(): \SpApi\Model\pricing\v2022_05_01\SegmentDetails
     {
         return $this->container['segment_details'];
     }
 
     /**
-     * Sets segment_details.
+     * Sets segment_details
      *
-     * @param SegmentDetails $segment_details segment_details
+     * @param \SpApi\Model\pricing\v2022_05_01\SegmentDetails $segment_details segment_details
+     *
+     * @return self
      */
-    public function setSegmentDetails(SegmentDetails $segment_details): self
+    public function setSegmentDetails(\SpApi\Model\pricing\v2022_05_01\SegmentDetails $segment_details): self
     {
         if (is_null($segment_details)) {
             throw new \InvalidArgumentException('non-nullable segment_details cannot be null');
@@ -333,10 +392,13 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -346,9 +408,9 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -359,8 +421,10 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -374,7 +438,9 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -383,67 +449,39 @@ class FeaturedOfferSegment implements ModelInterface, \ArrayAccess, \JsonSeriali
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

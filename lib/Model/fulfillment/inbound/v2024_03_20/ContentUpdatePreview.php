@@ -1,15 +1,13 @@
 <?php
-
 /**
- * ContentUpdatePreview.
+ * ContentUpdatePreview
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
@@ -30,91 +28,163 @@
 
 namespace SpApi\Model\fulfillment\inbound\v2024_03_20;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ContentUpdatePreview Class Doc Comment.
+ * ContentUpdatePreview Class Doc Comment
  *
  * @category Class
- *
  * @description Preview of the changes that will be applied to the shipment.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ContentUpdatePreview implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ContentUpdatePreview';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'content_update_preview_id' => 'string',
-        'expiration' => '\DateTime',
-        'requested_updates' => '\SpApi\Model\fulfillment\inbound\v2024_03_20\RequestedUpdates',
-        'transportation_option' => '\SpApi\Model\fulfillment\inbound\v2024_03_20\TransportationOption'];
+             'content_update_preview_id' => 'string',
+             'expiration' => '\DateTime',
+             'requested_updates' => '\SpApi\Model\fulfillment\inbound\v2024_03_20\RequestedUpdates',
+             'transportation_option' => '\SpApi\Model\fulfillment\inbound\v2024_03_20\TransportationOption'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'content_update_preview_id' => null,
-        'expiration' => 'date-time',
-        'requested_updates' => null,
-        'transportation_option' => null];
+            'content_update_preview_id' => null,
+            'expiration' => 'date-time',
+            'requested_updates' => null,
+            'transportation_option' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'content_update_preview_id' => false,
         'expiration' => false,
         'requested_updates' => false,
-        'transportation_option' => false,
+        'transportation_option' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'content_update_preview_id' => 'contentUpdatePreviewId',
-        'expiration' => 'expiration',
-        'requested_updates' => 'requestedUpdates',
-        'transportation_option' => 'transportationOption',
+                'expiration' => 'expiration',
+                'requested_updates' => 'requestedUpdates',
+                'transportation_option' => 'transportationOption'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -122,11 +192,11 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
         'content_update_preview_id' => 'setContentUpdatePreviewId',
         'expiration' => 'setExpiration',
         'requested_updates' => 'setRequestedUpdates',
-        'transportation_option' => 'setTransportationOption',
+        'transportation_option' => 'setTransportationOption'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -134,19 +204,63 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
         'content_update_preview_id' => 'getContentUpdatePreviewId',
         'expiration' => 'getExpiration',
         'requested_updates' => 'getRequestedUpdates',
-        'transportation_option' => 'getTransportationOption',
+        'transportation_option' => 'getTransportationOption'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -157,81 +271,21 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -243,47 +297,49 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
     {
         $invalidProperties = [];
 
-        if (null === $this->container['content_update_preview_id']) {
+        if ($this->container['content_update_preview_id'] === null) {
             $invalidProperties[] = "'content_update_preview_id' can't be null";
         }
-        if (mb_strlen($this->container['content_update_preview_id']) > 38) {
+        if ((mb_strlen($this->container['content_update_preview_id']) > 38)) {
             $invalidProperties[] = "invalid value for 'content_update_preview_id', the character length must be smaller than or equal to 38.";
         }
 
-        if (mb_strlen($this->container['content_update_preview_id']) < 38) {
+        if ((mb_strlen($this->container['content_update_preview_id']) < 38)) {
             $invalidProperties[] = "invalid value for 'content_update_preview_id', the character length must be bigger than or equal to 38.";
         }
 
-        if (!preg_match('/^[a-zA-Z0-9-]*$/', $this->container['content_update_preview_id'])) {
+        if (!preg_match("/^[a-zA-Z0-9-]*$/", $this->container['content_update_preview_id'])) {
             $invalidProperties[] = "invalid value for 'content_update_preview_id', must be conform to the pattern /^[a-zA-Z0-9-]*$/.";
         }
 
-        if (null === $this->container['expiration']) {
+        if ($this->container['expiration'] === null) {
             $invalidProperties[] = "'expiration' can't be null";
         }
-        if (null === $this->container['requested_updates']) {
+        if ($this->container['requested_updates'] === null) {
             $invalidProperties[] = "'requested_updates' can't be null";
         }
-        if (null === $this->container['transportation_option']) {
+        if ($this->container['transportation_option'] === null) {
             $invalidProperties[] = "'transportation_option' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets content_update_preview_id.
+     * Gets content_update_preview_id
+     *
+     * @return string
      */
     public function getContentUpdatePreviewId(): string
     {
@@ -291,23 +347,25 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets content_update_preview_id.
+     * Sets content_update_preview_id
      *
-     * @param string $content_update_preview_id identifier of a content update preview
+     * @param string $content_update_preview_id Identifier of a content update preview.
+     *
+     * @return self
      */
     public function setContentUpdatePreviewId(string $content_update_preview_id): self
     {
         if (is_null($content_update_preview_id)) {
             throw new \InvalidArgumentException('non-nullable content_update_preview_id cannot be null');
         }
-        if (mb_strlen($content_update_preview_id) > 38) {
+        if ((mb_strlen($content_update_preview_id) > 38)) {
             throw new \InvalidArgumentException('invalid length for $content_update_preview_id when calling ContentUpdatePreview., must be smaller than or equal to 38.');
         }
-        if (mb_strlen($content_update_preview_id) < 38) {
+        if ((mb_strlen($content_update_preview_id) < 38)) {
             throw new \InvalidArgumentException('invalid length for $content_update_preview_id when calling ContentUpdatePreview., must be bigger than or equal to 38.');
         }
-        if (!preg_match('/^[a-zA-Z0-9-]*$/', ObjectSerializer::toString($content_update_preview_id))) {
-            throw new \InvalidArgumentException('invalid value for $content_update_preview_id when calling ContentUpdatePreview., must conform to the pattern /^[a-zA-Z0-9-]*$/.');
+        if ((!preg_match("/^[a-zA-Z0-9-]*$/", ObjectSerializer::toString($content_update_preview_id)))) {
+            throw new \InvalidArgumentException("invalid value for \$content_update_preview_id when calling ContentUpdatePreview., must conform to the pattern /^[a-zA-Z0-9-]*$/.");
         }
 
         $this->container['content_update_preview_id'] = $content_update_preview_id;
@@ -316,7 +374,9 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets expiration.
+     * Gets expiration
+     *
+     * @return \DateTime
      */
     public function getExpiration(): \DateTime
     {
@@ -324,9 +384,11 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Sets expiration.
+     * Sets expiration
      *
      * @param \DateTime $expiration The time at which the content update expires. In [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) datetime format with pattern `yyyy-MM-ddTHH:mm:ss.sssZ`.
+     *
+     * @return self
      */
     public function setExpiration(\DateTime $expiration): self
     {
@@ -339,19 +401,23 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets requested_updates.
+     * Gets requested_updates
+     *
+     * @return \SpApi\Model\fulfillment\inbound\v2024_03_20\RequestedUpdates
      */
-    public function getRequestedUpdates(): RequestedUpdates
+    public function getRequestedUpdates(): \SpApi\Model\fulfillment\inbound\v2024_03_20\RequestedUpdates
     {
         return $this->container['requested_updates'];
     }
 
     /**
-     * Sets requested_updates.
+     * Sets requested_updates
      *
-     * @param RequestedUpdates $requested_updates requested_updates
+     * @param \SpApi\Model\fulfillment\inbound\v2024_03_20\RequestedUpdates $requested_updates requested_updates
+     *
+     * @return self
      */
-    public function setRequestedUpdates(RequestedUpdates $requested_updates): self
+    public function setRequestedUpdates(\SpApi\Model\fulfillment\inbound\v2024_03_20\RequestedUpdates $requested_updates): self
     {
         if (is_null($requested_updates)) {
             throw new \InvalidArgumentException('non-nullable requested_updates cannot be null');
@@ -362,19 +428,23 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
     }
 
     /**
-     * Gets transportation_option.
+     * Gets transportation_option
+     *
+     * @return \SpApi\Model\fulfillment\inbound\v2024_03_20\TransportationOption
      */
-    public function getTransportationOption(): TransportationOption
+    public function getTransportationOption(): \SpApi\Model\fulfillment\inbound\v2024_03_20\TransportationOption
     {
         return $this->container['transportation_option'];
     }
 
     /**
-     * Sets transportation_option.
+     * Sets transportation_option
      *
-     * @param TransportationOption $transportation_option transportation_option
+     * @param \SpApi\Model\fulfillment\inbound\v2024_03_20\TransportationOption $transportation_option transportation_option
+     *
+     * @return self
      */
-    public function setTransportationOption(TransportationOption $transportation_option): self
+    public function setTransportationOption(\SpApi\Model\fulfillment\inbound\v2024_03_20\TransportationOption $transportation_option): self
     {
         if (is_null($transportation_option)) {
             throw new \InvalidArgumentException('non-nullable transportation_option cannot be null');
@@ -384,10 +454,13 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -397,9 +470,9 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -410,8 +483,10 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -425,7 +500,9 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -434,67 +511,39 @@ class ContentUpdatePreview implements ModelInterface, \ArrayAccess, \JsonSeriali
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

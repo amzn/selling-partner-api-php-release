@@ -1,19 +1,17 @@
 <?php
-
 /**
- * DebtRecoveryItem.
+ * DebtRecoveryItem
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Finances.
+ * Selling Partner API for Finances
  *
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller's business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range.
  *
@@ -30,91 +28,163 @@
 
 namespace SpApi\Model\finances\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * DebtRecoveryItem Class Doc Comment.
+ * DebtRecoveryItem Class Doc Comment
  *
  * @category Class
- *
  * @description An item of a debt payment or debt adjustment.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializable
+class DebtRecoveryItem implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'DebtRecoveryItem';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'recovery_amount' => '\SpApi\Model\finances\v0\Currency',
-        'original_amount' => '\SpApi\Model\finances\v0\Currency',
-        'group_begin_date' => '\DateTime',
-        'group_end_date' => '\DateTime'];
+             'recovery_amount' => '\SpApi\Model\finances\v0\Currency',
+             'original_amount' => '\SpApi\Model\finances\v0\Currency',
+             'group_begin_date' => '\DateTime',
+             'group_end_date' => '\DateTime'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'recovery_amount' => null,
-        'original_amount' => null,
-        'group_begin_date' => 'date-time',
-        'group_end_date' => 'date-time'];
+            'recovery_amount' => null,
+            'original_amount' => null,
+            'group_begin_date' => 'date-time',
+            'group_end_date' => 'date-time'    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'recovery_amount' => true,
         'original_amount' => true,
         'group_begin_date' => true,
-        'group_end_date' => true,
+        'group_end_date' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'recovery_amount' => 'RecoveryAmount',
-        'original_amount' => 'OriginalAmount',
-        'group_begin_date' => 'GroupBeginDate',
-        'group_end_date' => 'GroupEndDate',
+                'original_amount' => 'OriginalAmount',
+                'group_begin_date' => 'GroupBeginDate',
+                'group_end_date' => 'GroupEndDate'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -122,11 +192,11 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
         'recovery_amount' => 'setRecoveryAmount',
         'original_amount' => 'setOriginalAmount',
         'group_begin_date' => 'setGroupBeginDate',
-        'group_end_date' => 'setGroupEndDate',
+        'group_end_date' => 'setGroupEndDate'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -134,19 +204,63 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
         'recovery_amount' => 'getRecoveryAmount',
         'original_amount' => 'getOriginalAmount',
         'group_begin_date' => 'getGroupBeginDate',
-        'group_end_date' => 'getGroupEndDate',
+        'group_end_date' => 'getGroupEndDate'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -157,81 +271,21 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -241,41 +295,48 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets recovery_amount.
+     * Gets recovery_amount
+     *
+     * @return \SpApi\Model\finances\v0\Currency|null
      */
-    public function getRecoveryAmount(): ?Currency
+    public function getRecoveryAmount(): ?\SpApi\Model\finances\v0\Currency
     {
         return $this->container['recovery_amount'];
     }
 
     /**
-     * Sets recovery_amount.
+     * Sets recovery_amount
      *
-     * @param null|Currency $recovery_amount recovery_amount
+     * @param \SpApi\Model\finances\v0\Currency|null $recovery_amount recovery_amount
+     *
+     * @return self
      */
-    public function setRecoveryAmount(?Currency $recovery_amount): self
+    public function setRecoveryAmount(?\SpApi\Model\finances\v0\Currency $recovery_amount): self
     {
         if (is_null($recovery_amount)) {
             array_push($this->openAPINullablesSetToNull, 'recovery_amount');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('recovery_amount', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -286,26 +347,30 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets original_amount.
+     * Gets original_amount
+     *
+     * @return \SpApi\Model\finances\v0\Currency|null
      */
-    public function getOriginalAmount(): ?Currency
+    public function getOriginalAmount(): ?\SpApi\Model\finances\v0\Currency
     {
         return $this->container['original_amount'];
     }
 
     /**
-     * Sets original_amount.
+     * Sets original_amount
      *
-     * @param null|Currency $original_amount original_amount
+     * @param \SpApi\Model\finances\v0\Currency|null $original_amount original_amount
+     *
+     * @return self
      */
-    public function setOriginalAmount(?Currency $original_amount): self
+    public function setOriginalAmount(?\SpApi\Model\finances\v0\Currency $original_amount): self
     {
         if (is_null($original_amount)) {
             array_push($this->openAPINullablesSetToNull, 'original_amount');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('original_amount', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -316,7 +381,9 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets group_begin_date.
+     * Gets group_begin_date
+     *
+     * @return \DateTime|null
      */
     public function getGroupBeginDate(): ?\DateTime
     {
@@ -324,9 +391,11 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets group_begin_date.
+     * Sets group_begin_date
      *
-     * @param null|\DateTime $group_begin_date fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate)
+     * @param \DateTime|null $group_begin_date Fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate).
+     *
+     * @return self
      */
     public function setGroupBeginDate(?\DateTime $group_begin_date): self
     {
@@ -335,7 +404,7 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('group_begin_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -346,7 +415,9 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets group_end_date.
+     * Gets group_end_date
+     *
+     * @return \DateTime|null
      */
     public function getGroupEndDate(): ?\DateTime
     {
@@ -354,9 +425,11 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets group_end_date.
+     * Sets group_end_date
      *
-     * @param null|\DateTime $group_end_date fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate)
+     * @param \DateTime|null $group_end_date Fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate).
+     *
+     * @return self
      */
     public function setGroupEndDate(?\DateTime $group_end_date): self
     {
@@ -365,7 +438,7 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('group_end_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -375,10 +448,13 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -388,9 +464,9 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -401,8 +477,10 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -416,7 +494,9 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -425,67 +505,39 @@ class DebtRecoveryItem implements ModelInterface, \ArrayAccess, \JsonSerializabl
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

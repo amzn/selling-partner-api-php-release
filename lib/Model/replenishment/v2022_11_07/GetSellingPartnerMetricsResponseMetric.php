@@ -1,19 +1,17 @@
 <?php
-
 /**
- * GetSellingPartnerMetricsResponseMetric.
+ * GetSellingPartnerMetricsResponseMetric
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Replenishment.
+ * Selling Partner API for Replenishment
  *
  * The Selling Partner API for Replenishment (Replenishment API) provides programmatic access to replenishment program metrics and offers. These programs provide recurring delivery of any replenishable item at a frequency chosen by the customer.  The Replenishment API is available worldwide wherever Amazon Subscribe & Save is available or is supported. The API is available to vendors and FBA selling partners.
  *
@@ -30,98 +28,97 @@
 
 namespace SpApi\Model\replenishment\v2022_11_07;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * GetSellingPartnerMetricsResponseMetric Class Doc Comment.
+ * GetSellingPartnerMetricsResponseMetric Class Doc Comment
  *
  * @category Class
- *
  * @description An object which contains metric data for a selling partner.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAccess, \JsonSerializable
+class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'GetSellingPartnerMetricsResponseMetric';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'not_delivered_due_to_oos' => 'float',
-        'total_subscriptions_revenue' => 'float',
-        'shipped_subscription_units' => 'float',
-        'active_subscriptions' => 'float',
-        'subscriber_average_revenue' => 'float',
-        'non_subscriber_average_revenue' => 'float',
-        'lost_revenue_due_to_oos' => 'float',
-        'subscriber_average_reorders' => 'float',
-        'non_subscriber_average_reorders' => 'float',
-        'coupons_revenue_penetration' => 'float',
-        'revenue_from_subscriptions_with_multiple_deliveries' => 'float',
-        'revenue_from_active_subscriptions_with_single_delivery' => 'float',
-        'revenue_from_cancelled_subscriptions_after_single_delivery' => 'float',
-        'subscriber_retention_for30_days' => 'float',
-        'subscriber_retention_for90_days' => 'float',
-        'revenue_penetration_for0_percent_seller_funding' => 'float',
-        'revenue_penetration_for5_percent_seller_funding' => 'float',
-        'revenue_penetration_for10_percent_seller_funding' => 'float',
-        'revenue_penetration_for5_plus_percent_seller_funding' => 'float',
-        'share_of_coupon_subscriptions' => 'float',
-        'time_interval' => '\SpApi\Model\replenishment\v2022_11_07\TimeInterval',
-        'currency_code' => 'string'];
+             'not_delivered_due_to_oos' => 'float',
+             'total_subscriptions_revenue' => 'float',
+             'shipped_subscription_units' => 'float',
+             'active_subscriptions' => 'float',
+             'subscriber_average_revenue' => 'float',
+             'non_subscriber_average_revenue' => 'float',
+             'lost_revenue_due_to_oos' => 'float',
+             'subscriber_average_reorders' => 'float',
+             'non_subscriber_average_reorders' => 'float',
+             'coupons_revenue_penetration' => 'float',
+             'revenue_from_subscriptions_with_multiple_deliveries' => 'float',
+             'revenue_from_active_subscriptions_with_single_delivery' => 'float',
+             'revenue_from_cancelled_subscriptions_after_single_delivery' => 'float',
+             'subscriber_retention_for30_days' => 'float',
+             'subscriber_retention_for90_days' => 'float',
+             'revenue_penetration_for0_percent_seller_funding' => 'float',
+             'revenue_penetration_for5_percent_seller_funding' => 'float',
+             'revenue_penetration_for10_percent_seller_funding' => 'float',
+             'revenue_penetration_for5_plus_percent_seller_funding' => 'float',
+             'share_of_coupon_subscriptions' => 'float',
+             'time_interval' => '\SpApi\Model\replenishment\v2022_11_07\TimeInterval',
+             'currency_code' => 'string'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'not_delivered_due_to_oos' => 'double',
-        'total_subscriptions_revenue' => 'double',
-        'shipped_subscription_units' => 'int64',
-        'active_subscriptions' => 'int64',
-        'subscriber_average_revenue' => 'double',
-        'non_subscriber_average_revenue' => 'double',
-        'lost_revenue_due_to_oos' => 'double',
-        'subscriber_average_reorders' => 'double',
-        'non_subscriber_average_reorders' => 'double',
-        'coupons_revenue_penetration' => 'double',
-        'revenue_from_subscriptions_with_multiple_deliveries' => 'double',
-        'revenue_from_active_subscriptions_with_single_delivery' => 'double',
-        'revenue_from_cancelled_subscriptions_after_single_delivery' => 'double',
-        'subscriber_retention_for30_days' => 'double',
-        'subscriber_retention_for90_days' => 'double',
-        'revenue_penetration_for0_percent_seller_funding' => 'double',
-        'revenue_penetration_for5_percent_seller_funding' => 'double',
-        'revenue_penetration_for10_percent_seller_funding' => 'double',
-        'revenue_penetration_for5_plus_percent_seller_funding' => 'double',
-        'share_of_coupon_subscriptions' => 'double',
-        'time_interval' => null,
-        'currency_code' => null];
+            'not_delivered_due_to_oos' => 'double',
+            'total_subscriptions_revenue' => 'double',
+            'shipped_subscription_units' => 'int64',
+            'active_subscriptions' => 'int64',
+            'subscriber_average_revenue' => 'double',
+            'non_subscriber_average_revenue' => 'double',
+            'lost_revenue_due_to_oos' => 'double',
+            'subscriber_average_reorders' => 'double',
+            'non_subscriber_average_reorders' => 'double',
+            'coupons_revenue_penetration' => 'double',
+            'revenue_from_subscriptions_with_multiple_deliveries' => 'double',
+            'revenue_from_active_subscriptions_with_single_delivery' => 'double',
+            'revenue_from_cancelled_subscriptions_after_single_delivery' => 'double',
+            'subscriber_retention_for30_days' => 'double',
+            'subscriber_retention_for90_days' => 'double',
+            'revenue_penetration_for0_percent_seller_funding' => 'double',
+            'revenue_penetration_for5_percent_seller_funding' => 'double',
+            'revenue_penetration_for10_percent_seller_funding' => 'double',
+            'revenue_penetration_for5_plus_percent_seller_funding' => 'double',
+            'share_of_coupon_subscriptions' => 'double',
+            'time_interval' => null,
+            'currency_code' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'not_delivered_due_to_oos' => true,
         'total_subscriptions_revenue' => true,
@@ -144,49 +141,122 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         'revenue_penetration_for5_plus_percent_seller_funding' => true,
         'share_of_coupon_subscriptions' => true,
         'time_interval' => true,
-        'currency_code' => true,
+        'currency_code' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'not_delivered_due_to_oos' => 'notDeliveredDueToOOS',
-        'total_subscriptions_revenue' => 'totalSubscriptionsRevenue',
-        'shipped_subscription_units' => 'shippedSubscriptionUnits',
-        'active_subscriptions' => 'activeSubscriptions',
-        'subscriber_average_revenue' => 'subscriberAverageRevenue',
-        'non_subscriber_average_revenue' => 'nonSubscriberAverageRevenue',
-        'lost_revenue_due_to_oos' => 'lostRevenueDueToOOS',
-        'subscriber_average_reorders' => 'subscriberAverageReorders',
-        'non_subscriber_average_reorders' => 'nonSubscriberAverageReorders',
-        'coupons_revenue_penetration' => 'couponsRevenuePenetration',
-        'revenue_from_subscriptions_with_multiple_deliveries' => 'revenueFromSubscriptionsWithMultipleDeliveries',
-        'revenue_from_active_subscriptions_with_single_delivery' => 'revenueFromActiveSubscriptionsWithSingleDelivery',
-        'revenue_from_cancelled_subscriptions_after_single_delivery' => 'revenueFromCancelledSubscriptionsAfterSingleDelivery',
-        'subscriber_retention_for30_days' => 'subscriberRetentionFor30Days',
-        'subscriber_retention_for90_days' => 'subscriberRetentionFor90Days',
-        'revenue_penetration_for0_percent_seller_funding' => 'revenuePenetrationFor0PercentSellerFunding',
-        'revenue_penetration_for5_percent_seller_funding' => 'revenuePenetrationFor5PercentSellerFunding',
-        'revenue_penetration_for10_percent_seller_funding' => 'revenuePenetrationFor10PercentSellerFunding',
-        'revenue_penetration_for5_plus_percent_seller_funding' => 'revenuePenetrationFor5PlusPercentSellerFunding',
-        'share_of_coupon_subscriptions' => 'shareOfCouponSubscriptions',
-        'time_interval' => 'timeInterval',
-        'currency_code' => 'currencyCode',
+                'total_subscriptions_revenue' => 'totalSubscriptionsRevenue',
+                'shipped_subscription_units' => 'shippedSubscriptionUnits',
+                'active_subscriptions' => 'activeSubscriptions',
+                'subscriber_average_revenue' => 'subscriberAverageRevenue',
+                'non_subscriber_average_revenue' => 'nonSubscriberAverageRevenue',
+                'lost_revenue_due_to_oos' => 'lostRevenueDueToOOS',
+                'subscriber_average_reorders' => 'subscriberAverageReorders',
+                'non_subscriber_average_reorders' => 'nonSubscriberAverageReorders',
+                'coupons_revenue_penetration' => 'couponsRevenuePenetration',
+                'revenue_from_subscriptions_with_multiple_deliveries' => 'revenueFromSubscriptionsWithMultipleDeliveries',
+                'revenue_from_active_subscriptions_with_single_delivery' => 'revenueFromActiveSubscriptionsWithSingleDelivery',
+                'revenue_from_cancelled_subscriptions_after_single_delivery' => 'revenueFromCancelledSubscriptionsAfterSingleDelivery',
+                'subscriber_retention_for30_days' => 'subscriberRetentionFor30Days',
+                'subscriber_retention_for90_days' => 'subscriberRetentionFor90Days',
+                'revenue_penetration_for0_percent_seller_funding' => 'revenuePenetrationFor0PercentSellerFunding',
+                'revenue_penetration_for5_percent_seller_funding' => 'revenuePenetrationFor5PercentSellerFunding',
+                'revenue_penetration_for10_percent_seller_funding' => 'revenuePenetrationFor10PercentSellerFunding',
+                'revenue_penetration_for5_plus_percent_seller_funding' => 'revenuePenetrationFor5PlusPercentSellerFunding',
+                'share_of_coupon_subscriptions' => 'shareOfCouponSubscriptions',
+                'time_interval' => 'timeInterval',
+                'currency_code' => 'currencyCode'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -212,11 +282,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         'revenue_penetration_for5_plus_percent_seller_funding' => 'setRevenuePenetrationFor5PlusPercentSellerFunding',
         'share_of_coupon_subscriptions' => 'setShareOfCouponSubscriptions',
         'time_interval' => 'setTimeInterval',
-        'currency_code' => 'setCurrencyCode',
+        'currency_code' => 'setCurrencyCode'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -242,19 +312,63 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         'revenue_penetration_for5_plus_percent_seller_funding' => 'getRevenuePenetrationFor5PlusPercentSellerFunding',
         'share_of_coupon_subscriptions' => 'getShareOfCouponSubscriptions',
         'time_interval' => 'getTimeInterval',
-        'currency_code' => 'getCurrencyCode',
+        'currency_code' => 'getCurrencyCode'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -283,81 +397,21 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -490,17 +544,20 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets not_delivered_due_to_oos.
+     * Gets not_delivered_due_to_oos
+     *
+     * @return float|null
      */
     public function getNotDeliveredDueToOos(): ?float
     {
@@ -508,9 +565,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets not_delivered_due_to_oos.
+     * Sets not_delivered_due_to_oos
      *
-     * @param null|float $not_delivered_due_to_oos The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $not_delivered_due_to_oos The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setNotDeliveredDueToOos(?float $not_delivered_due_to_oos): self
     {
@@ -519,7 +578,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('not_delivered_due_to_oos', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -538,7 +597,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets total_subscriptions_revenue.
+     * Gets total_subscriptions_revenue
+     *
+     * @return float|null
      */
     public function getTotalSubscriptionsRevenue(): ?float
     {
@@ -546,9 +607,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets total_subscriptions_revenue.
+     * Sets total_subscriptions_revenue
      *
-     * @param null|float $total_subscriptions_revenue The revenue generated from subscriptions over a period of time. Applicable for both the PERFORMANCE and FORECAST timePeriodType.
+     * @param float|null $total_subscriptions_revenue The revenue generated from subscriptions over a period of time. Applicable for both the PERFORMANCE and FORECAST timePeriodType.
+     *
+     * @return self
      */
     public function setTotalSubscriptionsRevenue(?float $total_subscriptions_revenue): self
     {
@@ -557,7 +620,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('total_subscriptions_revenue', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -573,7 +636,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets shipped_subscription_units.
+     * Gets shipped_subscription_units
+     *
+     * @return float|null
      */
     public function getShippedSubscriptionUnits(): ?float
     {
@@ -581,9 +646,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets shipped_subscription_units.
+     * Sets shipped_subscription_units
      *
-     * @param null|float $shipped_subscription_units The number of units shipped to the subscribers over a period of time. Applicable for both the PERFORMANCE and FORECAST timePeriodType.
+     * @param float|null $shipped_subscription_units The number of units shipped to the subscribers over a period of time. Applicable for both the PERFORMANCE and FORECAST timePeriodType.
+     *
+     * @return self
      */
     public function setShippedSubscriptionUnits(?float $shipped_subscription_units): self
     {
@@ -592,7 +659,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('shipped_subscription_units', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -608,7 +675,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets active_subscriptions.
+     * Gets active_subscriptions
+     *
+     * @return float|null
      */
     public function getActiveSubscriptions(): ?float
     {
@@ -616,9 +685,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets active_subscriptions.
+     * Sets active_subscriptions
      *
-     * @param null|float $active_subscriptions The number of active subscriptions present at the end of the period. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $active_subscriptions The number of active subscriptions present at the end of the period. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setActiveSubscriptions(?float $active_subscriptions): self
     {
@@ -627,7 +698,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('active_subscriptions', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -643,7 +714,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets subscriber_average_revenue.
+     * Gets subscriber_average_revenue
+     *
+     * @return float|null
      */
     public function getSubscriberAverageRevenue(): ?float
     {
@@ -651,9 +724,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets subscriber_average_revenue.
+     * Sets subscriber_average_revenue
      *
-     * @param null|float $subscriber_average_revenue The average revenue per subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $subscriber_average_revenue The average revenue per subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setSubscriberAverageRevenue(?float $subscriber_average_revenue): self
     {
@@ -662,7 +737,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('subscriber_average_revenue', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -678,7 +753,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets non_subscriber_average_revenue.
+     * Gets non_subscriber_average_revenue
+     *
+     * @return float|null
      */
     public function getNonSubscriberAverageRevenue(): ?float
     {
@@ -686,9 +763,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets non_subscriber_average_revenue.
+     * Sets non_subscriber_average_revenue
      *
-     * @param null|float $non_subscriber_average_revenue The average revenue per non-subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $non_subscriber_average_revenue The average revenue per non-subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setNonSubscriberAverageRevenue(?float $non_subscriber_average_revenue): self
     {
@@ -697,7 +776,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('non_subscriber_average_revenue', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -713,7 +792,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets lost_revenue_due_to_oos.
+     * Gets lost_revenue_due_to_oos
+     *
+     * @return float|null
      */
     public function getLostRevenueDueToOos(): ?float
     {
@@ -721,9 +802,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets lost_revenue_due_to_oos.
+     * Sets lost_revenue_due_to_oos
      *
-     * @param null|float $lost_revenue_due_to_oos The revenue that would have been generated had there not been out of stock. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $lost_revenue_due_to_oos The revenue that would have been generated had there not been out of stock. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setLostRevenueDueToOos(?float $lost_revenue_due_to_oos): self
     {
@@ -732,7 +815,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('lost_revenue_due_to_oos', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -748,7 +831,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets subscriber_average_reorders.
+     * Gets subscriber_average_reorders
+     *
+     * @return float|null
      */
     public function getSubscriberAverageReorders(): ?float
     {
@@ -756,9 +841,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets subscriber_average_reorders.
+     * Sets subscriber_average_reorders
      *
-     * @param null|float $subscriber_average_reorders The average reorders per subscriber of the program over a period of 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $subscriber_average_reorders The average reorders per subscriber of the program over a period of 12 months. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setSubscriberAverageReorders(?float $subscriber_average_reorders): self
     {
@@ -767,7 +854,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('subscriber_average_reorders', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -783,7 +870,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets non_subscriber_average_reorders.
+     * Gets non_subscriber_average_reorders
+     *
+     * @return float|null
      */
     public function getNonSubscriberAverageReorders(): ?float
     {
@@ -791,9 +880,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets non_subscriber_average_reorders.
+     * Sets non_subscriber_average_reorders
      *
-     * @param null|float $non_subscriber_average_reorders The average reorders per non-subscriber of the program over a period of past 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $non_subscriber_average_reorders The average reorders per non-subscriber of the program over a period of past 12 months. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setNonSubscriberAverageReorders(?float $non_subscriber_average_reorders): self
     {
@@ -802,7 +893,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('non_subscriber_average_reorders', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -818,7 +909,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets coupons_revenue_penetration.
+     * Gets coupons_revenue_penetration
+     *
+     * @return float|null
      */
     public function getCouponsRevenuePenetration(): ?float
     {
@@ -826,9 +919,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets coupons_revenue_penetration.
+     * Sets coupons_revenue_penetration
      *
-     * @param null|float $coupons_revenue_penetration The percentage of revenue from ASINs with coupons out of total revenue from all ASINs. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $coupons_revenue_penetration The percentage of revenue from ASINs with coupons out of total revenue from all ASINs. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setCouponsRevenuePenetration(?float $coupons_revenue_penetration): self
     {
@@ -837,7 +932,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('coupons_revenue_penetration', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -856,7 +951,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets revenue_from_subscriptions_with_multiple_deliveries.
+     * Gets revenue_from_subscriptions_with_multiple_deliveries
+     *
+     * @return float|null
      */
     public function getRevenueFromSubscriptionsWithMultipleDeliveries(): ?float
     {
@@ -864,9 +961,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets revenue_from_subscriptions_with_multiple_deliveries.
+     * Sets revenue_from_subscriptions_with_multiple_deliveries
      *
-     * @param null|float $revenue_from_subscriptions_with_multiple_deliveries The subscription revenue generated from subscriptions with over two deliveries over the past 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $revenue_from_subscriptions_with_multiple_deliveries The subscription revenue generated from subscriptions with over two deliveries over the past 12 months. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setRevenueFromSubscriptionsWithMultipleDeliveries(?float $revenue_from_subscriptions_with_multiple_deliveries): self
     {
@@ -875,7 +974,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_from_subscriptions_with_multiple_deliveries', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -891,7 +990,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets revenue_from_active_subscriptions_with_single_delivery.
+     * Gets revenue_from_active_subscriptions_with_single_delivery
+     *
+     * @return float|null
      */
     public function getRevenueFromActiveSubscriptionsWithSingleDelivery(): ?float
     {
@@ -899,9 +1000,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets revenue_from_active_subscriptions_with_single_delivery.
+     * Sets revenue_from_active_subscriptions_with_single_delivery
      *
-     * @param null|float $revenue_from_active_subscriptions_with_single_delivery The subscription revenue generated from active subscriptions with one delivery over the past 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $revenue_from_active_subscriptions_with_single_delivery The subscription revenue generated from active subscriptions with one delivery over the past 12 months. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setRevenueFromActiveSubscriptionsWithSingleDelivery(?float $revenue_from_active_subscriptions_with_single_delivery): self
     {
@@ -910,7 +1013,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_from_active_subscriptions_with_single_delivery', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -926,7 +1029,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets revenue_from_cancelled_subscriptions_after_single_delivery.
+     * Gets revenue_from_cancelled_subscriptions_after_single_delivery
+     *
+     * @return float|null
      */
     public function getRevenueFromCancelledSubscriptionsAfterSingleDelivery(): ?float
     {
@@ -934,9 +1039,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets revenue_from_cancelled_subscriptions_after_single_delivery.
+     * Sets revenue_from_cancelled_subscriptions_after_single_delivery
      *
-     * @param null|float $revenue_from_cancelled_subscriptions_after_single_delivery The subscription revenue generated from subscriptions which are cancelled after one delivery over the past 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $revenue_from_cancelled_subscriptions_after_single_delivery The subscription revenue generated from subscriptions which are cancelled after one delivery over the past 12 months. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setRevenueFromCancelledSubscriptionsAfterSingleDelivery(?float $revenue_from_cancelled_subscriptions_after_single_delivery): self
     {
@@ -945,7 +1052,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_from_cancelled_subscriptions_after_single_delivery', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -961,7 +1068,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets subscriber_retention_for30_days.
+     * Gets subscriber_retention_for30_days
+     *
+     * @return float|null
      */
     public function getSubscriberRetentionFor30Days(): ?float
     {
@@ -969,9 +1078,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets subscriber_retention_for30_days.
+     * Sets subscriber_retention_for30_days
      *
-     * @param null|float $subscriber_retention_for30_days The percentage of subscriptions retained after 30 days of subscription creation. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $subscriber_retention_for30_days The percentage of subscriptions retained after 30 days of subscription creation. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setSubscriberRetentionFor30Days(?float $subscriber_retention_for30_days): self
     {
@@ -980,7 +1091,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('subscriber_retention_for30_days', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -999,7 +1110,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets subscriber_retention_for90_days.
+     * Gets subscriber_retention_for90_days
+     *
+     * @return float|null
      */
     public function getSubscriberRetentionFor90Days(): ?float
     {
@@ -1007,9 +1120,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets subscriber_retention_for90_days.
+     * Sets subscriber_retention_for90_days
      *
-     * @param null|float $subscriber_retention_for90_days The percentage of subscriptions retained after 90 days of subscription creation. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $subscriber_retention_for90_days The percentage of subscriptions retained after 90 days of subscription creation. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setSubscriberRetentionFor90Days(?float $subscriber_retention_for90_days): self
     {
@@ -1018,7 +1133,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('subscriber_retention_for90_days', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1037,7 +1152,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets revenue_penetration_for0_percent_seller_funding.
+     * Gets revenue_penetration_for0_percent_seller_funding
+     *
+     * @return float|null
      */
     public function getRevenuePenetrationFor0PercentSellerFunding(): ?float
     {
@@ -1045,9 +1162,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets revenue_penetration_for0_percent_seller_funding.
+     * Sets revenue_penetration_for0_percent_seller_funding
      *
-     * @param null|float $revenue_penetration_for0_percent_seller_funding The percentage of subscription revenue generated by offers with 0% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $revenue_penetration_for0_percent_seller_funding The percentage of subscription revenue generated by offers with 0% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setRevenuePenetrationFor0PercentSellerFunding(?float $revenue_penetration_for0_percent_seller_funding): self
     {
@@ -1056,7 +1175,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_penetration_for0_percent_seller_funding', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1075,7 +1194,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets revenue_penetration_for5_percent_seller_funding.
+     * Gets revenue_penetration_for5_percent_seller_funding
+     *
+     * @return float|null
      */
     public function getRevenuePenetrationFor5PercentSellerFunding(): ?float
     {
@@ -1083,9 +1204,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets revenue_penetration_for5_percent_seller_funding.
+     * Sets revenue_penetration_for5_percent_seller_funding
      *
-     * @param null|float $revenue_penetration_for5_percent_seller_funding [Applicable only for Sellers] The percentage of subscription revenue generated by offers with 5% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $revenue_penetration_for5_percent_seller_funding [Applicable only for Sellers] The percentage of subscription revenue generated by offers with 5% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setRevenuePenetrationFor5PercentSellerFunding(?float $revenue_penetration_for5_percent_seller_funding): self
     {
@@ -1094,7 +1217,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_penetration_for5_percent_seller_funding', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1113,7 +1236,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets revenue_penetration_for10_percent_seller_funding.
+     * Gets revenue_penetration_for10_percent_seller_funding
+     *
+     * @return float|null
      */
     public function getRevenuePenetrationFor10PercentSellerFunding(): ?float
     {
@@ -1121,9 +1246,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets revenue_penetration_for10_percent_seller_funding.
+     * Sets revenue_penetration_for10_percent_seller_funding
      *
-     * @param null|float $revenue_penetration_for10_percent_seller_funding [Applicable only for Sellers] The percentage of subscription revenue generated by offers with 10% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $revenue_penetration_for10_percent_seller_funding [Applicable only for Sellers] The percentage of subscription revenue generated by offers with 10% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setRevenuePenetrationFor10PercentSellerFunding(?float $revenue_penetration_for10_percent_seller_funding): self
     {
@@ -1132,7 +1259,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_penetration_for10_percent_seller_funding', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1151,7 +1278,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets revenue_penetration_for5_plus_percent_seller_funding.
+     * Gets revenue_penetration_for5_plus_percent_seller_funding
+     *
+     * @return float|null
      */
     public function getRevenuePenetrationFor5PlusPercentSellerFunding(): ?float
     {
@@ -1159,9 +1288,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets revenue_penetration_for5_plus_percent_seller_funding.
+     * Sets revenue_penetration_for5_plus_percent_seller_funding
      *
-     * @param null|float $revenue_penetration_for5_plus_percent_seller_funding [Applicable only for vendors] The percentage of subscription revenue generated by offers with 5% or above seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $revenue_penetration_for5_plus_percent_seller_funding [Applicable only for vendors] The percentage of subscription revenue generated by offers with 5% or above seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setRevenuePenetrationFor5PlusPercentSellerFunding(?float $revenue_penetration_for5_plus_percent_seller_funding): self
     {
@@ -1170,7 +1301,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_penetration_for5_plus_percent_seller_funding', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1189,7 +1320,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets share_of_coupon_subscriptions.
+     * Gets share_of_coupon_subscriptions
+     *
+     * @return float|null
      */
     public function getShareOfCouponSubscriptions(): ?float
     {
@@ -1197,9 +1330,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets share_of_coupon_subscriptions.
+     * Sets share_of_coupon_subscriptions
      *
-     * @param null|float $share_of_coupon_subscriptions The percentage of new subscriptions acquired through coupons. Applicable to PERFORMANCE timePeriodType.
+     * @param float|null $share_of_coupon_subscriptions The percentage of new subscriptions acquired through coupons. Applicable to PERFORMANCE timePeriodType.
+     *
+     * @return self
      */
     public function setShareOfCouponSubscriptions(?float $share_of_coupon_subscriptions): self
     {
@@ -1208,7 +1343,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('share_of_coupon_subscriptions', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1227,26 +1362,30 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets time_interval.
+     * Gets time_interval
+     *
+     * @return \SpApi\Model\replenishment\v2022_11_07\TimeInterval|null
      */
-    public function getTimeInterval(): ?TimeInterval
+    public function getTimeInterval(): ?\SpApi\Model\replenishment\v2022_11_07\TimeInterval
     {
         return $this->container['time_interval'];
     }
 
     /**
-     * Sets time_interval.
+     * Sets time_interval
      *
-     * @param null|TimeInterval $time_interval time_interval
+     * @param \SpApi\Model\replenishment\v2022_11_07\TimeInterval|null $time_interval time_interval
+     *
+     * @return self
      */
-    public function setTimeInterval(?TimeInterval $time_interval): self
+    public function setTimeInterval(?\SpApi\Model\replenishment\v2022_11_07\TimeInterval $time_interval): self
     {
         if (is_null($time_interval)) {
             array_push($this->openAPINullablesSetToNull, 'time_interval');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('time_interval', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1257,7 +1396,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Gets currency_code.
+     * Gets currency_code
+     *
+     * @return string|null
      */
     public function getCurrencyCode(): ?string
     {
@@ -1265,9 +1406,11 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     }
 
     /**
-     * Sets currency_code.
+     * Sets currency_code
      *
-     * @param null|string $currency_code the currency code in ISO 4217 format
+     * @param string|null $currency_code The currency code in ISO 4217 format.
+     *
+     * @return self
      */
     public function setCurrencyCode(?string $currency_code): self
     {
@@ -1276,7 +1419,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('currency_code', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1286,10 +1429,13 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -1299,9 +1445,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -1312,8 +1458,10 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -1327,7 +1475,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -1336,67 +1486,39 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAc
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

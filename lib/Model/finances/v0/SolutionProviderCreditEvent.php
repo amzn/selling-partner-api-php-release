@@ -1,19 +1,17 @@
 <?php
-
 /**
- * SolutionProviderCreditEvent.
+ * SolutionProviderCreditEvent
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Finances.
+ * Selling Partner API for Finances
  *
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller's business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range.
  *
@@ -30,74 +28,73 @@
 
 namespace SpApi\Model\finances\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * SolutionProviderCreditEvent Class Doc Comment.
+ * SolutionProviderCreditEvent Class Doc Comment
  *
  * @category Class
- *
  * @description A credit given to a solution provider.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \JsonSerializable
+class SolutionProviderCreditEvent implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'SolutionProviderCreditEvent';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'provider_transaction_type' => 'string',
-        'seller_order_id' => 'string',
-        'marketplace_id' => 'string',
-        'marketplace_country_code' => 'string',
-        'seller_id' => 'string',
-        'seller_store_name' => 'string',
-        'provider_id' => 'string',
-        'provider_store_name' => 'string',
-        'transaction_amount' => '\SpApi\Model\finances\v0\Currency',
-        'transaction_creation_date' => '\DateTime'];
+             'provider_transaction_type' => 'string',
+             'seller_order_id' => 'string',
+             'marketplace_id' => 'string',
+             'marketplace_country_code' => 'string',
+             'seller_id' => 'string',
+             'seller_store_name' => 'string',
+             'provider_id' => 'string',
+             'provider_store_name' => 'string',
+             'transaction_amount' => '\SpApi\Model\finances\v0\Currency',
+             'transaction_creation_date' => '\DateTime'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'provider_transaction_type' => null,
-        'seller_order_id' => null,
-        'marketplace_id' => null,
-        'marketplace_country_code' => null,
-        'seller_id' => null,
-        'seller_store_name' => null,
-        'provider_id' => null,
-        'provider_store_name' => null,
-        'transaction_amount' => null,
-        'transaction_creation_date' => 'date-time'];
+            'provider_transaction_type' => null,
+            'seller_order_id' => null,
+            'marketplace_id' => null,
+            'marketplace_country_code' => null,
+            'seller_id' => null,
+            'seller_store_name' => null,
+            'provider_id' => null,
+            'provider_store_name' => null,
+            'transaction_amount' => null,
+            'transaction_creation_date' => 'date-time'    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'provider_transaction_type' => true,
         'seller_order_id' => true,
@@ -108,37 +105,110 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         'provider_id' => true,
         'provider_store_name' => true,
         'transaction_amount' => true,
-        'transaction_creation_date' => true,
+        'transaction_creation_date' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'provider_transaction_type' => 'ProviderTransactionType',
-        'seller_order_id' => 'SellerOrderId',
-        'marketplace_id' => 'MarketplaceId',
-        'marketplace_country_code' => 'MarketplaceCountryCode',
-        'seller_id' => 'SellerId',
-        'seller_store_name' => 'SellerStoreName',
-        'provider_id' => 'ProviderId',
-        'provider_store_name' => 'ProviderStoreName',
-        'transaction_amount' => 'TransactionAmount',
-        'transaction_creation_date' => 'TransactionCreationDate',
+                'seller_order_id' => 'SellerOrderId',
+                'marketplace_id' => 'MarketplaceId',
+                'marketplace_country_code' => 'MarketplaceCountryCode',
+                'seller_id' => 'SellerId',
+                'seller_store_name' => 'SellerStoreName',
+                'provider_id' => 'ProviderId',
+                'provider_store_name' => 'ProviderStoreName',
+                'transaction_amount' => 'TransactionAmount',
+                'transaction_creation_date' => 'TransactionCreationDate'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -152,11 +222,11 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         'provider_id' => 'setProviderId',
         'provider_store_name' => 'setProviderStoreName',
         'transaction_amount' => 'setTransactionAmount',
-        'transaction_creation_date' => 'setTransactionCreationDate',
+        'transaction_creation_date' => 'setTransactionCreationDate'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -170,19 +240,63 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         'provider_id' => 'getProviderId',
         'provider_store_name' => 'getProviderStoreName',
         'transaction_amount' => 'getTransactionAmount',
-        'transaction_creation_date' => 'getTransactionCreationDate',
+        'transaction_creation_date' => 'getTransactionCreationDate'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -199,81 +313,21 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -283,22 +337,27 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets provider_transaction_type.
+     * Gets provider_transaction_type
+     *
+     * @return string|null
      */
     public function getProviderTransactionType(): ?string
     {
@@ -306,9 +365,11 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Sets provider_transaction_type.
+     * Sets provider_transaction_type
      *
-     * @param null|string $provider_transaction_type the transaction type
+     * @param string|null $provider_transaction_type The transaction type.
+     *
+     * @return self
      */
     public function setProviderTransactionType(?string $provider_transaction_type): self
     {
@@ -317,7 +378,7 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('provider_transaction_type', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -328,7 +389,9 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Gets seller_order_id.
+     * Gets seller_order_id
+     *
+     * @return string|null
      */
     public function getSellerOrderId(): ?string
     {
@@ -336,9 +399,11 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Sets seller_order_id.
+     * Sets seller_order_id
      *
-     * @param null|string $seller_order_id a seller-defined identifier for an order
+     * @param string|null $seller_order_id A seller-defined identifier for an order.
+     *
+     * @return self
      */
     public function setSellerOrderId(?string $seller_order_id): self
     {
@@ -347,7 +412,7 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('seller_order_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -358,7 +423,9 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Gets marketplace_id.
+     * Gets marketplace_id
+     *
+     * @return string|null
      */
     public function getMarketplaceId(): ?string
     {
@@ -366,9 +433,11 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Sets marketplace_id.
+     * Sets marketplace_id
      *
-     * @param null|string $marketplace_id the identifier of the marketplace where the order was placed
+     * @param string|null $marketplace_id The identifier of the marketplace where the order was placed.
+     *
+     * @return self
      */
     public function setMarketplaceId(?string $marketplace_id): self
     {
@@ -377,7 +446,7 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('marketplace_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -388,7 +457,9 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Gets marketplace_country_code.
+     * Gets marketplace_country_code
+     *
+     * @return string|null
      */
     public function getMarketplaceCountryCode(): ?string
     {
@@ -396,9 +467,11 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Sets marketplace_country_code.
+     * Sets marketplace_country_code
      *
-     * @param null|string $marketplace_country_code the two-letter country code of the country associated with the marketplace where the order was placed
+     * @param string|null $marketplace_country_code The two-letter country code of the country associated with the marketplace where the order was placed.
+     *
+     * @return self
      */
     public function setMarketplaceCountryCode(?string $marketplace_country_code): self
     {
@@ -407,7 +480,7 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('marketplace_country_code', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -418,7 +491,9 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Gets seller_id.
+     * Gets seller_id
+     *
+     * @return string|null
      */
     public function getSellerId(): ?string
     {
@@ -426,9 +501,11 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Sets seller_id.
+     * Sets seller_id
      *
-     * @param null|string $seller_id the Amazon-defined identifier of the seller
+     * @param string|null $seller_id The Amazon-defined identifier of the seller.
+     *
+     * @return self
      */
     public function setSellerId(?string $seller_id): self
     {
@@ -437,7 +514,7 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('seller_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -448,7 +525,9 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Gets seller_store_name.
+     * Gets seller_store_name
+     *
+     * @return string|null
      */
     public function getSellerStoreName(): ?string
     {
@@ -456,9 +535,11 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Sets seller_store_name.
+     * Sets seller_store_name
      *
-     * @param null|string $seller_store_name the store name where the payment event occurred
+     * @param string|null $seller_store_name The store name where the payment event occurred.
+     *
+     * @return self
      */
     public function setSellerStoreName(?string $seller_store_name): self
     {
@@ -467,7 +548,7 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('seller_store_name', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -478,7 +559,9 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Gets provider_id.
+     * Gets provider_id
+     *
+     * @return string|null
      */
     public function getProviderId(): ?string
     {
@@ -486,9 +569,11 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Sets provider_id.
+     * Sets provider_id
      *
-     * @param null|string $provider_id the Amazon-defined identifier of the solution provider
+     * @param string|null $provider_id The Amazon-defined identifier of the solution provider.
+     *
+     * @return self
      */
     public function setProviderId(?string $provider_id): self
     {
@@ -497,7 +582,7 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('provider_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -508,7 +593,9 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Gets provider_store_name.
+     * Gets provider_store_name
+     *
+     * @return string|null
      */
     public function getProviderStoreName(): ?string
     {
@@ -516,9 +603,11 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Sets provider_store_name.
+     * Sets provider_store_name
      *
-     * @param null|string $provider_store_name the store name where the payment event occurred
+     * @param string|null $provider_store_name The store name where the payment event occurred.
+     *
+     * @return self
      */
     public function setProviderStoreName(?string $provider_store_name): self
     {
@@ -527,7 +616,7 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('provider_store_name', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -538,26 +627,30 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Gets transaction_amount.
+     * Gets transaction_amount
+     *
+     * @return \SpApi\Model\finances\v0\Currency|null
      */
-    public function getTransactionAmount(): ?Currency
+    public function getTransactionAmount(): ?\SpApi\Model\finances\v0\Currency
     {
         return $this->container['transaction_amount'];
     }
 
     /**
-     * Sets transaction_amount.
+     * Sets transaction_amount
      *
-     * @param null|Currency $transaction_amount transaction_amount
+     * @param \SpApi\Model\finances\v0\Currency|null $transaction_amount transaction_amount
+     *
+     * @return self
      */
-    public function setTransactionAmount(?Currency $transaction_amount): self
+    public function setTransactionAmount(?\SpApi\Model\finances\v0\Currency $transaction_amount): self
     {
         if (is_null($transaction_amount)) {
             array_push($this->openAPINullablesSetToNull, 'transaction_amount');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('transaction_amount', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -568,7 +661,9 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Gets transaction_creation_date.
+     * Gets transaction_creation_date
+     *
+     * @return \DateTime|null
      */
     public function getTransactionCreationDate(): ?\DateTime
     {
@@ -576,9 +671,11 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     }
 
     /**
-     * Sets transaction_creation_date.
+     * Sets transaction_creation_date
      *
-     * @param null|\DateTime $transaction_creation_date fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate)
+     * @param \DateTime|null $transaction_creation_date Fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate).
+     *
+     * @return self
      */
     public function setTransactionCreationDate(?\DateTime $transaction_creation_date): self
     {
@@ -587,7 +684,7 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('transaction_creation_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -597,10 +694,13 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -610,9 +710,9 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -623,8 +723,10 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -638,7 +740,9 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -647,67 +751,39 @@ class SolutionProviderCreditEvent implements ModelInterface, \ArrayAccess, \Json
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

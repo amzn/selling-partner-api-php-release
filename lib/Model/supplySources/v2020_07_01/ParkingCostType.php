@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ParkingCostType.
+ * ParkingCostType
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Supply Sources.
+ * Selling Partner API for Supply Sources
  *
  * Manage configurations and capabilities of seller supply sources.
  *
@@ -29,37 +27,38 @@
  */
 
 namespace SpApi\Model\supplySources\v2020_07_01;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ParkingCostType Class Doc Comment.
+ * ParkingCostType Class Doc Comment
  *
  * @category Class
- *
  * @description The parking cost type.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class ParkingCostType
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const FREE = 'Free';
 
     public const OTHER = 'Other';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
     {
         return [
             self::FREE,
-            self::OTHER,
+            self::OTHER
         ];
     }
 }
+
+

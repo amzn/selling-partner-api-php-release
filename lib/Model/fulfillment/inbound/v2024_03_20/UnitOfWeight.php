@@ -1,15 +1,13 @@
 <?php
-
 /**
- * UnitOfWeight.
+ * UnitOfWeight
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
@@ -29,37 +27,38 @@
  */
 
 namespace SpApi\Model\fulfillment\inbound\v2024_03_20;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * UnitOfWeight Class Doc Comment.
+ * UnitOfWeight Class Doc Comment
  *
  * @category Class
- *
  * @description Unit of the weight being measured.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class UnitOfWeight
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const LB = 'LB';
 
     public const KG = 'KG';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
     {
         return [
             self::LB,
-            self::KG,
+            self::KG
         ];
     }
 }
+
+

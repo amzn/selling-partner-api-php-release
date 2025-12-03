@@ -1,18 +1,16 @@
 <?php
-
 /**
  * DefaultApi
- * PHP version 8.3.
+ * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Finances.
+ * Selling Partner API for Finances
  *
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller's business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range.
  *
@@ -37,36 +35,38 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use SpApi\AuthAndAuth\RateLimitConfiguration;
+use Symfony\Component\RateLimiter\LimiterInterface;
+use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use SpApi\ApiException;
-use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
-use SpApi\Model\finances\v0\ListFinancialEventGroupsResponse;
-use SpApi\Model\finances\v0\ListFinancialEventsResponse;
 use SpApi\ObjectSerializer;
-use Symfony\Component\RateLimiter\LimiterInterface;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 
 /**
- * DefaultApi Class Doc Comment.
+ * DefaultApi Class Doc Comment
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class DefaultApi
 {
-    public ?LimiterInterface $listFinancialEventGroupsRateLimiter;
-    public ?LimiterInterface $listFinancialEventsRateLimiter;
-    public ?LimiterInterface $listFinancialEventsByGroupIdRateLimiter;
-    public ?LimiterInterface $listFinancialEventsByOrderIdRateLimiter;
+    /**
+     * @var ClientInterface
+     */
     protected ClientInterface $client;
 
+    /**
+     * @var Configuration
+     */
     protected Configuration $config;
 
+    /**
+     * @var HeaderSelector
+     */
     protected HeaderSelector $headerSelector;
 
     /**
@@ -74,33 +74,46 @@ class DefaultApi
      */
     protected int $hostIndex;
 
-    private bool $rateLimiterEnabled;
-    private InMemoryStorage $rateLimitStorage;
+    /**
+     * @var ?RateLimitConfiguration
+     */
+    private ?RateLimitConfiguration $rateLimitConfig = null;
 
     /**
+     * @var ?LimiterInterface
+     */
+    private ?LimiterInterface $rateLimiter = null;
+
+    /**
+     * @param Configuration   $config
+     * @param RateLimitConfiguration|null $rateLimitConfig
+     * @param ClientInterface|null $client
+     * @param HeaderSelector|null $selector
      * @param int $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         Configuration $config,
+        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
-        ?bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimiterEnabled = $rateLimiterEnabled;
-
-        if ($rateLimiterEnabled) {
-            $this->rateLimitStorage = new InMemoryStorage();
-
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('DefaultApi-listFinancialEventGroups'), $this->rateLimitStorage);
-            $this->listFinancialEventGroupsRateLimiter = $factory->create('DefaultApi-listFinancialEventGroups');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('DefaultApi-listFinancialEvents'), $this->rateLimitStorage);
-            $this->listFinancialEventsRateLimiter = $factory->create('DefaultApi-listFinancialEvents');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('DefaultApi-listFinancialEventsByGroupId'), $this->rateLimitStorage);
-            $this->listFinancialEventsByGroupIdRateLimiter = $factory->create('DefaultApi-listFinancialEventsByGroupId');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('DefaultApi-listFinancialEventsByOrderId'), $this->rateLimitStorage);
-            $this->listFinancialEventsByOrderIdRateLimiter = $factory->create('DefaultApi-listFinancialEventsByOrderId');
+        $this->rateLimitConfig = $rateLimitConfig;
+        if ($rateLimitConfig) {
+            $type = $rateLimitConfig->getRateLimitType();
+            $rateLimitOptions = [
+                'id' => 'spApiCall',
+                'policy' => $type,
+                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
+            ];
+            if ($type === "fixed_window" || $type === "sliding_window") {
+                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
+            } else {
+                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
+            }
+            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
+            $this->rateLimiter = $factory->create();
         }
 
         $this->client = $client ?: new Client();
@@ -109,7 +122,7 @@ class DefaultApi
     }
 
     /**
-     * Set the host index.
+     * Set the host index
      *
      * @param int $hostIndex Host index (required)
      */
@@ -119,7 +132,7 @@ class DefaultApi
     }
 
     /**
-     * Get the host index.
+     * Get the host index
      *
      * @return int Host index
      */
@@ -128,78 +141,69 @@ class DefaultApi
         return $this->hostIndex;
     }
 
+    /**
+     * @return Configuration
+     */
     public function getConfig(): Configuration
     {
         return $this->config;
     }
 
     /**
-     * Operation listFinancialEventGroups.
+     * Operation listFinancialEventGroups
      *
-     * @param null|int       $max_results_per_page
-     *                                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 10)
-     * @param null|\DateTime $financial_event_group_started_before
-     *                                                             A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned. (optional)
-     * @param null|\DateTime $financial_event_group_started_after
-     *                                                             A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted. (optional)
-     * @param null|string    $next_token
-     *                                                             A string token returned in the response of your previous request. (optional)
-     * @param null|string    $restrictedDataToken                  Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 10)
+     * @param  \DateTime|null $financial_event_group_started_before
+     *  A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned. (optional)
+     * @param  \DateTime|null $financial_event_group_started_after
+     *  A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\finances\v0\ListFinancialEventGroupsResponse
      */
     public function listFinancialEventGroups(
         ?int $max_results_per_page = 10,
         ?\DateTime $financial_event_group_started_before = null,
         ?\DateTime $financial_event_group_started_after = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
-    ): ListFinancialEventGroupsResponse {
-        list($response) = $this->listFinancialEventGroupsWithHttpInfo($max_results_per_page, $financial_event_group_started_before, $financial_event_group_started_after, $next_token, $restrictedDataToken);
-
+        ?string $next_token = null
+    ): \SpApi\Model\finances\v0\ListFinancialEventGroupsResponse {
+        list($response) = $this->listFinancialEventGroupsWithHttpInfo($max_results_per_page, $financial_event_group_started_before, $financial_event_group_started_after, $next_token);
         return $response;
     }
 
     /**
-     * Operation listFinancialEventGroupsWithHttpInfo.
+     * Operation listFinancialEventGroupsWithHttpInfo
      *
-     * @param null|int       $max_results_per_page
-     *                                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 10)
-     * @param null|\DateTime $financial_event_group_started_before
-     *                                                             A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned. (optional)
-     * @param null|\DateTime $financial_event_group_started_after
-     *                                                             A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted. (optional)
-     * @param null|string    $next_token
-     *                                                             A string token returned in the response of your previous request. (optional)
-     * @param null|string    $restrictedDataToken                  Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 10)
+     * @param  \DateTime|null $financial_event_group_started_before
+     *  A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned. (optional)
+     * @param  \DateTime|null $financial_event_group_started_after
+     *  A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @return array of \SpApi\Model\finances\v0\ListFinancialEventGroupsResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\finances\v0\ListFinancialEventGroupsResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listFinancialEventGroupsWithHttpInfo(
         ?int $max_results_per_page = 10,
         ?\DateTime $financial_event_group_started_before = null,
         ?\DateTime $financial_event_group_started_after = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): array {
         $request = $this->listFinancialEventGroupsRequest($max_results_per_page, $financial_event_group_started_before, $financial_event_group_started_after, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'DefaultApi-listFinancialEventGroups');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->listFinancialEventGroupsRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -231,45 +235,208 @@ class DefaultApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation listFinancialEventGroupsAsync.
+     * Operation listFinancialEventGroupsAsync
      *
-     * @param null|int       $max_results_per_page
-     *                                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 10)
-     * @param null|\DateTime $financial_event_group_started_before
-     *                                                             A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned. (optional)
-     * @param null|\DateTime $financial_event_group_started_after
-     *                                                             A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted. (optional)
-     * @param null|string    $next_token
-     *                                                             A string token returned in the response of your previous request. (optional)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 10)
+     * @param  \DateTime|null $financial_event_group_started_before
+     *  A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned. (optional)
+     * @param  \DateTime|null $financial_event_group_started_after
+     *  A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function listFinancialEventGroupsAsync(
         ?int $max_results_per_page = 10,
@@ -282,51 +449,44 @@ class DefaultApi
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation listFinancialEventGroupsAsyncWithHttpInfo.
+     * Operation listFinancialEventGroupsAsyncWithHttpInfo
      *
-     * @param null|int       $max_results_per_page
-     *                                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 10)
-     * @param null|\DateTime $financial_event_group_started_before
-     *                                                             A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned. (optional)
-     * @param null|\DateTime $financial_event_group_started_after
-     *                                                             A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted. (optional)
-     * @param null|string    $next_token
-     *                                                             A string token returned in the response of your previous request. (optional)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 10)
+     * @param  \DateTime|null $financial_event_group_started_before
+     *  A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned. (optional)
+     * @param  \DateTime|null $financial_event_group_started_after
+     *  A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function listFinancialEventGroupsAsyncWithHttpInfo(
         ?int $max_results_per_page = 10,
         ?\DateTime $financial_event_group_started_before = null,
         ?\DateTime $financial_event_group_started_after = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\finances\v0\ListFinancialEventGroupsResponse';
         $request = $this->listFinancialEventGroupsRequest($max_results_per_page, $financial_event_group_started_before, $financial_event_group_started_after, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'DefaultApi-listFinancialEventGroups');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->listFinancialEventGroupsRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -334,13 +494,12 @@ class DefaultApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -352,23 +511,23 @@ class DefaultApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'listFinancialEventGroups'.
+     * Create request for operation 'listFinancialEventGroups'
      *
-     * @param null|int       $max_results_per_page
-     *                                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 10)
-     * @param null|\DateTime $financial_event_group_started_before
-     *                                                             A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned. (optional)
-     * @param null|\DateTime $financial_event_group_started_after
-     *                                                             A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted. (optional)
-     * @param null|string    $next_token
-     *                                                             A string token returned in the response of your previous request. (optional)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 10)
+     * @param  \DateTime|null $financial_event_group_started_before
+     *  A date used for selecting financial event groups that opened before (but not at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time  must be later than FinancialEventGroupStartedAfter and no later than two minutes before the request was submitted. If FinancialEventGroupStartedAfter and FinancialEventGroupStartedBefore are more than 180 days apart, no financial event groups are returned. (optional)
+     * @param  \DateTime|null $financial_event_group_started_after
+     *  A date used for selecting financial event groups that opened after (or at) a specified date and time, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. The date-time must be no later than two minutes before the request was submitted. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function listFinancialEventGroupsRequest(
         ?int $max_results_per_page = 10,
@@ -376,12 +535,13 @@ class DefaultApi
         ?\DateTime $financial_event_group_started_after = null,
         ?string $next_token = null
     ): Request {
-        if (null !== $max_results_per_page && $max_results_per_page > 100) {
+        if ($max_results_per_page !== null && $max_results_per_page > 100) {
             throw new \InvalidArgumentException('invalid value for "$max_results_per_page" when calling DefaultApi.listFinancialEventGroups, must be smaller than or equal to 100.');
         }
-        if (null !== $max_results_per_page && $max_results_per_page < 1) {
+        if ($max_results_per_page !== null && $max_results_per_page < 1) {
             throw new \InvalidArgumentException('invalid value for "$max_results_per_page" when calling DefaultApi.listFinancialEventGroups, must be bigger than or equal to 1.');
         }
+
 
         $resourcePath = '/finances/v0/financialEventGroups';
         $formParams = [];
@@ -397,8 +557,7 @@ class DefaultApi
             'integer', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -407,8 +566,7 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -417,8 +575,7 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -427,15 +584,24 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -446,19 +612,22 @@ class DefaultApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -472,82 +641,69 @@ class DefaultApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation listFinancialEvents.
+     * Operation listFinancialEvents
      *
-     * @param null|int       $max_results_per_page
-     *                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|\DateTime $posted_after
-     *                                             A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
-     * @param null|\DateTime $posted_before
-     *                                             A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $next_token
-     *                                             A string token returned in the response of your previous request. (optional)
-     * @param null|string    $restrictedDataToken  Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  \DateTime|null $posted_after
+     *  A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\finances\v0\ListFinancialEventsResponse
      */
     public function listFinancialEvents(
         ?int $max_results_per_page = 100,
         ?\DateTime $posted_after = null,
         ?\DateTime $posted_before = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
-    ): ListFinancialEventsResponse {
-        list($response) = $this->listFinancialEventsWithHttpInfo($max_results_per_page, $posted_after, $posted_before, $next_token, $restrictedDataToken);
-
+        ?string $next_token = null
+    ): \SpApi\Model\finances\v0\ListFinancialEventsResponse {
+        list($response) = $this->listFinancialEventsWithHttpInfo($max_results_per_page, $posted_after, $posted_before, $next_token);
         return $response;
     }
 
     /**
-     * Operation listFinancialEventsWithHttpInfo.
+     * Operation listFinancialEventsWithHttpInfo
      *
-     * @param null|int       $max_results_per_page
-     *                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|\DateTime $posted_after
-     *                                             A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
-     * @param null|\DateTime $posted_before
-     *                                             A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $next_token
-     *                                             A string token returned in the response of your previous request. (optional)
-     * @param null|string    $restrictedDataToken  Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  \DateTime|null $posted_after
+     *  A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @return array of \SpApi\Model\finances\v0\ListFinancialEventsResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\finances\v0\ListFinancialEventsResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listFinancialEventsWithHttpInfo(
         ?int $max_results_per_page = 100,
         ?\DateTime $posted_after = null,
         ?\DateTime $posted_before = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): array {
         $request = $this->listFinancialEventsRequest($max_results_per_page, $posted_after, $posted_before, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'DefaultApi-listFinancialEvents');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->listFinancialEventsRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -579,45 +735,208 @@ class DefaultApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\finances\v0\ListFinancialEventsResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation listFinancialEventsAsync.
+     * Operation listFinancialEventsAsync
      *
-     * @param null|int       $max_results_per_page
-     *                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|\DateTime $posted_after
-     *                                             A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
-     * @param null|\DateTime $posted_before
-     *                                             A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $next_token
-     *                                             A string token returned in the response of your previous request. (optional)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  \DateTime|null $posted_after
+     *  A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function listFinancialEventsAsync(
         ?int $max_results_per_page = 100,
@@ -630,51 +949,44 @@ class DefaultApi
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation listFinancialEventsAsyncWithHttpInfo.
+     * Operation listFinancialEventsAsyncWithHttpInfo
      *
-     * @param null|int       $max_results_per_page
-     *                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|\DateTime $posted_after
-     *                                             A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
-     * @param null|\DateTime $posted_before
-     *                                             A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $next_token
-     *                                             A string token returned in the response of your previous request. (optional)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  \DateTime|null $posted_after
+     *  A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function listFinancialEventsAsyncWithHttpInfo(
         ?int $max_results_per_page = 100,
         ?\DateTime $posted_after = null,
         ?\DateTime $posted_before = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\finances\v0\ListFinancialEventsResponse';
         $request = $this->listFinancialEventsRequest($max_results_per_page, $posted_after, $posted_before, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'DefaultApi-listFinancialEvents');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->listFinancialEventsRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -682,13 +994,12 @@ class DefaultApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -700,23 +1011,23 @@ class DefaultApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'listFinancialEvents'.
+     * Create request for operation 'listFinancialEvents'
      *
-     * @param null|int       $max_results_per_page
-     *                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|\DateTime $posted_after
-     *                                             A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
-     * @param null|\DateTime $posted_before
-     *                                             A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $next_token
-     *                                             A string token returned in the response of your previous request. (optional)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  \DateTime|null $posted_after
+     *  A date used for selecting financial events posted after (or at) a specified time. The date-time must be no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than PostedAfter and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If PostedAfter and PostedBefore are more than 180 days apart, no financial events are returned. You must specify the PostedAfter parameter if you specify the PostedBefore parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function listFinancialEventsRequest(
         ?int $max_results_per_page = 100,
@@ -724,12 +1035,13 @@ class DefaultApi
         ?\DateTime $posted_before = null,
         ?string $next_token = null
     ): Request {
-        if (null !== $max_results_per_page && $max_results_per_page > 100) {
+        if ($max_results_per_page !== null && $max_results_per_page > 100) {
             throw new \InvalidArgumentException('invalid value for "$max_results_per_page" when calling DefaultApi.listFinancialEvents, must be smaller than or equal to 100.');
         }
-        if (null !== $max_results_per_page && $max_results_per_page < 1) {
+        if ($max_results_per_page !== null && $max_results_per_page < 1) {
             throw new \InvalidArgumentException('invalid value for "$max_results_per_page" when calling DefaultApi.listFinancialEvents, must be bigger than or equal to 1.');
         }
+
 
         $resourcePath = '/finances/v0/financialEvents';
         $formParams = [];
@@ -745,8 +1057,7 @@ class DefaultApi
             'integer', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -755,8 +1066,7 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -765,8 +1075,7 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -775,15 +1084,24 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -794,19 +1112,22 @@ class DefaultApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -820,88 +1141,75 @@ class DefaultApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation listFinancialEventsByGroupId.
+     * Operation listFinancialEventsByGroupId
      *
-     * @param string         $event_group_id
-     *                                             The identifier of the financial event group to which the events belong. (required)
-     * @param null|int       $max_results_per_page
-     *                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|\DateTime $posted_after
-     *                                             A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
-     * @param null|\DateTime $posted_before
-     *                                             A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $next_token
-     *                                             A string token returned in the response of your previous request. (optional)
-     * @param null|string    $restrictedDataToken  Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $event_group_id
+     *  The identifier of the financial event group to which the events belong. (required)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  \DateTime|null $posted_after
+     *  A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\finances\v0\ListFinancialEventsResponse
      */
     public function listFinancialEventsByGroupId(
         string $event_group_id,
         ?int $max_results_per_page = 100,
         ?\DateTime $posted_after = null,
         ?\DateTime $posted_before = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
-    ): ListFinancialEventsResponse {
-        list($response) = $this->listFinancialEventsByGroupIdWithHttpInfo($event_group_id, $max_results_per_page, $posted_after, $posted_before, $next_token, $restrictedDataToken);
-
+        ?string $next_token = null
+    ): \SpApi\Model\finances\v0\ListFinancialEventsResponse {
+        list($response) = $this->listFinancialEventsByGroupIdWithHttpInfo($event_group_id, $max_results_per_page, $posted_after, $posted_before, $next_token);
         return $response;
     }
 
     /**
-     * Operation listFinancialEventsByGroupIdWithHttpInfo.
+     * Operation listFinancialEventsByGroupIdWithHttpInfo
      *
-     * @param string         $event_group_id
-     *                                             The identifier of the financial event group to which the events belong. (required)
-     * @param null|int       $max_results_per_page
-     *                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|\DateTime $posted_after
-     *                                             A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
-     * @param null|\DateTime $posted_before
-     *                                             A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $next_token
-     *                                             A string token returned in the response of your previous request. (optional)
-     * @param null|string    $restrictedDataToken  Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $event_group_id
+     *  The identifier of the financial event group to which the events belong. (required)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  \DateTime|null $posted_after
+     *  A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @return array of \SpApi\Model\finances\v0\ListFinancialEventsResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\finances\v0\ListFinancialEventsResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listFinancialEventsByGroupIdWithHttpInfo(
         string $event_group_id,
         ?int $max_results_per_page = 100,
         ?\DateTime $posted_after = null,
         ?\DateTime $posted_before = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): array {
         $request = $this->listFinancialEventsByGroupIdRequest($event_group_id, $max_results_per_page, $posted_after, $posted_before, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'DefaultApi-listFinancialEventsByGroupId');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->listFinancialEventsByGroupIdRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -933,47 +1241,210 @@ class DefaultApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\finances\v0\ListFinancialEventsResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation listFinancialEventsByGroupIdAsync.
+     * Operation listFinancialEventsByGroupIdAsync
      *
-     * @param string         $event_group_id
-     *                                             The identifier of the financial event group to which the events belong. (required)
-     * @param null|int       $max_results_per_page
-     *                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|\DateTime $posted_after
-     *                                             A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
-     * @param null|\DateTime $posted_before
-     *                                             A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $next_token
-     *                                             A string token returned in the response of your previous request. (optional)
+     * @param  string $event_group_id
+     *  The identifier of the financial event group to which the events belong. (required)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  \DateTime|null $posted_after
+     *  A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function listFinancialEventsByGroupIdAsync(
         string $event_group_id,
@@ -987,54 +1458,47 @@ class DefaultApi
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation listFinancialEventsByGroupIdAsyncWithHttpInfo.
+     * Operation listFinancialEventsByGroupIdAsyncWithHttpInfo
      *
-     * @param string         $event_group_id
-     *                                             The identifier of the financial event group to which the events belong. (required)
-     * @param null|int       $max_results_per_page
-     *                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|\DateTime $posted_after
-     *                                             A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
-     * @param null|\DateTime $posted_before
-     *                                             A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $next_token
-     *                                             A string token returned in the response of your previous request. (optional)
+     * @param  string $event_group_id
+     *  The identifier of the financial event group to which the events belong. (required)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  \DateTime|null $posted_after
+     *  A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function listFinancialEventsByGroupIdAsyncWithHttpInfo(
         string $event_group_id,
         ?int $max_results_per_page = 100,
         ?\DateTime $posted_after = null,
         ?\DateTime $posted_before = null,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\finances\v0\ListFinancialEventsResponse';
         $request = $this->listFinancialEventsByGroupIdRequest($event_group_id, $max_results_per_page, $posted_after, $posted_before, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'DefaultApi-listFinancialEventsByGroupId');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->listFinancialEventsByGroupIdRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -1042,13 +1506,12 @@ class DefaultApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -1060,25 +1523,25 @@ class DefaultApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'listFinancialEventsByGroupId'.
+     * Create request for operation 'listFinancialEventsByGroupId'
      *
-     * @param string         $event_group_id
-     *                                             The identifier of the financial event group to which the events belong. (required)
-     * @param null|int       $max_results_per_page
-     *                                             The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|\DateTime $posted_after
-     *                                             A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
-     * @param null|\DateTime $posted_before
-     *                                             A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes. (optional)
-     * @param null|string    $next_token
-     *                                             A string token returned in the response of your previous request. (optional)
+     * @param  string $event_group_id
+     *  The identifier of the financial event group to which the events belong. (required)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  \DateTime|null $posted_after
+     *  A date used for selecting financial events posted after (or at) a specified time. The date-time **must** be more than two minutes before the time of the request, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. (optional)
+     * @param  \DateTime|null $posted_before
+     *  A date used for selecting financial events posted before (but not at) a specified time. The date-time must be later than &#x60;PostedAfter&#x60; and no later than two minutes before the request was submitted, in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format. If &#x60;PostedAfter&#x60; and &#x60;PostedBefore&#x60; are more than 180 days apart, no financial events are returned. You must specify the &#x60;PostedAfter&#x60; parameter if you specify the &#x60;PostedBefore&#x60; parameter. Default: Now minus two minutes. (optional)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function listFinancialEventsByGroupIdRequest(
         string $event_group_id,
@@ -1088,17 +1551,18 @@ class DefaultApi
         ?string $next_token = null
     ): Request {
         // verify the required parameter 'event_group_id' is set
-        if (null === $event_group_id || (is_array($event_group_id) && 0 === count($event_group_id))) {
+        if ($event_group_id === null || (is_array($event_group_id) && count($event_group_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $event_group_id when calling listFinancialEventsByGroupId'
             );
         }
-        if (null !== $max_results_per_page && $max_results_per_page > 100) {
+        if ($max_results_per_page !== null && $max_results_per_page > 100) {
             throw new \InvalidArgumentException('invalid value for "$max_results_per_page" when calling DefaultApi.listFinancialEventsByGroupId, must be smaller than or equal to 100.');
         }
-        if (null !== $max_results_per_page && $max_results_per_page < 1) {
+        if ($max_results_per_page !== null && $max_results_per_page < 1) {
             throw new \InvalidArgumentException('invalid value for "$max_results_per_page" when calling DefaultApi.listFinancialEventsByGroupId, must be bigger than or equal to 1.');
         }
+
 
         $resourcePath = '/finances/v0/financialEventGroups/{eventGroupId}/financialEvents';
         $formParams = [];
@@ -1114,8 +1578,7 @@ class DefaultApi
             'integer', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1124,8 +1587,7 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1134,8 +1596,7 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1144,24 +1605,32 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
+
         // path params
-        if (null !== $event_group_id) {
+        if ($event_group_id !== null) {
             $resourcePath = str_replace(
-                '{eventGroupId}',
+                '{' . 'eventGroupId' . '}',
                 ObjectSerializer::toPathValue($event_group_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -1172,19 +1641,22 @@ class DefaultApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1198,76 +1670,63 @@ class DefaultApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation listFinancialEventsByOrderId.
+     * Operation listFinancialEventsByOrderId
      *
-     * @param string      $order_id
-     *                                          An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|int    $max_results_per_page
-     *                                          The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|string $next_token
-     *                                          A string token returned in the response of your previous request. (optional)
-     * @param null|string $restrictedDataToken  Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\finances\v0\ListFinancialEventsResponse
      */
     public function listFinancialEventsByOrderId(
         string $order_id,
         ?int $max_results_per_page = 100,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
-    ): ListFinancialEventsResponse {
-        list($response) = $this->listFinancialEventsByOrderIdWithHttpInfo($order_id, $max_results_per_page, $next_token, $restrictedDataToken);
-
+        ?string $next_token = null
+    ): \SpApi\Model\finances\v0\ListFinancialEventsResponse {
+        list($response) = $this->listFinancialEventsByOrderIdWithHttpInfo($order_id, $max_results_per_page, $next_token);
         return $response;
     }
 
     /**
-     * Operation listFinancialEventsByOrderIdWithHttpInfo.
+     * Operation listFinancialEventsByOrderIdWithHttpInfo
      *
-     * @param string      $order_id
-     *                                          An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|int    $max_results_per_page
-     *                                          The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|string $next_token
-     *                                          A string token returned in the response of your previous request. (optional)
-     * @param null|string $restrictedDataToken  Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
-     * @return array of \SpApi\Model\finances\v0\ListFinancialEventsResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\finances\v0\ListFinancialEventsResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function listFinancialEventsByOrderIdWithHttpInfo(
         string $order_id,
         ?int $max_results_per_page = 100,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): array {
         $request = $this->listFinancialEventsByOrderIdRequest($order_id, $max_results_per_page, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'DefaultApi-listFinancialEventsByOrderId');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->listFinancialEventsByOrderIdRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -1299,43 +1758,206 @@ class DefaultApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\finances\v0\ListFinancialEventsResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\finances\v0\ListFinancialEventsResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\finances\v0\ListFinancialEventsResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\finances\v0\ListFinancialEventsResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation listFinancialEventsByOrderIdAsync.
+     * Operation listFinancialEventsByOrderIdAsync
      *
-     * @param string      $order_id
-     *                                          An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|int    $max_results_per_page
-     *                                          The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|string $next_token
-     *                                          A string token returned in the response of your previous request. (optional)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function listFinancialEventsByOrderIdAsync(
         string $order_id,
@@ -1347,48 +1969,41 @@ class DefaultApi
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation listFinancialEventsByOrderIdAsyncWithHttpInfo.
+     * Operation listFinancialEventsByOrderIdAsyncWithHttpInfo
      *
-     * @param string      $order_id
-     *                                          An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|int    $max_results_per_page
-     *                                          The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|string $next_token
-     *                                          A string token returned in the response of your previous request. (optional)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function listFinancialEventsByOrderIdAsyncWithHttpInfo(
         string $order_id,
         ?int $max_results_per_page = 100,
-        ?string $next_token = null,
-        ?string $restrictedDataToken = null
+        ?string $next_token = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\finances\v0\ListFinancialEventsResponse';
         $request = $this->listFinancialEventsByOrderIdRequest($order_id, $max_results_per_page, $next_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'DefaultApi-listFinancialEventsByOrderId');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->listFinancialEventsByOrderIdRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -1396,13 +2011,12 @@ class DefaultApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -1414,21 +2028,21 @@ class DefaultApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'listFinancialEventsByOrderId'.
+     * Create request for operation 'listFinancialEventsByOrderId'
      *
-     * @param string      $order_id
-     *                                          An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param null|int    $max_results_per_page
-     *                                          The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
-     * @param null|string $next_token
-     *                                          A string token returned in the response of your previous request. (optional)
+     * @param  string $order_id
+     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param  int|null $max_results_per_page
+     *  The maximum number of results to return per page. If the response exceeds the maximum number of transactions or 10 MB, the API responds with &#39;InvalidInput&#39;. (optional, default to 100)
+     * @param  string|null $next_token
+     *  A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function listFinancialEventsByOrderIdRequest(
         string $order_id,
@@ -1436,17 +2050,18 @@ class DefaultApi
         ?string $next_token = null
     ): Request {
         // verify the required parameter 'order_id' is set
-        if (null === $order_id || (is_array($order_id) && 0 === count($order_id))) {
+        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling listFinancialEventsByOrderId'
             );
         }
-        if (null !== $max_results_per_page && $max_results_per_page > 100) {
+        if ($max_results_per_page !== null && $max_results_per_page > 100) {
             throw new \InvalidArgumentException('invalid value for "$max_results_per_page" when calling DefaultApi.listFinancialEventsByOrderId, must be smaller than or equal to 100.');
         }
-        if (null !== $max_results_per_page && $max_results_per_page < 1) {
+        if ($max_results_per_page !== null && $max_results_per_page < 1) {
             throw new \InvalidArgumentException('invalid value for "$max_results_per_page" when calling DefaultApi.listFinancialEventsByOrderId, must be bigger than or equal to 1.');
         }
+
 
         $resourcePath = '/finances/v0/orders/{orderId}/financialEvents';
         $formParams = [];
@@ -1462,8 +2077,7 @@ class DefaultApi
             'integer', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1472,24 +2086,32 @@ class DefaultApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
+
         // path params
-        if (null !== $order_id) {
+        if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{orderId}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -1500,19 +2122,22 @@ class DefaultApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1526,21 +2151,19 @@ class DefaultApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Create http client option.
-     *
-     * @return array of http client options
+     * Create http client option
      *
      * @throws \RuntimeException on file opening failure
+     * @return array of http client options
      */
     protected function createHttpClientOption(): array
     {
@@ -1548,10 +2171,27 @@ class DefaultApi
         if ($this->config->getDebug()) {
             $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: '.$this->config->getDebugFile());
+                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
             }
         }
 
         return $options;
+    }
+
+    /**
+     * Rate Limiter waits for tokens
+     *
+     * @return void
+     */
+    public function rateLimitWait(): void
+    {
+        if ($this->rateLimiter) {
+            $type = $this->rateLimitConfig->getRateLimitType();
+            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
+                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
+            } else {
+                $this->rateLimiter->consume()->wait();
+            }
+        }
     }
 }

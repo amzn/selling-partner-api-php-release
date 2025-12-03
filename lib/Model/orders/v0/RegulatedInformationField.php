@@ -1,19 +1,17 @@
 <?php
-
 /**
- * RegulatedInformationField.
+ * RegulatedInformationField
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Orders.
+ * Selling Partner API for Orders
  *
  * Use the Orders Selling Partner API to programmatically retrieve order information. With this API, you can develop fast, flexible, and custom applications to manage order synchronization, perform order research, and create demand-based decision support tools.   _Note:_ For the JP, AU, and SG marketplaces, the Orders API supports orders from 2016 onward. For all other marketplaces, the Orders API supports orders for the last two years (orders older than this don't show up in the response).
  *
@@ -30,150 +28,79 @@
 
 namespace SpApi\Model\orders\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * RegulatedInformationField Class Doc Comment.
+ * RegulatedInformationField Class Doc Comment
  *
  * @category Class
- *
  * @description A field collected from the regulatory form.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSerializable
+class RegulatedInformationField implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
-    public const FIELD_TYPE_TEXT = 'Text';
-    public const FIELD_TYPE_FILE_ATTACHMENT = 'FileAttachment';
-
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'RegulatedInformationField';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'field_id' => 'string',
-        'field_label' => 'string',
-        'field_type' => 'string',
-        'field_value' => 'string'];
+             'field_id' => 'string',
+             'field_label' => 'string',
+             'field_type' => 'string',
+             'field_value' => 'string'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'field_id' => null,
-        'field_label' => null,
-        'field_type' => null,
-        'field_value' => null];
+            'field_id' => null,
+            'field_label' => null,
+            'field_type' => null,
+            'field_value' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'field_id' => false,
         'field_label' => false,
         'field_type' => false,
-        'field_value' => false,
+        'field_value' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * Array of property to type mappings. Used for (de)serialization
      *
-     * @var string[]
-     */
-    protected static array $attributeMap = [
-        'field_id' => 'FieldId',
-        'field_label' => 'FieldLabel',
-        'field_type' => 'FieldType',
-        'field_value' => 'FieldValue',
-    ];
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     *
-     * @var string[]
-     */
-    protected static array $setters = [
-        'field_id' => 'setFieldId',
-        'field_label' => 'setFieldLabel',
-        'field_type' => 'setFieldType',
-        'field_value' => 'setFieldValue',
-    ];
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     *
-     * @var string[]
-     */
-    protected static array $getters = [
-        'field_id' => 'getFieldId',
-        'field_label' => 'getFieldLabel',
-        'field_type' => 'getFieldType',
-        'field_value' => 'getFieldValue',
-    ];
-
-    /**
-     * Associative array for storing property values.
-     */
-    protected array $container = [];
-
-    /**
-     * Constructor.
-     *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
-     */
-    public function __construct(?array $data = null)
-    {
-        $this->setIfExists('field_id', $data ?? [], null);
-        $this->setIfExists('field_label', $data ?? [], null);
-        $this->setIfExists('field_type', $data ?? [], null);
-        $this->setIfExists('field_value', $data ?? [], null);
-    }
-
-    /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
+     * @return array
      */
     public static function openAPITypes(): array
     {
@@ -181,7 +108,9 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
      */
     public static function openAPIFormats(): array
     {
@@ -189,7 +118,40 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Checks if a property is nullable.
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
      */
     public static function isNullable(string $property): bool
     {
@@ -198,6 +160,9 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
 
     /**
      * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -206,7 +171,47 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
 
     /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
+     *
+     * @var string[]
+     */
+    protected static array $attributeMap = [
+        'field_id' => 'FieldId',
+                'field_label' => 'FieldLabel',
+                'field_type' => 'FieldType',
+                'field_value' => 'FieldValue'
+        
+    ];
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @var string[]
+     */
+    protected static array $setters = [
+        'field_id' => 'setFieldId',
+        'field_label' => 'setFieldLabel',
+        'field_type' => 'setFieldType',
+        'field_value' => 'setFieldValue'
+    ];
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @var string[]
+     */
+    protected static array $getters = [
+        'field_id' => 'getFieldId',
+        'field_label' => 'getFieldLabel',
+        'field_type' => 'getFieldType',
+        'field_value' => 'getFieldValue'
+    ];
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
      */
     public static function attributeMap(): array
     {
@@ -214,7 +219,9 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
      */
     public static function setters(): array
     {
@@ -222,7 +229,9 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
      */
     public static function getters(): array
     {
@@ -231,14 +240,19 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
 
     /**
      * The original name of the model.
+     *
+     * @return string
      */
     public function getModelName(): string
     {
         return self::$openAPIModelName;
     }
 
+    public const FIELD_TYPE_TEXT = 'Text';
+    public const FIELD_TYPE_FILE_ATTACHMENT = 'FileAttachment';
+
     /**
-     * Gets allowable values of the enum.
+     * Gets allowable values of the enum
      *
      * @return string[]
      */
@@ -251,6 +265,45 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
+     * Associative array for storing property values
+     *
+     * @var array
+     */
+    protected array $container = [];
+
+    /**
+     * Constructor
+     *
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->setIfExists('field_id', $data ?? [], null);
+        $this->setIfExists('field_label', $data ?? [], null);
+        $this->setIfExists('field_type', $data ?? [], null);
+        $this->setIfExists('field_value', $data ?? [], null);
+    }
+
+    /**
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
+    }
+
+    /**
      * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
@@ -259,13 +312,13 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     {
         $invalidProperties = [];
 
-        if (null === $this->container['field_id']) {
+        if ($this->container['field_id'] === null) {
             $invalidProperties[] = "'field_id' can't be null";
         }
-        if (null === $this->container['field_label']) {
+        if ($this->container['field_label'] === null) {
             $invalidProperties[] = "'field_label' can't be null";
         }
-        if (null === $this->container['field_type']) {
+        if ($this->container['field_type'] === null) {
             $invalidProperties[] = "'field_type' can't be null";
         }
         $allowedValues = $this->getFieldTypeAllowableValues();
@@ -277,26 +330,28 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
             );
         }
 
-        if (null === $this->container['field_value']) {
+        if ($this->container['field_value'] === null) {
             $invalidProperties[] = "'field_value' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets field_id.
+     * Gets field_id
+     *
+     * @return string
      */
     public function getFieldId(): string
     {
@@ -304,9 +359,11 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Sets field_id.
+     * Sets field_id
      *
-     * @param string $field_id the unique identifier of the field
+     * @param string $field_id The unique identifier of the field.
+     *
+     * @return self
      */
     public function setFieldId(string $field_id): self
     {
@@ -319,7 +376,9 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Gets field_label.
+     * Gets field_label
+     *
+     * @return string
      */
     public function getFieldLabel(): string
     {
@@ -327,9 +386,11 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Sets field_label.
+     * Sets field_label
      *
-     * @param string $field_label the name of the field
+     * @param string $field_label The name of the field.
+     *
+     * @return self
      */
     public function setFieldLabel(string $field_label): self
     {
@@ -342,7 +403,9 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Gets field_type.
+     * Gets field_type
+     *
+     * @return string
      */
     public function getFieldType(): string
     {
@@ -350,9 +413,11 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Sets field_type.
+     * Sets field_type
      *
-     * @param string $field_type the type of field
+     * @param string $field_type The type of field.
+     *
+     * @return self
      */
     public function setFieldType(string $field_type): self
     {
@@ -375,7 +440,9 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Gets field_value.
+     * Gets field_value
+     *
+     * @return string
      */
     public function getFieldValue(): string
     {
@@ -383,9 +450,11 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     }
 
     /**
-     * Sets field_value.
+     * Sets field_value
      *
      * @param string $field_value The content of the field as collected in regulatory form. Note that `FileAttachment` type fields contain a URL where you can download the attachment.
+     *
+     * @return self
      */
     public function setFieldValue(string $field_value): self
     {
@@ -397,10 +466,13 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -410,9 +482,9 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -423,8 +495,10 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -438,7 +512,9 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -447,67 +523,39 @@ class RegulatedInformationField implements ModelInterface, \ArrayAccess, \JsonSe
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ChargeRefundEvent.
+ * ChargeRefundEvent
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Finances.
+ * Selling Partner API for Finances
  *
  * The Selling Partner API for Finances helps you obtain financial information relevant to a seller's business. You can obtain financial events for a given order, financial event group, or date range without having to wait until a statement period closes. You can also obtain financial event groups for a given date range.
  *
@@ -30,91 +28,163 @@
 
 namespace SpApi\Model\finances\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ChargeRefundEvent Class Doc Comment.
+ * ChargeRefundEvent Class Doc Comment
  *
  * @category Class
- *
  * @description An event related to charge refund.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ChargeRefundEvent implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ChargeRefundEvent';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'posted_date' => '\DateTime',
-        'reason_code' => 'string',
-        'reason_code_description' => 'string',
-        'charge_refund_transactions' => '\SpApi\Model\finances\v0\ChargeRefundTransaction[]'];
+             'posted_date' => '\DateTime',
+             'reason_code' => 'string',
+             'reason_code_description' => 'string',
+             'charge_refund_transactions' => '\SpApi\Model\finances\v0\ChargeRefundTransaction[]'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'posted_date' => 'date-time',
-        'reason_code' => null,
-        'reason_code_description' => null,
-        'charge_refund_transactions' => null];
+            'posted_date' => 'date-time',
+            'reason_code' => null,
+            'reason_code_description' => null,
+            'charge_refund_transactions' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'posted_date' => true,
         'reason_code' => true,
         'reason_code_description' => true,
-        'charge_refund_transactions' => true,
+        'charge_refund_transactions' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'posted_date' => 'PostedDate',
-        'reason_code' => 'ReasonCode',
-        'reason_code_description' => 'ReasonCodeDescription',
-        'charge_refund_transactions' => 'ChargeRefundTransactions',
+                'reason_code' => 'ReasonCode',
+                'reason_code_description' => 'ReasonCodeDescription',
+                'charge_refund_transactions' => 'ChargeRefundTransactions'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -122,11 +192,11 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
         'posted_date' => 'setPostedDate',
         'reason_code' => 'setReasonCode',
         'reason_code_description' => 'setReasonCodeDescription',
-        'charge_refund_transactions' => 'setChargeRefundTransactions',
+        'charge_refund_transactions' => 'setChargeRefundTransactions'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -134,19 +204,63 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
         'posted_date' => 'getPostedDate',
         'reason_code' => 'getReasonCode',
         'reason_code_description' => 'getReasonCodeDescription',
-        'charge_refund_transactions' => 'getChargeRefundTransactions',
+        'charge_refund_transactions' => 'getChargeRefundTransactions'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -157,81 +271,21 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -241,22 +295,27 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
      */
     public function listInvalidProperties(): array
     {
-        return [];
+        $invalidProperties = [];
+
+        return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets posted_date.
+     * Gets posted_date
+     *
+     * @return \DateTime|null
      */
     public function getPostedDate(): ?\DateTime
     {
@@ -264,9 +323,11 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Sets posted_date.
+     * Sets posted_date
      *
-     * @param null|\DateTime $posted_date fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate)
+     * @param \DateTime|null $posted_date Fields with a schema type of date are in ISO 8601 date time format (for example GroupBeginDate).
+     *
+     * @return self
      */
     public function setPostedDate(?\DateTime $posted_date): self
     {
@@ -275,7 +336,7 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('posted_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -286,7 +347,9 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets reason_code.
+     * Gets reason_code
+     *
+     * @return string|null
      */
     public function getReasonCode(): ?string
     {
@@ -294,9 +357,11 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Sets reason_code.
+     * Sets reason_code
      *
-     * @param null|string $reason_code The reason given for a charge refund.  Example: `SubscriptionFeeCorrection`
+     * @param string|null $reason_code The reason given for a charge refund.  Example: `SubscriptionFeeCorrection`
+     *
+     * @return self
      */
     public function setReasonCode(?string $reason_code): self
     {
@@ -305,7 +370,7 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('reason_code', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -316,7 +381,9 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets reason_code_description.
+     * Gets reason_code_description
+     *
+     * @return string|null
      */
     public function getReasonCodeDescription(): ?string
     {
@@ -324,9 +391,11 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Sets reason_code_description.
+     * Sets reason_code_description
      *
-     * @param null|string $reason_code_description A description of the Reason Code.   Example: `SubscriptionFeeCorrection`
+     * @param string|null $reason_code_description A description of the Reason Code.   Example: `SubscriptionFeeCorrection`
+     *
+     * @return self
      */
     public function setReasonCodeDescription(?string $reason_code_description): self
     {
@@ -335,7 +404,7 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('reason_code_description', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -346,7 +415,9 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Gets charge_refund_transactions.
+     * Gets charge_refund_transactions
+     *
+     * @return array|null
      */
     public function getChargeRefundTransactions(): ?array
     {
@@ -354,9 +425,11 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     }
 
     /**
-     * Sets charge_refund_transactions.
+     * Sets charge_refund_transactions
      *
-     * @param null|array $charge_refund_transactions A list of `ChargeRefund` transactions
+     * @param array|null $charge_refund_transactions A list of `ChargeRefund` transactions
+     *
+     * @return self
      */
     public function setChargeRefundTransactions(?array $charge_refund_transactions): self
     {
@@ -365,7 +438,7 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('charge_refund_transactions', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -375,10 +448,13 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -388,9 +464,9 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -401,8 +477,10 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -416,7 +494,9 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -425,67 +505,39 @@ class ChargeRefundEvent implements ModelInterface, \ArrayAccess, \JsonSerializab
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

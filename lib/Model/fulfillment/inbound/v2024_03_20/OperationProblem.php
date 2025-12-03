@@ -1,15 +1,13 @@
 <?php
-
 /**
- * OperationProblem.
+ * OperationProblem
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
@@ -30,91 +28,163 @@
 
 namespace SpApi\Model\fulfillment\inbound\v2024_03_20;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * OperationProblem Class Doc Comment.
+ * OperationProblem Class Doc Comment
  *
  * @category Class
- *
  * @description A problem with additional properties persisted to an operation.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializable
+class OperationProblem implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'OperationProblem';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'code' => 'string',
-        'details' => 'string',
-        'message' => 'string',
-        'severity' => 'string'];
+             'code' => 'string',
+             'details' => 'string',
+             'message' => 'string',
+             'severity' => 'string'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'code' => null,
-        'details' => null,
-        'message' => null,
-        'severity' => null];
+            'code' => null,
+            'details' => null,
+            'message' => null,
+            'severity' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'code' => false,
         'details' => true,
         'message' => false,
-        'severity' => false,
+        'severity' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'code' => 'code',
-        'details' => 'details',
-        'message' => 'message',
-        'severity' => 'severity',
+                'details' => 'details',
+                'message' => 'message',
+                'severity' => 'severity'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -122,11 +192,11 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
         'code' => 'setCode',
         'details' => 'setDetails',
         'message' => 'setMessage',
-        'severity' => 'setSeverity',
+        'severity' => 'setSeverity'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -134,19 +204,63 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
         'code' => 'getCode',
         'details' => 'getDetails',
         'message' => 'getMessage',
-        'severity' => 'getSeverity',
+        'severity' => 'getSeverity'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -157,81 +271,21 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -243,14 +297,14 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     {
         $invalidProperties = [];
 
-        if (null === $this->container['code']) {
+        if ($this->container['code'] === null) {
             $invalidProperties[] = "'code' can't be null";
         }
-        if (mb_strlen($this->container['code']) > 256) {
+        if ((mb_strlen($this->container['code']) > 256)) {
             $invalidProperties[] = "invalid value for 'code', the character length must be smaller than or equal to 256.";
         }
 
-        if (mb_strlen($this->container['code']) < 1) {
+        if ((mb_strlen($this->container['code']) < 1)) {
             $invalidProperties[] = "invalid value for 'code', the character length must be bigger than or equal to 1.";
         }
 
@@ -262,25 +316,25 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
             $invalidProperties[] = "invalid value for 'details', the character length must be bigger than or equal to 0.";
         }
 
-        if (null === $this->container['message']) {
+        if ($this->container['message'] === null) {
             $invalidProperties[] = "'message' can't be null";
         }
-        if (mb_strlen($this->container['message']) > 2048) {
+        if ((mb_strlen($this->container['message']) > 2048)) {
             $invalidProperties[] = "invalid value for 'message', the character length must be smaller than or equal to 2048.";
         }
 
-        if (mb_strlen($this->container['message']) < 1) {
+        if ((mb_strlen($this->container['message']) < 1)) {
             $invalidProperties[] = "invalid value for 'message', the character length must be bigger than or equal to 1.";
         }
 
-        if (null === $this->container['severity']) {
+        if ($this->container['severity'] === null) {
             $invalidProperties[] = "'severity' can't be null";
         }
-        if (mb_strlen($this->container['severity']) > 1024) {
+        if ((mb_strlen($this->container['severity']) > 1024)) {
             $invalidProperties[] = "invalid value for 'severity', the character length must be smaller than or equal to 1024.";
         }
 
-        if (mb_strlen($this->container['severity']) < 1) {
+        if ((mb_strlen($this->container['severity']) < 1)) {
             $invalidProperties[] = "invalid value for 'severity', the character length must be bigger than or equal to 1.";
         }
 
@@ -289,17 +343,20 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets code.
+     * Gets code
+     *
+     * @return string
      */
     public function getCode(): string
     {
@@ -307,19 +364,21 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets code.
+     * Sets code
      *
-     * @param string $code an error code that identifies the type of error that occurred
+     * @param string $code An error code that identifies the type of error that occurred.
+     *
+     * @return self
      */
     public function setCode(string $code): self
     {
         if (is_null($code)) {
             throw new \InvalidArgumentException('non-nullable code cannot be null');
         }
-        if (mb_strlen($code) > 256) {
+        if ((mb_strlen($code) > 256)) {
             throw new \InvalidArgumentException('invalid length for $code when calling OperationProblem., must be smaller than or equal to 256.');
         }
-        if (mb_strlen($code) < 1) {
+        if ((mb_strlen($code) < 1)) {
             throw new \InvalidArgumentException('invalid length for $code when calling OperationProblem., must be bigger than or equal to 1.');
         }
 
@@ -329,7 +388,9 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets details.
+     * Gets details
+     *
+     * @return string|null
      */
     public function getDetails(): ?string
     {
@@ -337,9 +398,11 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets details.
+     * Sets details
      *
-     * @param null|string $details additional details that can help the caller understand or fix the issue
+     * @param string|null $details Additional details that can help the caller understand or fix the issue.
+     *
+     * @return self
      */
     public function setDetails(?string $details): self
     {
@@ -348,7 +411,7 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('details', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -366,7 +429,9 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets message.
+     * Gets message
+     *
+     * @return string
      */
     public function getMessage(): string
     {
@@ -374,19 +439,21 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets message.
+     * Sets message
      *
-     * @param string $message a message that describes the error condition
+     * @param string $message A message that describes the error condition.
+     *
+     * @return self
      */
     public function setMessage(string $message): self
     {
         if (is_null($message)) {
             throw new \InvalidArgumentException('non-nullable message cannot be null');
         }
-        if (mb_strlen($message) > 2048) {
+        if ((mb_strlen($message) > 2048)) {
             throw new \InvalidArgumentException('invalid length for $message when calling OperationProblem., must be smaller than or equal to 2048.');
         }
-        if (mb_strlen($message) < 1) {
+        if ((mb_strlen($message) < 1)) {
             throw new \InvalidArgumentException('invalid length for $message when calling OperationProblem., must be bigger than or equal to 1.');
         }
 
@@ -396,7 +463,9 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets severity.
+     * Gets severity
+     *
+     * @return string
      */
     public function getSeverity(): string
     {
@@ -404,19 +473,21 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Sets severity.
+     * Sets severity
      *
      * @param string $severity The severity of the problem. Possible values: `WARNING`, `ERROR`.
+     *
+     * @return self
      */
     public function setSeverity(string $severity): self
     {
         if (is_null($severity)) {
             throw new \InvalidArgumentException('non-nullable severity cannot be null');
         }
-        if (mb_strlen($severity) > 1024) {
+        if ((mb_strlen($severity) > 1024)) {
             throw new \InvalidArgumentException('invalid length for $severity when calling OperationProblem., must be smaller than or equal to 1024.');
         }
-        if (mb_strlen($severity) < 1) {
+        if ((mb_strlen($severity) < 1)) {
             throw new \InvalidArgumentException('invalid length for $severity when calling OperationProblem., must be bigger than or equal to 1.');
         }
 
@@ -425,10 +496,13 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -438,9 +512,9 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -451,8 +525,10 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -466,7 +542,9 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -475,67 +553,39 @@ class OperationProblem implements ModelInterface, \ArrayAccess, \JsonSerializabl
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

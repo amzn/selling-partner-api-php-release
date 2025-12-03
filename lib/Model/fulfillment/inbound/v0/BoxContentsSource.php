@@ -1,19 +1,17 @@
 <?php
-
 /**
- * BoxContentsSource.
+ * BoxContentsSource
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Fulfillment Inbound.
+ * Selling Partner API for Fulfillment Inbound
  *
  * The Selling Partner API for Fulfillment Inbound lets you create applications that create and update inbound shipments of inventory to Amazon's fulfillment network.
  *
@@ -29,22 +27,22 @@
  */
 
 namespace SpApi\Model\fulfillment\inbound\v0;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * BoxContentsSource Class Doc Comment.
+ * BoxContentsSource Class Doc Comment
  *
  * @category Class
- *
  * @description Where the seller provided box contents information for a shipment.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class BoxContentsSource
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const NONE = 'NONE';
 
@@ -55,8 +53,7 @@ class BoxContentsSource
     public const INTERACTIVE = 'INTERACTIVE';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
@@ -65,7 +62,9 @@ class BoxContentsSource
             self::NONE,
             self::FEED,
             self::_2_D_BARCODE,
-            self::INTERACTIVE,
+            self::INTERACTIVE
         ];
     }
 }
+
+

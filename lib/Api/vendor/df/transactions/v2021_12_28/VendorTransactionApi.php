@@ -35,10 +35,10 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use SpApi\AuthAndAuth\RateLimitConfiguration;
 use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
-use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\ApiException;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
@@ -74,9 +74,15 @@ class VendorTransactionApi
      */
     protected int $hostIndex;
 
-    private Bool $rateLimiterEnabled;
-    private InMemoryStorage $rateLimitStorage;
-    public ?LimiterInterface $getTransactionStatusRateLimiter;
+    /**
+     * @var ?RateLimitConfiguration
+     */
+    private ?RateLimitConfiguration $rateLimitConfig = null;
+
+    /**
+     * @var ?LimiterInterface
+     */
+    private ?LimiterInterface $rateLimiter = null;
 
     /**
      * @param Configuration   $config
@@ -87,19 +93,27 @@ class VendorTransactionApi
      */
     public function __construct(
         Configuration $config,
+        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
-        ?Bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimiterEnabled = $rateLimiterEnabled;
-
-        if ($rateLimiterEnabled) {
-            $this->rateLimitStorage = new InMemoryStorage();
-
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions("VendorTransactionApi-getTransactionStatus"), $this->rateLimitStorage);
-            $this->getTransactionStatusRateLimiter = $factory->create("VendorTransactionApi-getTransactionStatus");
+        $this->rateLimitConfig = $rateLimitConfig;
+        if ($rateLimitConfig) {
+            $type = $rateLimitConfig->getRateLimitType();
+            $rateLimitOptions = [
+                'id' => 'spApiCall',
+                'policy' => $type,
+                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
+            ];
+            if ($type === "fixed_window" || $type === "sliding_window") {
+                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
+            } else {
+                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
+            }
+            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
+            $this->rateLimiter = $factory->create();
         }
 
         $this->client = $client ?: new Client();
@@ -134,22 +148,21 @@ class VendorTransactionApi
     {
         return $this->config;
     }
+
     /**
      * Operation getTransactionStatus
      *
      * @param  string $transaction_id
      *  Previously returned in the response to the POST request of a specific transaction. (required)
      *
-     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus
      */
     public function getTransactionStatus(
-        string $transaction_id,
-        ?string $restrictedDataToken = null
+        string $transaction_id
     ): \SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus {
-        list($response) = $this->getTransactionStatusWithHttpInfo($transaction_id,$restrictedDataToken);
+        list($response) = $this->getTransactionStatusWithHttpInfo($transaction_id);
         return $response;
     }
 
@@ -159,27 +172,20 @@ class VendorTransactionApi
      * @param  string $transaction_id
      *  Previously returned in the response to the POST request of a specific transaction. (required)
      *
-     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus, HTTP status code, HTTP response headers (array of strings)
      */
     public function getTransactionStatusWithHttpInfo(
-        string $transaction_id,
-        ?string $restrictedDataToken = null
+        string $transaction_id
     ): array {
         $request = $this->getTransactionStatusRequest($transaction_id);
-        if ($restrictedDataToken !== null) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "VendorTransactionApi-getTransactionStatus");
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
+
         try {
             $options = $this->createHttpClientOption();
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getTransactionStatusRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -211,27 +217,236 @@ class VendorTransactionApi
                     (string) $response->getBody()
                 );
             }
-                if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus' === '\SplFileObject') {
-                    $content = $response->getBody(); //stream goes to serializer
-                } else {
-                    $content = (string) $response->getBody();
-                    if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus' !== 'string') {
-                        $content = json_decode($content);
-                    }
-                }
 
-                return [
-                    ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus', []),
-                    $response->getStatusCode(),
-                    $response->getHeaders()
-                ];
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\transactions\v2021_12_28\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 401:
+                    if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\vendor\df\transactions\v2021_12_28\Error' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
         } catch (ApiException $e) {
-                $data = ObjectSerializer::deserialize(
-                    $e->getResponseBody(),
-                    '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error',
-                    $e->getResponseHeaders()
-                );
-                $e->setResponseObject($data);
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\df\transactions\v2021_12_28\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\vendor\df\transactions\v2021_12_28\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
@@ -266,19 +481,12 @@ class VendorTransactionApi
      * @return PromiseInterface
      */
     public function getTransactionStatusAsyncWithHttpInfo(
-        string $transaction_id,
-    ?string $restrictedDataToken = null
+        string $transaction_id
     ): PromiseInterface {
         $returnType = '\SpApi\Model\vendor\df\transactions\v2021_12_28\TransactionStatus';
         $request = $this->getTransactionStatusRequest($transaction_id);
-        if ($restrictedDataToken !== null) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "VendorTransactionApi-getTransactionStatus");
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getTransactionStatusRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -354,12 +562,18 @@ class VendorTransactionApi
         }
 
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            
-            '',
-            $multipart
-        );
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -424,5 +638,22 @@ class VendorTransactionApi
         }
 
         return $options;
+    }
+
+    /**
+     * Rate Limiter waits for tokens
+     *
+     * @return void
+     */
+    public function rateLimitWait(): void
+    {
+        if ($this->rateLimiter) {
+            $type = $this->rateLimitConfig->getRateLimitType();
+            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
+                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
+            } else {
+                $this->rateLimiter->consume()->wait();
+            }
+        }
     }
 }

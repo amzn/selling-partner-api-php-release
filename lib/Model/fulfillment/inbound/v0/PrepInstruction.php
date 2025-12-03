@@ -1,19 +1,17 @@
 <?php
-
 /**
- * PrepInstruction.
+ * PrepInstruction
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Fulfillment Inbound.
+ * Selling Partner API for Fulfillment Inbound
  *
  * The Selling Partner API for Fulfillment Inbound lets you create applications that create and update inbound shipments of inventory to Amazon's fulfillment network.
  *
@@ -29,22 +27,22 @@
  */
 
 namespace SpApi\Model\fulfillment\inbound\v0;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * PrepInstruction Class Doc Comment.
+ * PrepInstruction Class Doc Comment
  *
  * @category Class
- *
  * @description Preparation instructions for shipping an item to Amazon&#39;s fulfillment network. For more information about preparing items for shipment to Amazon&#39;s fulfillment network, see the Seller Central Help for your marketplace.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class PrepInstruction
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const POLYBAGGING = 'Polybagging';
 
@@ -79,8 +77,7 @@ class PrepInstruction
     public const NO_PREP = 'NoPrep';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
@@ -101,7 +98,9 @@ class PrepInstruction
             self::SET_STICKERING,
             self::BLANK_STICKERING,
             self::SHIPS_IN_PRODUCT_PACKAGING,
-            self::NO_PREP,
+            self::NO_PREP
         ];
     }
 }
+
+

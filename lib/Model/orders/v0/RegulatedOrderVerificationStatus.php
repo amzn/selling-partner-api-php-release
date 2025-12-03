@@ -1,19 +1,17 @@
 <?php
-
 /**
- * RegulatedOrderVerificationStatus.
+ * RegulatedOrderVerificationStatus
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Orders.
+ * Selling Partner API for Orders
  *
  * Use the Orders Selling Partner API to programmatically retrieve order information. With this API, you can develop fast, flexible, and custom applications to manage order synchronization, perform order research, and create demand-based decision support tools.   _Note:_ For the JP, AU, and SG marketplaces, the Orders API supports orders from 2016 onward. For all other marketplaces, the Orders API supports orders for the last two years (orders older than this don't show up in the response).
  *
@@ -30,68 +28,67 @@
 
 namespace SpApi\Model\orders\v0;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * RegulatedOrderVerificationStatus Class Doc Comment.
+ * RegulatedOrderVerificationStatus Class Doc Comment
  *
  * @category Class
- *
  * @description The verification status of the order, along with associated approval or rejection metadata.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, \JsonSerializable
+class RegulatedOrderVerificationStatus implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'RegulatedOrderVerificationStatus';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'status' => '\SpApi\Model\orders\v0\VerificationStatus',
-        'requires_merchant_action' => 'bool',
-        'valid_rejection_reasons' => '\SpApi\Model\orders\v0\RejectionReason[]',
-        'rejection_reason' => '\SpApi\Model\orders\v0\RejectionReason',
-        'review_date' => 'string',
-        'external_reviewer_id' => 'string',
-        'valid_verification_details' => '\SpApi\Model\orders\v0\ValidVerificationDetail[]'];
+             'status' => '\SpApi\Model\orders\v0\VerificationStatus',
+             'requires_merchant_action' => 'bool',
+             'valid_rejection_reasons' => '\SpApi\Model\orders\v0\RejectionReason[]',
+             'rejection_reason' => '\SpApi\Model\orders\v0\RejectionReason',
+             'review_date' => 'string',
+             'external_reviewer_id' => 'string',
+             'valid_verification_details' => '\SpApi\Model\orders\v0\ValidVerificationDetail[]'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'status' => null,
-        'requires_merchant_action' => null,
-        'valid_rejection_reasons' => null,
-        'rejection_reason' => null,
-        'review_date' => null,
-        'external_reviewer_id' => null,
-        'valid_verification_details' => null];
+            'status' => null,
+            'requires_merchant_action' => null,
+            'valid_rejection_reasons' => null,
+            'rejection_reason' => null,
+            'review_date' => null,
+            'external_reviewer_id' => null,
+            'valid_verification_details' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'status' => false,
         'requires_merchant_action' => false,
@@ -99,34 +96,107 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
         'rejection_reason' => true,
         'review_date' => true,
         'external_reviewer_id' => true,
-        'valid_verification_details' => true,
+        'valid_verification_details' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'status' => 'Status',
-        'requires_merchant_action' => 'RequiresMerchantAction',
-        'valid_rejection_reasons' => 'ValidRejectionReasons',
-        'rejection_reason' => 'RejectionReason',
-        'review_date' => 'ReviewDate',
-        'external_reviewer_id' => 'ExternalReviewerId',
-        'valid_verification_details' => 'ValidVerificationDetails',
+                'requires_merchant_action' => 'RequiresMerchantAction',
+                'valid_rejection_reasons' => 'ValidRejectionReasons',
+                'rejection_reason' => 'RejectionReason',
+                'review_date' => 'ReviewDate',
+                'external_reviewer_id' => 'ExternalReviewerId',
+                'valid_verification_details' => 'ValidVerificationDetails'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -137,11 +207,11 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
         'rejection_reason' => 'setRejectionReason',
         'review_date' => 'setReviewDate',
         'external_reviewer_id' => 'setExternalReviewerId',
-        'valid_verification_details' => 'setValidVerificationDetails',
+        'valid_verification_details' => 'setValidVerificationDetails'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -152,19 +222,63 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
         'rejection_reason' => 'getRejectionReason',
         'review_date' => 'getReviewDate',
         'external_reviewer_id' => 'getExternalReviewerId',
-        'valid_verification_details' => 'getValidVerificationDetails',
+        'valid_verification_details' => 'getValidVerificationDetails'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -178,81 +292,21 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -264,32 +318,34 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     {
         $invalidProperties = [];
 
-        if (null === $this->container['status']) {
+        if ($this->container['status'] === null) {
             $invalidProperties[] = "'status' can't be null";
         }
-        if (null === $this->container['requires_merchant_action']) {
+        if ($this->container['requires_merchant_action'] === null) {
             $invalidProperties[] = "'requires_merchant_action' can't be null";
         }
-        if (null === $this->container['valid_rejection_reasons']) {
+        if ($this->container['valid_rejection_reasons'] === null) {
             $invalidProperties[] = "'valid_rejection_reasons' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets status.
+     * Gets status
+     *
+     * @return string
      */
     public function getStatus(): string
     {
@@ -297,9 +353,11 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Sets status.
+     * Sets status
      *
      * @param string $status status
+     *
+     * @return self
      */
     public function setStatus(string $status): self
     {
@@ -312,7 +370,9 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets requires_merchant_action.
+     * Gets requires_merchant_action
+     *
+     * @return bool
      */
     public function getRequiresMerchantAction(): bool
     {
@@ -320,9 +380,11 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Sets requires_merchant_action.
+     * Sets requires_merchant_action
      *
-     * @param bool $requires_merchant_action when true, the regulated information provided in the order requires a review by the merchant
+     * @param bool $requires_merchant_action When true, the regulated information provided in the order requires a review by the merchant.
+     *
+     * @return self
      */
     public function setRequiresMerchantAction(bool $requires_merchant_action): self
     {
@@ -335,7 +397,9 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets valid_rejection_reasons.
+     * Gets valid_rejection_reasons
+     *
+     * @return array
      */
     public function getValidRejectionReasons(): array
     {
@@ -343,9 +407,11 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Sets valid_rejection_reasons.
+     * Sets valid_rejection_reasons
      *
-     * @param array $valid_rejection_reasons a list of valid rejection reasons that may be used to reject the order's regulated information
+     * @param array $valid_rejection_reasons A list of valid rejection reasons that may be used to reject the order's regulated information.
+     *
+     * @return self
      */
     public function setValidRejectionReasons(array $valid_rejection_reasons): self
     {
@@ -358,26 +424,30 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets rejection_reason.
+     * Gets rejection_reason
+     *
+     * @return \SpApi\Model\orders\v0\RejectionReason|null
      */
-    public function getRejectionReason(): ?RejectionReason
+    public function getRejectionReason(): ?\SpApi\Model\orders\v0\RejectionReason
     {
         return $this->container['rejection_reason'];
     }
 
     /**
-     * Sets rejection_reason.
+     * Sets rejection_reason
      *
-     * @param null|RejectionReason $rejection_reason rejection_reason
+     * @param \SpApi\Model\orders\v0\RejectionReason|null $rejection_reason rejection_reason
+     *
+     * @return self
      */
-    public function setRejectionReason(?RejectionReason $rejection_reason): self
+    public function setRejectionReason(?\SpApi\Model\orders\v0\RejectionReason $rejection_reason): self
     {
         if (is_null($rejection_reason)) {
             array_push($this->openAPINullablesSetToNull, 'rejection_reason');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('rejection_reason', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -388,7 +458,9 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets review_date.
+     * Gets review_date
+     *
+     * @return string|null
      */
     public function getReviewDate(): ?string
     {
@@ -396,9 +468,11 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Sets review_date.
+     * Sets review_date
      *
-     * @param null|string $review_date The date the order was reviewed. In [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
+     * @param string|null $review_date The date the order was reviewed. In [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date time format.
+     *
+     * @return self
      */
     public function setReviewDate(?string $review_date): self
     {
@@ -407,7 +481,7 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('review_date', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -418,7 +492,9 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets external_reviewer_id.
+     * Gets external_reviewer_id
+     *
+     * @return string|null
      */
     public function getExternalReviewerId(): ?string
     {
@@ -426,9 +502,11 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Sets external_reviewer_id.
+     * Sets external_reviewer_id
      *
-     * @param null|string $external_reviewer_id the identifier for the order's regulated information reviewer
+     * @param string|null $external_reviewer_id The identifier for the order's regulated information reviewer.
+     *
+     * @return self
      */
     public function setExternalReviewerId(?string $external_reviewer_id): self
     {
@@ -437,7 +515,7 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('external_reviewer_id', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -448,7 +526,9 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Gets valid_verification_details.
+     * Gets valid_verification_details
+     *
+     * @return array|null
      */
     public function getValidVerificationDetails(): ?array
     {
@@ -456,9 +536,11 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     }
 
     /**
-     * Sets valid_verification_details.
+     * Sets valid_verification_details
      *
-     * @param null|array $valid_verification_details a list of valid verification details that may be provided and the criteria required for when the verification detail can be provided
+     * @param array|null $valid_verification_details A list of valid verification details that may be provided and the criteria required for when the verification detail can be provided.
+     *
+     * @return self
      */
     public function setValidVerificationDetails(?array $valid_verification_details): self
     {
@@ -467,7 +549,7 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('valid_verification_details', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -477,10 +559,13 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -490,9 +575,9 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -503,8 +588,10 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -518,7 +605,9 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -527,67 +616,39 @@ class RegulatedOrderVerificationStatus implements ModelInterface, \ArrayAccess, 
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

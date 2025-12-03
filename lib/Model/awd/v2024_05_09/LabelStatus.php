@@ -1,19 +1,17 @@
 <?php
-
 /**
- * LabelStatus.
+ * LabelStatus
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * The Selling Partner API for Amazon Warehousing and Distribution.
+ * The Selling Partner API for Amazon Warehousing and Distribution
  *
  * The Selling Partner API for Amazon Warehousing and Distribution (AWD) provides programmatic access to information about AWD shipments and inventory.
  *
@@ -29,22 +27,22 @@
  */
 
 namespace SpApi\Model\awd\v2024_05_09;
+use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * LabelStatus Class Doc Comment.
+ * LabelStatus Class Doc Comment
  *
  * @category Class
- *
  * @description The status of your label.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class LabelStatus
 {
     /**
-     * Possible values of this enum.
+     * Possible values of this enum
      */
     public const GENERATING = 'GENERATING';
 
@@ -55,8 +53,7 @@ class LabelStatus
     public const NOT_READY = 'NOT_READY';
 
     /**
-     * Gets allowable values of the enum.
-     *
+     * Gets allowable values of the enum
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
@@ -65,7 +62,9 @@ class LabelStatus
             self::GENERATING,
             self::GENERATED,
             self::GENERATION_FAILED,
-            self::NOT_READY,
+            self::NOT_READY
         ];
     }
 }
+
+

@@ -1,19 +1,17 @@
 <?php
-
 /**
- * PurchaseShipmentRequest.
+ * PurchaseShipmentRequest
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Amazon Shipping API.
+ * Amazon Shipping API
  *
  * The Amazon Shipping API is designed to support outbound shipping use cases both for orders originating on Amazon-owned marketplaces as well as external channels/marketplaces. With these APIs, you can request shipping rates, create shipments, cancel shipments, and track shipments.
  *
@@ -31,95 +29,167 @@
 
 namespace SpApi\Model\shipping\v2;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * PurchaseShipmentRequest Class Doc Comment.
+ * PurchaseShipmentRequest Class Doc Comment
  *
  * @category Class
- *
  * @description The request schema for the purchaseShipment operation.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSerializable
+class PurchaseShipmentRequest implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'PurchaseShipmentRequest';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'request_token' => 'string',
-        'rate_id' => 'string',
-        'requested_document_specification' => '\SpApi\Model\shipping\v2\RequestedDocumentSpecification',
-        'requested_value_added_services' => '\SpApi\Model\shipping\v2\RequestedValueAddedService[]',
-        'additional_inputs' => 'array<string,object>'];
+             'request_token' => 'string',
+             'rate_id' => 'string',
+             'requested_document_specification' => '\SpApi\Model\shipping\v2\RequestedDocumentSpecification',
+             'requested_value_added_services' => '\SpApi\Model\shipping\v2\RequestedValueAddedService[]',
+             'additional_inputs' => 'array<string,object>'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'request_token' => null,
-        'rate_id' => null,
-        'requested_document_specification' => null,
-        'requested_value_added_services' => null,
-        'additional_inputs' => null];
+            'request_token' => null,
+            'rate_id' => null,
+            'requested_document_specification' => null,
+            'requested_value_added_services' => null,
+            'additional_inputs' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'request_token' => false,
         'rate_id' => false,
         'requested_document_specification' => false,
         'requested_value_added_services' => true,
-        'additional_inputs' => true,
+        'additional_inputs' => true
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'request_token' => 'requestToken',
-        'rate_id' => 'rateId',
-        'requested_document_specification' => 'requestedDocumentSpecification',
-        'requested_value_added_services' => 'requestedValueAddedServices',
-        'additional_inputs' => 'additionalInputs',
+                'rate_id' => 'rateId',
+                'requested_document_specification' => 'requestedDocumentSpecification',
+                'requested_value_added_services' => 'requestedValueAddedServices',
+                'additional_inputs' => 'additionalInputs'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -128,11 +198,11 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
         'rate_id' => 'setRateId',
         'requested_document_specification' => 'setRequestedDocumentSpecification',
         'requested_value_added_services' => 'setRequestedValueAddedServices',
-        'additional_inputs' => 'setAdditionalInputs',
+        'additional_inputs' => 'setAdditionalInputs'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -141,19 +211,63 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
         'rate_id' => 'getRateId',
         'requested_document_specification' => 'getRequestedDocumentSpecification',
         'requested_value_added_services' => 'getRequestedValueAddedServices',
-        'additional_inputs' => 'getAdditionalInputs',
+        'additional_inputs' => 'getAdditionalInputs'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -165,81 +279,21 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -251,32 +305,34 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     {
         $invalidProperties = [];
 
-        if (null === $this->container['request_token']) {
+        if ($this->container['request_token'] === null) {
             $invalidProperties[] = "'request_token' can't be null";
         }
-        if (null === $this->container['rate_id']) {
+        if ($this->container['rate_id'] === null) {
             $invalidProperties[] = "'rate_id' can't be null";
         }
-        if (null === $this->container['requested_document_specification']) {
+        if ($this->container['requested_document_specification'] === null) {
             $invalidProperties[] = "'requested_document_specification' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets request_token.
+     * Gets request_token
+     *
+     * @return string
      */
     public function getRequestToken(): string
     {
@@ -284,9 +340,11 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Sets request_token.
+     * Sets request_token
      *
-     * @param string $request_token a unique token generated to identify a getRates operation
+     * @param string $request_token A unique token generated to identify a getRates operation.
+     *
+     * @return self
      */
     public function setRequestToken(string $request_token): self
     {
@@ -299,7 +357,9 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Gets rate_id.
+     * Gets rate_id
+     *
+     * @return string
      */
     public function getRateId(): string
     {
@@ -307,9 +367,11 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Sets rate_id.
+     * Sets rate_id
      *
-     * @param string $rate_id an identifier for the rate (shipment offering) provided by a shipping service provider
+     * @param string $rate_id An identifier for the rate (shipment offering) provided by a shipping service provider.
+     *
+     * @return self
      */
     public function setRateId(string $rate_id): self
     {
@@ -322,19 +384,23 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Gets requested_document_specification.
+     * Gets requested_document_specification
+     *
+     * @return \SpApi\Model\shipping\v2\RequestedDocumentSpecification
      */
-    public function getRequestedDocumentSpecification(): RequestedDocumentSpecification
+    public function getRequestedDocumentSpecification(): \SpApi\Model\shipping\v2\RequestedDocumentSpecification
     {
         return $this->container['requested_document_specification'];
     }
 
     /**
-     * Sets requested_document_specification.
+     * Sets requested_document_specification
      *
-     * @param RequestedDocumentSpecification $requested_document_specification requested_document_specification
+     * @param \SpApi\Model\shipping\v2\RequestedDocumentSpecification $requested_document_specification requested_document_specification
+     *
+     * @return self
      */
-    public function setRequestedDocumentSpecification(RequestedDocumentSpecification $requested_document_specification): self
+    public function setRequestedDocumentSpecification(\SpApi\Model\shipping\v2\RequestedDocumentSpecification $requested_document_specification): self
     {
         if (is_null($requested_document_specification)) {
             throw new \InvalidArgumentException('non-nullable requested_document_specification cannot be null');
@@ -345,7 +411,9 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Gets requested_value_added_services.
+     * Gets requested_value_added_services
+     *
+     * @return array|null
      */
     public function getRequestedValueAddedServices(): ?array
     {
@@ -353,9 +421,11 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Sets requested_value_added_services.
+     * Sets requested_value_added_services
      *
-     * @param null|array $requested_value_added_services the value-added services to be added to a shipping service purchase
+     * @param array|null $requested_value_added_services The value-added services to be added to a shipping service purchase.
+     *
+     * @return self
      */
     public function setRequestedValueAddedServices(?array $requested_value_added_services): self
     {
@@ -364,7 +434,7 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('requested_value_added_services', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -375,9 +445,9 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Gets additional_inputs.
+     * Gets additional_inputs
      *
-     * @return null|array<string,object>
+     * @return array<string,object>|null
      */
     public function getAdditionalInputs(): ?array
     {
@@ -385,9 +455,11 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     }
 
     /**
-     * Sets additional_inputs.
+     * Sets additional_inputs
      *
-     * @param null|array<string,object> $additional_inputs The additional inputs required to purchase a shipping offering, in JSON format. The JSON provided here must adhere to the JSON schema that is returned in the response to the getAdditionalInputs operation.  Additional inputs are only required when indicated by the requiresAdditionalInputs property in the response to the getRates operation.
+     * @param array<string,object>|null $additional_inputs The additional inputs required to purchase a shipping offering, in JSON format. The JSON provided here must adhere to the JSON schema that is returned in the response to the getAdditionalInputs operation.  Additional inputs are only required when indicated by the requiresAdditionalInputs property in the response to the getRates operation.
+     *
+     * @return self
      */
     public function setAdditionalInputs(?array $additional_inputs): self
     {
@@ -396,7 +468,7 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('additional_inputs', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -406,10 +478,13 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -419,9 +494,9 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -432,8 +507,10 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -447,7 +524,9 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -456,67 +535,39 @@ class PurchaseShipmentRequest implements ModelInterface, \ArrayAccess, \JsonSeri
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+

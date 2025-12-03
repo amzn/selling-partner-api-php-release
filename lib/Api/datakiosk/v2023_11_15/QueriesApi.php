@@ -1,18 +1,16 @@
 <?php
-
 /**
  * QueriesApi
- * PHP version 8.3.
+ * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Data Kiosk.
+ * Selling Partner API for Data Kiosk
  *
  * The Selling Partner API for Data Kiosk lets you submit GraphQL queries from a variety of schemas to help selling partners manage their businesses.
  *
@@ -37,40 +35,38 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use SpApi\AuthAndAuth\RateLimitConfiguration;
+use Symfony\Component\RateLimiter\LimiterInterface;
+use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use SpApi\ApiException;
-use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
-use SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse;
-use SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification;
-use SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse;
-use SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse;
-use SpApi\Model\datakiosk\v2023_11_15\Query;
 use SpApi\ObjectSerializer;
-use Symfony\Component\RateLimiter\LimiterInterface;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 
 /**
- * QueriesApi Class Doc Comment.
+ * QueriesApi Class Doc Comment
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 class QueriesApi
 {
-    public ?LimiterInterface $cancelQueryRateLimiter;
-    public ?LimiterInterface $createQueryRateLimiter;
-    public ?LimiterInterface $getDocumentRateLimiter;
-    public ?LimiterInterface $getQueriesRateLimiter;
-    public ?LimiterInterface $getQueryRateLimiter;
+    /**
+     * @var ClientInterface
+     */
     protected ClientInterface $client;
 
+    /**
+     * @var Configuration
+     */
     protected Configuration $config;
 
+    /**
+     * @var HeaderSelector
+     */
     protected HeaderSelector $headerSelector;
 
     /**
@@ -78,35 +74,46 @@ class QueriesApi
      */
     protected int $hostIndex;
 
-    private bool $rateLimiterEnabled;
-    private InMemoryStorage $rateLimitStorage;
+    /**
+     * @var ?RateLimitConfiguration
+     */
+    private ?RateLimitConfiguration $rateLimitConfig = null;
 
     /**
+     * @var ?LimiterInterface
+     */
+    private ?LimiterInterface $rateLimiter = null;
+
+    /**
+     * @param Configuration   $config
+     * @param RateLimitConfiguration|null $rateLimitConfig
+     * @param ClientInterface|null $client
+     * @param HeaderSelector|null $selector
      * @param int $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         Configuration $config,
+        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
-        ?bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimiterEnabled = $rateLimiterEnabled;
-
-        if ($rateLimiterEnabled) {
-            $this->rateLimitStorage = new InMemoryStorage();
-
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('QueriesApi-cancelQuery'), $this->rateLimitStorage);
-            $this->cancelQueryRateLimiter = $factory->create('QueriesApi-cancelQuery');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('QueriesApi-createQuery'), $this->rateLimitStorage);
-            $this->createQueryRateLimiter = $factory->create('QueriesApi-createQuery');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('QueriesApi-getDocument'), $this->rateLimitStorage);
-            $this->getDocumentRateLimiter = $factory->create('QueriesApi-getDocument');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('QueriesApi-getQueries'), $this->rateLimitStorage);
-            $this->getQueriesRateLimiter = $factory->create('QueriesApi-getQueries');
-            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('QueriesApi-getQuery'), $this->rateLimitStorage);
-            $this->getQueryRateLimiter = $factory->create('QueriesApi-getQuery');
+        $this->rateLimitConfig = $rateLimitConfig;
+        if ($rateLimitConfig) {
+            $type = $rateLimitConfig->getRateLimitType();
+            $rateLimitOptions = [
+                'id' => 'spApiCall',
+                'policy' => $type,
+                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
+            ];
+            if ($type === "fixed_window" || $type === "sliding_window") {
+                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
+            } else {
+                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
+            }
+            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
+            $this->rateLimiter = $factory->create();
         }
 
         $this->client = $client ?: new Client();
@@ -115,7 +122,7 @@ class QueriesApi
     }
 
     /**
-     * Set the host index.
+     * Set the host index
      *
      * @param int $hostIndex Host index (required)
      */
@@ -125,7 +132,7 @@ class QueriesApi
     }
 
     /**
-     * Get the host index.
+     * Get the host index
      *
      * @return int Host index
      */
@@ -134,58 +141,50 @@ class QueriesApi
         return $this->hostIndex;
     }
 
+    /**
+     * @return Configuration
+     */
     public function getConfig(): Configuration
     {
         return $this->config;
     }
 
     /**
-     * Operation cancelQuery.
+     * Operation cancelQuery
      *
-     * @param string      $query_id
-     *                                         The identifier for the query. This identifier is unique only in combination with a selling partner account ID. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $query_id
+     *  The identifier for the query. This identifier is unique only in combination with a selling partner account ID. (required)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return 
      */
     public function cancelQuery(
-        string $query_id,
-        ?string $restrictedDataToken = null
+        string $query_id
     ): void {
-        $this->cancelQueryWithHttpInfo($query_id, $restrictedDataToken);
+        $this->cancelQueryWithHttpInfo($query_id);
     }
 
     /**
-     * Operation cancelQueryWithHttpInfo.
+     * Operation cancelQueryWithHttpInfo
      *
-     * @param string      $query_id
-     *                                         The identifier for the query. This identifier is unique only in combination with a selling partner account ID. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $query_id
+     *  The identifier for the query. This identifier is unique only in combination with a selling partner account ID. (required)
      *
-     * @return array of , HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of , HTTP status code, HTTP response headers (array of strings)
      */
     public function cancelQueryWithHttpInfo(
-        string $query_id,
-        ?string $restrictedDataToken = null
+        string $query_id
     ): array {
         $request = $this->cancelQueryRequest($query_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'QueriesApi-cancelQuery');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->cancelQueryRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -219,25 +218,86 @@ class QueriesApi
             }
 
             return [null, $statusCode, $response->getHeaders()];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation cancelQueryAsync.
+     * Operation cancelQueryAsync
      *
-     * @param string $query_id
-     *                         The identifier for the query. This identifier is unique only in combination with a selling partner account ID. (required)
+     * @param  string $query_id
+     *  The identifier for the query. This identifier is unique only in combination with a selling partner account ID. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function cancelQueryAsync(
         string $query_id
@@ -247,43 +307,35 @@ class QueriesApi
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation cancelQueryAsyncWithHttpInfo.
+     * Operation cancelQueryAsyncWithHttpInfo
      *
-     * @param string $query_id
-     *                         The identifier for the query. This identifier is unique only in combination with a selling partner account ID. (required)
+     * @param  string $query_id
+     *  The identifier for the query. This identifier is unique only in combination with a selling partner account ID. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function cancelQueryAsyncWithHttpInfo(
-        string $query_id,
-        ?string $restrictedDataToken = null
+        string $query_id
     ): PromiseInterface {
         $returnType = '';
         $request = $this->cancelQueryRequest($query_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'QueriesApi-cancelQuery');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->cancelQueryRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) {
+                function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -295,23 +347,23 @@ class QueriesApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'cancelQuery'.
+     * Create request for operation 'cancelQuery'
      *
-     * @param string $query_id
-     *                         The identifier for the query. This identifier is unique only in combination with a selling partner account ID. (required)
+     * @param  string $query_id
+     *  The identifier for the query. This identifier is unique only in combination with a selling partner account ID. (required)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function cancelQueryRequest(
         string $query_id
     ): Request {
         // verify the required parameter 'query_id' is set
-        if (null === $query_id || (is_array($query_id) && 0 === count($query_id))) {
+        if ($query_id === null || (is_array($query_id) && count($query_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $query_id when calling cancelQuery'
             );
@@ -324,20 +376,30 @@ class QueriesApi
         $httpBody = '';
         $multipart = false;
 
+
+
         // path params
-        if (null !== $query_id) {
+        if ($query_id !== null) {
             $resourcePath = str_replace(
-                '{queryId}',
+                '{' . 'queryId' . '}',
                 ObjectSerializer::toPathValue($query_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -348,19 +410,22 @@ class QueriesApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -374,64 +439,51 @@ class QueriesApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'DELETE',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation createQuery.
+     * Operation createQuery
      *
-     * @param CreateQuerySpecification $body
-     *                                                      The body of the request. (required)
-     * @param null|string              $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  \SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification $body
+     *  The body of the request. (required)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse
      */
     public function createQuery(
-        CreateQuerySpecification $body,
-        ?string $restrictedDataToken = null
-    ): CreateQueryResponse {
-        list($response) = $this->createQueryWithHttpInfo($body, $restrictedDataToken);
-
+        \SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification $body
+    ): \SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse {
+        list($response) = $this->createQueryWithHttpInfo($body);
         return $response;
     }
 
     /**
-     * Operation createQueryWithHttpInfo.
+     * Operation createQueryWithHttpInfo
      *
-     * @param CreateQuerySpecification $body
-     *                                                      The body of the request. (required)
-     * @param null|string              $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  \SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification $body
+     *  The body of the request. (required)
      *
-     * @return array of \SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function createQueryWithHttpInfo(
-        CreateQuerySpecification $body,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification $body
     ): array {
         $request = $this->createQueryRequest($body);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'QueriesApi-createQuery');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->createQueryRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -463,84 +515,286 @@ class QueriesApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 202:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 413:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 202:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation createQueryAsync.
+     * Operation createQueryAsync
      *
-     * @param CreateQuerySpecification $body
-     *                                       The body of the request. (required)
+     * @param  \SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification $body
+     *  The body of the request. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function createQueryAsync(
-        CreateQuerySpecification $body
+        \SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification $body
     ): PromiseInterface {
         return $this->createQueryAsyncWithHttpInfo($body)
             ->then(
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation createQueryAsyncWithHttpInfo.
+     * Operation createQueryAsyncWithHttpInfo
      *
-     * @param CreateQuerySpecification $body
-     *                                       The body of the request. (required)
+     * @param  \SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification $body
+     *  The body of the request. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function createQueryAsyncWithHttpInfo(
-        CreateQuerySpecification $body,
-        ?string $restrictedDataToken = null
+        \SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification $body
     ): PromiseInterface {
         $returnType = '\SpApi\Model\datakiosk\v2023_11_15\CreateQueryResponse';
         $request = $this->createQueryRequest($body);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'QueriesApi-createQuery');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->createQueryRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -548,13 +802,12 @@ class QueriesApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -566,23 +819,23 @@ class QueriesApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'createQuery'.
+     * Create request for operation 'createQuery'
      *
-     * @param CreateQuerySpecification $body
-     *                                       The body of the request. (required)
+     * @param  \SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification $body
+     *  The body of the request. (required)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function createQueryRequest(
-        CreateQuerySpecification $body
+        \SpApi\Model\datakiosk\v2023_11_15\CreateQuerySpecification $body
     ): Request {
         // verify the required parameter 'body' is set
-        if (null === $body || (is_array($body) && 0 === count($body))) {
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $body when calling createQuery'
             );
@@ -595,15 +848,26 @@ class QueriesApi
         $httpBody = '';
         $multipart = false;
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            'application/json',
-            $multipart
-        );
+
+
+
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                'application/json'
+                ,
+                false
+            );
+        }
 
         // for model (json/xml)
         if (isset($body)) {
-            if ('application/json' === $headers['Content-Type']) {
+            if ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($body));
             } else {
                 $httpBody = $body;
@@ -616,19 +880,22 @@ class QueriesApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -642,64 +909,51 @@ class QueriesApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'POST',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getDocument.
+     * Operation getDocument
      *
-     * @param string      $document_id
-     *                                         The identifier for the Data Kiosk document. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $document_id
+     *  The identifier for the Data Kiosk document. (required)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse
      */
     public function getDocument(
-        string $document_id,
-        ?string $restrictedDataToken = null
-    ): GetDocumentResponse {
-        list($response) = $this->getDocumentWithHttpInfo($document_id, $restrictedDataToken);
-
+        string $document_id
+    ): \SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse {
+        list($response) = $this->getDocumentWithHttpInfo($document_id);
         return $response;
     }
 
     /**
-     * Operation getDocumentWithHttpInfo.
+     * Operation getDocumentWithHttpInfo
      *
-     * @param string      $document_id
-     *                                         The identifier for the Data Kiosk document. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $document_id
+     *  The identifier for the Data Kiosk document. (required)
      *
-     * @return array of \SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getDocumentWithHttpInfo(
-        string $document_id,
-        ?string $restrictedDataToken = null
+        string $document_id
     ): array {
         $request = $this->getDocumentRequest($document_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'QueriesApi-getDocument');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getDocumentRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -731,39 +985,248 @@ class QueriesApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 413:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getDocumentAsync.
+     * Operation getDocumentAsync
      *
-     * @param string $document_id
-     *                            The identifier for the Data Kiosk document. (required)
+     * @param  string $document_id
+     *  The identifier for the Data Kiosk document. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getDocumentAsync(
         string $document_id
@@ -773,42 +1236,35 @@ class QueriesApi
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getDocumentAsyncWithHttpInfo.
+     * Operation getDocumentAsyncWithHttpInfo
      *
-     * @param string $document_id
-     *                            The identifier for the Data Kiosk document. (required)
+     * @param  string $document_id
+     *  The identifier for the Data Kiosk document. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getDocumentAsyncWithHttpInfo(
-        string $document_id,
-        ?string $restrictedDataToken = null
+        string $document_id
     ): PromiseInterface {
         $returnType = '\SpApi\Model\datakiosk\v2023_11_15\GetDocumentResponse';
         $request = $this->getDocumentRequest($document_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'QueriesApi-getDocument');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getDocumentRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -816,13 +1272,12 @@ class QueriesApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -834,23 +1289,23 @@ class QueriesApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getDocument'.
+     * Create request for operation 'getDocument'
      *
-     * @param string $document_id
-     *                            The identifier for the Data Kiosk document. (required)
+     * @param  string $document_id
+     *  The identifier for the Data Kiosk document. (required)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getDocumentRequest(
         string $document_id
     ): Request {
         // verify the required parameter 'document_id' is set
-        if (null === $document_id || (is_array($document_id) && 0 === count($document_id))) {
+        if ($document_id === null || (is_array($document_id) && count($document_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $document_id when calling getDocument'
             );
@@ -863,20 +1318,30 @@ class QueriesApi
         $httpBody = '';
         $multipart = false;
 
+
+
         // path params
-        if (null !== $document_id) {
+        if ($document_id !== null) {
             $resourcePath = str_replace(
-                '{documentId}',
+                '{' . 'documentId' . '}',
                 ObjectSerializer::toPathValue($document_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -887,19 +1352,22 @@ class QueriesApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -913,88 +1381,75 @@ class QueriesApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getQueries.
+     * Operation getQueries
      *
-     * @param null|string[]  $processing_statuses
-     *                                            A list of processing statuses used to filter queries. (optional)
-     * @param null|int       $page_size
-     *                                            The maximum number of queries to return in a single call. (optional, default to 10)
-     * @param null|\DateTime $created_since
-     *                                            The earliest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is 90 days ago. (optional)
-     * @param null|\DateTime $created_until
-     *                                            The latest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is the time of the &#x60;getQueries&#x60; request. (optional)
-     * @param null|string    $pagination_token
-     *                                            A token to fetch a certain page of results when there are multiple pages of results available. The value of this token is fetched from the &#x60;pagination.nextToken&#x60; field returned in the &#x60;GetQueriesResponse&#x60; object. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of &#x60;pageSize&#x60; which can be modified between calls to &#x60;getQueries&#x60;. In the absence of this token value, &#x60;getQueries&#x60; returns the first page of results. (optional)
-     * @param null|string    $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string[]|null $processing_statuses
+     *  A list of processing statuses used to filter queries. (optional)
+     * @param  int|null $page_size
+     *  The maximum number of queries to return in a single call. (optional, default to 10)
+     * @param  \DateTime|null $created_since
+     *  The earliest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is 90 days ago. (optional)
+     * @param  \DateTime|null $created_until
+     *  The latest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is the time of the &#x60;getQueries&#x60; request. (optional)
+     * @param  string|null $pagination_token
+     *  A token to fetch a certain page of results when there are multiple pages of results available. The value of this token is fetched from the &#x60;pagination.nextToken&#x60; field returned in the &#x60;GetQueriesResponse&#x60; object. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of &#x60;pageSize&#x60; which can be modified between calls to &#x60;getQueries&#x60;. In the absence of this token value, &#x60;getQueries&#x60; returns the first page of results. (optional)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse
      */
     public function getQueries(
         ?array $processing_statuses = null,
         ?int $page_size = 10,
         ?\DateTime $created_since = null,
         ?\DateTime $created_until = null,
-        ?string $pagination_token = null,
-        ?string $restrictedDataToken = null
-    ): GetQueriesResponse {
-        list($response) = $this->getQueriesWithHttpInfo($processing_statuses, $page_size, $created_since, $created_until, $pagination_token, $restrictedDataToken);
-
+        ?string $pagination_token = null
+    ): \SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse {
+        list($response) = $this->getQueriesWithHttpInfo($processing_statuses, $page_size, $created_since, $created_until, $pagination_token);
         return $response;
     }
 
     /**
-     * Operation getQueriesWithHttpInfo.
+     * Operation getQueriesWithHttpInfo
      *
-     * @param null|string[]  $processing_statuses
-     *                                            A list of processing statuses used to filter queries. (optional)
-     * @param null|int       $page_size
-     *                                            The maximum number of queries to return in a single call. (optional, default to 10)
-     * @param null|\DateTime $created_since
-     *                                            The earliest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is 90 days ago. (optional)
-     * @param null|\DateTime $created_until
-     *                                            The latest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is the time of the &#x60;getQueries&#x60; request. (optional)
-     * @param null|string    $pagination_token
-     *                                            A token to fetch a certain page of results when there are multiple pages of results available. The value of this token is fetched from the &#x60;pagination.nextToken&#x60; field returned in the &#x60;GetQueriesResponse&#x60; object. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of &#x60;pageSize&#x60; which can be modified between calls to &#x60;getQueries&#x60;. In the absence of this token value, &#x60;getQueries&#x60; returns the first page of results. (optional)
-     * @param null|string    $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string[]|null $processing_statuses
+     *  A list of processing statuses used to filter queries. (optional)
+     * @param  int|null $page_size
+     *  The maximum number of queries to return in a single call. (optional, default to 10)
+     * @param  \DateTime|null $created_since
+     *  The earliest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is 90 days ago. (optional)
+     * @param  \DateTime|null $created_until
+     *  The latest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is the time of the &#x60;getQueries&#x60; request. (optional)
+     * @param  string|null $pagination_token
+     *  A token to fetch a certain page of results when there are multiple pages of results available. The value of this token is fetched from the &#x60;pagination.nextToken&#x60; field returned in the &#x60;GetQueriesResponse&#x60; object. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of &#x60;pageSize&#x60; which can be modified between calls to &#x60;getQueries&#x60;. In the absence of this token value, &#x60;getQueries&#x60; returns the first page of results. (optional)
      *
-     * @return array of \SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getQueriesWithHttpInfo(
         ?array $processing_statuses = null,
         ?int $page_size = 10,
         ?\DateTime $created_since = null,
         ?\DateTime $created_until = null,
-        ?string $pagination_token = null,
-        ?string $restrictedDataToken = null
+        ?string $pagination_token = null
     ): array {
         $request = $this->getQueriesRequest($processing_statuses, $page_size, $created_since, $created_until, $pagination_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'QueriesApi-getQueries');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getQueriesRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -1026,47 +1481,256 @@ class QueriesApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 413:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getQueriesAsync.
+     * Operation getQueriesAsync
      *
-     * @param null|string[]  $processing_statuses
-     *                                            A list of processing statuses used to filter queries. (optional)
-     * @param null|int       $page_size
-     *                                            The maximum number of queries to return in a single call. (optional, default to 10)
-     * @param null|\DateTime $created_since
-     *                                            The earliest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is 90 days ago. (optional)
-     * @param null|\DateTime $created_until
-     *                                            The latest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is the time of the &#x60;getQueries&#x60; request. (optional)
-     * @param null|string    $pagination_token
-     *                                            A token to fetch a certain page of results when there are multiple pages of results available. The value of this token is fetched from the &#x60;pagination.nextToken&#x60; field returned in the &#x60;GetQueriesResponse&#x60; object. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of &#x60;pageSize&#x60; which can be modified between calls to &#x60;getQueries&#x60;. In the absence of this token value, &#x60;getQueries&#x60; returns the first page of results. (optional)
+     * @param  string[]|null $processing_statuses
+     *  A list of processing statuses used to filter queries. (optional)
+     * @param  int|null $page_size
+     *  The maximum number of queries to return in a single call. (optional, default to 10)
+     * @param  \DateTime|null $created_since
+     *  The earliest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is 90 days ago. (optional)
+     * @param  \DateTime|null $created_until
+     *  The latest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is the time of the &#x60;getQueries&#x60; request. (optional)
+     * @param  string|null $pagination_token
+     *  A token to fetch a certain page of results when there are multiple pages of results available. The value of this token is fetched from the &#x60;pagination.nextToken&#x60; field returned in the &#x60;GetQueriesResponse&#x60; object. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of &#x60;pageSize&#x60; which can be modified between calls to &#x60;getQueries&#x60;. In the absence of this token value, &#x60;getQueries&#x60; returns the first page of results. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getQueriesAsync(
         ?array $processing_statuses = null,
@@ -1080,54 +1744,47 @@ class QueriesApi
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getQueriesAsyncWithHttpInfo.
+     * Operation getQueriesAsyncWithHttpInfo
      *
-     * @param null|string[]  $processing_statuses
-     *                                            A list of processing statuses used to filter queries. (optional)
-     * @param null|int       $page_size
-     *                                            The maximum number of queries to return in a single call. (optional, default to 10)
-     * @param null|\DateTime $created_since
-     *                                            The earliest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is 90 days ago. (optional)
-     * @param null|\DateTime $created_until
-     *                                            The latest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is the time of the &#x60;getQueries&#x60; request. (optional)
-     * @param null|string    $pagination_token
-     *                                            A token to fetch a certain page of results when there are multiple pages of results available. The value of this token is fetched from the &#x60;pagination.nextToken&#x60; field returned in the &#x60;GetQueriesResponse&#x60; object. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of &#x60;pageSize&#x60; which can be modified between calls to &#x60;getQueries&#x60;. In the absence of this token value, &#x60;getQueries&#x60; returns the first page of results. (optional)
+     * @param  string[]|null $processing_statuses
+     *  A list of processing statuses used to filter queries. (optional)
+     * @param  int|null $page_size
+     *  The maximum number of queries to return in a single call. (optional, default to 10)
+     * @param  \DateTime|null $created_since
+     *  The earliest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is 90 days ago. (optional)
+     * @param  \DateTime|null $created_until
+     *  The latest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is the time of the &#x60;getQueries&#x60; request. (optional)
+     * @param  string|null $pagination_token
+     *  A token to fetch a certain page of results when there are multiple pages of results available. The value of this token is fetched from the &#x60;pagination.nextToken&#x60; field returned in the &#x60;GetQueriesResponse&#x60; object. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of &#x60;pageSize&#x60; which can be modified between calls to &#x60;getQueries&#x60;. In the absence of this token value, &#x60;getQueries&#x60; returns the first page of results. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getQueriesAsyncWithHttpInfo(
         ?array $processing_statuses = null,
         ?int $page_size = 10,
         ?\DateTime $created_since = null,
         ?\DateTime $created_until = null,
-        ?string $pagination_token = null,
-        ?string $restrictedDataToken = null
+        ?string $pagination_token = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\datakiosk\v2023_11_15\GetQueriesResponse';
         $request = $this->getQueriesRequest($processing_statuses, $page_size, $created_since, $created_until, $pagination_token);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'QueriesApi-getQueries');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getQueriesRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -1135,13 +1792,12 @@ class QueriesApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -1153,25 +1809,25 @@ class QueriesApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getQueries'.
+     * Create request for operation 'getQueries'
      *
-     * @param null|string[]  $processing_statuses
-     *                                            A list of processing statuses used to filter queries. (optional)
-     * @param null|int       $page_size
-     *                                            The maximum number of queries to return in a single call. (optional, default to 10)
-     * @param null|\DateTime $created_since
-     *                                            The earliest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is 90 days ago. (optional)
-     * @param null|\DateTime $created_until
-     *                                            The latest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is the time of the &#x60;getQueries&#x60; request. (optional)
-     * @param null|string    $pagination_token
-     *                                            A token to fetch a certain page of results when there are multiple pages of results available. The value of this token is fetched from the &#x60;pagination.nextToken&#x60; field returned in the &#x60;GetQueriesResponse&#x60; object. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of &#x60;pageSize&#x60; which can be modified between calls to &#x60;getQueries&#x60;. In the absence of this token value, &#x60;getQueries&#x60; returns the first page of results. (optional)
+     * @param  string[]|null $processing_statuses
+     *  A list of processing statuses used to filter queries. (optional)
+     * @param  int|null $page_size
+     *  The maximum number of queries to return in a single call. (optional, default to 10)
+     * @param  \DateTime|null $created_since
+     *  The earliest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is 90 days ago. (optional)
+     * @param  \DateTime|null $created_until
+     *  The latest query creation date and time for queries to include in the response, in ISO 8601 date time format. The default is the time of the &#x60;getQueries&#x60; request. (optional)
+     * @param  string|null $pagination_token
+     *  A token to fetch a certain page of results when there are multiple pages of results available. The value of this token is fetched from the &#x60;pagination.nextToken&#x60; field returned in the &#x60;GetQueriesResponse&#x60; object. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of &#x60;pageSize&#x60; which can be modified between calls to &#x60;getQueries&#x60;. In the absence of this token value, &#x60;getQueries&#x60; returns the first page of results. (optional)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getQueriesRequest(
         ?array $processing_statuses = null,
@@ -1180,16 +1836,17 @@ class QueriesApi
         ?\DateTime $created_until = null,
         ?string $pagination_token = null
     ): Request {
-        if (null !== $processing_statuses && count($processing_statuses) < 1) {
+        if ($processing_statuses !== null && count($processing_statuses) < 1) {
             throw new \InvalidArgumentException('invalid value for "$processing_statuses" when calling QueriesApi.getQueries, number of items must be greater than or equal to 1.');
         }
 
-        if (null !== $page_size && $page_size > 100) {
+        if ($page_size !== null && $page_size > 100) {
             throw new \InvalidArgumentException('invalid value for "$page_size" when calling QueriesApi.getQueries, must be smaller than or equal to 100.');
         }
-        if (null !== $page_size && $page_size < 1) {
+        if ($page_size !== null && $page_size < 1) {
             throw new \InvalidArgumentException('invalid value for "$page_size" when calling QueriesApi.getQueries, must be bigger than or equal to 1.');
         }
+
 
         $resourcePath = '/dataKiosk/2023-11-15/queries';
         $formParams = [];
@@ -1205,8 +1862,7 @@ class QueriesApi
             'array', // openApiType
             'form', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1215,8 +1871,7 @@ class QueriesApi
             'integer', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1225,8 +1880,7 @@ class QueriesApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1235,8 +1889,7 @@ class QueriesApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1245,15 +1898,24 @@ class QueriesApi
             'string', // openApiType
             '', // style
             false, // explode
-            false, // required
-            $this->config
+            false // required
         ) ?? []);
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -1264,19 +1926,22 @@ class QueriesApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1290,64 +1955,51 @@ class QueriesApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getQuery.
+     * Operation getQuery
      *
-     * @param string      $query_id
-     *                                         The query identifier. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $query_id
+     *  The query identifier. (required)
      *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return \SpApi\Model\datakiosk\v2023_11_15\Query
      */
     public function getQuery(
-        string $query_id,
-        ?string $restrictedDataToken = null
-    ): Query {
-        list($response) = $this->getQueryWithHttpInfo($query_id, $restrictedDataToken);
-
+        string $query_id
+    ): \SpApi\Model\datakiosk\v2023_11_15\Query {
+        list($response) = $this->getQueryWithHttpInfo($query_id);
         return $response;
     }
 
     /**
-     * Operation getQueryWithHttpInfo.
+     * Operation getQueryWithHttpInfo
      *
-     * @param string      $query_id
-     *                                         The query identifier. (required)
-     * @param null|string $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
+     * @param  string $query_id
+     *  The query identifier. (required)
      *
-     * @return array of \SpApi\Model\datakiosk\v2023_11_15\Query, HTTP status code, HTTP response headers (array of strings)
-     *
-     * @throws ApiException              on non-2xx response
+     * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
+     * @return array of \SpApi\Model\datakiosk\v2023_11_15\Query, HTTP status code, HTTP response headers (array of strings)
      */
     public function getQueryWithHttpInfo(
-        string $query_id,
-        ?string $restrictedDataToken = null
+        string $query_id
     ): array {
         $request = $this->getQueryRequest($query_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'QueriesApi-getQuery');
-        } else {
-            $request = $this->config->sign($request);
-        }
+        $request = $this->config->sign($request);
 
         try {
             $options = $this->createHttpClientOption();
-
             try {
-                if ($this->rateLimiterEnabled) {
-                    $this->getQueryRateLimiter->consume()->ensureAccepted();
-                }
+                $this->rateLimitWait();
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -1379,39 +2031,248 @@ class QueriesApi
                     (string) $response->getBody()
                 );
             }
-            if ('\SpApi\Model\datakiosk\v2023_11_15\Query' === '\SplFileObject') {
-                $content = $response->getBody(); // stream goes to serializer
+
+            switch($statusCode) {
+                case 200:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\Query' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\Query' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\Query', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 413:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 415:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 503:
+                    if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\SpApi\Model\datakiosk\v2023_11_15\ErrorList' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\ErrorList', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\SpApi\Model\datakiosk\v2023_11_15\Query';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ('\SpApi\Model\datakiosk\v2023_11_15\Query' !== 'string') {
+                if ($returnType !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, '\SpApi\Model\datakiosk\v2023_11_15\Query', []),
+                ObjectSerializer::deserialize($content, $returnType, []),
                 $response->getStatusCode(),
-                $response->getHeaders(),
+                $response->getHeaders()
             ];
-        } catch (ApiException $e) {
-            $data = ObjectSerializer::deserialize(
-                $e->getResponseBody(),
-                '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
-                $e->getResponseHeaders()
-            );
-            $e->setResponseObject($data);
 
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\Query',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 413:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 415:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\SpApi\Model\datakiosk\v2023_11_15\ErrorList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
             throw $e;
         }
     }
 
     /**
-     * Operation getQueryAsync.
+     * Operation getQueryAsync
      *
-     * @param string $query_id
-     *                         The query identifier. (required)
+     * @param  string $query_id
+     *  The query identifier. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getQueryAsync(
         string $query_id
@@ -1421,42 +2282,35 @@ class QueriesApi
                 function ($response) {
                     return $response[0];
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Operation getQueryAsyncWithHttpInfo.
+     * Operation getQueryAsyncWithHttpInfo
      *
-     * @param string $query_id
-     *                         The query identifier. (required)
+     * @param  string $query_id
+     *  The query identifier. (required)
      *
      * @throws \InvalidArgumentException
+     * @return PromiseInterface
      */
     public function getQueryAsyncWithHttpInfo(
-        string $query_id,
-        ?string $restrictedDataToken = null
+        string $query_id
     ): PromiseInterface {
         $returnType = '\SpApi\Model\datakiosk\v2023_11_15\Query';
         $request = $this->getQueryRequest($query_id);
-        if (null !== $restrictedDataToken) {
-            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'QueriesApi-getQuery');
-        } else {
-            $request = $this->config->sign($request);
-        }
-        if ($this->rateLimiterEnabled) {
-            $this->getQueryRateLimiter->consume()->ensureAccepted();
-        }
+        $request = $this->config->sign($request);
+        $this->rateLimitWait();
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ('\SplFileObject' === $returnType) {
-                        $content = $response->getBody(); // stream goes to serializer
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('string' !== $returnType) {
+                        if ($returnType !== 'string') {
                             $content = json_decode($content);
                         }
                     }
@@ -1464,13 +2318,12 @@ class QueriesApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders(),
+                        $response->getHeaders()
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -1482,23 +2335,23 @@ class QueriesApi
                         (string) $response->getBody()
                     );
                 }
-            )
-        ;
+            );
     }
 
     /**
-     * Create request for operation 'getQuery'.
+     * Create request for operation 'getQuery'
      *
-     * @param string $query_id
-     *                         The query identifier. (required)
+     * @param  string $query_id
+     *  The query identifier. (required)
      *
      * @throws \InvalidArgumentException
+     * @return Request
      */
     public function getQueryRequest(
         string $query_id
     ): Request {
         // verify the required parameter 'query_id' is set
-        if (null === $query_id || (is_array($query_id) && 0 === count($query_id))) {
+        if ($query_id === null || (is_array($query_id) && count($query_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $query_id when calling getQuery'
             );
@@ -1511,20 +2364,30 @@ class QueriesApi
         $httpBody = '';
         $multipart = false;
 
+
+
         // path params
-        if (null !== $query_id) {
+        if ($query_id !== null) {
             $resourcePath = str_replace(
-                '{queryId}',
+                '{' . 'queryId' . '}',
                 ObjectSerializer::toPathValue($query_id),
                 $resourcePath
             );
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            '',
-            $multipart
-        );
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                
+                '',
+                false
+            );
+        }
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -1535,19 +2398,22 @@ class QueriesApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem,
+                            'contents' => $formParamValueItem
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-            } elseif ('application/json' === $headers['Content-Type']) {
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
+
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1561,21 +2427,19 @@ class QueriesApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
-
         return new Request(
             'GET',
-            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Create http client option.
-     *
-     * @return array of http client options
+     * Create http client option
      *
      * @throws \RuntimeException on file opening failure
+     * @return array of http client options
      */
     protected function createHttpClientOption(): array
     {
@@ -1583,10 +2447,27 @@ class QueriesApi
         if ($this->config->getDebug()) {
             $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: '.$this->config->getDebugFile());
+                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
             }
         }
 
         return $options;
+    }
+
+    /**
+     * Rate Limiter waits for tokens
+     *
+     * @return void
+     */
+    public function rateLimitWait(): void
+    {
+        if ($this->rateLimiter) {
+            $type = $this->rateLimitConfig->getRateLimitType();
+            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
+                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
+            } else {
+                $this->rateLimiter->consume()->wait();
+            }
+        }
     }
 }

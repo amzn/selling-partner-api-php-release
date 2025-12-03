@@ -1,19 +1,17 @@
 <?php
-
 /**
- * ProductTypeDefinition.
+ * ProductTypeDefinition
  *
  * PHP version 8.3
  *
  * @category Class
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
+ * @link     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Product Type Definitions.
+ * Selling Partner API for Product Type Definitions
  *
  * The Selling Partner API for Product Type Definitions provides programmatic access to attribute and data requirements for product types in the Amazon catalog. Use this API to return the JSON Schema for a product type that you can then use with other Selling Partner APIs, such as the Selling Partner API for Listings Items, the Selling Partner API for Catalog Items, and the Selling Partner API for Feeds (for JSON-based listing feeds).  For more information, see the [Product Type Definitions API Use Case Guide](doc:product-type-api-use-case-guide).
  *
@@ -30,80 +28,73 @@
 
 namespace SpApi\Model\productTypeDefinitions\v2020_09_01;
 
-use SpApi\Model\ModelInterface;
+use
+ArrayAccess;
 use SpApi\ObjectSerializer;
+use SpApi\Model\ModelInterface;
 
 /**
- * ProductTypeDefinition Class Doc Comment.
+ * ProductTypeDefinition Class Doc Comment
  *
  * @category Class
- *
  * @description A product type definition represents the attributes and data requirements for a product type in the Amazon catalog. Product type definitions are used interchangeably between the Selling Partner API for Listings Items, Selling Partner API for Catalog Items, and JSON-based listings feeds in the Selling Partner API for Feeds.
- *
+ * @package  SpApi
  * @author   OpenAPI Generator team
- *
- * @see     https://openapi-generator.tech
- *
+ * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerializable
+class ProductTypeDefinition implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
-    public const REQUIREMENTS_LISTING = 'LISTING';
-    public const REQUIREMENTS_LISTING_PRODUCT_ONLY = 'LISTING_PRODUCT_ONLY';
-    public const REQUIREMENTS_LISTING_OFFER_ONLY = 'LISTING_OFFER_ONLY';
-    public const REQUIREMENTS_ENFORCED_ENFORCED = 'ENFORCED';
-    public const REQUIREMENTS_ENFORCED_NOT_ENFORCED = 'NOT_ENFORCED';
-
     /**
-     * The original name of the model.
-     */
+      * The original name of the model.
+      *
+      * @var string
+      */
     protected static string $openAPIModelName = 'ProductTypeDefinition';
 
     /**
-     * Array of property to type mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     */
+      * Array of property to type mappings. Used for (de)serialization
+      *
+      * @var string[]
+      */
     protected static array $openAPITypes = [
-        'meta_schema' => '\SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink',
-        'schema' => '\SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink',
-        'requirements' => 'string',
-        'requirements_enforced' => 'string',
-        'property_groups' => 'array<string,\SpApi\Model\productTypeDefinitions\v2020_09_01\PropertyGroup>',
-        'locale' => 'string',
-        'marketplace_ids' => 'string[]',
-        'product_type' => 'string',
-        'display_name' => 'string',
-        'product_type_version' => '\SpApi\Model\productTypeDefinitions\v2020_09_01\ProductTypeVersion'];
+             'meta_schema' => '\SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink',
+             'schema' => '\SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink',
+             'requirements' => 'string',
+             'requirements_enforced' => 'string',
+             'property_groups' => 'array<string,\SpApi\Model\productTypeDefinitions\v2020_09_01\PropertyGroup>',
+             'locale' => 'string',
+             'marketplace_ids' => 'string[]',
+             'product_type' => 'string',
+             'display_name' => 'string',
+             'product_type_version' => '\SpApi\Model\productTypeDefinitions\v2020_09_01\ProductTypeVersion'    ];
 
     /**
-     * Array of property to format mappings. Used for (de)serialization.
-     *
-     * @var string[]
-     *
-     * @phpstan-var array<string, string|null>
-     *
-     * @psalm-var array<string, string|null>
-     */
+      * Array of property to format mappings. Used for (de)serialization
+      *
+      * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
+      */
     protected static array $openAPIFormats = [
-        'meta_schema' => null,
-        'schema' => null,
-        'requirements' => null,
-        'requirements_enforced' => null,
-        'property_groups' => null,
-        'locale' => null,
-        'marketplace_ids' => null,
-        'product_type' => null,
-        'display_name' => null,
-        'product_type_version' => null];
+            'meta_schema' => null,
+            'schema' => null,
+            'requirements' => null,
+            'requirements_enforced' => null,
+            'property_groups' => null,
+            'locale' => null,
+            'marketplace_ids' => null,
+            'product_type' => null,
+            'display_name' => null,
+            'product_type_version' => null    ];
 
     /**
-     * Array of nullable properties. Used for (de)serialization.
-     *
-     * @var bool[]
-     */
+      * Array of nullable properties. Used for (de)serialization
+      *
+      * @var boolean[]
+      */
     protected static array $openAPINullables = [
         'meta_schema' => true,
         'schema' => false,
@@ -114,37 +105,110 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
         'marketplace_ids' => false,
         'product_type' => false,
         'display_name' => false,
-        'product_type_version' => false,
+        'product_type_version' => false
     ];
 
     /**
-     * If a nullable field gets set to null, insert it here.
-     *
-     * @var bool[]
-     */
+      * If a nullable field gets set to null, insert it here
+      *
+      * @var boolean[]
+      */
     protected array $openAPINullablesSetToNull = [];
 
     /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Array of nullable properties
+     *
+     * @return array
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null
+     *
+     * @return boolean[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null
+     *
+     * @param boolean[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Checks if a property is nullable
+     *
+     * @param string $property
+     * @return bool
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name.
+     * and the value is the original name
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'meta_schema' => 'metaSchema',
-        'schema' => 'schema',
-        'requirements' => 'requirements',
-        'requirements_enforced' => 'requirementsEnforced',
-        'property_groups' => 'propertyGroups',
-        'locale' => 'locale',
-        'marketplace_ids' => 'marketplaceIds',
-        'product_type' => 'productType',
-        'display_name' => 'displayName',
-        'product_type_version' => 'productTypeVersion',
+                'schema' => 'schema',
+                'requirements' => 'requirements',
+                'requirements_enforced' => 'requirementsEnforced',
+                'property_groups' => 'propertyGroups',
+                'locale' => 'locale',
+                'marketplace_ids' => 'marketplaceIds',
+                'product_type' => 'productType',
+                'display_name' => 'displayName',
+                'product_type_version' => 'productTypeVersion'
+        
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses).
+     * Array of attributes to setter functions (for deserialization of responses)
      *
      * @var string[]
      */
@@ -158,11 +222,11 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
         'marketplace_ids' => 'setMarketplaceIds',
         'product_type' => 'setProductType',
         'display_name' => 'setDisplayName',
-        'product_type_version' => 'setProductTypeVersion',
+        'product_type_version' => 'setProductTypeVersion'
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests).
+     * Array of attributes to getter functions (for serialization of requests)
      *
      * @var string[]
      */
@@ -176,19 +240,95 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
         'marketplace_ids' => 'getMarketplaceIds',
         'product_type' => 'getProductType',
         'display_name' => 'getDisplayName',
-        'product_type_version' => 'getProductTypeVersion',
+        'product_type_version' => 'getProductTypeVersion'
     ];
 
     /**
-     * Associative array for storing property values.
+     * Array of attributes where the key is the local name,
+     * and the value is the original name
+     *
+     * @return array
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
+    }
+
+    public const REQUIREMENTS_LISTING = 'LISTING';
+    public const REQUIREMENTS_LISTING_PRODUCT_ONLY = 'LISTING_PRODUCT_ONLY';
+    public const REQUIREMENTS_LISTING_OFFER_ONLY = 'LISTING_OFFER_ONLY';
+    public const REQUIREMENTS_ENFORCED_ENFORCED = 'ENFORCED';
+    public const REQUIREMENTS_ENFORCED_NOT_ENFORCED = 'NOT_ENFORCED';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getRequirementsAllowableValues(): array
+    {
+        return [
+            self::REQUIREMENTS_LISTING,
+            self::REQUIREMENTS_LISTING_PRODUCT_ONLY,
+            self::REQUIREMENTS_LISTING_OFFER_ONLY,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getRequirementsEnforcedAllowableValues(): array
+    {
+        return [
+            self::REQUIREMENTS_ENFORCED_ENFORCED,
+            self::REQUIREMENTS_ENFORCED_NOT_ENFORCED,
+        ];
+    }
+
+    /**
+     * Associative array for storing property values
+     *
+     * @var array
      */
     protected array $container = [];
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param null|array $data Associated array of property values
-     *                         initializing the model
+     * @param array|null $data Associated array of property values
+     *                      initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -205,108 +345,21 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets the string presentation of the object.
-     *
-     * @return string
-     */
-    public function __toString()
+    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+    * $this->openAPINullablesSetToNull array
+    *
+    * @param string $variableName
+    * @param array  $fields
+    * @param mixed  $defaultValue
+    */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
 
-    /**
-     * Array of property to type mappings. Used for (de)serialization.
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization.
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Checks if a property is nullable.
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name.
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses).
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests).
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
-    }
-
-    /**
-     * Gets allowable values of the enum.
-     *
-     * @return string[]
-     */
-    public function getRequirementsAllowableValues(): array
-    {
-        return [
-            self::REQUIREMENTS_LISTING,
-            self::REQUIREMENTS_LISTING_PRODUCT_ONLY,
-            self::REQUIREMENTS_LISTING_OFFER_ONLY,
-        ];
-    }
-
-    /**
-     * Gets allowable values of the enum.
-     *
-     * @return string[]
-     */
-    public function getRequirementsEnforcedAllowableValues(): array
-    {
-        return [
-            self::REQUIREMENTS_ENFORCED_ENFORCED,
-            self::REQUIREMENTS_ENFORCED_NOT_ENFORCED,
-        ];
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -318,10 +371,10 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     {
         $invalidProperties = [];
 
-        if (null === $this->container['schema']) {
+        if ($this->container['schema'] === null) {
             $invalidProperties[] = "'schema' can't be null";
         }
-        if (null === $this->container['requirements']) {
+        if ($this->container['requirements'] === null) {
             $invalidProperties[] = "'requirements' can't be null";
         }
         $allowedValues = $this->getRequirementsAllowableValues();
@@ -333,7 +386,7 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
             );
         }
 
-        if (null === $this->container['requirements_enforced']) {
+        if ($this->container['requirements_enforced'] === null) {
             $invalidProperties[] = "'requirements_enforced' can't be null";
         }
         $allowedValues = $this->getRequirementsEnforcedAllowableValues();
@@ -345,60 +398,64 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
             );
         }
 
-        if (null === $this->container['property_groups']) {
+        if ($this->container['property_groups'] === null) {
             $invalidProperties[] = "'property_groups' can't be null";
         }
-        if (null === $this->container['locale']) {
+        if ($this->container['locale'] === null) {
             $invalidProperties[] = "'locale' can't be null";
         }
-        if (null === $this->container['marketplace_ids']) {
+        if ($this->container['marketplace_ids'] === null) {
             $invalidProperties[] = "'marketplace_ids' can't be null";
         }
-        if (null === $this->container['product_type']) {
+        if ($this->container['product_type'] === null) {
             $invalidProperties[] = "'product_type' can't be null";
         }
-        if (null === $this->container['display_name']) {
+        if ($this->container['display_name'] === null) {
             $invalidProperties[] = "'display_name' can't be null";
         }
-        if (null === $this->container['product_type_version']) {
+        if ($this->container['product_type_version'] === null) {
             $invalidProperties[] = "'product_type_version' can't be null";
         }
-
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed.
+     * return true if all passed
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return 0 === count($this->listInvalidProperties());
+        return count($this->listInvalidProperties()) === 0;
     }
 
+
     /**
-     * Gets meta_schema.
+     * Gets meta_schema
+     *
+     * @return \SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink|null
      */
-    public function getMetaSchema(): ?SchemaLink
+    public function getMetaSchema(): ?\SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink
     {
         return $this->container['meta_schema'];
     }
 
     /**
-     * Sets meta_schema.
+     * Sets meta_schema
      *
-     * @param null|SchemaLink $meta_schema meta_schema
+     * @param \SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink|null $meta_schema meta_schema
+     *
+     * @return self
      */
-    public function setMetaSchema(?SchemaLink $meta_schema): self
+    public function setMetaSchema(?\SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink $meta_schema): self
     {
         if (is_null($meta_schema)) {
             array_push($this->openAPINullablesSetToNull, 'meta_schema');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('meta_schema', $nullablesSetToNull);
-            if (false !== $index) {
+            if ($index !== false) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -409,19 +466,23 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets schema.
+     * Gets schema
+     *
+     * @return \SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink
      */
-    public function getSchema(): SchemaLink
+    public function getSchema(): \SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink
     {
         return $this->container['schema'];
     }
 
     /**
-     * Sets schema.
+     * Sets schema
      *
-     * @param SchemaLink $schema schema
+     * @param \SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink $schema schema
+     *
+     * @return self
      */
-    public function setSchema(SchemaLink $schema): self
+    public function setSchema(\SpApi\Model\productTypeDefinitions\v2020_09_01\SchemaLink $schema): self
     {
         if (is_null($schema)) {
             throw new \InvalidArgumentException('non-nullable schema cannot be null');
@@ -432,7 +493,9 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets requirements.
+     * Gets requirements
+     *
+     * @return string
      */
     public function getRequirements(): string
     {
@@ -440,9 +503,11 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets requirements.
+     * Sets requirements
      *
-     * @param string $requirements name of the requirements set represented in this product type definition
+     * @param string $requirements Name of the requirements set represented in this product type definition.
+     *
+     * @return self
      */
     public function setRequirements(string $requirements): self
     {
@@ -465,7 +530,9 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets requirements_enforced.
+     * Gets requirements_enforced
+     *
+     * @return string
      */
     public function getRequirementsEnforced(): string
     {
@@ -473,9 +540,11 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets requirements_enforced.
+     * Sets requirements_enforced
      *
      * @param string $requirements_enforced Identifies if the required attributes for a requirements set are enforced by the product type definition schema. Non-enforced requirements enable structural validation of individual attributes without all of the required attributes being present (such as for partial updates).
+     *
+     * @return self
      */
     public function setRequirementsEnforced(string $requirements_enforced): self
     {
@@ -498,9 +567,9 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets property_groups.
+     * Gets property_groups
      *
-     * @return array<string,PropertyGroup>
+     * @return array<string,\SpApi\Model\productTypeDefinitions\v2020_09_01\PropertyGroup>
      */
     public function getPropertyGroups(): array
     {
@@ -508,9 +577,11 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets property_groups.
+     * Sets property_groups
      *
-     * @param array<string,PropertyGroup> $property_groups Mapping of property group names to property groups. Property groups represent logical groupings of schema properties that can be used for display or informational purposes.
+     * @param array<string,\SpApi\Model\productTypeDefinitions\v2020_09_01\PropertyGroup> $property_groups Mapping of property group names to property groups. Property groups represent logical groupings of schema properties that can be used for display or informational purposes.
+     *
+     * @return self
      */
     public function setPropertyGroups(array $property_groups): self
     {
@@ -523,7 +594,9 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets locale.
+     * Gets locale
+     *
+     * @return string
      */
     public function getLocale(): string
     {
@@ -531,9 +604,11 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets locale.
+     * Sets locale
      *
-     * @param string $locale locale of the display elements contained in the product type definition
+     * @param string $locale Locale of the display elements contained in the product type definition.
+     *
+     * @return self
      */
     public function setLocale(string $locale): self
     {
@@ -546,7 +621,9 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets marketplace_ids.
+     * Gets marketplace_ids
+     *
+     * @return array
      */
     public function getMarketplaceIds(): array
     {
@@ -554,9 +631,11 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets marketplace_ids.
+     * Sets marketplace_ids
      *
-     * @param array $marketplace_ids amazon marketplace identifiers for which the product type definition is applicable
+     * @param array $marketplace_ids Amazon marketplace identifiers for which the product type definition is applicable.
+     *
+     * @return self
      */
     public function setMarketplaceIds(array $marketplace_ids): self
     {
@@ -569,7 +648,9 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets product_type.
+     * Gets product_type
+     *
+     * @return string
      */
     public function getProductType(): string
     {
@@ -577,9 +658,11 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets product_type.
+     * Sets product_type
      *
-     * @param string $product_type the name of the Amazon product type that this product type definition applies to
+     * @param string $product_type The name of the Amazon product type that this product type definition applies to.
+     *
+     * @return self
      */
     public function setProductType(string $product_type): self
     {
@@ -592,7 +675,9 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets display_name.
+     * Gets display_name
+     *
+     * @return string
      */
     public function getDisplayName(): string
     {
@@ -600,9 +685,11 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Sets display_name.
+     * Sets display_name
      *
-     * @param string $display_name human-readable and localized description of the Amazon product type
+     * @param string $display_name Human-readable and localized description of the Amazon product type.
+     *
+     * @return self
      */
     public function setDisplayName(string $display_name): self
     {
@@ -615,19 +702,23 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets product_type_version.
+     * Gets product_type_version
+     *
+     * @return \SpApi\Model\productTypeDefinitions\v2020_09_01\ProductTypeVersion
      */
-    public function getProductTypeVersion(): ProductTypeVersion
+    public function getProductTypeVersion(): \SpApi\Model\productTypeDefinitions\v2020_09_01\ProductTypeVersion
     {
         return $this->container['product_type_version'];
     }
 
     /**
-     * Sets product_type_version.
+     * Sets product_type_version
      *
-     * @param ProductTypeVersion $product_type_version product_type_version
+     * @param \SpApi\Model\productTypeDefinitions\v2020_09_01\ProductTypeVersion $product_type_version product_type_version
+     *
+     * @return self
      */
-    public function setProductTypeVersion(ProductTypeVersion $product_type_version): self
+    public function setProductTypeVersion(\SpApi\Model\productTypeDefinitions\v2020_09_01\ProductTypeVersion $product_type_version): self
     {
         if (is_null($product_type_version)) {
             throw new \InvalidArgumentException('non-nullable product_type_version cannot be null');
@@ -637,10 +728,13 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
         return $this;
     }
 
+
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return boolean
      */
     public function offsetExists($offset): bool
     {
@@ -650,9 +744,9 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     /**
      * Gets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
      *
-     * @return null|mixed
+     * @return mixed|null
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -663,8 +757,10 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     /**
      * Sets value based on offset.
      *
-     * @param null|int $offset Offset
+     * @param int|null $offset Offset
      * @param mixed    $value  Value to be set
+     *
+     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -678,7 +774,9 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
     /**
      * Unsets offset.
      *
-     * @param int $offset Offset
+     * @param integer $offset Offset
+     *
+     * @return void
      */
     public function offsetUnset($offset): void
     {
@@ -687,67 +785,39 @@ class ProductTypeDefinition implements ModelInterface, \ArrayAccess, \JsonSerial
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
+     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed returns data which can be serialized by json_encode(), which is a value
-     *               of any type other than a resource
+     * @return mixed Returns data which can be serialized by json_encode(), which is a value
+     * of any type other than a resource.
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-        return ObjectSerializer::sanitizeForSerialization($this);
+       return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets a header-safe presentation of the object.
+     * Gets the string presentation of the object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Gets a header-safe presentation of the object
+     *
+     * @return string
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
-
-    /**
-     * Array of nullable properties.
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null.
-     *
-     * @return bool[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null.
-     *
-     * @param bool[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-     * $this->openAPINullablesSetToNull array.
-     *
-     * @param mixed $defaultValue
-     */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
-    }
 }
+
+
