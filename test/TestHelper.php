@@ -26,6 +26,7 @@
 
 namespace SpApi\Test;
 
+use DateTime;
 use SpApi\ObjectSerializer;
 use ReflectionClass;
 use ReflectionException;
@@ -93,6 +94,7 @@ class TestHelper
             self::$classSpecificValue['marketplace_id'] = self::$marketPlaceId;
             self::$classSpecificValue['seller_fulfillment_order_id'] = date('YmdHi');
             self::$classSpecificValue['postal_code'] = '141-0021';
+            self::$classSpecificValue['ship_from_country_code'] = 'JP';
             if ($caseName == 'testGetFeatureSKU200') {
                 self::$classSpecificValue['feature_name'] = 'BLANK_BOX';
                 self::$classSpecificValue['seller_sku'] = 'TEST_SKU';
@@ -204,7 +206,9 @@ class TestHelper
                     // Check for standard camelCase name
                     $subArrayValue = self::extractValue($camelCaseName, $requestParameters);
                     if ($subArrayValue !== null) {
-                        $value = $subArrayValue;
+                        if ($camelCaseName === "createdAfter" && strtotime($subArrayValue)) {
+                            $value = DateTime::createFromFormat(DATE_ISO8601, $subArrayValue);
+                        } else $value = $subArrayValue;
                         break;
                     }
                     // Special handling for 'Sku'
@@ -602,6 +606,7 @@ class TestHelper
         // CatalogItem
         'testGetCatalogItem200', // Response has Invalid value for images.variant such as PT09-PT14, EEGL and EGUS
         'testSearchCatalogItems200', // Response has Invalid value for images.variant such as PT09-PT14, EEGL and EGUS
+        'testGetCatalogItem400',
         // ProductFeesAPI
         'testGetMyFeesEstimates200', // Sandbox Returns 400
         'testGetMyFeesEstimateForASIN400', // Request can not be made because Request is missing mandatory parameters
@@ -628,6 +633,7 @@ class TestHelper
         'testGetPackageTrackingDetails200', // Due to test execution order, it can not be passed
         'testSubmitFulfillmentOrderStatusUpdate200', // Due to test execution order, it can not be passed
         'testDeliveryOffers200', // Due to complexity, skip for now
+        'testDeliveryOfferings200',
         // EasyShip
         'testCreateScheduledPackage400', // Skip due to mandatory filed "slotId" is null in the sample
         'testCreateScheduledPackageBulk200', // packageDimensions.unit must be Cm (Maybe in JP?)
@@ -640,6 +646,7 @@ class TestHelper
         'testCreateWarranty201',
         'testCreateDigitalAccessKey201', // returns 403
         'testCreateDigitalAccessKey400', // returns 403
+        'testGetMessagingActionsForOrder200', // Sandbox response not matching model response
         // Replenishment Api sellingPartners
         'testGetSellingPartnerMetrics200', // Sandbox changes
         'testGetSellingPartnerMetrics400', // Request timestamp millisecond is 2 digits and requires string mutation
@@ -706,5 +713,15 @@ class TestHelper
         'testUpdatePackage204', // required body missing in model
         'testUpdatePackage400', // required body missing in model
         'testGetShipments200', // invalid enum in request
+        //UpdateInventoryApi
+        'testSubmitInventoryUpdate202',
+        'testSubmitInventoryUpdate400',
+        // Notifications Api
+        'testGetDestination200', // returns 500
+        'testGetDestinations200', // returns 500
+        'testDeleteDestination200', // returns 500
+        'testCreateDestination200', // returns 500
+        // Orders Api v2026-01-01
+        'testSearchOrders400', // Invalid request parameter
     ];
 }

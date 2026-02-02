@@ -1,16 +1,18 @@
 <?php
+
 /**
  * ShipmentApi
- * PHP version 8.3
+ * PHP version 8.3.
  *
  * @category Class
- * @package  SpApi
+ *
  * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
+ *
+ * @see     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Orders
+ * Selling Partner API for Orders.
  *
  * Use the Orders Selling Partner API to programmatically retrieve order information. With this API, you can develop fast, flexible, and custom applications to manage order synchronization, perform order research, and create demand-based decision support tools.   _Note:_ For the JP, AU, and SG marketplaces, the Orders API supports orders from 2016 onward. For all other marketplaces, the Orders API supports orders for the last two years (orders older than this don't show up in the response).
  *
@@ -35,38 +37,32 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
-use SpApi\AuthAndAuth\RateLimitConfiguration;
-use Symfony\Component\RateLimiter\LimiterInterface;
-use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
 use SpApi\ApiException;
+use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
+use SpApi\Model\orders\v0\UpdateShipmentStatusRequest;
 use SpApi\ObjectSerializer;
+use Symfony\Component\RateLimiter\LimiterInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 
 /**
- * ShipmentApi Class Doc Comment
+ * ShipmentApi Class Doc Comment.
  *
  * @category Class
- * @package  SpApi
+ *
  * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
+ *
+ * @see     https://openapi-generator.tech
  */
 class ShipmentApi
 {
-    /**
-     * @var ClientInterface
-     */
+    public ?LimiterInterface $updateShipmentStatusRateLimiter;
     protected ClientInterface $client;
 
-    /**
-     * @var Configuration
-     */
     protected Configuration $config;
 
-    /**
-     * @var HeaderSelector
-     */
     protected HeaderSelector $headerSelector;
 
     /**
@@ -74,46 +70,27 @@ class ShipmentApi
      */
     protected int $hostIndex;
 
-    /**
-     * @var ?RateLimitConfiguration
-     */
-    private ?RateLimitConfiguration $rateLimitConfig = null;
+    private bool $rateLimiterEnabled;
+    private InMemoryStorage $rateLimitStorage;
 
     /**
-     * @var ?LimiterInterface
-     */
-    private ?LimiterInterface $rateLimiter = null;
-
-    /**
-     * @param Configuration   $config
-     * @param RateLimitConfiguration|null $rateLimitConfig
-     * @param ClientInterface|null $client
-     * @param HeaderSelector|null $selector
      * @param int $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         Configuration $config,
-        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
+        ?bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimitConfig = $rateLimitConfig;
-        if ($rateLimitConfig) {
-            $type = $rateLimitConfig->getRateLimitType();
-            $rateLimitOptions = [
-                'id' => 'spApiCall',
-                'policy' => $type,
-                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
-            ];
-            if ($type === "fixed_window" || $type === "sliding_window") {
-                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
-            } else {
-                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
-            }
-            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
-            $this->rateLimiter = $factory->create();
+        $this->rateLimiterEnabled = $rateLimiterEnabled;
+
+        if ($rateLimiterEnabled) {
+            $this->rateLimitStorage = new InMemoryStorage();
+
+            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('ShipmentApi-updateShipmentStatus'), $this->rateLimitStorage);
+            $this->updateShipmentStatusRateLimiter = $factory->create('ShipmentApi-updateShipmentStatus');
         }
 
         $this->client = $client ?: new Client();
@@ -122,7 +99,7 @@ class ShipmentApi
     }
 
     /**
-     * Set the host index
+     * Set the host index.
      *
      * @param int $hostIndex Host index (required)
      */
@@ -132,7 +109,7 @@ class ShipmentApi
     }
 
     /**
-     * Get the host index
+     * Get the host index.
      *
      * @return int Host index
      */
@@ -141,56 +118,64 @@ class ShipmentApi
         return $this->hostIndex;
     }
 
-    /**
-     * @return Configuration
-     */
     public function getConfig(): Configuration
     {
         return $this->config;
     }
 
     /**
-     * Operation updateShipmentStatus
+     * Operation updateShipmentStatus.
      *
-     * @param  string $order_id
-     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param  \SpApi\Model\orders\v0\UpdateShipmentStatusRequest $payload
-     *  The request body for the &#x60;updateShipmentStatus&#x60; operation. (required)
+     * @param string                      $order_id
+     *                                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param UpdateShipmentStatusRequest $payload
+     *                                                         The request body for the &#x60;updateShipmentStatus&#x60; operation. (required)
+     * @param null|string                 $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @throws \SpApi\ApiException on non-2xx response
+     * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
-     * @return 
      */
     public function updateShipmentStatus(
         string $order_id,
-        \SpApi\Model\orders\v0\UpdateShipmentStatusRequest $payload
+        UpdateShipmentStatusRequest $payload,
+        ?string $restrictedDataToken = null
     ): void {
-        $this->updateShipmentStatusWithHttpInfo($order_id, $payload);
+        $this->updateShipmentStatusWithHttpInfo($order_id, $payload, $restrictedDataToken);
     }
 
     /**
-     * Operation updateShipmentStatusWithHttpInfo
+     * Operation updateShipmentStatusWithHttpInfo.
      *
-     * @param  string $order_id
-     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param  \SpApi\Model\orders\v0\UpdateShipmentStatusRequest $payload
-     *  The request body for the &#x60;updateShipmentStatus&#x60; operation. (required)
+     * @param string                      $order_id
+     *                                                         An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param UpdateShipmentStatusRequest $payload
+     *                                                         The request body for the &#x60;updateShipmentStatus&#x60; operation. (required)
+     * @param null|string                 $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @throws \SpApi\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
      * @return array of , HTTP status code, HTTP response headers (array of strings)
+     *
+     * @throws ApiException              on non-2xx response
+     * @throws \InvalidArgumentException
      */
     public function updateShipmentStatusWithHttpInfo(
         string $order_id,
-        \SpApi\Model\orders\v0\UpdateShipmentStatusRequest $payload
+        UpdateShipmentStatusRequest $payload,
+        ?string $restrictedDataToken = null
     ): array {
         $request = $this->updateShipmentStatusRequest($order_id, $payload);
-        $request = $this->config->sign($request);
+        if (null !== $restrictedDataToken) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'ShipmentApi-updateShipmentStatus');
+        } else {
+            $request = $this->config->sign($request);
+        }
 
         try {
             $options = $this->createHttpClientOption();
+
             try {
-                $this->rateLimitWait();
+                if ($this->rateLimiterEnabled) {
+                    $this->updateShipmentStatusRateLimiter->consume()->ensureAccepted();
+                }
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -224,130 +209,77 @@ class ShipmentApi
             }
 
             return [null, $statusCode, $response->getHeaders()];
-
         } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\orders\v0\UpdateShipmentStatusErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 403:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\orders\v0\UpdateShipmentStatusErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\orders\v0\UpdateShipmentStatusErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 413:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\orders\v0\UpdateShipmentStatusErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 415:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\orders\v0\UpdateShipmentStatusErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 429:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\orders\v0\UpdateShipmentStatusErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 500:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\orders\v0\UpdateShipmentStatusErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 503:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\orders\v0\UpdateShipmentStatusErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-            }
+            $data = ObjectSerializer::deserialize(
+                $e->getResponseBody(),
+                '\SpApi\Model\orders\v0\UpdateShipmentStatusErrorResponse',
+                $e->getResponseHeaders()
+            );
+            $e->setResponseObject($data);
+
             throw $e;
         }
     }
 
     /**
-     * Operation updateShipmentStatusAsync
+     * Operation updateShipmentStatusAsync.
      *
-     * @param  string $order_id
-     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param  \SpApi\Model\orders\v0\UpdateShipmentStatusRequest $payload
-     *  The request body for the &#x60;updateShipmentStatus&#x60; operation. (required)
+     * @param string                      $order_id
+     *                                              An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param UpdateShipmentStatusRequest $payload
+     *                                              The request body for the &#x60;updateShipmentStatus&#x60; operation. (required)
      *
      * @throws \InvalidArgumentException
-     * @return PromiseInterface
      */
     public function updateShipmentStatusAsync(
         string $order_id,
-        \SpApi\Model\orders\v0\UpdateShipmentStatusRequest $payload
+        UpdateShipmentStatusRequest $payload
     ): PromiseInterface {
         return $this->updateShipmentStatusAsyncWithHttpInfo($order_id, $payload)
             ->then(
                 function ($response) {
                     return $response[0];
                 }
-            );
+            )
+        ;
     }
 
     /**
-     * Operation updateShipmentStatusAsyncWithHttpInfo
+     * Operation updateShipmentStatusAsyncWithHttpInfo.
      *
-     * @param  string $order_id
-     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param  \SpApi\Model\orders\v0\UpdateShipmentStatusRequest $payload
-     *  The request body for the &#x60;updateShipmentStatus&#x60; operation. (required)
+     * @param string                      $order_id
+     *                                              An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param UpdateShipmentStatusRequest $payload
+     *                                              The request body for the &#x60;updateShipmentStatus&#x60; operation. (required)
      *
      * @throws \InvalidArgumentException
-     * @return PromiseInterface
      */
     public function updateShipmentStatusAsyncWithHttpInfo(
         string $order_id,
-        \SpApi\Model\orders\v0\UpdateShipmentStatusRequest $payload
+        UpdateShipmentStatusRequest $payload,
+        ?string $restrictedDataToken = null
     ): PromiseInterface {
         $returnType = '';
         $request = $this->updateShipmentStatusRequest($order_id, $payload);
-        $request = $this->config->sign($request);
-        $this->rateLimitWait();
+        if (null !== $restrictedDataToken) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'ShipmentApi-updateShipmentStatus');
+        } else {
+            $request = $this->config->sign($request);
+        }
+        if ($this->rateLimiterEnabled) {
+            $this->updateShipmentStatusRateLimiter->consume()->ensureAccepted();
+        }
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
-                function ($response) use ($returnType) {
+                function ($response) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
+
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -359,32 +291,32 @@ class ShipmentApi
                         (string) $response->getBody()
                     );
                 }
-            );
+            )
+        ;
     }
 
     /**
-     * Create request for operation 'updateShipmentStatus'
+     * Create request for operation 'updateShipmentStatus'.
      *
-     * @param  string $order_id
-     *  An Amazon-defined order identifier, in 3-7-7 format. (required)
-     * @param  \SpApi\Model\orders\v0\UpdateShipmentStatusRequest $payload
-     *  The request body for the &#x60;updateShipmentStatus&#x60; operation. (required)
+     * @param string                      $order_id
+     *                                              An Amazon-defined order identifier, in 3-7-7 format. (required)
+     * @param UpdateShipmentStatusRequest $payload
+     *                                              The request body for the &#x60;updateShipmentStatus&#x60; operation. (required)
      *
      * @throws \InvalidArgumentException
-     * @return Request
      */
     public function updateShipmentStatusRequest(
         string $order_id,
-        \SpApi\Model\orders\v0\UpdateShipmentStatusRequest $payload
+        UpdateShipmentStatusRequest $payload
     ): Request {
         // verify the required parameter 'order_id' is set
-        if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
+        if (null === $order_id || (is_array($order_id) && 0 === count($order_id))) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $order_id when calling updateShipmentStatus'
             );
         }
         // verify the required parameter 'payload' is set
-        if ($payload === null || (is_array($payload) && count($payload) === 0)) {
+        if (null === $payload || (is_array($payload) && 0 === count($payload))) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $payload when calling updateShipmentStatus'
             );
@@ -397,34 +329,24 @@ class ShipmentApi
         $httpBody = '';
         $multipart = false;
 
-
-
         // path params
-        if ($order_id !== null) {
+        if (null !== $order_id) {
             $resourcePath = str_replace(
-                '{' . 'orderId' . '}',
+                '{orderId}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
         }
 
-
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                'application/json'
-                ,
-                false
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/json',
+            $multipart
+        );
 
         // for model (json/xml)
         if (isset($payload)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ('application/json' === $headers['Content-Type']) {
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($payload));
             } else {
                 $httpBody = $payload;
@@ -437,22 +359,19 @@ class ShipmentApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem
+                            'contents' => $formParamValueItem,
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ('application/json' === $headers['Content-Type']) {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
-
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
-
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -466,19 +385,21 @@ class ShipmentApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
+
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Create http client option
+     * Create http client option.
+     *
+     * @return array of http client options
      *
      * @throws \RuntimeException on file opening failure
-     * @return array of http client options
      */
     protected function createHttpClientOption(): array
     {
@@ -486,27 +407,10 @@ class ShipmentApi
         if ($this->config->getDebug()) {
             $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
+                throw new \RuntimeException('Failed to open the debug file: '.$this->config->getDebugFile());
             }
         }
 
         return $options;
-    }
-
-    /**
-     * Rate Limiter waits for tokens
-     *
-     * @return void
-     */
-    public function rateLimitWait(): void
-    {
-        if ($this->rateLimiter) {
-            $type = $this->rateLimitConfig->getRateLimitType();
-            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
-                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
-            } else {
-                $this->rateLimiter->consume()->wait();
-            }
-        }
     }
 }
