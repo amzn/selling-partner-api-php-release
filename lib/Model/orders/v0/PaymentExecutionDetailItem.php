@@ -1,17 +1,19 @@
 <?php
+
 /**
- * PaymentExecutionDetailItem
+ * PaymentExecutionDetailItem.
  *
  * PHP version 8.3
  *
  * @category Class
- * @package  SpApi
+ *
  * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
+ *
+ * @see     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Orders
+ * Selling Partner API for Orders.
  *
  * Use the Orders Selling Partner API to programmatically retrieve order information. With this API, you can develop fast, flexible, and custom applications to manage order synchronization, perform order research, and create demand-based decision support tools.   _Note:_ For the JP, AU, and SG marketplaces, the Orders API supports orders from 2016 onward. For all other marketplaces, the Orders API supports orders for the last two years (orders older than this don't show up in the response).
  *
@@ -28,73 +30,154 @@
 
 namespace SpApi\Model\orders\v0;
 
-use
-ArrayAccess;
-use SpApi\ObjectSerializer;
 use SpApi\Model\ModelInterface;
+use SpApi\ObjectSerializer;
 
 /**
- * PaymentExecutionDetailItem Class Doc Comment
+ * PaymentExecutionDetailItem Class Doc Comment.
  *
  * @category Class
+ *
  * @description Information about a sub-payment method used to pay for a COD order.
- * @package  SpApi
+ *
  * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
+ *
+ * @see     https://openapi-generator.tech
+ *
  * @implements \ArrayAccess<string, mixed>
  */
-class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSerializable
+class PaymentExecutionDetailItem implements ModelInterface, \ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-      * The original name of the model.
-      *
-      * @var string
-      */
+     * The original name of the model.
+     */
     protected static string $openAPIModelName = 'PaymentExecutionDetailItem';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization
-      *
-      * @var string[]
-      */
+     * Array of property to type mappings. Used for (de)serialization.
+     *
+     * @var string[]
+     */
     protected static array $openAPITypes = [
-             'payment' => '\SpApi\Model\orders\v0\Money',
-             'payment_method' => 'string'    ];
+        'payment' => '\SpApi\Model\orders\v0\Money',
+        'payment_method' => 'string',
+        'acquirer_id' => 'string',
+        'card_brand' => 'string',
+        'authorization_code' => 'string'];
 
     /**
-      * Array of property to format mappings. Used for (de)serialization
-      *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
-      */
+     * Array of property to format mappings. Used for (de)serialization.
+     *
+     * @var string[]
+     *
+     * @phpstan-var array<string, string|null>
+     *
+     * @psalm-var array<string, string|null>
+     */
     protected static array $openAPIFormats = [
-            'payment' => null,
-            'payment_method' => null    ];
+        'payment' => null,
+        'payment_method' => null,
+        'acquirer_id' => null,
+        'card_brand' => null,
+        'authorization_code' => null];
 
     /**
-      * Array of nullable properties. Used for (de)serialization
-      *
-      * @var boolean[]
-      */
+     * Array of nullable properties. Used for (de)serialization.
+     *
+     * @var bool[]
+     */
     protected static array $openAPINullables = [
         'payment' => false,
-        'payment_method' => false
+        'payment_method' => false,
+        'acquirer_id' => true,
+        'card_brand' => true,
+        'authorization_code' => true,
     ];
 
     /**
-      * If a nullable field gets set to null, insert it here
-      *
-      * @var boolean[]
-      */
+     * If a nullable field gets set to null, insert it here.
+     *
+     * @var bool[]
+     */
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of property to type mappings. Used for (de)serialization
+     * Array of attributes where the key is the local name,
+     * and the value is the original name.
      *
-     * @return array
+     * @var string[]
+     */
+    protected static array $attributeMap = [
+        'payment' => 'Payment',
+        'payment_method' => 'PaymentMethod',
+        'acquirer_id' => 'AcquirerId',
+        'card_brand' => 'CardBrand',
+        'authorization_code' => 'AuthorizationCode',
+    ];
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses).
+     *
+     * @var string[]
+     */
+    protected static array $setters = [
+        'payment' => 'setPayment',
+        'payment_method' => 'setPaymentMethod',
+        'acquirer_id' => 'setAcquirerId',
+        'card_brand' => 'setCardBrand',
+        'authorization_code' => 'setAuthorizationCode',
+    ];
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests).
+     *
+     * @var string[]
+     */
+    protected static array $getters = [
+        'payment' => 'getPayment',
+        'payment_method' => 'getPaymentMethod',
+        'acquirer_id' => 'getAcquirerId',
+        'card_brand' => 'getCardBrand',
+        'authorization_code' => 'getAuthorizationCode',
+    ];
+
+    /**
+     * Associative array for storing property values.
+     */
+    protected array $container = [];
+
+    /**
+     * Constructor.
+     *
+     * @param null|array $data Associated array of property values
+     *                         initializing the model
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->setIfExists('payment', $data ?? [], null);
+        $this->setIfExists('payment_method', $data ?? [], null);
+        $this->setIfExists('acquirer_id', $data ?? [], null);
+        $this->setIfExists('card_brand', $data ?? [], null);
+        $this->setIfExists('authorization_code', $data ?? [], null);
+    }
+
+    /**
+     * Gets the string presentation of the object.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Array of property to type mappings. Used for (de)serialization.
      */
     public static function openAPITypes(): array
     {
@@ -102,9 +185,7 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization
-     *
-     * @return array
+     * Array of property to format mappings. Used for (de)serialization.
      */
     public static function openAPIFormats(): array
     {
@@ -112,40 +193,7 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
     }
 
     /**
-     * Array of nullable properties
-     *
-     * @return array
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null
-     *
-     * @return boolean[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null
-     *
-     * @param boolean[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Checks if a property is nullable
-     *
-     * @param string $property
-     * @return bool
+     * Checks if a property is nullable.
      */
     public static function isNullable(string $property): bool
     {
@@ -154,9 +202,6 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
 
     /**
      * Checks if a nullable property is set to null.
-     *
-     * @param string $property
-     * @return bool
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -165,41 +210,7 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
 
     /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name
-     *
-     * @var string[]
-     */
-    protected static array $attributeMap = [
-        'payment' => 'Payment',
-                'payment_method' => 'PaymentMethod'
-        
-    ];
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     *
-     * @var string[]
-     */
-    protected static array $setters = [
-        'payment' => 'setPayment',
-        'payment_method' => 'setPaymentMethod'
-    ];
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     *
-     * @var string[]
-     */
-    protected static array $getters = [
-        'payment' => 'getPayment',
-        'payment_method' => 'getPaymentMethod'
-    ];
-
-    /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name
-     *
-     * @return array
+     * and the value is the original name.
      */
     public static function attributeMap(): array
     {
@@ -207,9 +218,7 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     *
-     * @return array
+     * Array of attributes to setter functions (for deserialization of responses).
      */
     public static function setters(): array
     {
@@ -217,9 +226,7 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests)
-     *
-     * @return array
+     * Array of attributes to getter functions (for serialization of requests).
      */
     public static function getters(): array
     {
@@ -228,50 +235,10 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
 
     /**
      * The original name of the model.
-     *
-     * @return string
      */
     public function getModelName(): string
     {
         return self::$openAPIModelName;
-    }
-
-
-    /**
-     * Associative array for storing property values
-     *
-     * @var array
-     */
-    protected array $container = [];
-
-    /**
-     * Constructor
-     *
-     * @param array|null $data Associated array of property values
-     *                      initializing the model
-     */
-    public function __construct(?array $data = null)
-    {
-        $this->setIfExists('payment', $data ?? [], null);
-        $this->setIfExists('payment_method', $data ?? [], null);
-    }
-
-    /**
-    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-    * $this->openAPINullablesSetToNull array
-    *
-    * @param string $variableName
-    * @param array  $fields
-    * @param mixed  $defaultValue
-    */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
-    {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
-
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
     }
 
     /**
@@ -283,45 +250,41 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
     {
         $invalidProperties = [];
 
-        if ($this->container['payment'] === null) {
+        if (null === $this->container['payment']) {
             $invalidProperties[] = "'payment' can't be null";
         }
-        if ($this->container['payment_method'] === null) {
+        if (null === $this->container['payment_method']) {
             $invalidProperties[] = "'payment_method' can't be null";
         }
+
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed
+     * return true if all passed.
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return count($this->listInvalidProperties()) === 0;
+        return 0 === count($this->listInvalidProperties());
     }
 
-
     /**
-     * Gets payment
-     *
-     * @return \SpApi\Model\orders\v0\Money
+     * Gets payment.
      */
-    public function getPayment(): \SpApi\Model\orders\v0\Money
+    public function getPayment(): Money
     {
         return $this->container['payment'];
     }
 
     /**
-     * Sets payment
+     * Sets payment.
      *
-     * @param \SpApi\Model\orders\v0\Money $payment payment
-     *
-     * @return self
+     * @param Money $payment payment
      */
-    public function setPayment(\SpApi\Model\orders\v0\Money $payment): self
+    public function setPayment(Money $payment): self
     {
         if (is_null($payment)) {
             throw new \InvalidArgumentException('non-nullable payment cannot be null');
@@ -332,9 +295,7 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
     }
 
     /**
-     * Gets payment_method
-     *
-     * @return string
+     * Gets payment_method.
      */
     public function getPaymentMethod(): string
     {
@@ -342,11 +303,9 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
     }
 
     /**
-     * Sets payment_method
+     * Sets payment_method.
      *
-     * @param string $payment_method A sub-payment method for a COD order.  **Possible values**: * `COD`: Cash on delivery  * `GC`: Gift card  * `PointsAccount`: Amazon Points * `Invoice`: Invoice
-     *
-     * @return self
+     * @param string $payment_method The sub-payment method for an order.   **Possible values**: * `COD`: Cash on delivery  * `GC`: Gift card  * `PointsAccount`: Amazon Points  * `Invoice`: Invoice  * `CreditCard`: Credit card  * `Pix`: Pix  * `Other`: Other.
      */
     public function setPaymentMethod(string $payment_method): self
     {
@@ -358,13 +317,100 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
         return $this;
     }
 
+    /**
+     * Gets acquirer_id.
+     */
+    public function getAcquirerId(): ?string
+    {
+        return $this->container['acquirer_id'];
+    }
+
+    /**
+     * Sets acquirer_id.
+     *
+     * @param null|string $acquirer_id The Brazilian Taxpayer Identifier (CNPJ) of the payment processor or acquiring bank that authorizes the payment.   **Note**: This attribute is only available for orders in the Brazil (BR) marketplace when the `PaymentMethod` is `CreditCard` or `Pix`.
+     */
+    public function setAcquirerId(?string $acquirer_id): self
+    {
+        if (is_null($acquirer_id)) {
+            array_push($this->openAPINullablesSetToNull, 'acquirer_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('acquirer_id', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['acquirer_id'] = $acquirer_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets card_brand.
+     */
+    public function getCardBrand(): ?string
+    {
+        return $this->container['card_brand'];
+    }
+
+    /**
+     * Sets card_brand.
+     *
+     * @param null|string $card_brand The card network or brand used in the payment transaction (for example, Visa or Mastercard).   **Note**: This attribute is only available for orders in the Brazil (BR) marketplace when the `PaymentMethod` is `CreditCard`.
+     */
+    public function setCardBrand(?string $card_brand): self
+    {
+        if (is_null($card_brand)) {
+            array_push($this->openAPINullablesSetToNull, 'card_brand');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('card_brand', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['card_brand'] = $card_brand;
+
+        return $this;
+    }
+
+    /**
+     * Gets authorization_code.
+     */
+    public function getAuthorizationCode(): ?string
+    {
+        return $this->container['authorization_code'];
+    }
+
+    /**
+     * Sets authorization_code.
+     *
+     * @param null|string $authorization_code The unique code that confirms the payment authorization.   **Note**: This attribute is only available for orders in the Brazil (BR) marketplace when the `PaymentMethod` is `CreditCard` or `Pix`.
+     */
+    public function setAuthorizationCode(?string $authorization_code): self
+    {
+        if (is_null($authorization_code)) {
+            array_push($this->openAPINullablesSetToNull, 'authorization_code');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('authorization_code', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['authorization_code'] = $authorization_code;
+
+        return $this;
+    }
 
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param integer $offset Offset
-     *
-     * @return boolean
+     * @param int $offset Offset
      */
     public function offsetExists($offset): bool
     {
@@ -374,9 +420,9 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Gets offset.
      *
-     * @param integer $offset Offset
+     * @param int $offset Offset
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -387,10 +433,8 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Sets value based on offset.
      *
-     * @param int|null $offset Offset
+     * @param null|int $offset Offset
      * @param mixed    $value  Value to be set
-     *
-     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -404,9 +448,7 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Unsets offset.
      *
-     * @param integer $offset Offset
-     *
-     * @return void
+     * @param int $offset Offset
      */
     public function offsetUnset($offset): void
     {
@@ -415,39 +457,67 @@ class PaymentExecutionDetailItem implements ModelInterface, ArrayAccess, \JsonSe
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
-     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @return mixed Returns data which can be serialized by json_encode(), which is a value
-     * of any type other than a resource.
+     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
+     *
+     * @return mixed returns data which can be serialized by json_encode(), which is a value
+     *               of any type other than a resource
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-       return ObjectSerializer::sanitizeForSerialization($this);
+        return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets the string presentation of the object
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Gets a header-safe presentation of the object
-     *
-     * @return string
+     * Gets a header-safe presentation of the object.
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
+
+    /**
+     * Array of nullable properties.
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null.
+     *
+     * @return bool[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null.
+     *
+     * @param bool[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+     * $this->openAPINullablesSetToNull array.
+     *
+     * @param mixed $defaultValue
+     */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
+    }
 }
-
-

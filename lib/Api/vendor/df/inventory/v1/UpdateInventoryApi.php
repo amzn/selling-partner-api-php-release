@@ -35,10 +35,10 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
-use SpApi\AuthAndAuth\RateLimitConfiguration;
 use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\ApiException;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
@@ -74,15 +74,9 @@ class UpdateInventoryApi
      */
     protected int $hostIndex;
 
-    /**
-     * @var ?RateLimitConfiguration
-     */
-    private ?RateLimitConfiguration $rateLimitConfig = null;
-
-    /**
-     * @var ?LimiterInterface
-     */
-    private ?LimiterInterface $rateLimiter = null;
+    private Bool $rateLimiterEnabled;
+    private InMemoryStorage $rateLimitStorage;
+    public ?LimiterInterface $submitInventoryUpdateRateLimiter;
 
     /**
      * @param Configuration   $config
@@ -93,27 +87,19 @@ class UpdateInventoryApi
      */
     public function __construct(
         Configuration $config,
-        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
+        ?Bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimitConfig = $rateLimitConfig;
-        if ($rateLimitConfig) {
-            $type = $rateLimitConfig->getRateLimitType();
-            $rateLimitOptions = [
-                'id' => 'spApiCall',
-                'policy' => $type,
-                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
-            ];
-            if ($type === "fixed_window" || $type === "sliding_window") {
-                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
-            } else {
-                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
-            }
-            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
-            $this->rateLimiter = $factory->create();
+        $this->rateLimiterEnabled = $rateLimiterEnabled;
+
+        if ($rateLimiterEnabled) {
+            $this->rateLimitStorage = new InMemoryStorage();
+
+            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions("UpdateInventoryApi-submitInventoryUpdate"), $this->rateLimitStorage);
+            $this->submitInventoryUpdateRateLimiter = $factory->create("UpdateInventoryApi-submitInventoryUpdate");
         }
 
         $this->client = $client ?: new Client();
@@ -148,7 +134,6 @@ class UpdateInventoryApi
     {
         return $this->config;
     }
-
     /**
      * Operation submitInventoryUpdate
      *
@@ -157,15 +142,17 @@ class UpdateInventoryApi
      * @param  \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateRequest $body
      *  The request body containing the inventory update data to submit. (required)
      *
+     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse
      */
     public function submitInventoryUpdate(
         string $warehouse_id,
-        \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateRequest $body
+        \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateRequest $body,
+        ?string $restrictedDataToken = null
     ): \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse {
-        list($response) = $this->submitInventoryUpdateWithHttpInfo($warehouse_id, $body);
+        list($response) = $this->submitInventoryUpdateWithHttpInfo($warehouse_id, $body,$restrictedDataToken);
         return $response;
     }
 
@@ -177,21 +164,28 @@ class UpdateInventoryApi
      * @param  \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateRequest $body
      *  The request body containing the inventory update data to submit. (required)
      *
+     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function submitInventoryUpdateWithHttpInfo(
         string $warehouse_id,
-        \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateRequest $body
+        \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateRequest $body,
+        ?string $restrictedDataToken = null
     ): array {
         $request = $this->submitInventoryUpdateRequest($warehouse_id, $body);
-        $request = $this->config->sign($request);
-
+        if ($restrictedDataToken !== null) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "UpdateInventoryApi-submitInventoryUpdate");
+        } else {
+            $request = $this->config->sign($request);
+        }
         try {
             $options = $this->createHttpClientOption();
             try {
-                $this->rateLimitWait();
+                if ($this->rateLimiterEnabled) {
+                    $this->submitInventoryUpdateRateLimiter->consume()->ensureAccepted();
+                }
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -223,236 +217,27 @@ class UpdateInventoryApi
                     (string) $response->getBody()
                 );
             }
-
-            switch($statusCode) {
-                case 202:
-                    if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
+                if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' === '\SplFileObject') {
+                    $content = $response->getBody(); //stream goes to serializer
+                } else {
+                    $content = (string) $response->getBody();
+                    if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' !== 'string') {
+                        $content = json_decode($content);
                     }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 400:
-                    if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 403:
-                    if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 404:
-                    if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 413:
-                    if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 415:
-                    if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 429:
-                    if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 500:
-                    if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 503:
-                    if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-            }
-
-            $returnType = '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
                 }
-            }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+                return [
+                    ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse', []),
+                    $response->getStatusCode(),
+                    $response->getHeaders()
+                ];
         } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 202:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 403:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 413:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 415:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 429:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 500:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 503:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-            }
+                $data = ObjectSerializer::deserialize(
+                    $e->getResponseBody(),
+                    '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse',
+                    $e->getResponseHeaders()
+                );
+                $e->setResponseObject($data);
             throw $e;
         }
     }
@@ -493,12 +278,19 @@ class UpdateInventoryApi
      */
     public function submitInventoryUpdateAsyncWithHttpInfo(
         string $warehouse_id,
-        \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateRequest $body
+        \SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateRequest $body,
+    ?string $restrictedDataToken = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\vendor\df\inventory\v1\SubmitInventoryUpdateResponse';
         $request = $this->submitInventoryUpdateRequest($warehouse_id, $body);
-        $request = $this->config->sign($request);
-        $this->rateLimitWait();
+        if ($restrictedDataToken !== null) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "UpdateInventoryApi-submitInventoryUpdate");
+        } else {
+            $request = $this->config->sign($request);
+        }
+        if ($this->rateLimiterEnabled) {
+            $this->submitInventoryUpdateRateLimiter->consume()->ensureAccepted();
+        }
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -583,18 +375,12 @@ class UpdateInventoryApi
         }
 
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                'application/json'
-                ,
-                false
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/json'
+            ,
+            $multipart
+        );
 
         // for model (json/xml)
         if (isset($body)) {
@@ -665,22 +451,5 @@ class UpdateInventoryApi
         }
 
         return $options;
-    }
-
-    /**
-     * Rate Limiter waits for tokens
-     *
-     * @return void
-     */
-    public function rateLimitWait(): void
-    {
-        if ($this->rateLimiter) {
-            $type = $this->rateLimitConfig->getRateLimitType();
-            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
-                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
-            } else {
-                $this->rateLimiter->consume()->wait();
-            }
-        }
     }
 }

@@ -1,16 +1,18 @@
 <?php
+
 /**
  * ProductPricingApi
- * PHP version 8.3
+ * PHP version 8.3.
  *
  * @category Class
- * @package  SpApi
+ *
  * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
+ *
+ * @see     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Pricing
+ * Selling Partner API for Pricing.
  *
  * The Selling Partner API for Pricing helps you programmatically retrieve product pricing and offer pricing information for Amazon Marketplace products.  For more information, refer to the [Product Pricing v2022-05-01 Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v2022-05-01-use-case-guide).
  *
@@ -35,38 +37,36 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
-use SpApi\AuthAndAuth\RateLimitConfiguration;
-use Symfony\Component\RateLimiter\LimiterInterface;
-use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
 use SpApi\ApiException;
+use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
+use SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest;
+use SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse;
+use SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest;
+use SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse;
 use SpApi\ObjectSerializer;
+use Symfony\Component\RateLimiter\LimiterInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 
 /**
- * ProductPricingApi Class Doc Comment
+ * ProductPricingApi Class Doc Comment.
  *
  * @category Class
- * @package  SpApi
+ *
  * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
+ *
+ * @see     https://openapi-generator.tech
  */
 class ProductPricingApi
 {
-    /**
-     * @var ClientInterface
-     */
+    public ?LimiterInterface $getCompetitiveSummaryRateLimiter;
+    public ?LimiterInterface $getFeaturedOfferExpectedPriceBatchRateLimiter;
     protected ClientInterface $client;
 
-    /**
-     * @var Configuration
-     */
     protected Configuration $config;
 
-    /**
-     * @var HeaderSelector
-     */
     protected HeaderSelector $headerSelector;
 
     /**
@@ -74,46 +74,29 @@ class ProductPricingApi
      */
     protected int $hostIndex;
 
-    /**
-     * @var ?RateLimitConfiguration
-     */
-    private ?RateLimitConfiguration $rateLimitConfig = null;
+    private bool $rateLimiterEnabled;
+    private InMemoryStorage $rateLimitStorage;
 
     /**
-     * @var ?LimiterInterface
-     */
-    private ?LimiterInterface $rateLimiter = null;
-
-    /**
-     * @param Configuration   $config
-     * @param RateLimitConfiguration|null $rateLimitConfig
-     * @param ClientInterface|null $client
-     * @param HeaderSelector|null $selector
      * @param int $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         Configuration $config,
-        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
+        ?bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimitConfig = $rateLimitConfig;
-        if ($rateLimitConfig) {
-            $type = $rateLimitConfig->getRateLimitType();
-            $rateLimitOptions = [
-                'id' => 'spApiCall',
-                'policy' => $type,
-                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
-            ];
-            if ($type === "fixed_window" || $type === "sliding_window") {
-                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
-            } else {
-                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
-            }
-            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
-            $this->rateLimiter = $factory->create();
+        $this->rateLimiterEnabled = $rateLimiterEnabled;
+
+        if ($rateLimiterEnabled) {
+            $this->rateLimitStorage = new InMemoryStorage();
+
+            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('ProductPricingApi-getCompetitiveSummary'), $this->rateLimitStorage);
+            $this->getCompetitiveSummaryRateLimiter = $factory->create('ProductPricingApi-getCompetitiveSummary');
+            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions('ProductPricingApi-getFeaturedOfferExpectedPriceBatch'), $this->rateLimitStorage);
+            $this->getFeaturedOfferExpectedPriceBatchRateLimiter = $factory->create('ProductPricingApi-getFeaturedOfferExpectedPriceBatch');
         }
 
         $this->client = $client ?: new Client();
@@ -122,7 +105,7 @@ class ProductPricingApi
     }
 
     /**
-     * Set the host index
+     * Set the host index.
      *
      * @param int $hostIndex Host index (required)
      */
@@ -132,7 +115,7 @@ class ProductPricingApi
     }
 
     /**
-     * Get the host index
+     * Get the host index.
      *
      * @return int Host index
      */
@@ -141,51 +124,60 @@ class ProductPricingApi
         return $this->hostIndex;
     }
 
-    /**
-     * @return Configuration
-     */
     public function getConfig(): Configuration
     {
         return $this->config;
     }
 
     /**
-     * Operation getCompetitiveSummary
+     * Operation getCompetitiveSummary.
      *
-     * @param  \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest $requests
-     *  The batch of &#x60;getCompetitiveSummary&#x60; requests. (required)
+     * @param CompetitiveSummaryBatchRequest $requests
+     *                                                            The batch of &#x60;getCompetitiveSummary&#x60; requests. (required)
+     * @param null|string                    $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @throws \SpApi\ApiException on non-2xx response
+     * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse
      */
     public function getCompetitiveSummary(
-        \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest $requests
-    ): \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse {
-        list($response) = $this->getCompetitiveSummaryWithHttpInfo($requests);
+        CompetitiveSummaryBatchRequest $requests,
+        ?string $restrictedDataToken = null
+    ): CompetitiveSummaryBatchResponse {
+        list($response) = $this->getCompetitiveSummaryWithHttpInfo($requests, $restrictedDataToken);
+
         return $response;
     }
 
     /**
-     * Operation getCompetitiveSummaryWithHttpInfo
+     * Operation getCompetitiveSummaryWithHttpInfo.
      *
-     * @param  \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest $requests
-     *  The batch of &#x60;getCompetitiveSummary&#x60; requests. (required)
+     * @param CompetitiveSummaryBatchRequest $requests
+     *                                                            The batch of &#x60;getCompetitiveSummary&#x60; requests. (required)
+     * @param null|string                    $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @throws \SpApi\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
      * @return array of \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse, HTTP status code, HTTP response headers (array of strings)
+     *
+     * @throws ApiException              on non-2xx response
+     * @throws \InvalidArgumentException
      */
     public function getCompetitiveSummaryWithHttpInfo(
-        \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest $requests
+        CompetitiveSummaryBatchRequest $requests,
+        ?string $restrictedDataToken = null
     ): array {
         $request = $this->getCompetitiveSummaryRequest($requests);
-        $request = $this->config->sign($request);
+        if (null !== $restrictedDataToken) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'ProductPricingApi-getCompetitiveSummary');
+        } else {
+            $request = $this->config->sign($request);
+        }
 
         try {
             $options = $this->createHttpClientOption();
+
             try {
-                $this->rateLimitWait();
+                if ($this->rateLimiterEnabled) {
+                    $this->getCompetitiveSummaryRateLimiter->consume()->ensureAccepted();
+                }
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -217,240 +209,84 @@ class ProductPricingApi
                     (string) $response->getBody()
                 );
             }
-
-            switch($statusCode) {
-                case 200:
-                    if ('\SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 400:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 403:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 404:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 429:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 500:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 503:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-            }
-
-            $returnType = '\SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
+            if ('\SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse' === '\SplFileObject') {
+                $content = $response->getBody(); // stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
+                if ('\SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse' !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, $returnType, []),
+                ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse', []),
                 $response->getStatusCode(),
-                $response->getHeaders()
+                $response->getHeaders(),
             ];
-
         } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 403:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 429:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 500:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 503:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-            }
+            $data = ObjectSerializer::deserialize(
+                $e->getResponseBody(),
+                '\SpApi\Model\pricing\v2022_05_01\Errors',
+                $e->getResponseHeaders()
+            );
+            $e->setResponseObject($data);
+
             throw $e;
         }
     }
 
     /**
-     * Operation getCompetitiveSummaryAsync
+     * Operation getCompetitiveSummaryAsync.
      *
-     * @param  \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest $requests
-     *  The batch of &#x60;getCompetitiveSummary&#x60; requests. (required)
+     * @param CompetitiveSummaryBatchRequest $requests
+     *                                                 The batch of &#x60;getCompetitiveSummary&#x60; requests. (required)
      *
      * @throws \InvalidArgumentException
-     * @return PromiseInterface
      */
     public function getCompetitiveSummaryAsync(
-        \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest $requests
+        CompetitiveSummaryBatchRequest $requests
     ): PromiseInterface {
         return $this->getCompetitiveSummaryAsyncWithHttpInfo($requests)
             ->then(
                 function ($response) {
                     return $response[0];
                 }
-            );
+            )
+        ;
     }
 
     /**
-     * Operation getCompetitiveSummaryAsyncWithHttpInfo
+     * Operation getCompetitiveSummaryAsyncWithHttpInfo.
      *
-     * @param  \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest $requests
-     *  The batch of &#x60;getCompetitiveSummary&#x60; requests. (required)
+     * @param CompetitiveSummaryBatchRequest $requests
+     *                                                 The batch of &#x60;getCompetitiveSummary&#x60; requests. (required)
      *
      * @throws \InvalidArgumentException
-     * @return PromiseInterface
      */
     public function getCompetitiveSummaryAsyncWithHttpInfo(
-        \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest $requests
+        CompetitiveSummaryBatchRequest $requests,
+        ?string $restrictedDataToken = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchResponse';
         $request = $this->getCompetitiveSummaryRequest($requests);
-        $request = $this->config->sign($request);
-        $this->rateLimitWait();
+        if (null !== $restrictedDataToken) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'ProductPricingApi-getCompetitiveSummary');
+        } else {
+            $request = $this->config->sign($request);
+        }
+        if ($this->rateLimiterEnabled) {
+            $this->getCompetitiveSummaryRateLimiter->consume()->ensureAccepted();
+        }
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ($returnType === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
+                    if ('\SplFileObject' === $returnType) {
+                        $content = $response->getBody(); // stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ($returnType !== 'string') {
+                        if ('string' !== $returnType) {
                             $content = json_decode($content);
                         }
                     }
@@ -458,12 +294,13 @@ class ProductPricingApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders()
+                        $response->getHeaders(),
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
+
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -475,23 +312,23 @@ class ProductPricingApi
                         (string) $response->getBody()
                     );
                 }
-            );
+            )
+        ;
     }
 
     /**
-     * Create request for operation 'getCompetitiveSummary'
+     * Create request for operation 'getCompetitiveSummary'.
      *
-     * @param  \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest $requests
-     *  The batch of &#x60;getCompetitiveSummary&#x60; requests. (required)
+     * @param CompetitiveSummaryBatchRequest $requests
+     *                                                 The batch of &#x60;getCompetitiveSummary&#x60; requests. (required)
      *
      * @throws \InvalidArgumentException
-     * @return Request
      */
     public function getCompetitiveSummaryRequest(
-        \SpApi\Model\pricing\v2022_05_01\CompetitiveSummaryBatchRequest $requests
+        CompetitiveSummaryBatchRequest $requests
     ): Request {
         // verify the required parameter 'requests' is set
-        if ($requests === null || (is_array($requests) && count($requests) === 0)) {
+        if (null === $requests || (is_array($requests) && 0 === count($requests))) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $requests when calling getCompetitiveSummary'
             );
@@ -504,26 +341,15 @@ class ProductPricingApi
         $httpBody = '';
         $multipart = false;
 
-
-
-
-
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                'application/json'
-                ,
-                false
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/json',
+            $multipart
+        );
 
         // for model (json/xml)
         if (isset($requests)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ('application/json' === $headers['Content-Type']) {
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($requests));
             } else {
                 $httpBody = $requests;
@@ -536,22 +362,19 @@ class ProductPricingApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem
+                            'contents' => $formParamValueItem,
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ('application/json' === $headers['Content-Type']) {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
-
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
-
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -565,51 +388,64 @@ class ProductPricingApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
+
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Operation getFeaturedOfferExpectedPriceBatch
+     * Operation getFeaturedOfferExpectedPriceBatch.
      *
-     * @param  \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
-     *  The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests. (required)
+     * @param GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
+     *                                                                                                        The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests. (required)
+     * @param null|string                               $restrictedDataToken                                  Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @throws \SpApi\ApiException on non-2xx response
+     * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse
      */
     public function getFeaturedOfferExpectedPriceBatch(
-        \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
-    ): \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse {
-        list($response) = $this->getFeaturedOfferExpectedPriceBatchWithHttpInfo($get_featured_offer_expected_price_batch_request_body);
+        GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body,
+        ?string $restrictedDataToken = null
+    ): GetFeaturedOfferExpectedPriceBatchResponse {
+        list($response) = $this->getFeaturedOfferExpectedPriceBatchWithHttpInfo($get_featured_offer_expected_price_batch_request_body, $restrictedDataToken);
+
         return $response;
     }
 
     /**
-     * Operation getFeaturedOfferExpectedPriceBatchWithHttpInfo
+     * Operation getFeaturedOfferExpectedPriceBatchWithHttpInfo.
      *
-     * @param  \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
-     *  The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests. (required)
+     * @param GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
+     *                                                                                                        The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests. (required)
+     * @param null|string                               $restrictedDataToken                                  Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      *
-     * @throws \SpApi\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
      * @return array of \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse, HTTP status code, HTTP response headers (array of strings)
+     *
+     * @throws ApiException              on non-2xx response
+     * @throws \InvalidArgumentException
      */
     public function getFeaturedOfferExpectedPriceBatchWithHttpInfo(
-        \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
+        GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body,
+        ?string $restrictedDataToken = null
     ): array {
         $request = $this->getFeaturedOfferExpectedPriceBatchRequest($get_featured_offer_expected_price_batch_request_body);
-        $request = $this->config->sign($request);
+        if (null !== $restrictedDataToken) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'ProductPricingApi-getFeaturedOfferExpectedPriceBatch');
+        } else {
+            $request = $this->config->sign($request);
+        }
 
         try {
             $options = $this->createHttpClientOption();
+
             try {
-                $this->rateLimitWait();
+                if ($this->rateLimiterEnabled) {
+                    $this->getFeaturedOfferExpectedPriceBatchRateLimiter->consume()->ensureAccepted();
+                }
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -641,263 +477,84 @@ class ProductPricingApi
                     (string) $response->getBody()
                 );
             }
-
-            switch($statusCode) {
-                case 200:
-                    if ('\SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 400:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 401:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 403:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 404:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 429:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 500:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 503:
-                    if ('\SpApi\Model\pricing\v2022_05_01\Errors' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\pricing\v2022_05_01\Errors' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\Errors', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-            }
-
-            $returnType = '\SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
+            if ('\SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse' === '\SplFileObject') {
+                $content = $response->getBody(); // stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
+                if ('\SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse' !== 'string') {
                     $content = json_decode($content);
                 }
             }
 
             return [
-                ObjectSerializer::deserialize($content, $returnType, []),
+                ObjectSerializer::deserialize($content, '\SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse', []),
                 $response->getStatusCode(),
-                $response->getHeaders()
+                $response->getHeaders(),
             ];
-
         } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 401:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 403:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 429:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 500:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 503:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\pricing\v2022_05_01\Errors',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-            }
+            $data = ObjectSerializer::deserialize(
+                $e->getResponseBody(),
+                '\SpApi\Model\pricing\v2022_05_01\Errors',
+                $e->getResponseHeaders()
+            );
+            $e->setResponseObject($data);
+
             throw $e;
         }
     }
 
     /**
-     * Operation getFeaturedOfferExpectedPriceBatchAsync
+     * Operation getFeaturedOfferExpectedPriceBatchAsync.
      *
-     * @param  \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
-     *  The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests. (required)
+     * @param GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
+     *                                                                                                        The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests. (required)
      *
      * @throws \InvalidArgumentException
-     * @return PromiseInterface
      */
     public function getFeaturedOfferExpectedPriceBatchAsync(
-        \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
+        GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
     ): PromiseInterface {
         return $this->getFeaturedOfferExpectedPriceBatchAsyncWithHttpInfo($get_featured_offer_expected_price_batch_request_body)
             ->then(
                 function ($response) {
                     return $response[0];
                 }
-            );
+            )
+        ;
     }
 
     /**
-     * Operation getFeaturedOfferExpectedPriceBatchAsyncWithHttpInfo
+     * Operation getFeaturedOfferExpectedPriceBatchAsyncWithHttpInfo.
      *
-     * @param  \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
-     *  The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests. (required)
+     * @param GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
+     *                                                                                                        The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests. (required)
      *
      * @throws \InvalidArgumentException
-     * @return PromiseInterface
      */
     public function getFeaturedOfferExpectedPriceBatchAsyncWithHttpInfo(
-        \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
+        GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body,
+        ?string $restrictedDataToken = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchResponse';
         $request = $this->getFeaturedOfferExpectedPriceBatchRequest($get_featured_offer_expected_price_batch_request_body);
-        $request = $this->config->sign($request);
-        $this->rateLimitWait();
+        if (null !== $restrictedDataToken) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'ProductPricingApi-getFeaturedOfferExpectedPriceBatch');
+        } else {
+            $request = $this->config->sign($request);
+        }
+        if ($this->rateLimiterEnabled) {
+            $this->getFeaturedOfferExpectedPriceBatchRateLimiter->consume()->ensureAccepted();
+        }
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    if ($returnType === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
+                    if ('\SplFileObject' === $returnType) {
+                        $content = $response->getBody(); // stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ($returnType !== 'string') {
+                        if ('string' !== $returnType) {
                             $content = json_decode($content);
                         }
                     }
@@ -905,12 +562,13 @@ class ProductPricingApi
                     return [
                         ObjectSerializer::deserialize($content, $returnType, []),
                         $response->getStatusCode(),
-                        $response->getHeaders()
+                        $response->getHeaders(),
                     ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
+
                     throw new ApiException(
                         sprintf(
                             '[%d] Error connecting to the API (%s)',
@@ -922,23 +580,23 @@ class ProductPricingApi
                         (string) $response->getBody()
                     );
                 }
-            );
+            )
+        ;
     }
 
     /**
-     * Create request for operation 'getFeaturedOfferExpectedPriceBatch'
+     * Create request for operation 'getFeaturedOfferExpectedPriceBatch'.
      *
-     * @param  \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
-     *  The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests. (required)
+     * @param GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
+     *                                                                                                        The batch of &#x60;getFeaturedOfferExpectedPrice&#x60; requests. (required)
      *
      * @throws \InvalidArgumentException
-     * @return Request
      */
     public function getFeaturedOfferExpectedPriceBatchRequest(
-        \SpApi\Model\pricing\v2022_05_01\GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
+        GetFeaturedOfferExpectedPriceBatchRequest $get_featured_offer_expected_price_batch_request_body
     ): Request {
         // verify the required parameter 'get_featured_offer_expected_price_batch_request_body' is set
-        if ($get_featured_offer_expected_price_batch_request_body === null || (is_array($get_featured_offer_expected_price_batch_request_body) && count($get_featured_offer_expected_price_batch_request_body) === 0)) {
+        if (null === $get_featured_offer_expected_price_batch_request_body || (is_array($get_featured_offer_expected_price_batch_request_body) && 0 === count($get_featured_offer_expected_price_batch_request_body))) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $get_featured_offer_expected_price_batch_request_body when calling getFeaturedOfferExpectedPriceBatch'
             );
@@ -951,26 +609,15 @@ class ProductPricingApi
         $httpBody = '';
         $multipart = false;
 
-
-
-
-
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                'application/json'
-                ,
-                false
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/json',
+            $multipart
+        );
 
         // for model (json/xml)
         if (isset($get_featured_offer_expected_price_batch_request_body)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ('application/json' === $headers['Content-Type']) {
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($get_featured_offer_expected_price_batch_request_body));
             } else {
                 $httpBody = $get_featured_offer_expected_price_batch_request_body;
@@ -983,22 +630,19 @@ class ProductPricingApi
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
-                            'contents' => $formParamValueItem
+                            'contents' => $formParamValueItem,
                         ];
                     }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
-
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ('application/json' === $headers['Content-Type']) {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
-
             } else {
                 // for HTTP post (form)
                 $httpBody = ObjectSerializer::buildQuery($formParams, $this->config);
             }
         }
-
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1012,19 +656,21 @@ class ProductPricingApi
         );
 
         $query = ObjectSerializer::buildQuery($queryParams, $this->config);
+
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $this->config->getHost().$resourcePath.($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
     }
 
     /**
-     * Create http client option
+     * Create http client option.
+     *
+     * @return array of http client options
      *
      * @throws \RuntimeException on file opening failure
-     * @return array of http client options
      */
     protected function createHttpClientOption(): array
     {
@@ -1032,27 +678,10 @@ class ProductPricingApi
         if ($this->config->getDebug()) {
             $options[RequestOptions::DEBUG] = fopen($this->config->getDebugFile(), 'a');
             if (!$options[RequestOptions::DEBUG]) {
-                throw new \RuntimeException('Failed to open the debug file: ' . $this->config->getDebugFile());
+                throw new \RuntimeException('Failed to open the debug file: '.$this->config->getDebugFile());
             }
         }
 
         return $options;
-    }
-
-    /**
-     * Rate Limiter waits for tokens
-     *
-     * @return void
-     */
-    public function rateLimitWait(): void
-    {
-        if ($this->rateLimiter) {
-            $type = $this->rateLimitConfig->getRateLimitType();
-            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
-                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
-            } else {
-                $this->rateLimiter->consume()->wait();
-            }
-        }
     }
 }
