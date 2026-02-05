@@ -1,17 +1,19 @@
 <?php
+
 /**
- * GetSellingPartnerMetricsResponseMetric
+ * GetSellingPartnerMetricsResponseMetric.
  *
  * PHP version 8.3
  *
  * @category Class
- * @package  SpApi
+ *
  * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
+ *
+ * @see     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Replenishment
+ * Selling Partner API for Replenishment.
  *
  * The Selling Partner API for Replenishment (Replenishment API) provides programmatic access to replenishment program metrics and offers. These programs provide recurring delivery of any replenishable item at a frequency chosen by the customer.  The Replenishment API is available worldwide wherever Amazon Subscribe & Save is available or is supported. The API is available to vendors and FBA selling partners.
  *
@@ -28,97 +30,120 @@
 
 namespace SpApi\Model\replenishment\v2022_11_07;
 
-use
-ArrayAccess;
-use SpApi\ObjectSerializer;
 use SpApi\Model\ModelInterface;
+use SpApi\ObjectSerializer;
 
 /**
- * GetSellingPartnerMetricsResponseMetric Class Doc Comment
+ * GetSellingPartnerMetricsResponseMetric Class Doc Comment.
  *
  * @category Class
+ *
  * @description An object which contains metric data for a selling partner.
- * @package  SpApi
+ *
  * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
+ *
+ * @see     https://openapi-generator.tech
+ *
  * @implements \ArrayAccess<string, mixed>
  */
-class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAccess, \JsonSerializable
+class GetSellingPartnerMetricsResponseMetric implements ModelInterface, \ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
     /**
-      * The original name of the model.
-      *
-      * @var string
-      */
+     * The original name of the model.
+     */
     protected static string $openAPIModelName = 'GetSellingPartnerMetricsResponseMetric';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization
-      *
-      * @var string[]
-      */
+     * Array of property to type mappings. Used for (de)serialization.
+     *
+     * @var string[]
+     */
     protected static array $openAPITypes = [
-             'not_delivered_due_to_oos' => 'float',
-             'total_subscriptions_revenue' => 'float',
-             'shipped_subscription_units' => 'float',
-             'active_subscriptions' => 'float',
-             'subscriber_average_revenue' => 'float',
-             'non_subscriber_average_revenue' => 'float',
-             'lost_revenue_due_to_oos' => 'float',
-             'subscriber_average_reorders' => 'float',
-             'non_subscriber_average_reorders' => 'float',
-             'coupons_revenue_penetration' => 'float',
-             'revenue_from_subscriptions_with_multiple_deliveries' => 'float',
-             'revenue_from_active_subscriptions_with_single_delivery' => 'float',
-             'revenue_from_cancelled_subscriptions_after_single_delivery' => 'float',
-             'subscriber_retention_for30_days' => 'float',
-             'subscriber_retention_for90_days' => 'float',
-             'revenue_penetration_for0_percent_seller_funding' => 'float',
-             'revenue_penetration_for5_percent_seller_funding' => 'float',
-             'revenue_penetration_for10_percent_seller_funding' => 'float',
-             'revenue_penetration_for5_plus_percent_seller_funding' => 'float',
-             'share_of_coupon_subscriptions' => 'float',
-             'time_interval' => '\SpApi\Model\replenishment\v2022_11_07\TimeInterval',
-             'currency_code' => 'string'    ];
+        'not_delivered_due_to_oos' => 'float',
+        'total_subscriptions_revenue' => 'float',
+        'shipped_subscription_units' => 'float',
+        'active_subscriptions' => 'float',
+        'subscriber_average_revenue' => 'float',
+        'non_subscriber_average_revenue' => 'float',
+        'lost_revenue_due_to_oos' => 'float',
+        'subscriber_average_reorders' => 'float',
+        'non_subscriber_average_reorders' => 'float',
+        'coupons_revenue_penetration' => 'float',
+        'revenue_from_subscriptions_with_multiple_deliveries' => 'float',
+        'revenue_from_active_subscriptions_with_single_delivery' => 'float',
+        'revenue_from_cancelled_subscriptions_after_single_delivery' => 'float',
+        'subscriber_retention_for30_days' => 'float',
+        'subscriber_retention_for90_days' => 'float',
+        'revenue_penetration_for0_percent_seller_funding' => 'float',
+        'revenue_penetration_for5_percent_seller_funding' => 'float',
+        'revenue_penetration_for10_percent_seller_funding' => 'float',
+        'revenue_penetration_for5_plus_percent_seller_funding' => 'float',
+        'share_of_coupon_subscriptions' => 'float',
+        'non_subscriber_life_time_value_from_otp' => 'float',
+        'lost_subscriber_life_time_value_from_otp' => 'float',
+        'lost_subscriber_life_time_value_from_sns' => 'float',
+        'growing_subscriber_life_time_value_from_otp' => 'float',
+        'growing_subscriber_life_time_value_from_sns' => 'float',
+        'established_subscriber_life_time_value_from_otp' => 'float',
+        'established_subscriber_life_time_value_from_sns' => 'float',
+        'signup_conversion_for0_percent_seller_funding' => 'float',
+        'signup_conversion_for5_percent_seller_funding' => 'float',
+        'signup_conversion_for10_percent_seller_funding' => 'float',
+        'signup_conversion_for5_plus_percent_seller_funding' => 'float',
+        'time_interval' => '\SpApi\Model\replenishment\v2022_11_07\TimeInterval',
+        'currency_code' => 'string'];
 
     /**
-      * Array of property to format mappings. Used for (de)serialization
-      *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
-      */
+     * Array of property to format mappings. Used for (de)serialization.
+     *
+     * @var string[]
+     *
+     * @phpstan-var array<string, string|null>
+     *
+     * @psalm-var array<string, string|null>
+     */
     protected static array $openAPIFormats = [
-            'not_delivered_due_to_oos' => 'double',
-            'total_subscriptions_revenue' => 'double',
-            'shipped_subscription_units' => 'int64',
-            'active_subscriptions' => 'int64',
-            'subscriber_average_revenue' => 'double',
-            'non_subscriber_average_revenue' => 'double',
-            'lost_revenue_due_to_oos' => 'double',
-            'subscriber_average_reorders' => 'double',
-            'non_subscriber_average_reorders' => 'double',
-            'coupons_revenue_penetration' => 'double',
-            'revenue_from_subscriptions_with_multiple_deliveries' => 'double',
-            'revenue_from_active_subscriptions_with_single_delivery' => 'double',
-            'revenue_from_cancelled_subscriptions_after_single_delivery' => 'double',
-            'subscriber_retention_for30_days' => 'double',
-            'subscriber_retention_for90_days' => 'double',
-            'revenue_penetration_for0_percent_seller_funding' => 'double',
-            'revenue_penetration_for5_percent_seller_funding' => 'double',
-            'revenue_penetration_for10_percent_seller_funding' => 'double',
-            'revenue_penetration_for5_plus_percent_seller_funding' => 'double',
-            'share_of_coupon_subscriptions' => 'double',
-            'time_interval' => null,
-            'currency_code' => null    ];
+        'not_delivered_due_to_oos' => 'double',
+        'total_subscriptions_revenue' => 'double',
+        'shipped_subscription_units' => 'int64',
+        'active_subscriptions' => 'int64',
+        'subscriber_average_revenue' => 'double',
+        'non_subscriber_average_revenue' => 'double',
+        'lost_revenue_due_to_oos' => 'double',
+        'subscriber_average_reorders' => 'double',
+        'non_subscriber_average_reorders' => 'double',
+        'coupons_revenue_penetration' => 'double',
+        'revenue_from_subscriptions_with_multiple_deliveries' => 'double',
+        'revenue_from_active_subscriptions_with_single_delivery' => 'double',
+        'revenue_from_cancelled_subscriptions_after_single_delivery' => 'double',
+        'subscriber_retention_for30_days' => 'double',
+        'subscriber_retention_for90_days' => 'double',
+        'revenue_penetration_for0_percent_seller_funding' => 'double',
+        'revenue_penetration_for5_percent_seller_funding' => 'double',
+        'revenue_penetration_for10_percent_seller_funding' => 'double',
+        'revenue_penetration_for5_plus_percent_seller_funding' => 'double',
+        'share_of_coupon_subscriptions' => 'double',
+        'non_subscriber_life_time_value_from_otp' => 'double',
+        'lost_subscriber_life_time_value_from_otp' => 'double',
+        'lost_subscriber_life_time_value_from_sns' => 'double',
+        'growing_subscriber_life_time_value_from_otp' => 'double',
+        'growing_subscriber_life_time_value_from_sns' => 'double',
+        'established_subscriber_life_time_value_from_otp' => 'double',
+        'established_subscriber_life_time_value_from_sns' => 'double',
+        'signup_conversion_for0_percent_seller_funding' => 'double',
+        'signup_conversion_for5_percent_seller_funding' => 'double',
+        'signup_conversion_for10_percent_seller_funding' => 'double',
+        'signup_conversion_for5_plus_percent_seller_funding' => 'double',
+        'time_interval' => null,
+        'currency_code' => null];
 
     /**
-      * Array of nullable properties. Used for (de)serialization
-      *
-      * @var boolean[]
-      */
+     * Array of nullable properties. Used for (de)serialization.
+     *
+     * @var bool[]
+     */
     protected static array $openAPINullables = [
         'not_delivered_due_to_oos' => true,
         'total_subscriptions_revenue' => true,
@@ -140,123 +165,72 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         'revenue_penetration_for10_percent_seller_funding' => true,
         'revenue_penetration_for5_plus_percent_seller_funding' => true,
         'share_of_coupon_subscriptions' => true,
+        'non_subscriber_life_time_value_from_otp' => true,
+        'lost_subscriber_life_time_value_from_otp' => true,
+        'lost_subscriber_life_time_value_from_sns' => true,
+        'growing_subscriber_life_time_value_from_otp' => true,
+        'growing_subscriber_life_time_value_from_sns' => true,
+        'established_subscriber_life_time_value_from_otp' => true,
+        'established_subscriber_life_time_value_from_sns' => true,
+        'signup_conversion_for0_percent_seller_funding' => true,
+        'signup_conversion_for5_percent_seller_funding' => true,
+        'signup_conversion_for10_percent_seller_funding' => true,
+        'signup_conversion_for5_plus_percent_seller_funding' => true,
         'time_interval' => true,
-        'currency_code' => true
+        'currency_code' => true,
     ];
 
     /**
-      * If a nullable field gets set to null, insert it here
-      *
-      * @var boolean[]
-      */
+     * If a nullable field gets set to null, insert it here.
+     *
+     * @var bool[]
+     */
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of property to type mappings. Used for (de)serialization
-     *
-     * @return array
-     */
-    public static function openAPITypes(): array
-    {
-        return self::$openAPITypes;
-    }
-
-    /**
-     * Array of property to format mappings. Used for (de)serialization
-     *
-     * @return array
-     */
-    public static function openAPIFormats(): array
-    {
-        return self::$openAPIFormats;
-    }
-
-    /**
-     * Array of nullable properties
-     *
-     * @return array
-     */
-    protected static function openAPINullables(): array
-    {
-        return self::$openAPINullables;
-    }
-
-    /**
-     * Array of nullable field names deliberately set to null
-     *
-     * @return boolean[]
-     */
-    private function getOpenAPINullablesSetToNull(): array
-    {
-        return $this->openAPINullablesSetToNull;
-    }
-
-    /**
-     * Setter - Array of nullable field names deliberately set to null
-     *
-     * @param boolean[] $openAPINullablesSetToNull
-     */
-    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
-    {
-        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
-    }
-
-    /**
-     * Checks if a property is nullable
-     *
-     * @param string $property
-     * @return bool
-     */
-    public static function isNullable(string $property): bool
-    {
-        return self::openAPINullables()[$property] ?? false;
-    }
-
-    /**
-     * Checks if a nullable property is set to null.
-     *
-     * @param string $property
-     * @return bool
-     */
-    public function isNullableSetToNull(string $property): bool
-    {
-        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
-    }
-
-    /**
      * Array of attributes where the key is the local name,
-     * and the value is the original name
+     * and the value is the original name.
      *
      * @var string[]
      */
     protected static array $attributeMap = [
         'not_delivered_due_to_oos' => 'notDeliveredDueToOOS',
-                'total_subscriptions_revenue' => 'totalSubscriptionsRevenue',
-                'shipped_subscription_units' => 'shippedSubscriptionUnits',
-                'active_subscriptions' => 'activeSubscriptions',
-                'subscriber_average_revenue' => 'subscriberAverageRevenue',
-                'non_subscriber_average_revenue' => 'nonSubscriberAverageRevenue',
-                'lost_revenue_due_to_oos' => 'lostRevenueDueToOOS',
-                'subscriber_average_reorders' => 'subscriberAverageReorders',
-                'non_subscriber_average_reorders' => 'nonSubscriberAverageReorders',
-                'coupons_revenue_penetration' => 'couponsRevenuePenetration',
-                'revenue_from_subscriptions_with_multiple_deliveries' => 'revenueFromSubscriptionsWithMultipleDeliveries',
-                'revenue_from_active_subscriptions_with_single_delivery' => 'revenueFromActiveSubscriptionsWithSingleDelivery',
-                'revenue_from_cancelled_subscriptions_after_single_delivery' => 'revenueFromCancelledSubscriptionsAfterSingleDelivery',
-                'subscriber_retention_for30_days' => 'subscriberRetentionFor30Days',
-                'subscriber_retention_for90_days' => 'subscriberRetentionFor90Days',
-                'revenue_penetration_for0_percent_seller_funding' => 'revenuePenetrationFor0PercentSellerFunding',
-                'revenue_penetration_for5_percent_seller_funding' => 'revenuePenetrationFor5PercentSellerFunding',
-                'revenue_penetration_for10_percent_seller_funding' => 'revenuePenetrationFor10PercentSellerFunding',
-                'revenue_penetration_for5_plus_percent_seller_funding' => 'revenuePenetrationFor5PlusPercentSellerFunding',
-                'share_of_coupon_subscriptions' => 'shareOfCouponSubscriptions',
-                'time_interval' => 'timeInterval',
-                'currency_code' => 'currencyCode'
-        
+        'total_subscriptions_revenue' => 'totalSubscriptionsRevenue',
+        'shipped_subscription_units' => 'shippedSubscriptionUnits',
+        'active_subscriptions' => 'activeSubscriptions',
+        'subscriber_average_revenue' => 'subscriberAverageRevenue',
+        'non_subscriber_average_revenue' => 'nonSubscriberAverageRevenue',
+        'lost_revenue_due_to_oos' => 'lostRevenueDueToOOS',
+        'subscriber_average_reorders' => 'subscriberAverageReorders',
+        'non_subscriber_average_reorders' => 'nonSubscriberAverageReorders',
+        'coupons_revenue_penetration' => 'couponsRevenuePenetration',
+        'revenue_from_subscriptions_with_multiple_deliveries' => 'revenueFromSubscriptionsWithMultipleDeliveries',
+        'revenue_from_active_subscriptions_with_single_delivery' => 'revenueFromActiveSubscriptionsWithSingleDelivery',
+        'revenue_from_cancelled_subscriptions_after_single_delivery' => 'revenueFromCancelledSubscriptionsAfterSingleDelivery',
+        'subscriber_retention_for30_days' => 'subscriberRetentionFor30Days',
+        'subscriber_retention_for90_days' => 'subscriberRetentionFor90Days',
+        'revenue_penetration_for0_percent_seller_funding' => 'revenuePenetrationFor0PercentSellerFunding',
+        'revenue_penetration_for5_percent_seller_funding' => 'revenuePenetrationFor5PercentSellerFunding',
+        'revenue_penetration_for10_percent_seller_funding' => 'revenuePenetrationFor10PercentSellerFunding',
+        'revenue_penetration_for5_plus_percent_seller_funding' => 'revenuePenetrationFor5PlusPercentSellerFunding',
+        'share_of_coupon_subscriptions' => 'shareOfCouponSubscriptions',
+        'non_subscriber_life_time_value_from_otp' => 'nonSubscriberLifeTimeValueFromOTP',
+        'lost_subscriber_life_time_value_from_otp' => 'lostSubscriberLifeTimeValueFromOTP',
+        'lost_subscriber_life_time_value_from_sns' => 'lostSubscriberLifeTimeValueFromSNS',
+        'growing_subscriber_life_time_value_from_otp' => 'growingSubscriberLifeTimeValueFromOTP',
+        'growing_subscriber_life_time_value_from_sns' => 'growingSubscriberLifeTimeValueFromSNS',
+        'established_subscriber_life_time_value_from_otp' => 'establishedSubscriberLifeTimeValueFromOTP',
+        'established_subscriber_life_time_value_from_sns' => 'establishedSubscriberLifeTimeValueFromSNS',
+        'signup_conversion_for0_percent_seller_funding' => 'signupConversionFor0PercentSellerFunding',
+        'signup_conversion_for5_percent_seller_funding' => 'signupConversionFor5PercentSellerFunding',
+        'signup_conversion_for10_percent_seller_funding' => 'signupConversionFor10PercentSellerFunding',
+        'signup_conversion_for5_plus_percent_seller_funding' => 'signupConversionFor5PlusPercentSellerFunding',
+        'time_interval' => 'timeInterval',
+        'currency_code' => 'currencyCode',
     ];
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses)
+     * Array of attributes to setter functions (for deserialization of responses).
      *
      * @var string[]
      */
@@ -281,12 +255,23 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         'revenue_penetration_for10_percent_seller_funding' => 'setRevenuePenetrationFor10PercentSellerFunding',
         'revenue_penetration_for5_plus_percent_seller_funding' => 'setRevenuePenetrationFor5PlusPercentSellerFunding',
         'share_of_coupon_subscriptions' => 'setShareOfCouponSubscriptions',
+        'non_subscriber_life_time_value_from_otp' => 'setNonSubscriberLifeTimeValueFromOtp',
+        'lost_subscriber_life_time_value_from_otp' => 'setLostSubscriberLifeTimeValueFromOtp',
+        'lost_subscriber_life_time_value_from_sns' => 'setLostSubscriberLifeTimeValueFromSns',
+        'growing_subscriber_life_time_value_from_otp' => 'setGrowingSubscriberLifeTimeValueFromOtp',
+        'growing_subscriber_life_time_value_from_sns' => 'setGrowingSubscriberLifeTimeValueFromSns',
+        'established_subscriber_life_time_value_from_otp' => 'setEstablishedSubscriberLifeTimeValueFromOtp',
+        'established_subscriber_life_time_value_from_sns' => 'setEstablishedSubscriberLifeTimeValueFromSns',
+        'signup_conversion_for0_percent_seller_funding' => 'setSignupConversionFor0PercentSellerFunding',
+        'signup_conversion_for5_percent_seller_funding' => 'setSignupConversionFor5PercentSellerFunding',
+        'signup_conversion_for10_percent_seller_funding' => 'setSignupConversionFor10PercentSellerFunding',
+        'signup_conversion_for5_plus_percent_seller_funding' => 'setSignupConversionFor5PlusPercentSellerFunding',
         'time_interval' => 'setTimeInterval',
-        'currency_code' => 'setCurrencyCode'
+        'currency_code' => 'setCurrencyCode',
     ];
 
     /**
-     * Array of attributes to getter functions (for serialization of requests)
+     * Array of attributes to getter functions (for serialization of requests).
      *
      * @var string[]
      */
@@ -311,64 +296,31 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         'revenue_penetration_for10_percent_seller_funding' => 'getRevenuePenetrationFor10PercentSellerFunding',
         'revenue_penetration_for5_plus_percent_seller_funding' => 'getRevenuePenetrationFor5PlusPercentSellerFunding',
         'share_of_coupon_subscriptions' => 'getShareOfCouponSubscriptions',
+        'non_subscriber_life_time_value_from_otp' => 'getNonSubscriberLifeTimeValueFromOtp',
+        'lost_subscriber_life_time_value_from_otp' => 'getLostSubscriberLifeTimeValueFromOtp',
+        'lost_subscriber_life_time_value_from_sns' => 'getLostSubscriberLifeTimeValueFromSns',
+        'growing_subscriber_life_time_value_from_otp' => 'getGrowingSubscriberLifeTimeValueFromOtp',
+        'growing_subscriber_life_time_value_from_sns' => 'getGrowingSubscriberLifeTimeValueFromSns',
+        'established_subscriber_life_time_value_from_otp' => 'getEstablishedSubscriberLifeTimeValueFromOtp',
+        'established_subscriber_life_time_value_from_sns' => 'getEstablishedSubscriberLifeTimeValueFromSns',
+        'signup_conversion_for0_percent_seller_funding' => 'getSignupConversionFor0PercentSellerFunding',
+        'signup_conversion_for5_percent_seller_funding' => 'getSignupConversionFor5PercentSellerFunding',
+        'signup_conversion_for10_percent_seller_funding' => 'getSignupConversionFor10PercentSellerFunding',
+        'signup_conversion_for5_plus_percent_seller_funding' => 'getSignupConversionFor5PlusPercentSellerFunding',
         'time_interval' => 'getTimeInterval',
-        'currency_code' => 'getCurrencyCode'
+        'currency_code' => 'getCurrencyCode',
     ];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name
-     *
-     * @return array
-     */
-    public static function attributeMap(): array
-    {
-        return self::$attributeMap;
-    }
-
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     *
-     * @return array
-     */
-    public static function setters(): array
-    {
-        return self::$setters;
-    }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     *
-     * @return array
-     */
-    public static function getters(): array
-    {
-        return self::$getters;
-    }
-
-    /**
-     * The original name of the model.
-     *
-     * @return string
-     */
-    public function getModelName(): string
-    {
-        return self::$openAPIModelName;
-    }
-
-
-    /**
-     * Associative array for storing property values
-     *
-     * @var array
+     * Associative array for storing property values.
      */
     protected array $container = [];
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param array|null $data Associated array of property values
-     *                      initializing the model
+     * @param null|array $data Associated array of property values
+     *                         initializing the model
      */
     public function __construct(?array $data = null)
     {
@@ -392,26 +344,97 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         $this->setIfExists('revenue_penetration_for10_percent_seller_funding', $data ?? [], null);
         $this->setIfExists('revenue_penetration_for5_plus_percent_seller_funding', $data ?? [], null);
         $this->setIfExists('share_of_coupon_subscriptions', $data ?? [], null);
+        $this->setIfExists('non_subscriber_life_time_value_from_otp', $data ?? [], null);
+        $this->setIfExists('lost_subscriber_life_time_value_from_otp', $data ?? [], null);
+        $this->setIfExists('lost_subscriber_life_time_value_from_sns', $data ?? [], null);
+        $this->setIfExists('growing_subscriber_life_time_value_from_otp', $data ?? [], null);
+        $this->setIfExists('growing_subscriber_life_time_value_from_sns', $data ?? [], null);
+        $this->setIfExists('established_subscriber_life_time_value_from_otp', $data ?? [], null);
+        $this->setIfExists('established_subscriber_life_time_value_from_sns', $data ?? [], null);
+        $this->setIfExists('signup_conversion_for0_percent_seller_funding', $data ?? [], null);
+        $this->setIfExists('signup_conversion_for5_percent_seller_funding', $data ?? [], null);
+        $this->setIfExists('signup_conversion_for10_percent_seller_funding', $data ?? [], null);
+        $this->setIfExists('signup_conversion_for5_plus_percent_seller_funding', $data ?? [], null);
         $this->setIfExists('time_interval', $data ?? [], null);
         $this->setIfExists('currency_code', $data ?? [], null);
     }
 
     /**
-    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-    * $this->openAPINullablesSetToNull array
-    *
-    * @param string $variableName
-    * @param array  $fields
-    * @param mixed  $defaultValue
-    */
-    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+     * Gets the string presentation of the object.
+     *
+     * @return string
+     */
+    public function __toString()
     {
-        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
-            $this->openAPINullablesSetToNull[] = $variableName;
-        }
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
+    }
 
-        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
+    /**
+     * Array of property to type mappings. Used for (de)serialization.
+     */
+    public static function openAPITypes(): array
+    {
+        return self::$openAPITypes;
+    }
+
+    /**
+     * Array of property to format mappings. Used for (de)serialization.
+     */
+    public static function openAPIFormats(): array
+    {
+        return self::$openAPIFormats;
+    }
+
+    /**
+     * Checks if a property is nullable.
+     */
+    public static function isNullable(string $property): bool
+    {
+        return self::openAPINullables()[$property] ?? false;
+    }
+
+    /**
+     * Checks if a nullable property is set to null.
+     */
+    public function isNullableSetToNull(string $property): bool
+    {
+        return in_array($property, $this->getOpenAPINullablesSetToNull(), true);
+    }
+
+    /**
+     * Array of attributes where the key is the local name,
+     * and the value is the original name.
+     */
+    public static function attributeMap(): array
+    {
+        return self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses).
+     */
+    public static function setters(): array
+    {
+        return self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests).
+     */
+    public static function getters(): array
+    {
+        return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     */
+    public function getModelName(): string
+    {
+        return self::$openAPIModelName;
     }
 
     /**
@@ -539,25 +562,82 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
             $invalidProperties[] = "invalid value for 'share_of_coupon_subscriptions', must be bigger than or equal to 0.";
         }
 
+        if (!is_null($this->container['non_subscriber_life_time_value_from_otp']) && ($this->container['non_subscriber_life_time_value_from_otp'] < 0)) {
+            $invalidProperties[] = "invalid value for 'non_subscriber_life_time_value_from_otp', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['lost_subscriber_life_time_value_from_otp']) && ($this->container['lost_subscriber_life_time_value_from_otp'] < 0)) {
+            $invalidProperties[] = "invalid value for 'lost_subscriber_life_time_value_from_otp', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['lost_subscriber_life_time_value_from_sns']) && ($this->container['lost_subscriber_life_time_value_from_sns'] < 0)) {
+            $invalidProperties[] = "invalid value for 'lost_subscriber_life_time_value_from_sns', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['growing_subscriber_life_time_value_from_otp']) && ($this->container['growing_subscriber_life_time_value_from_otp'] < 0)) {
+            $invalidProperties[] = "invalid value for 'growing_subscriber_life_time_value_from_otp', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['growing_subscriber_life_time_value_from_sns']) && ($this->container['growing_subscriber_life_time_value_from_sns'] < 0)) {
+            $invalidProperties[] = "invalid value for 'growing_subscriber_life_time_value_from_sns', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['established_subscriber_life_time_value_from_otp']) && ($this->container['established_subscriber_life_time_value_from_otp'] < 0)) {
+            $invalidProperties[] = "invalid value for 'established_subscriber_life_time_value_from_otp', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['established_subscriber_life_time_value_from_sns']) && ($this->container['established_subscriber_life_time_value_from_sns'] < 0)) {
+            $invalidProperties[] = "invalid value for 'established_subscriber_life_time_value_from_sns', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['signup_conversion_for0_percent_seller_funding']) && ($this->container['signup_conversion_for0_percent_seller_funding'] > 1E+2)) {
+            $invalidProperties[] = "invalid value for 'signup_conversion_for0_percent_seller_funding', must be smaller than or equal to 1E+2.";
+        }
+
+        if (!is_null($this->container['signup_conversion_for0_percent_seller_funding']) && ($this->container['signup_conversion_for0_percent_seller_funding'] < 0)) {
+            $invalidProperties[] = "invalid value for 'signup_conversion_for0_percent_seller_funding', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['signup_conversion_for5_percent_seller_funding']) && ($this->container['signup_conversion_for5_percent_seller_funding'] > 1E+2)) {
+            $invalidProperties[] = "invalid value for 'signup_conversion_for5_percent_seller_funding', must be smaller than or equal to 1E+2.";
+        }
+
+        if (!is_null($this->container['signup_conversion_for5_percent_seller_funding']) && ($this->container['signup_conversion_for5_percent_seller_funding'] < 0)) {
+            $invalidProperties[] = "invalid value for 'signup_conversion_for5_percent_seller_funding', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['signup_conversion_for10_percent_seller_funding']) && ($this->container['signup_conversion_for10_percent_seller_funding'] > 1E+2)) {
+            $invalidProperties[] = "invalid value for 'signup_conversion_for10_percent_seller_funding', must be smaller than or equal to 1E+2.";
+        }
+
+        if (!is_null($this->container['signup_conversion_for10_percent_seller_funding']) && ($this->container['signup_conversion_for10_percent_seller_funding'] < 0)) {
+            $invalidProperties[] = "invalid value for 'signup_conversion_for10_percent_seller_funding', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['signup_conversion_for5_plus_percent_seller_funding']) && ($this->container['signup_conversion_for5_plus_percent_seller_funding'] > 1E+2)) {
+            $invalidProperties[] = "invalid value for 'signup_conversion_for5_plus_percent_seller_funding', must be smaller than or equal to 1E+2.";
+        }
+
+        if (!is_null($this->container['signup_conversion_for5_plus_percent_seller_funding']) && ($this->container['signup_conversion_for5_plus_percent_seller_funding'] < 0)) {
+            $invalidProperties[] = "invalid value for 'signup_conversion_for5_plus_percent_seller_funding', must be bigger than or equal to 0.";
+        }
+
         return $invalidProperties;
     }
 
     /**
      * Validate all the properties in the model
-     * return true if all passed
+     * return true if all passed.
      *
      * @return bool True if all properties are valid
      */
     public function valid(): bool
     {
-        return count($this->listInvalidProperties()) === 0;
+        return 0 === count($this->listInvalidProperties());
     }
 
-
     /**
-     * Gets not_delivered_due_to_oos
-     *
-     * @return float|null
+     * Gets not_delivered_due_to_oos.
      */
     public function getNotDeliveredDueToOos(): ?float
     {
@@ -565,11 +645,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets not_delivered_due_to_oos
+     * Sets not_delivered_due_to_oos.
      *
-     * @param float|null $not_delivered_due_to_oos The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $not_delivered_due_to_oos The percentage of items that were not shipped out of the total shipped units over a period of time due to being out of stock. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setNotDeliveredDueToOos(?float $not_delivered_due_to_oos): self
     {
@@ -578,7 +656,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('not_delivered_due_to_oos', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -597,9 +675,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets total_subscriptions_revenue
-     *
-     * @return float|null
+     * Gets total_subscriptions_revenue.
      */
     public function getTotalSubscriptionsRevenue(): ?float
     {
@@ -607,11 +683,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets total_subscriptions_revenue
+     * Sets total_subscriptions_revenue.
      *
-     * @param float|null $total_subscriptions_revenue The revenue generated from subscriptions over a period of time. Applicable for both the PERFORMANCE and FORECAST timePeriodType.
-     *
-     * @return self
+     * @param null|float $total_subscriptions_revenue The revenue generated from subscriptions over a period of time. Applicable for both the `PERFORMANCE` and `FORECAST` `timePeriodType`.
      */
     public function setTotalSubscriptionsRevenue(?float $total_subscriptions_revenue): self
     {
@@ -620,7 +694,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('total_subscriptions_revenue', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -636,9 +710,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets shipped_subscription_units
-     *
-     * @return float|null
+     * Gets shipped_subscription_units.
      */
     public function getShippedSubscriptionUnits(): ?float
     {
@@ -646,11 +718,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets shipped_subscription_units
+     * Sets shipped_subscription_units.
      *
-     * @param float|null $shipped_subscription_units The number of units shipped to the subscribers over a period of time. Applicable for both the PERFORMANCE and FORECAST timePeriodType.
-     *
-     * @return self
+     * @param null|float $shipped_subscription_units The number of units shipped to the subscribers over a period of time. Applicable for both the `PERFORMANCE` and `FORECAST` `timePeriodType`.
      */
     public function setShippedSubscriptionUnits(?float $shipped_subscription_units): self
     {
@@ -659,7 +729,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('shipped_subscription_units', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -675,9 +745,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets active_subscriptions
-     *
-     * @return float|null
+     * Gets active_subscriptions.
      */
     public function getActiveSubscriptions(): ?float
     {
@@ -685,11 +753,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets active_subscriptions
+     * Sets active_subscriptions.
      *
-     * @param float|null $active_subscriptions The number of active subscriptions present at the end of the period. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $active_subscriptions The number of active subscriptions present at the end of the period. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setActiveSubscriptions(?float $active_subscriptions): self
     {
@@ -698,7 +764,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('active_subscriptions', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -714,9 +780,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets subscriber_average_revenue
-     *
-     * @return float|null
+     * Gets subscriber_average_revenue.
      */
     public function getSubscriberAverageRevenue(): ?float
     {
@@ -724,11 +788,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets subscriber_average_revenue
+     * Sets subscriber_average_revenue.
      *
-     * @param float|null $subscriber_average_revenue The average revenue per subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $subscriber_average_revenue The average revenue per subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setSubscriberAverageRevenue(?float $subscriber_average_revenue): self
     {
@@ -737,7 +799,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('subscriber_average_revenue', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -753,9 +815,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets non_subscriber_average_revenue
-     *
-     * @return float|null
+     * Gets non_subscriber_average_revenue.
      */
     public function getNonSubscriberAverageRevenue(): ?float
     {
@@ -763,11 +823,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets non_subscriber_average_revenue
+     * Sets non_subscriber_average_revenue.
      *
-     * @param float|null $non_subscriber_average_revenue The average revenue per non-subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $non_subscriber_average_revenue The average revenue per non-subscriber of the program over a period of past 12 months for sellers and 6 months for vendors. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setNonSubscriberAverageRevenue(?float $non_subscriber_average_revenue): self
     {
@@ -776,7 +834,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('non_subscriber_average_revenue', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -792,9 +850,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets lost_revenue_due_to_oos
-     *
-     * @return float|null
+     * Gets lost_revenue_due_to_oos.
      */
     public function getLostRevenueDueToOos(): ?float
     {
@@ -802,11 +858,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets lost_revenue_due_to_oos
+     * Sets lost_revenue_due_to_oos.
      *
-     * @param float|null $lost_revenue_due_to_oos The revenue that would have been generated had there not been out of stock. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $lost_revenue_due_to_oos The revenue that would have been generated had there not been out of stock. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setLostRevenueDueToOos(?float $lost_revenue_due_to_oos): self
     {
@@ -815,7 +869,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('lost_revenue_due_to_oos', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -831,9 +885,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets subscriber_average_reorders
-     *
-     * @return float|null
+     * Gets subscriber_average_reorders.
      */
     public function getSubscriberAverageReorders(): ?float
     {
@@ -841,11 +893,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets subscriber_average_reorders
+     * Sets subscriber_average_reorders.
      *
-     * @param float|null $subscriber_average_reorders The average reorders per subscriber of the program over a period of 12 months. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $subscriber_average_reorders The average reorders per subscriber of the program over a period of 12 months. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setSubscriberAverageReorders(?float $subscriber_average_reorders): self
     {
@@ -854,7 +904,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('subscriber_average_reorders', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -870,9 +920,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets non_subscriber_average_reorders
-     *
-     * @return float|null
+     * Gets non_subscriber_average_reorders.
      */
     public function getNonSubscriberAverageReorders(): ?float
     {
@@ -880,11 +928,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets non_subscriber_average_reorders
+     * Sets non_subscriber_average_reorders.
      *
-     * @param float|null $non_subscriber_average_reorders The average reorders per non-subscriber of the program over a period of past 12 months. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $non_subscriber_average_reorders The average reorders per non-subscriber of the program over a period of past 12 months. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setNonSubscriberAverageReorders(?float $non_subscriber_average_reorders): self
     {
@@ -893,7 +939,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('non_subscriber_average_reorders', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -909,9 +955,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets coupons_revenue_penetration
-     *
-     * @return float|null
+     * Gets coupons_revenue_penetration.
      */
     public function getCouponsRevenuePenetration(): ?float
     {
@@ -919,11 +963,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets coupons_revenue_penetration
+     * Sets coupons_revenue_penetration.
      *
-     * @param float|null $coupons_revenue_penetration The percentage of revenue from ASINs with coupons out of total revenue from all ASINs. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $coupons_revenue_penetration The percentage of revenue from ASINs with coupons out of total revenue from all ASINs. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setCouponsRevenuePenetration(?float $coupons_revenue_penetration): self
     {
@@ -932,7 +974,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('coupons_revenue_penetration', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -951,9 +993,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets revenue_from_subscriptions_with_multiple_deliveries
-     *
-     * @return float|null
+     * Gets revenue_from_subscriptions_with_multiple_deliveries.
      */
     public function getRevenueFromSubscriptionsWithMultipleDeliveries(): ?float
     {
@@ -961,11 +1001,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets revenue_from_subscriptions_with_multiple_deliveries
+     * Sets revenue_from_subscriptions_with_multiple_deliveries.
      *
-     * @param float|null $revenue_from_subscriptions_with_multiple_deliveries The subscription revenue generated from subscriptions with over two deliveries over the past 12 months. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $revenue_from_subscriptions_with_multiple_deliveries The subscription revenue generated from subscriptions with over two deliveries over the past 12 months. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setRevenueFromSubscriptionsWithMultipleDeliveries(?float $revenue_from_subscriptions_with_multiple_deliveries): self
     {
@@ -974,7 +1012,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_from_subscriptions_with_multiple_deliveries', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -990,9 +1028,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets revenue_from_active_subscriptions_with_single_delivery
-     *
-     * @return float|null
+     * Gets revenue_from_active_subscriptions_with_single_delivery.
      */
     public function getRevenueFromActiveSubscriptionsWithSingleDelivery(): ?float
     {
@@ -1000,11 +1036,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets revenue_from_active_subscriptions_with_single_delivery
+     * Sets revenue_from_active_subscriptions_with_single_delivery.
      *
-     * @param float|null $revenue_from_active_subscriptions_with_single_delivery The subscription revenue generated from active subscriptions with one delivery over the past 12 months. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $revenue_from_active_subscriptions_with_single_delivery The subscription revenue generated from active subscriptions with one delivery over the past 12 months. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setRevenueFromActiveSubscriptionsWithSingleDelivery(?float $revenue_from_active_subscriptions_with_single_delivery): self
     {
@@ -1013,7 +1047,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_from_active_subscriptions_with_single_delivery', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1029,9 +1063,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets revenue_from_cancelled_subscriptions_after_single_delivery
-     *
-     * @return float|null
+     * Gets revenue_from_cancelled_subscriptions_after_single_delivery.
      */
     public function getRevenueFromCancelledSubscriptionsAfterSingleDelivery(): ?float
     {
@@ -1039,11 +1071,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets revenue_from_cancelled_subscriptions_after_single_delivery
+     * Sets revenue_from_cancelled_subscriptions_after_single_delivery.
      *
-     * @param float|null $revenue_from_cancelled_subscriptions_after_single_delivery The subscription revenue generated from subscriptions which are cancelled after one delivery over the past 12 months. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $revenue_from_cancelled_subscriptions_after_single_delivery The subscription revenue generated from subscriptions which are cancelled after one delivery over the past 12 months. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setRevenueFromCancelledSubscriptionsAfterSingleDelivery(?float $revenue_from_cancelled_subscriptions_after_single_delivery): self
     {
@@ -1052,7 +1082,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_from_cancelled_subscriptions_after_single_delivery', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1068,9 +1098,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets subscriber_retention_for30_days
-     *
-     * @return float|null
+     * Gets subscriber_retention_for30_days.
      */
     public function getSubscriberRetentionFor30Days(): ?float
     {
@@ -1078,11 +1106,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets subscriber_retention_for30_days
+     * Sets subscriber_retention_for30_days.
      *
-     * @param float|null $subscriber_retention_for30_days The percentage of subscriptions retained after 30 days of subscription creation. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $subscriber_retention_for30_days The percentage of subscriptions retained after 30 days of subscription creation. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setSubscriberRetentionFor30Days(?float $subscriber_retention_for30_days): self
     {
@@ -1091,7 +1117,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('subscriber_retention_for30_days', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1110,9 +1136,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets subscriber_retention_for90_days
-     *
-     * @return float|null
+     * Gets subscriber_retention_for90_days.
      */
     public function getSubscriberRetentionFor90Days(): ?float
     {
@@ -1120,11 +1144,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets subscriber_retention_for90_days
+     * Sets subscriber_retention_for90_days.
      *
-     * @param float|null $subscriber_retention_for90_days The percentage of subscriptions retained after 90 days of subscription creation. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $subscriber_retention_for90_days The percentage of subscriptions retained after 90 days of subscription creation. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setSubscriberRetentionFor90Days(?float $subscriber_retention_for90_days): self
     {
@@ -1133,7 +1155,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('subscriber_retention_for90_days', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1152,9 +1174,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets revenue_penetration_for0_percent_seller_funding
-     *
-     * @return float|null
+     * Gets revenue_penetration_for0_percent_seller_funding.
      */
     public function getRevenuePenetrationFor0PercentSellerFunding(): ?float
     {
@@ -1162,11 +1182,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets revenue_penetration_for0_percent_seller_funding
+     * Sets revenue_penetration_for0_percent_seller_funding.
      *
-     * @param float|null $revenue_penetration_for0_percent_seller_funding The percentage of subscription revenue generated by offers with 0% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $revenue_penetration_for0_percent_seller_funding The percentage of subscription revenue generated by offers with 0% seller-funded discount over the last 12 months. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setRevenuePenetrationFor0PercentSellerFunding(?float $revenue_penetration_for0_percent_seller_funding): self
     {
@@ -1175,7 +1193,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_penetration_for0_percent_seller_funding', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1194,9 +1212,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets revenue_penetration_for5_percent_seller_funding
-     *
-     * @return float|null
+     * Gets revenue_penetration_for5_percent_seller_funding.
      */
     public function getRevenuePenetrationFor5PercentSellerFunding(): ?float
     {
@@ -1204,11 +1220,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets revenue_penetration_for5_percent_seller_funding
+     * Sets revenue_penetration_for5_percent_seller_funding.
      *
-     * @param float|null $revenue_penetration_for5_percent_seller_funding [Applicable only for Sellers] The percentage of subscription revenue generated by offers with 5% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $revenue_penetration_for5_percent_seller_funding [Applicable only for Sellers] The percentage of subscription revenue generated by offers with 5% seller-funded discount over the last 12 months. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setRevenuePenetrationFor5PercentSellerFunding(?float $revenue_penetration_for5_percent_seller_funding): self
     {
@@ -1217,7 +1231,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_penetration_for5_percent_seller_funding', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1236,9 +1250,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets revenue_penetration_for10_percent_seller_funding
-     *
-     * @return float|null
+     * Gets revenue_penetration_for10_percent_seller_funding.
      */
     public function getRevenuePenetrationFor10PercentSellerFunding(): ?float
     {
@@ -1246,11 +1258,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets revenue_penetration_for10_percent_seller_funding
+     * Sets revenue_penetration_for10_percent_seller_funding.
      *
-     * @param float|null $revenue_penetration_for10_percent_seller_funding [Applicable only for Sellers] The percentage of subscription revenue generated by offers with 10% seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $revenue_penetration_for10_percent_seller_funding [Applicable only for Sellers] The percentage of subscription revenue generated by offers with 10% seller-funded discount over the last 12 months. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setRevenuePenetrationFor10PercentSellerFunding(?float $revenue_penetration_for10_percent_seller_funding): self
     {
@@ -1259,7 +1269,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_penetration_for10_percent_seller_funding', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1278,9 +1288,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets revenue_penetration_for5_plus_percent_seller_funding
-     *
-     * @return float|null
+     * Gets revenue_penetration_for5_plus_percent_seller_funding.
      */
     public function getRevenuePenetrationFor5PlusPercentSellerFunding(): ?float
     {
@@ -1288,11 +1296,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets revenue_penetration_for5_plus_percent_seller_funding
+     * Sets revenue_penetration_for5_plus_percent_seller_funding.
      *
-     * @param float|null $revenue_penetration_for5_plus_percent_seller_funding [Applicable only for vendors] The percentage of subscription revenue generated by offers with 5% or above seller-funded discount over the last 12 months. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $revenue_penetration_for5_plus_percent_seller_funding [Applicable only for vendors] The percentage of subscription revenue generated by offers with 5% or above seller-funded discount over the last 12 months. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setRevenuePenetrationFor5PlusPercentSellerFunding(?float $revenue_penetration_for5_plus_percent_seller_funding): self
     {
@@ -1301,7 +1307,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('revenue_penetration_for5_plus_percent_seller_funding', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1320,9 +1326,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets share_of_coupon_subscriptions
-     *
-     * @return float|null
+     * Gets share_of_coupon_subscriptions.
      */
     public function getShareOfCouponSubscriptions(): ?float
     {
@@ -1330,11 +1334,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets share_of_coupon_subscriptions
+     * Sets share_of_coupon_subscriptions.
      *
-     * @param float|null $share_of_coupon_subscriptions The percentage of new subscriptions acquired through coupons. Applicable to PERFORMANCE timePeriodType.
-     *
-     * @return self
+     * @param null|float $share_of_coupon_subscriptions The percentage of new subscriptions acquired through coupons. Applicable to `PERFORMANCE` `timePeriodType`.
      */
     public function setShareOfCouponSubscriptions(?float $share_of_coupon_subscriptions): self
     {
@@ -1343,7 +1345,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('share_of_coupon_subscriptions', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1362,30 +1364,423 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets time_interval
-     *
-     * @return \SpApi\Model\replenishment\v2022_11_07\TimeInterval|null
+     * Gets non_subscriber_life_time_value_from_otp.
      */
-    public function getTimeInterval(): ?\SpApi\Model\replenishment\v2022_11_07\TimeInterval
+    public function getNonSubscriberLifeTimeValueFromOtp(): ?float
+    {
+        return $this->container['non_subscriber_life_time_value_from_otp'];
+    }
+
+    /**
+     * Sets non_subscriber_life_time_value_from_otp.
+     *
+     * @param null|float $non_subscriber_life_time_value_from_otp Total revenue from customers who have made purchases from your catalog but have never subscribed to any products
+     */
+    public function setNonSubscriberLifeTimeValueFromOtp(?float $non_subscriber_life_time_value_from_otp): self
+    {
+        if (is_null($non_subscriber_life_time_value_from_otp)) {
+            array_push($this->openAPINullablesSetToNull, 'non_subscriber_life_time_value_from_otp');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('non_subscriber_life_time_value_from_otp', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($non_subscriber_life_time_value_from_otp) && ($non_subscriber_life_time_value_from_otp < 0)) {
+            throw new \InvalidArgumentException('invalid value for $non_subscriber_life_time_value_from_otp when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['non_subscriber_life_time_value_from_otp'] = $non_subscriber_life_time_value_from_otp;
+
+        return $this;
+    }
+
+    /**
+     * Gets lost_subscriber_life_time_value_from_otp.
+     */
+    public function getLostSubscriberLifeTimeValueFromOtp(): ?float
+    {
+        return $this->container['lost_subscriber_life_time_value_from_otp'];
+    }
+
+    /**
+     * Sets lost_subscriber_life_time_value_from_otp.
+     *
+     * @param null|float $lost_subscriber_life_time_value_from_otp revenue from one-time purchase orders placed by customers who previously had subscriptions but currently have none active in your catalog
+     */
+    public function setLostSubscriberLifeTimeValueFromOtp(?float $lost_subscriber_life_time_value_from_otp): self
+    {
+        if (is_null($lost_subscriber_life_time_value_from_otp)) {
+            array_push($this->openAPINullablesSetToNull, 'lost_subscriber_life_time_value_from_otp');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('lost_subscriber_life_time_value_from_otp', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($lost_subscriber_life_time_value_from_otp) && ($lost_subscriber_life_time_value_from_otp < 0)) {
+            throw new \InvalidArgumentException('invalid value for $lost_subscriber_life_time_value_from_otp when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['lost_subscriber_life_time_value_from_otp'] = $lost_subscriber_life_time_value_from_otp;
+
+        return $this;
+    }
+
+    /**
+     * Gets lost_subscriber_life_time_value_from_sns.
+     */
+    public function getLostSubscriberLifeTimeValueFromSns(): ?float
+    {
+        return $this->container['lost_subscriber_life_time_value_from_sns'];
+    }
+
+    /**
+     * Sets lost_subscriber_life_time_value_from_sns.
+     *
+     * @param null|float $lost_subscriber_life_time_value_from_sns revenue from Subscribe & Save orders placed by customers who previously had subscriptions but currently have none active in your catalog
+     */
+    public function setLostSubscriberLifeTimeValueFromSns(?float $lost_subscriber_life_time_value_from_sns): self
+    {
+        if (is_null($lost_subscriber_life_time_value_from_sns)) {
+            array_push($this->openAPINullablesSetToNull, 'lost_subscriber_life_time_value_from_sns');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('lost_subscriber_life_time_value_from_sns', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($lost_subscriber_life_time_value_from_sns) && ($lost_subscriber_life_time_value_from_sns < 0)) {
+            throw new \InvalidArgumentException('invalid value for $lost_subscriber_life_time_value_from_sns when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['lost_subscriber_life_time_value_from_sns'] = $lost_subscriber_life_time_value_from_sns;
+
+        return $this;
+    }
+
+    /**
+     * Gets growing_subscriber_life_time_value_from_otp.
+     */
+    public function getGrowingSubscriberLifeTimeValueFromOtp(): ?float
+    {
+        return $this->container['growing_subscriber_life_time_value_from_otp'];
+    }
+
+    /**
+     * Sets growing_subscriber_life_time_value_from_otp.
+     *
+     * @param null|float $growing_subscriber_life_time_value_from_otp revenue from one-time purchase orders placed by customers who started their first subscription with your catalog within the past 12 months
+     */
+    public function setGrowingSubscriberLifeTimeValueFromOtp(?float $growing_subscriber_life_time_value_from_otp): self
+    {
+        if (is_null($growing_subscriber_life_time_value_from_otp)) {
+            array_push($this->openAPINullablesSetToNull, 'growing_subscriber_life_time_value_from_otp');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('growing_subscriber_life_time_value_from_otp', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($growing_subscriber_life_time_value_from_otp) && ($growing_subscriber_life_time_value_from_otp < 0)) {
+            throw new \InvalidArgumentException('invalid value for $growing_subscriber_life_time_value_from_otp when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['growing_subscriber_life_time_value_from_otp'] = $growing_subscriber_life_time_value_from_otp;
+
+        return $this;
+    }
+
+    /**
+     * Gets growing_subscriber_life_time_value_from_sns.
+     */
+    public function getGrowingSubscriberLifeTimeValueFromSns(): ?float
+    {
+        return $this->container['growing_subscriber_life_time_value_from_sns'];
+    }
+
+    /**
+     * Sets growing_subscriber_life_time_value_from_sns.
+     *
+     * @param null|float $growing_subscriber_life_time_value_from_sns revenue from Subscribe & Save orders placed by customers who started their first subscription with your catalog within the past 12 months
+     */
+    public function setGrowingSubscriberLifeTimeValueFromSns(?float $growing_subscriber_life_time_value_from_sns): self
+    {
+        if (is_null($growing_subscriber_life_time_value_from_sns)) {
+            array_push($this->openAPINullablesSetToNull, 'growing_subscriber_life_time_value_from_sns');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('growing_subscriber_life_time_value_from_sns', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($growing_subscriber_life_time_value_from_sns) && ($growing_subscriber_life_time_value_from_sns < 0)) {
+            throw new \InvalidArgumentException('invalid value for $growing_subscriber_life_time_value_from_sns when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['growing_subscriber_life_time_value_from_sns'] = $growing_subscriber_life_time_value_from_sns;
+
+        return $this;
+    }
+
+    /**
+     * Gets established_subscriber_life_time_value_from_otp.
+     */
+    public function getEstablishedSubscriberLifeTimeValueFromOtp(): ?float
+    {
+        return $this->container['established_subscriber_life_time_value_from_otp'];
+    }
+
+    /**
+     * Sets established_subscriber_life_time_value_from_otp.
+     *
+     * @param null|float $established_subscriber_life_time_value_from_otp revenue from one-time purchase orders placed by customers who have maintained an active subscription with your catalog for more than 12 months
+     */
+    public function setEstablishedSubscriberLifeTimeValueFromOtp(?float $established_subscriber_life_time_value_from_otp): self
+    {
+        if (is_null($established_subscriber_life_time_value_from_otp)) {
+            array_push($this->openAPINullablesSetToNull, 'established_subscriber_life_time_value_from_otp');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('established_subscriber_life_time_value_from_otp', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($established_subscriber_life_time_value_from_otp) && ($established_subscriber_life_time_value_from_otp < 0)) {
+            throw new \InvalidArgumentException('invalid value for $established_subscriber_life_time_value_from_otp when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['established_subscriber_life_time_value_from_otp'] = $established_subscriber_life_time_value_from_otp;
+
+        return $this;
+    }
+
+    /**
+     * Gets established_subscriber_life_time_value_from_sns.
+     */
+    public function getEstablishedSubscriberLifeTimeValueFromSns(): ?float
+    {
+        return $this->container['established_subscriber_life_time_value_from_sns'];
+    }
+
+    /**
+     * Sets established_subscriber_life_time_value_from_sns.
+     *
+     * @param null|float $established_subscriber_life_time_value_from_sns revenue from Subscribe & Save orders placed by customers who have maintained an active subscription with your catalog for more than 12 months
+     */
+    public function setEstablishedSubscriberLifeTimeValueFromSns(?float $established_subscriber_life_time_value_from_sns): self
+    {
+        if (is_null($established_subscriber_life_time_value_from_sns)) {
+            array_push($this->openAPINullablesSetToNull, 'established_subscriber_life_time_value_from_sns');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('established_subscriber_life_time_value_from_sns', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($established_subscriber_life_time_value_from_sns) && ($established_subscriber_life_time_value_from_sns < 0)) {
+            throw new \InvalidArgumentException('invalid value for $established_subscriber_life_time_value_from_sns when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['established_subscriber_life_time_value_from_sns'] = $established_subscriber_life_time_value_from_sns;
+
+        return $this;
+    }
+
+    /**
+     * Gets signup_conversion_for0_percent_seller_funding.
+     */
+    public function getSignupConversionFor0PercentSellerFunding(): ?float
+    {
+        return $this->container['signup_conversion_for0_percent_seller_funding'];
+    }
+
+    /**
+     * Sets signup_conversion_for0_percent_seller_funding.
+     *
+     * @param null|float $signup_conversion_for0_percent_seller_funding Percentage of subscriptions created by offers with 0% seller-funded discount out of the total number of new orders placed over the past 12 months
+     */
+    public function setSignupConversionFor0PercentSellerFunding(?float $signup_conversion_for0_percent_seller_funding): self
+    {
+        if (is_null($signup_conversion_for0_percent_seller_funding)) {
+            array_push($this->openAPINullablesSetToNull, 'signup_conversion_for0_percent_seller_funding');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('signup_conversion_for0_percent_seller_funding', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($signup_conversion_for0_percent_seller_funding) && ($signup_conversion_for0_percent_seller_funding > 1E+2)) {
+            throw new \InvalidArgumentException('invalid value for $signup_conversion_for0_percent_seller_funding when calling GetSellingPartnerMetricsResponseMetric., must be smaller than or equal to 1E+2.');
+        }
+        if (!is_null($signup_conversion_for0_percent_seller_funding) && ($signup_conversion_for0_percent_seller_funding < 0)) {
+            throw new \InvalidArgumentException('invalid value for $signup_conversion_for0_percent_seller_funding when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['signup_conversion_for0_percent_seller_funding'] = $signup_conversion_for0_percent_seller_funding;
+
+        return $this;
+    }
+
+    /**
+     * Gets signup_conversion_for5_percent_seller_funding.
+     */
+    public function getSignupConversionFor5PercentSellerFunding(): ?float
+    {
+        return $this->container['signup_conversion_for5_percent_seller_funding'];
+    }
+
+    /**
+     * Sets signup_conversion_for5_percent_seller_funding.
+     *
+     * @param null|float $signup_conversion_for5_percent_seller_funding [Applicable only for Sellers] Percentage of subscriptions created by offers with 5% seller-funded discount out of the total number of new orders placed over the past 12 months
+     */
+    public function setSignupConversionFor5PercentSellerFunding(?float $signup_conversion_for5_percent_seller_funding): self
+    {
+        if (is_null($signup_conversion_for5_percent_seller_funding)) {
+            array_push($this->openAPINullablesSetToNull, 'signup_conversion_for5_percent_seller_funding');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('signup_conversion_for5_percent_seller_funding', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($signup_conversion_for5_percent_seller_funding) && ($signup_conversion_for5_percent_seller_funding > 1E+2)) {
+            throw new \InvalidArgumentException('invalid value for $signup_conversion_for5_percent_seller_funding when calling GetSellingPartnerMetricsResponseMetric., must be smaller than or equal to 1E+2.');
+        }
+        if (!is_null($signup_conversion_for5_percent_seller_funding) && ($signup_conversion_for5_percent_seller_funding < 0)) {
+            throw new \InvalidArgumentException('invalid value for $signup_conversion_for5_percent_seller_funding when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['signup_conversion_for5_percent_seller_funding'] = $signup_conversion_for5_percent_seller_funding;
+
+        return $this;
+    }
+
+    /**
+     * Gets signup_conversion_for10_percent_seller_funding.
+     */
+    public function getSignupConversionFor10PercentSellerFunding(): ?float
+    {
+        return $this->container['signup_conversion_for10_percent_seller_funding'];
+    }
+
+    /**
+     * Sets signup_conversion_for10_percent_seller_funding.
+     *
+     * @param null|float $signup_conversion_for10_percent_seller_funding [Applicable only for Sellers] Percentage of subscriptions created by offers with 10% seller-funded discount out of the total number of new orders placed over the past 12 months
+     */
+    public function setSignupConversionFor10PercentSellerFunding(?float $signup_conversion_for10_percent_seller_funding): self
+    {
+        if (is_null($signup_conversion_for10_percent_seller_funding)) {
+            array_push($this->openAPINullablesSetToNull, 'signup_conversion_for10_percent_seller_funding');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('signup_conversion_for10_percent_seller_funding', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($signup_conversion_for10_percent_seller_funding) && ($signup_conversion_for10_percent_seller_funding > 1E+2)) {
+            throw new \InvalidArgumentException('invalid value for $signup_conversion_for10_percent_seller_funding when calling GetSellingPartnerMetricsResponseMetric., must be smaller than or equal to 1E+2.');
+        }
+        if (!is_null($signup_conversion_for10_percent_seller_funding) && ($signup_conversion_for10_percent_seller_funding < 0)) {
+            throw new \InvalidArgumentException('invalid value for $signup_conversion_for10_percent_seller_funding when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['signup_conversion_for10_percent_seller_funding'] = $signup_conversion_for10_percent_seller_funding;
+
+        return $this;
+    }
+
+    /**
+     * Gets signup_conversion_for5_plus_percent_seller_funding.
+     */
+    public function getSignupConversionFor5PlusPercentSellerFunding(): ?float
+    {
+        return $this->container['signup_conversion_for5_plus_percent_seller_funding'];
+    }
+
+    /**
+     * Sets signup_conversion_for5_plus_percent_seller_funding.
+     *
+     * @param null|float $signup_conversion_for5_plus_percent_seller_funding [Applicable only for Vendors] Percentage of subscriptions created by offers with 5% or above seller-funded discount out of the total number of new orders placed over the past 12 months
+     */
+    public function setSignupConversionFor5PlusPercentSellerFunding(?float $signup_conversion_for5_plus_percent_seller_funding): self
+    {
+        if (is_null($signup_conversion_for5_plus_percent_seller_funding)) {
+            array_push($this->openAPINullablesSetToNull, 'signup_conversion_for5_plus_percent_seller_funding');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('signup_conversion_for5_plus_percent_seller_funding', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+
+        if (!is_null($signup_conversion_for5_plus_percent_seller_funding) && ($signup_conversion_for5_plus_percent_seller_funding > 1E+2)) {
+            throw new \InvalidArgumentException('invalid value for $signup_conversion_for5_plus_percent_seller_funding when calling GetSellingPartnerMetricsResponseMetric., must be smaller than or equal to 1E+2.');
+        }
+        if (!is_null($signup_conversion_for5_plus_percent_seller_funding) && ($signup_conversion_for5_plus_percent_seller_funding < 0)) {
+            throw new \InvalidArgumentException('invalid value for $signup_conversion_for5_plus_percent_seller_funding when calling GetSellingPartnerMetricsResponseMetric., must be bigger than or equal to 0.');
+        }
+
+        $this->container['signup_conversion_for5_plus_percent_seller_funding'] = $signup_conversion_for5_plus_percent_seller_funding;
+
+        return $this;
+    }
+
+    /**
+     * Gets time_interval.
+     */
+    public function getTimeInterval(): ?TimeInterval
     {
         return $this->container['time_interval'];
     }
 
     /**
-     * Sets time_interval
+     * Sets time_interval.
      *
-     * @param \SpApi\Model\replenishment\v2022_11_07\TimeInterval|null $time_interval time_interval
-     *
-     * @return self
+     * @param null|TimeInterval $time_interval time_interval
      */
-    public function setTimeInterval(?\SpApi\Model\replenishment\v2022_11_07\TimeInterval $time_interval): self
+    public function setTimeInterval(?TimeInterval $time_interval): self
     {
         if (is_null($time_interval)) {
             array_push($this->openAPINullablesSetToNull, 'time_interval');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('time_interval', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1396,9 +1791,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Gets currency_code
-     *
-     * @return string|null
+     * Gets currency_code.
      */
     public function getCurrencyCode(): ?string
     {
@@ -1406,11 +1799,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     }
 
     /**
-     * Sets currency_code
+     * Sets currency_code.
      *
-     * @param string|null $currency_code The currency code in ISO 4217 format.
-     *
-     * @return self
+     * @param null|string $currency_code the currency code in ISO 4217 format
      */
     public function setCurrencyCode(?string $currency_code): self
     {
@@ -1419,7 +1810,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
             $index = array_search('currency_code', $nullablesSetToNull);
-            if ($index !== false) {
+            if (false !== $index) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
@@ -1429,13 +1820,10 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
         return $this;
     }
 
-
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param integer $offset Offset
-     *
-     * @return boolean
+     * @param int $offset Offset
      */
     public function offsetExists($offset): bool
     {
@@ -1445,9 +1833,9 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     /**
      * Gets offset.
      *
-     * @param integer $offset Offset
+     * @param int $offset Offset
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset): mixed
@@ -1458,10 +1846,8 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     /**
      * Sets value based on offset.
      *
-     * @param int|null $offset Offset
+     * @param null|int $offset Offset
      * @param mixed    $value  Value to be set
-     *
-     * @return void
      */
     public function offsetSet($offset, mixed $value): void
     {
@@ -1475,9 +1861,7 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
     /**
      * Unsets offset.
      *
-     * @param integer $offset Offset
-     *
-     * @return void
+     * @param int $offset Offset
      */
     public function offsetUnset($offset): void
     {
@@ -1486,39 +1870,67 @@ class GetSellingPartnerMetricsResponseMetric implements ModelInterface, ArrayAcc
 
     /**
      * Serializes the object to a value that can be serialized natively by json_encode().
-     * @link https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      *
-     * @return mixed Returns data which can be serialized by json_encode(), which is a value
-     * of any type other than a resource.
+     * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
+     *
+     * @return mixed returns data which can be serialized by json_encode(), which is a value
+     *               of any type other than a resource
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
-       return ObjectSerializer::sanitizeForSerialization($this);
+        return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
-     * Gets the string presentation of the object
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(
-            ObjectSerializer::sanitizeForSerialization($this),
-            JSON_PRETTY_PRINT
-        );
-    }
-
-    /**
-     * Gets a header-safe presentation of the object
-     *
-     * @return string
+     * Gets a header-safe presentation of the object.
      */
     public function toHeaderValue(): string
     {
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
+
+    /**
+     * Array of nullable properties.
+     */
+    protected static function openAPINullables(): array
+    {
+        return self::$openAPINullables;
+    }
+
+    /**
+     * Array of nullable field names deliberately set to null.
+     *
+     * @return bool[]
+     */
+    private function getOpenAPINullablesSetToNull(): array
+    {
+        return $this->openAPINullablesSetToNull;
+    }
+
+    /**
+     * Setter - Array of nullable field names deliberately set to null.
+     *
+     * @param bool[] $openAPINullablesSetToNull
+     */
+    private function setOpenAPINullablesSetToNull(array $openAPINullablesSetToNull): void
+    {
+        $this->openAPINullablesSetToNull = $openAPINullablesSetToNull;
+    }
+
+    /**
+     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+     * $this->openAPINullablesSetToNull array.
+     *
+     * @param mixed $defaultValue
+     */
+    private function setIfExists(string $variableName, array $fields, $defaultValue): void
+    {
+        if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
+            $this->openAPINullablesSetToNull[] = $variableName;
+        }
+
+        $this->container[$variableName] = $fields[$variableName] ?? $defaultValue;
+    }
 }
-
-

@@ -35,10 +35,10 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
-use SpApi\AuthAndAuth\RateLimitConfiguration;
 use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use SpApi\AuthAndAuth\RestrictedDataTokenSigner;
 use SpApi\ApiException;
 use SpApi\Configuration;
 use SpApi\HeaderSelector;
@@ -74,15 +74,10 @@ class CustomerInvoicesApi
      */
     protected int $hostIndex;
 
-    /**
-     * @var ?RateLimitConfiguration
-     */
-    private ?RateLimitConfiguration $rateLimitConfig = null;
-
-    /**
-     * @var ?LimiterInterface
-     */
-    private ?LimiterInterface $rateLimiter = null;
+    private Bool $rateLimiterEnabled;
+    private InMemoryStorage $rateLimitStorage;
+    public ?LimiterInterface $getCustomerInvoiceRateLimiter;
+    public ?LimiterInterface $getCustomerInvoicesRateLimiter;
 
     /**
      * @param Configuration   $config
@@ -93,27 +88,21 @@ class CustomerInvoicesApi
      */
     public function __construct(
         Configuration $config,
-        ?RateLimitConfiguration $rateLimitConfig = null,
         ?ClientInterface $client = null,
+        ?Bool $rateLimiterEnabled = true,
         ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->config = $config;
-        $this->rateLimitConfig = $rateLimitConfig;
-        if ($rateLimitConfig) {
-            $type = $rateLimitConfig->getRateLimitType();
-            $rateLimitOptions = [
-                'id' => 'spApiCall',
-                'policy' => $type,
-                'limit' => $rateLimitConfig->getRateLimitTokenLimit(),
-            ];
-            if ($type === "fixed_window" || $type === "sliding_window") {
-                $rateLimitOptions['interval'] = $rateLimitConfig->getRateLimitToken() . 'seconds';
-            } else {
-                $rateLimitOptions['rate'] = ['interval' => $rateLimitConfig->getRateLimitToken() . 'seconds'];
-            }
-            $factory = new RateLimiterFactory($rateLimitOptions, new InMemoryStorage());
-            $this->rateLimiter = $factory->create();
+        $this->rateLimiterEnabled = $rateLimiterEnabled;
+
+        if ($rateLimiterEnabled) {
+            $this->rateLimitStorage = new InMemoryStorage();
+
+            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions("CustomerInvoicesApi-getCustomerInvoice"), $this->rateLimitStorage);
+            $this->getCustomerInvoiceRateLimiter = $factory->create("CustomerInvoicesApi-getCustomerInvoice");
+            $factory = new RateLimiterFactory(Configuration::getRateLimitOptions("CustomerInvoicesApi-getCustomerInvoices"), $this->rateLimitStorage);
+            $this->getCustomerInvoicesRateLimiter = $factory->create("CustomerInvoicesApi-getCustomerInvoices");
         }
 
         $this->client = $client ?: new Client();
@@ -148,7 +137,6 @@ class CustomerInvoicesApi
     {
         return $this->config;
     }
-
     /**
      * Operation getCustomerInvoice
      *
@@ -157,14 +145,16 @@ class CustomerInvoicesApi
      * @param  string $purchase_order_number
      *  Purchase order number of the shipment for which to return the invoice. (required)
      *
+     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice
      */
     public function getCustomerInvoice(
-        string $purchase_order_number
+        string $purchase_order_number,
+        ?string $restrictedDataToken = null
     ): \SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice {
-        list($response) = $this->getCustomerInvoiceWithHttpInfo($purchase_order_number);
+        list($response) = $this->getCustomerInvoiceWithHttpInfo($purchase_order_number,$restrictedDataToken);
         return $response;
     }
 
@@ -176,20 +166,27 @@ class CustomerInvoicesApi
      * @param  string $purchase_order_number
      *  Purchase order number of the shipment for which to return the invoice. (required)
      *
+     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice, HTTP status code, HTTP response headers (array of strings)
      */
     public function getCustomerInvoiceWithHttpInfo(
-        string $purchase_order_number
+        string $purchase_order_number,
+        ?string $restrictedDataToken = null
     ): array {
         $request = $this->getCustomerInvoiceRequest($purchase_order_number);
-        $request = $this->config->sign($request);
-
+        if ($restrictedDataToken !== null) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "CustomerInvoicesApi-getCustomerInvoice");
+        } else {
+            $request = $this->config->sign($request);
+        }
         try {
             $options = $this->createHttpClientOption();
             try {
-                $this->rateLimitWait();
+                if ($this->rateLimiterEnabled) {
+                    $this->getCustomerInvoiceRateLimiter->consume()->ensureAccepted();
+                }
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -221,236 +218,27 @@ class CustomerInvoicesApi
                     (string) $response->getBody()
                 );
             }
-
-            switch($statusCode) {
-                case 200:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice' !== 'string') {
-                            $content = json_decode($content);
-                        }
+                if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice' === '\SplFileObject') {
+                    $content = $response->getBody(); //stream goes to serializer
+                } else {
+                    $content = (string) $response->getBody();
+                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice' !== 'string') {
+                        $content = json_decode($content);
                     }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 400:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 401:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 403:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 404:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 415:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 429:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 500:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 503:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-            }
-
-            $returnType = '\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
                 }
-            }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+                return [
+                    ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice', []),
+                    $response->getStatusCode(),
+                    $response->getHeaders()
+                ];
         } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 401:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 403:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 415:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 429:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 500:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 503:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-            }
+                $data = ObjectSerializer::deserialize(
+                    $e->getResponseBody(),
+                    '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
+                    $e->getResponseHeaders()
+                );
+                $e->setResponseObject($data);
             throw $e;
         }
     }
@@ -489,12 +277,19 @@ class CustomerInvoicesApi
      * @return PromiseInterface
      */
     public function getCustomerInvoiceAsyncWithHttpInfo(
-        string $purchase_order_number
+        string $purchase_order_number,
+    ?string $restrictedDataToken = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoice';
         $request = $this->getCustomerInvoiceRequest($purchase_order_number);
-        $request = $this->config->sign($request);
-        $this->rateLimitWait();
+        if ($restrictedDataToken !== null) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "CustomerInvoicesApi-getCustomerInvoice");
+        } else {
+            $request = $this->config->sign($request);
+        }
+        if ($this->rateLimiterEnabled) {
+            $this->getCustomerInvoiceRateLimiter->consume()->ensureAccepted();
+        }
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -574,18 +369,12 @@ class CustomerInvoicesApi
         }
 
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                
-                '',
-                false
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            
+            '',
+            $multipart
+        );
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -651,6 +440,7 @@ class CustomerInvoicesApi
      * @param  string|null $next_token
      *  Used for pagination when there are more orders than the specified result size limit. The token value is returned in the previous API call. (optional)
      *
+     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList
@@ -661,9 +451,10 @@ class CustomerInvoicesApi
         ?string $ship_from_party_id = null,
         ?int $limit = null,
         ?string $sort_order = null,
-        ?string $next_token = null
+        ?string $next_token = null,
+        ?string $restrictedDataToken = null
     ): \SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList {
-        list($response) = $this->getCustomerInvoicesWithHttpInfo($created_after, $created_before, $ship_from_party_id, $limit, $sort_order, $next_token);
+        list($response) = $this->getCustomerInvoicesWithHttpInfo($created_after, $created_before, $ship_from_party_id, $limit, $sort_order, $next_token,$restrictedDataToken);
         return $response;
     }
 
@@ -685,6 +476,7 @@ class CustomerInvoicesApi
      * @param  string|null $next_token
      *  Used for pagination when there are more orders than the specified result size limit. The token value is returned in the previous API call. (optional)
      *
+     * @param  string|null $restrictedDataToken Restricted Data Token (RDT) for accessing restricted resources (optional, required for operations that return PII)
      * @throws \SpApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList, HTTP status code, HTTP response headers (array of strings)
@@ -695,15 +487,21 @@ class CustomerInvoicesApi
         ?string $ship_from_party_id = null,
         ?int $limit = null,
         ?string $sort_order = null,
-        ?string $next_token = null
+        ?string $next_token = null,
+        ?string $restrictedDataToken = null
     ): array {
         $request = $this->getCustomerInvoicesRequest($created_after, $created_before, $ship_from_party_id, $limit, $sort_order, $next_token);
-        $request = $this->config->sign($request);
-
+        if ($restrictedDataToken !== null) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "CustomerInvoicesApi-getCustomerInvoices");
+        } else {
+            $request = $this->config->sign($request);
+        }
         try {
             $options = $this->createHttpClientOption();
             try {
-                $this->rateLimitWait();
+                if ($this->rateLimiterEnabled) {
+                    $this->getCustomerInvoicesRateLimiter->consume()->ensureAccepted();
+                }
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
                 throw new ApiException(
@@ -735,213 +533,27 @@ class CustomerInvoicesApi
                     (string) $response->getBody()
                 );
             }
-
-            switch($statusCode) {
-                case 200:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList' !== 'string') {
-                            $content = json_decode($content);
-                        }
+                if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList' === '\SplFileObject') {
+                    $content = $response->getBody(); //stream goes to serializer
+                } else {
+                    $content = (string) $response->getBody();
+                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList' !== 'string') {
+                        $content = json_decode($content);
                     }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 400:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 403:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 404:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 415:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 429:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 500:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                case 503:
-                    if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList' !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-            }
-
-            $returnType = '\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
                 }
-            }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+                return [
+                    ObjectSerializer::deserialize($content, '\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList', []),
+                    $response->getStatusCode(),
+                    $response->getHeaders()
+                ];
         } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 400:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 403:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 415:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 429:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 500:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-                case 503:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
-            }
+                $data = ObjectSerializer::deserialize(
+                    $e->getResponseBody(),
+                    '\SpApi\Model\vendor\df\shipping\v2021_12_28\ErrorList',
+                    $e->getResponseHeaders()
+                );
+                $e->setResponseObject($data);
             throw $e;
         }
     }
@@ -1010,12 +622,19 @@ class CustomerInvoicesApi
         ?string $ship_from_party_id = null,
         ?int $limit = null,
         ?string $sort_order = null,
-        ?string $next_token = null
+        ?string $next_token = null,
+    ?string $restrictedDataToken = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\vendor\df\shipping\v2021_12_28\CustomerInvoiceList';
         $request = $this->getCustomerInvoicesRequest($created_after, $created_before, $ship_from_party_id, $limit, $sort_order, $next_token);
-        $request = $this->config->sign($request);
-        $this->rateLimitWait();
+        if ($restrictedDataToken !== null) {
+            $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, "CustomerInvoicesApi-getCustomerInvoices");
+        } else {
+            $request = $this->config->sign($request);
+        }
+        if ($this->rateLimiterEnabled) {
+            $this->getCustomerInvoicesRateLimiter->consume()->ensureAccepted();
+        }
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1114,7 +733,8 @@ class CustomerInvoicesApi
             'string', // openApiType
             '', // style
             false, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1123,7 +743,8 @@ class CustomerInvoicesApi
             'integer', // openApiType
             '', // style
             false, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1132,7 +753,8 @@ class CustomerInvoicesApi
             'string', // openApiType
             '', // style
             false, // explode
-            true // required
+            true, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1141,7 +763,8 @@ class CustomerInvoicesApi
             'string', // openApiType
             '', // style
             false, // explode
-            true // required
+            true, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1150,7 +773,8 @@ class CustomerInvoicesApi
             'string', // openApiType
             '', // style
             false, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
@@ -1159,24 +783,19 @@ class CustomerInvoicesApi
             'string', // openApiType
             '', // style
             false, // explode
-            false // required
+            false, // required
+            $this->config
         ) ?? []);
 
 
 
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                ['application/json', 'payload']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json', 'payload'],
-                
-                '',
-                false
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', 'payload'],
+            
+            '',
+            $multipart
+        );
 
         // for model (json/xml)
         if (count($formParams) > 0) {
@@ -1241,22 +860,5 @@ class CustomerInvoicesApi
         }
 
         return $options;
-    }
-
-    /**
-     * Rate Limiter waits for tokens
-     *
-     * @return void
-     */
-    public function rateLimitWait(): void
-    {
-        if ($this->rateLimiter) {
-            $type = $this->rateLimitConfig->getRateLimitType();
-            if ($this->rateLimitConfig->getTimeOut() != 0 && ($type == "token_bucket" || $type == "fixed_window")) {
-                $this->rateLimiter->reserve(1, ($this->rateLimitConfig->getTimeOut()) / 1000)->wait();
-            } else {
-                $this->rateLimiter->consume()->wait();
-            }
-        }
     }
 }

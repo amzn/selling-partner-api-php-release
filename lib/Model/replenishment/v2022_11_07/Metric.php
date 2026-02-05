@@ -1,17 +1,19 @@
 <?php
+
 /**
- * Metric
+ * Metric.
  *
  * PHP version 8.3
  *
  * @category Class
- * @package  SpApi
+ *
  * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
+ *
+ * @see     https://openapi-generator.tech
  */
 
 /**
- * Selling Partner API for Replenishment
+ * Selling Partner API for Replenishment.
  *
  * The Selling Partner API for Replenishment (Replenishment API) provides programmatic access to replenishment program metrics and offers. These programs provide recurring delivery of any replenishable item at a frequency chosen by the customer.  The Replenishment API is available worldwide wherever Amazon Subscribe & Save is available or is supported. The API is available to vendors and FBA selling partners.
  *
@@ -27,22 +29,22 @@
  */
 
 namespace SpApi\Model\replenishment\v2022_11_07;
-use SpApi\ObjectSerializer;
-use SpApi\Model\ModelInterface;
 
 /**
- * Metric Class Doc Comment
+ * Metric Class Doc Comment.
  *
  * @category Class
+ *
  * @description The metric name and description.
- * @package  SpApi
+ *
  * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
+ *
+ * @see     https://openapi-generator.tech
  */
 class Metric
 {
     /**
-     * Possible values of this enum
+     * Possible values of this enum.
      */
     public const SHIPPED_SUBSCRIPTION_UNITS = 'SHIPPED_SUBSCRIPTION_UNITS';
 
@@ -68,8 +70,13 @@ class Metric
 
     public const SHARE_OF_COUPON_SUBSCRIPTIONS = 'SHARE_OF_COUPON_SUBSCRIPTIONS';
 
+    public const SUBSCRIBER_LIFETIME_VALUE_BY_CUSTOMER_SEGMENT = 'SUBSCRIBER_LIFETIME_VALUE_BY_CUSTOMER_SEGMENT';
+
+    public const SIGNUP_CONVERSION_BY_SELLER_FUNDING = 'SIGNUP_CONVERSION_BY_SELLER_FUNDING';
+
     /**
-     * Gets allowable values of the enum
+     * Gets allowable values of the enum.
+     *
      * @return string[]
      */
     public static function getAllowableEnumValues(): array
@@ -86,9 +93,9 @@ class Metric
             self::REVENUE_BY_DELIVERIES,
             self::SUBSCRIBER_RETENTION,
             self::REVENUE_PENETRATION_BY_SELLER_FUNDING,
-            self::SHARE_OF_COUPON_SUBSCRIPTIONS
+            self::SHARE_OF_COUPON_SUBSCRIPTIONS,
+            self::SUBSCRIBER_LIFETIME_VALUE_BY_CUSTOMER_SEGMENT,
+            self::SIGNUP_CONVERSION_BY_SELLER_FUNDING,
         ];
     }
 }
-
-
