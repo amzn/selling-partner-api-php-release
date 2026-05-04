@@ -435,6 +435,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrder(
         string $order_id,
@@ -456,6 +458,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderWithHttpInfo(
         string $order_id,
@@ -539,6 +543,8 @@ class OrdersV0Api
      *                         An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderAsync(
         string $order_id
@@ -559,6 +565,8 @@ class OrdersV0Api
      *                         An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderAsyncWithHttpInfo(
         string $order_id,
@@ -620,6 +628,8 @@ class OrdersV0Api
      *                         An Amazon-defined order identifier, in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderRequest(
         string $order_id
@@ -706,6 +716,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderAddress(
         string $order_id,
@@ -727,6 +739,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderAddressWithHttpInfo(
         string $order_id,
@@ -810,6 +824,8 @@ class OrdersV0Api
      *                         The Amazon order identifier in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderAddressAsync(
         string $order_id
@@ -830,6 +846,8 @@ class OrdersV0Api
      *                         The Amazon order identifier in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderAddressAsyncWithHttpInfo(
         string $order_id,
@@ -891,6 +909,8 @@ class OrdersV0Api
      *                         The Amazon order identifier in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderAddressRequest(
         string $order_id
@@ -977,6 +997,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderBuyerInfo(
         string $order_id,
@@ -998,6 +1020,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderBuyerInfoWithHttpInfo(
         string $order_id,
@@ -1081,6 +1105,8 @@ class OrdersV0Api
      *                         The Amazon order identifier in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderBuyerInfoAsync(
         string $order_id
@@ -1101,6 +1127,8 @@ class OrdersV0Api
      *                         The Amazon order identifier in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderBuyerInfoAsyncWithHttpInfo(
         string $order_id,
@@ -1162,6 +1190,8 @@ class OrdersV0Api
      *                         The Amazon order identifier in 3-7-7 format. (required)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderBuyerInfoRequest(
         string $order_id
@@ -1250,6 +1280,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderItems(
         string $order_id,
@@ -1274,6 +1306,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderItemsWithHttpInfo(
         string $order_id,
@@ -1360,6 +1394,8 @@ class OrdersV0Api
      *                                A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderItemsAsync(
         string $order_id,
@@ -1383,6 +1419,8 @@ class OrdersV0Api
      *                                A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderItemsAsyncWithHttpInfo(
         string $order_id,
@@ -1447,6 +1485,8 @@ class OrdersV0Api
      *                                A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderItemsRequest(
         string $order_id,
@@ -1547,6 +1587,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderItemsBuyerInfo(
         string $order_id,
@@ -1571,6 +1613,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderItemsBuyerInfoWithHttpInfo(
         string $order_id,
@@ -1657,6 +1701,8 @@ class OrdersV0Api
      *                                A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderItemsBuyerInfoAsync(
         string $order_id,
@@ -1680,6 +1726,8 @@ class OrdersV0Api
      *                                A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderItemsBuyerInfoAsyncWithHttpInfo(
         string $order_id,
@@ -1744,6 +1792,8 @@ class OrdersV0Api
      *                                A string token returned in the response of your previous request. (optional)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrderItemsBuyerInfoRequest(
         string $order_id,
@@ -2123,8 +2173,10 @@ class OrdersV0Api
      *                                                           A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
      * @param null|string[] $payment_methods
      *                                                           A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
+     * @param null|string   $buyer_email
+     *                                                           The email address of a buyer. Used to select orders that contain the specified email address. (optional)
      * @param null|string   $seller_order_id
-     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, and &#x60;LastUpdatedBefore&#x60; cannot be specified. (optional)
+     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, &#x60;LastUpdatedBefore&#x60;, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
      * @param null|int      $max_results_per_page
      *                                                           A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
      * @param null|string[] $easy_ship_shipment_statuses
@@ -2153,6 +2205,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrders(
         array $marketplace_ids,
@@ -2163,6 +2217,7 @@ class OrdersV0Api
         ?array $order_statuses = null,
         ?array $fulfillment_channels = null,
         ?array $payment_methods = null,
+        ?string $buyer_email = null,
         ?string $seller_order_id = null,
         ?int $max_results_per_page = null,
         ?array $easy_ship_shipment_statuses = null,
@@ -2178,7 +2233,7 @@ class OrdersV0Api
         ?string $latest_delivery_date_after = null,
         ?string $restrictedDataToken = null
     ): GetOrdersResponse {
-        list($response) = $this->getOrdersWithHttpInfo($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after, $restrictedDataToken);
+        list($response) = $this->getOrdersWithHttpInfo($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $buyer_email, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after, $restrictedDataToken);
 
         return $response;
     }
@@ -2202,8 +2257,10 @@ class OrdersV0Api
      *                                                           A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
      * @param null|string[] $payment_methods
      *                                                           A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
+     * @param null|string   $buyer_email
+     *                                                           The email address of a buyer. Used to select orders that contain the specified email address. (optional)
      * @param null|string   $seller_order_id
-     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, and &#x60;LastUpdatedBefore&#x60; cannot be specified. (optional)
+     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, &#x60;LastUpdatedBefore&#x60;, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
      * @param null|int      $max_results_per_page
      *                                                           A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
      * @param null|string[] $easy_ship_shipment_statuses
@@ -2234,6 +2291,8 @@ class OrdersV0Api
      *
      * @throws ApiException              on non-2xx response
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrdersWithHttpInfo(
         array $marketplace_ids,
@@ -2244,6 +2303,7 @@ class OrdersV0Api
         ?array $order_statuses = null,
         ?array $fulfillment_channels = null,
         ?array $payment_methods = null,
+        ?string $buyer_email = null,
         ?string $seller_order_id = null,
         ?int $max_results_per_page = null,
         ?array $easy_ship_shipment_statuses = null,
@@ -2259,7 +2319,7 @@ class OrdersV0Api
         ?string $latest_delivery_date_after = null,
         ?string $restrictedDataToken = null
     ): array {
-        $request = $this->getOrdersRequest($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after);
+        $request = $this->getOrdersRequest($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $buyer_email, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after);
         if (null !== $restrictedDataToken) {
             $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrders');
         } else {
@@ -2349,8 +2409,10 @@ class OrdersV0Api
      *                                                           A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
      * @param null|string[] $payment_methods
      *                                                           A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
+     * @param null|string   $buyer_email
+     *                                                           The email address of a buyer. Used to select orders that contain the specified email address. (optional)
      * @param null|string   $seller_order_id
-     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, and &#x60;LastUpdatedBefore&#x60; cannot be specified. (optional)
+     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, &#x60;LastUpdatedBefore&#x60;, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
      * @param null|int      $max_results_per_page
      *                                                           A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
      * @param null|string[] $easy_ship_shipment_statuses
@@ -2377,6 +2439,8 @@ class OrdersV0Api
      *                                                           Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrdersAsync(
         array $marketplace_ids,
@@ -2387,6 +2451,7 @@ class OrdersV0Api
         ?array $order_statuses = null,
         ?array $fulfillment_channels = null,
         ?array $payment_methods = null,
+        ?string $buyer_email = null,
         ?string $seller_order_id = null,
         ?int $max_results_per_page = null,
         ?array $easy_ship_shipment_statuses = null,
@@ -2401,7 +2466,7 @@ class OrdersV0Api
         ?string $latest_delivery_date_before = null,
         ?string $latest_delivery_date_after = null
     ): PromiseInterface {
-        return $this->getOrdersAsyncWithHttpInfo($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after)
+        return $this->getOrdersAsyncWithHttpInfo($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $buyer_email, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2429,8 +2494,10 @@ class OrdersV0Api
      *                                                           A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
      * @param null|string[] $payment_methods
      *                                                           A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
+     * @param null|string   $buyer_email
+     *                                                           The email address of a buyer. Used to select orders that contain the specified email address. (optional)
      * @param null|string   $seller_order_id
-     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, and &#x60;LastUpdatedBefore&#x60; cannot be specified. (optional)
+     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, &#x60;LastUpdatedBefore&#x60;, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
      * @param null|int      $max_results_per_page
      *                                                           A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
      * @param null|string[] $easy_ship_shipment_statuses
@@ -2457,6 +2524,8 @@ class OrdersV0Api
      *                                                           Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrdersAsyncWithHttpInfo(
         array $marketplace_ids,
@@ -2467,6 +2536,7 @@ class OrdersV0Api
         ?array $order_statuses = null,
         ?array $fulfillment_channels = null,
         ?array $payment_methods = null,
+        ?string $buyer_email = null,
         ?string $seller_order_id = null,
         ?int $max_results_per_page = null,
         ?array $easy_ship_shipment_statuses = null,
@@ -2483,7 +2553,7 @@ class OrdersV0Api
         ?string $restrictedDataToken = null
     ): PromiseInterface {
         $returnType = '\SpApi\Model\orders\v0\GetOrdersResponse';
-        $request = $this->getOrdersRequest($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after);
+        $request = $this->getOrdersRequest($marketplace_ids, $created_after, $created_before, $last_updated_after, $last_updated_before, $order_statuses, $fulfillment_channels, $payment_methods, $buyer_email, $seller_order_id, $max_results_per_page, $easy_ship_shipment_statuses, $electronic_invoice_statuses, $next_token, $amazon_order_ids, $actual_fulfillment_supply_source_id, $is_ispu, $store_chain_store_id, $earliest_delivery_date_before, $earliest_delivery_date_after, $latest_delivery_date_before, $latest_delivery_date_after);
         if (null !== $restrictedDataToken) {
             $request = RestrictedDataTokenSigner::sign($request, $restrictedDataToken, 'OrdersV0Api-getOrders');
         } else {
@@ -2550,8 +2620,10 @@ class OrdersV0Api
      *                                                           A list that indicates how an order was fulfilled. Filters the results by fulfillment channel.   **Possible values**: &#x60;AFN&#x60; (fulfilled by Amazon), &#x60;MFN&#x60; (fulfilled by seller). (optional)
      * @param null|string[] $payment_methods
      *                                                           A list of payment method values. Use this field to select orders that were paid with the specified payment methods.  **Possible values**: &#x60;COD&#x60; (cash on delivery), &#x60;CVS&#x60; (convenience store), &#x60;Other&#x60; (Any payment method other than COD or CVS). (optional)
+     * @param null|string   $buyer_email
+     *                                                           The email address of a buyer. Used to select orders that contain the specified email address. (optional)
      * @param null|string   $seller_order_id
-     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, and &#x60;LastUpdatedBefore&#x60; cannot be specified. (optional)
+     *                                                           An order identifier that is specified by the seller. Used to select only the orders that match the order identifier. If &#x60;SellerOrderId&#x60; is specified, then &#x60;FulfillmentChannels&#x60;, &#x60;OrderStatuses&#x60;, &#x60;PaymentMethod&#x60;, &#x60;LastUpdatedAfter&#x60;, &#x60;LastUpdatedBefore&#x60;, and &#x60;BuyerEmail&#x60; cannot be specified. (optional)
      * @param null|int      $max_results_per_page
      *                                                           A number that indicates the maximum number of orders that can be returned per page. Value must be 1 - 100. Default 100. (optional)
      * @param null|string[] $easy_ship_shipment_statuses
@@ -2578,6 +2650,8 @@ class OrdersV0Api
      *                                                           Use this date to select orders with a latest delivery date after (or at) a specified time. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format. (optional)
      *
      * @throws \InvalidArgumentException
+     *
+     * @deprecated
      */
     public function getOrdersRequest(
         array $marketplace_ids,
@@ -2588,6 +2662,7 @@ class OrdersV0Api
         ?array $order_statuses = null,
         ?array $fulfillment_channels = null,
         ?array $payment_methods = null,
+        ?string $buyer_email = null,
         ?string $seller_order_id = null,
         ?int $max_results_per_page = null,
         ?array $easy_ship_shipment_statuses = null,
@@ -2699,6 +2774,16 @@ class OrdersV0Api
             'PaymentMethods', // param base name
             'array', // openApiType
             'form', // style
+            false, // explode
+            false, // required
+            $this->config
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $buyer_email,
+            'BuyerEmail', // param base name
+            'string', // openApiType
+            '', // style
             false, // explode
             false, // required
             $this->config

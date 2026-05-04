@@ -73,9 +73,9 @@ class GetSellingPartnerMetricsRequest implements ModelInterface, \ArrayAccess, \
      *
      * @var string[]
      *
-     * @phpstan-var array<string, string|null>
+     * @phpstan-var array<string, null|string>
      *
-     * @psalm-var array<string, string|null>
+     * @psalm-var array<string, null|string>
      */
     protected static array $openAPIFormats = [
         'aggregation_frequency' => null,
@@ -355,7 +355,7 @@ class GetSellingPartnerMetricsRequest implements ModelInterface, \ArrayAccess, \
     /**
      * Sets metrics.
      *
-     * @param null|array $metrics The list of metrics requested. If no metric value is provided, data for all of the metrics will be returned.
+     * @param null|array $metrics The list of metrics requested. If no metric value is provided, data for all metrics will be returned.
      */
     public function setMetrics(?array $metrics): self
     {
@@ -412,7 +412,7 @@ class GetSellingPartnerMetricsRequest implements ModelInterface, \ArrayAccess, \
     /**
      * Sets marketplace_id.
      *
-     * @param string $marketplace_id The marketplace identifier. The supported marketplaces for both sellers and vendors are US, CA, ES, UK, FR, IT, IN, DE and JP. The supported marketplaces for vendors only are BR, AU, MX, AE and NL. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) to find the identifier for the marketplace.
+     * @param string $marketplace_id The marketplace identifier. The supported marketplaces for both sellers and vendors are US, CA, ES, UK, FR, IT, IN, DE, and JP. The supported marketplaces for vendors only are BR, AU, MX, AE, and NL. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) to find the identifier for the marketplace.
      */
     public function setMarketplaceId(string $marketplace_id): self
     {

@@ -82,9 +82,9 @@ class ShipmentDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
      *
      * @var string[]
      *
-     * @phpstan-var array<string, string|null>
+     * @phpstan-var array<string, null|string>
      *
-     * @psalm-var array<string, string|null>
+     * @psalm-var array<string, null|string>
      */
     protected static array $openAPIFormats = [
         'warehouse_id' => null,
@@ -523,7 +523,7 @@ class ShipmentDetail implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets payments.
      *
-     * @param null|array $payments List of payment transactions
+     * @param null|array $payments a list of payment transactions
      */
     public function setPayments(?array $payments): self
     {
