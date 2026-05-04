@@ -38,7 +38,7 @@ use SpApi\ObjectSerializer;
  *
  * @category Class
  *
- * @description Payment transaction information
+ * @description Information about a payment transaction.
  *
  * @author   OpenAPI Generator team
  *
@@ -72,9 +72,9 @@ class PaymentInformation implements ModelInterface, \ArrayAccess, \JsonSerializa
      *
      * @var string[]
      *
-     * @phpstan-var array<string, string|null>
+     * @phpstan-var array<string, null|string>
      *
-     * @psalm-var array<string, string|null>
+     * @psalm-var array<string, null|string>
      */
     protected static array $openAPIFormats = [
         'payment_method' => null,
@@ -303,7 +303,7 @@ class PaymentInformation implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Sets acquirer_id.
      *
-     * @param null|string $acquirer_id Government ID of acquirer
+     * @param null|string $acquirer_id the government ID of the acquirer
      */
     public function setAcquirerId(?string $acquirer_id): self
     {
@@ -333,7 +333,7 @@ class PaymentInformation implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Sets card_brand.
      *
-     * @param null|string $card_brand Credit card brand (if payment method is CreditCard)
+     * @param null|string $card_brand the credit card brand if the payment method is `CreditCard`
      */
     public function setCardBrand(?string $card_brand): self
     {
@@ -393,7 +393,7 @@ class PaymentInformation implements ModelInterface, \ArrayAccess, \JsonSerializa
     /**
      * Sets authorization_code.
      *
-     * @param null|string $authorization_code Authorization code for this payment
+     * @param null|string $authorization_code the authorization code of this payment
      */
     public function setAuthorizationCode(?string $authorization_code): self
     {

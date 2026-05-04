@@ -73,9 +73,9 @@ class ListOfferMetricsRequestFilters implements ModelInterface, \ArrayAccess, \J
      *
      * @var string[]
      *
-     * @phpstan-var array<string, string|null>
+     * @phpstan-var array<string, null|string>
      *
-     * @psalm-var array<string, string|null>
+     * @psalm-var array<string, null|string>
      */
     protected static array $openAPIFormats = [
         'aggregation_frequency' => null,
@@ -382,7 +382,7 @@ class ListOfferMetricsRequestFilters implements ModelInterface, \ArrayAccess, \J
     /**
      * Sets marketplace_id.
      *
-     * @param string $marketplace_id The marketplace identifier. The supported marketplaces for both sellers and vendors are US, CA, ES, UK, FR, IT, IN, DE and JP. The supported marketplaces for vendors only are BR, AU, MX, AE and NL. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) to find the identifier for the marketplace.
+     * @param string $marketplace_id The marketplace identifier. The supported marketplaces for both sellers and vendors are US, CA, ES, UK, FR, IT, IN, DE, and JP. The supported marketplaces for vendors only are BR, AU, MX, AE, and NL. Refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids) to find the identifier for the marketplace.
      */
     public function setMarketplaceId(string $marketplace_id): self
     {

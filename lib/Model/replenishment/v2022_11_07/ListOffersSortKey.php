@@ -56,6 +56,14 @@ class ListOffersSortKey
 
     public const AMAZON_FUNDED_TIERED_DISCOUNT_PERCENTAGE = 'AMAZON_FUNDED_TIERED_DISCOUNT_PERCENTAGE';
 
+    public const INVENTORY = 'INVENTORY';
+
+    public const PRICE = 'PRICE';
+
+    public const SUBSCRIPTION_COUNT = 'SUBSCRIPTION_COUNT';
+
+    public const FULFILLMENT_NETWORK_ID_TYPE = 'FULFILLMENT_NETWORK_ID_TYPE';
+
     /**
      * Gets allowable values of the enum.
      *
@@ -69,6 +77,10 @@ class ListOffersSortKey
             self::SELLING_PARTNER_FUNDED_TIERED_DISCOUNT_PERCENTAGE,
             self::AMAZON_FUNDED_BASE_DISCOUNT_PERCENTAGE,
             self::AMAZON_FUNDED_TIERED_DISCOUNT_PERCENTAGE,
+            self::INVENTORY,
+            self::PRICE,
+            self::SUBSCRIPTION_COUNT,
+            self::FULFILLMENT_NETWORK_ID_TYPE,
         ];
     }
 }
