@@ -66,6 +66,7 @@ class CompetitiveSummaryResponseBody implements ModelInterface, \ArrayAccess, \J
         'featured_buying_options' => '\SpApi\Model\pricing\v2022_05_01\FeaturedBuyingOption[]',
         'lowest_priced_offers' => '\SpApi\Model\pricing\v2022_05_01\LowestPricedOffer[]',
         'reference_prices' => '\SpApi\Model\pricing\v2022_05_01\ReferencePrice[]',
+        'similar_items' => '\SpApi\Model\pricing\v2022_05_01\SimilarItems[]',
         'errors' => '\SpApi\Model\pricing\v2022_05_01\Error[]'];
 
     /**
@@ -73,9 +74,9 @@ class CompetitiveSummaryResponseBody implements ModelInterface, \ArrayAccess, \J
      *
      * @var string[]
      *
-     * @phpstan-var array<string, string|null>
+     * @phpstan-var array<string, null|string>
      *
-     * @psalm-var array<string, string|null>
+     * @psalm-var array<string, null|string>
      */
     protected static array $openAPIFormats = [
         'asin' => null,
@@ -83,6 +84,7 @@ class CompetitiveSummaryResponseBody implements ModelInterface, \ArrayAccess, \J
         'featured_buying_options' => null,
         'lowest_priced_offers' => null,
         'reference_prices' => null,
+        'similar_items' => null,
         'errors' => null];
 
     /**
@@ -96,6 +98,7 @@ class CompetitiveSummaryResponseBody implements ModelInterface, \ArrayAccess, \J
         'featured_buying_options' => true,
         'lowest_priced_offers' => true,
         'reference_prices' => true,
+        'similar_items' => true,
         'errors' => true,
     ];
 
@@ -118,6 +121,7 @@ class CompetitiveSummaryResponseBody implements ModelInterface, \ArrayAccess, \J
         'featured_buying_options' => 'featuredBuyingOptions',
         'lowest_priced_offers' => 'lowestPricedOffers',
         'reference_prices' => 'referencePrices',
+        'similar_items' => 'similarItems',
         'errors' => 'errors',
     ];
 
@@ -132,6 +136,7 @@ class CompetitiveSummaryResponseBody implements ModelInterface, \ArrayAccess, \J
         'featured_buying_options' => 'setFeaturedBuyingOptions',
         'lowest_priced_offers' => 'setLowestPricedOffers',
         'reference_prices' => 'setReferencePrices',
+        'similar_items' => 'setSimilarItems',
         'errors' => 'setErrors',
     ];
 
@@ -146,6 +151,7 @@ class CompetitiveSummaryResponseBody implements ModelInterface, \ArrayAccess, \J
         'featured_buying_options' => 'getFeaturedBuyingOptions',
         'lowest_priced_offers' => 'getLowestPricedOffers',
         'reference_prices' => 'getReferencePrices',
+        'similar_items' => 'getSimilarItems',
         'errors' => 'getErrors',
     ];
 
@@ -167,6 +173,7 @@ class CompetitiveSummaryResponseBody implements ModelInterface, \ArrayAccess, \J
         $this->setIfExists('featured_buying_options', $data ?? [], null);
         $this->setIfExists('lowest_priced_offers', $data ?? [], null);
         $this->setIfExists('reference_prices', $data ?? [], null);
+        $this->setIfExists('similar_items', $data ?? [], null);
         $this->setIfExists('errors', $data ?? [], null);
     }
 
@@ -410,6 +417,36 @@ class CompetitiveSummaryResponseBody implements ModelInterface, \ArrayAccess, \J
             }
         }
         $this->container['reference_prices'] = $reference_prices;
+
+        return $this;
+    }
+
+    /**
+     * Gets similar_items.
+     */
+    public function getSimilarItems(): ?array
+    {
+        return $this->container['similar_items'];
+    }
+
+    /**
+     * Sets similar_items.
+     *
+     * @param null|array $similar_items a list of similar items for the specified ASIN `marketplaceId` combination
+     */
+    public function setSimilarItems(?array $similar_items): self
+    {
+        if (is_null($similar_items)) {
+            array_push($this->openAPINullablesSetToNull, 'similar_items');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('similar_items', $nullablesSetToNull);
+            if (false !== $index) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['similar_items'] = $similar_items;
 
         return $this;
     }

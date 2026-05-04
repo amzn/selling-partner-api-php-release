@@ -72,9 +72,9 @@ class FeatureSku implements ModelInterface, \ArrayAccess, \JsonSerializable
      *
      * @var string[]
      *
-     * @phpstan-var array<string, string|null>
+     * @phpstan-var array<string, null|string>
      *
-     * @psalm-var array<string, string|null>
+     * @psalm-var array<string, null|string>
      */
     protected static array $openAPIFormats = [
         'seller_sku' => null,
@@ -273,7 +273,7 @@ class FeatureSku implements ModelInterface, \ArrayAccess, \JsonSerializable
     /**
      * Sets seller_sku.
      *
-     * @param null|string $seller_sku Used to identify an item in the given marketplace. `SellerSKU` is qualified by the seller's SellerId, which is included with every operation that you submit.
+     * @param null|string $seller_sku Used to identify an item in the given marketplace. SellerSKU is qualified by the seller's SellerId, which is included with every operation that you submit.
      */
     public function setSellerSku(?string $seller_sku): self
     {
